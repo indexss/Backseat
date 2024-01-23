@@ -1,0 +1,34 @@
+{
+	#email address for letsencrypt
+	email EMAIL
+	# to retrieve real certificates use https://acme-v02.api.letsencrypt.org/directory or https://acme.zerossl.com/v2/DV90
+	# requires the VM to be accessible directly from the public internet via port 80 and 443
+	acme_ca ACME
+}
+DOMAIN {
+	handle_errors {
+		respond "This production version of the app will only become available after a tagged commit has been made on the main branch.
+		
+		A dev version of the app should be accessible here: http://dev.DOMAIN/
+
+		Error connecting to DOMAIN production app backend on docker host http://teamproject-prd:8080. 
+		
+		After a tagged commit has deployed, wait 30s and refresh this page. If still not live, login to the VM on SSH and try to debug using 'docker compose -f ~/team-project/prd.yml up'"
+	}
+	reverse_proxy http://teamproject-prd:8080
+}
+dev.DOMAIN {
+	handle_errors {
+		respond "Error
+		
+		Error connecting to dev.DOMAIN development app backend on docker host http://teamproject-dev:8080. 
+		
+		After 30s refresh this page. If still not live, login to the VM on SSH and try to debug using 'docker compose -f ~/team-project/app.yml up'"
+	}
+	reverse_proxy http://teamproject-dev:8080
+}
+
+#edit the below to serve on a custom domain
+#example.com {
+#    reverse_proxy http://teamproject-prod:8080
+#}

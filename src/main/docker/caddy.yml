@@ -1,0 +1,17 @@
+version: '1.0'
+services:
+  teamproject-caddy:
+    image: caddy:2-alpine
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ~/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ~/caddy/data:/data
+      - ~/caddy/config:/config
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
