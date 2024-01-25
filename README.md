@@ -5,7 +5,8 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 ## This repository belongs to team 31
 
 - Abigail P (txp271@student.bham.ac.uk)
-- (insert the list of team mates)
+- Hao Li (hxl106@student.bham.ac.uk)
+- (insert the list of teammates)
 
 ## changes for Teamproject
 
