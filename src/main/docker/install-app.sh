@@ -29,11 +29,10 @@ if [ -n "${CI_COMMIT_TAG}" ]; then
     echo "docker compose script saved with the current tagged image name"
     cp ~/team-project/prd.yml ~/prd.current.yml
 fi
-if [ -e "~/prd.current.yml" ]; then
+if [ -e "${HOME}/prd.current.yml" ]; then
     echo "untagged/dev commit and ~/prd.current.yml exists."
     echo "copying back the last tagged image docker compose script"
     cp  ~/prd.current.yml ~/team-project/prd.yml
-    docker pull teamproject-prd
 fi
 
 #uncmmment these lines if you will deploy to your own public VM

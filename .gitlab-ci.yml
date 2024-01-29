@@ -65,6 +65,7 @@ deploy-dev:
   image: alpine:latest
   stage: deploy
   when: on_success
+  resource_group: deployment
   variables:
     URL: '${CI_PROJECT_NAME}.bham.team'
     #ACME test SSL certificate retrival - VM must be public (not behine a proxy), have ports 80 443 open and have caddy web server enabed in install-app.sh
@@ -93,6 +94,9 @@ deploy-prod:
     - tags
   except:
     - branches
+  dependencies:
+    - deploy-dev
+  resource_group: deployment
   before_script:
     #install and configure SSH on the gitlab-runner
     - chmod og= $RSA
