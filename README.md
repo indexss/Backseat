@@ -8,7 +8,6 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 - Hao Li (hxl106@student.bham.ac.uk)
 - Linli Shi (lxs432@student.bham.ac.uk)
 - Yunfan Song (yxs152@student.bham.ac.uk)
-- Ella Gardner (exg046@student.bham.ac.uk)
 - Xuanwei Shi (xxs282@student.bham.ac.uk)
 - Joe Penny (jxp293@student.bhama.ac.uk)
 
