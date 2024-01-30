@@ -4,6 +4,7 @@ This application was generated using JHipster 7.9.4, you can find documentation 
 
 ## This repository belongs to team 31
 
+- Abigail Pain (txp271@student.bham.ac.uk)
 - Hao Li (hxl106@student.bham.ac.uk)
 - Linli Shi (lxs432@student.bham.ac.uk)
 - Yunfan Song (yxs152@student.bham.ac.uk)
