@@ -1,0 +1,25 @@
+entity Profile {
+    id String required
+    username String required minlength(3)
+    spotifyAccountID String
+    joinDate ZonedDateTime required
+    profilePhotoPath String
+}
+
+entity SpotifyConnect {
+    id String required
+    refreshToken String
+    accessToken String required
+    accessTokenExpiresAt ZonedDateTime required
+}
+
+entity Following {
+    sourceUserID String required
+    targetUserID String required
+}
+
+entity Setting {
+    userID String required
+    key String required
+    value String required
+}
