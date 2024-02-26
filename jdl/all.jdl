@@ -79,11 +79,11 @@ relationship OneToMany {
 
 relationship ManyToMany {
 	Track to Artist
-    Track{spotifyURI} to FolderEntry{spotifyURI}
-	Track{spotifyURI} to WantToListenListEntry{spotifyURI}
+    Track{folderEntry} to FolderEntry{track(spotifyURI)}
+	Track{wantToListenListEntry} to WantToListenListEntry{track(spotifyURI)}
     Album to Artist
-    Album{spotifyURI} to FolderEntry{spotifyURI}
-    Album{spotifyURI} to WantToListenListEntry{spotifyURI}
+    Album{folderEntry} to FolderEntry{album(spotifyURI)}
+    Album{wantToListenListEntry} to WantToListenListEntry{album(spotifyURI)}
 }
 
 relationship ManyToOne {
