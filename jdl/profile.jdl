@@ -23,3 +23,7 @@ entity Setting {
     key String required
     value String required
 }
+
+relationship OneToOne {
+    Profile{id} to User
+}
