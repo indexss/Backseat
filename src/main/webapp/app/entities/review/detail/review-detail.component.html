@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="review">
+      <h2 data-cy="reviewDetailsHeading"><span>Review</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ review.id }}</span>
+        </dd>
+        <dt><span>Rating</span></dt>
+        <dd>
+          <span>{{ review.rating }}</span>
+        </dd>
+        <dt><span>Content</span></dt>
+        <dd>
+          <span>{{ review.content }}</span>
+        </dd>
+        <dt><span>Date</span></dt>
+        <dd>
+          <span>{{ review.date | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Profile</span></dt>
+        <dd>
+          <div *ngIf="review.profile">
+            <a [routerLink]="['/profile', review.profile.id, 'view']">{{ review.profile.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Track</span></dt>
+        <dd>
+          <div *ngIf="review.track">
+            <a [routerLink]="['/track', review.track.id, 'view']">{{ review.track.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Album</span></dt>
+        <dd>
+          <div *ngIf="review.album">
+            <a [routerLink]="['/album', review.album.id, 'view']">{{ review.album.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/review', review.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

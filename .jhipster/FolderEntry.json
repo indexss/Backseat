@@ -1,0 +1,54 @@
+{
+  "applications": "*",
+  "changelogDate": "20240226161835",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "folder_entry",
+  "fields": [
+    {
+      "fieldName": "folderID",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "spotifyURI",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "addTime",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "FolderEntry",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "folder",
+      "otherEntityRelationshipName": "folderEntry",
+      "relationshipName": "folder",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "spotifyURI",
+      "otherEntityName": "track",
+      "otherEntityRelationshipName": "folderEntry",
+      "ownerSide": false,
+      "relationshipName": "track",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityField": "spotifyURI",
+      "otherEntityName": "album",
+      "otherEntityRelationshipName": "folderEntry",
+      "ownerSide": false,
+      "relationshipName": "album",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}
