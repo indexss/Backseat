@@ -1,5 +1,3 @@
-
-
 entity Track {
 	spotifyURI String required
     name String required
@@ -81,11 +79,11 @@ relationship OneToMany {
 
 relationship ManyToMany {
 	Track to Artist
-    Track{spotifyURI} to FolderEntry
-	Track{spotifyURI} to WantToListenListEntry
+    Track{spotifyURI} to FolderEntry{spotifyURI}
+	Track{spotifyURI} to WantToListenListEntry{spotifyURI}
     Album to Artist
-    Album{spotifyURI} to FolderEntry
-    Album{spotifyURI} to WantToListenListEntry
+    Album{spotifyURI} to FolderEntry{spotifyURI}
+    Album{spotifyURI} to WantToListenListEntry{spotifyURI}
 }
 
 relationship ManyToOne {
