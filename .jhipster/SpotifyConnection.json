@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20240226152048",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "spotify_connection",
+  "fields": [
+    {
+      "fieldName": "spotifyURI",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "refreshToken",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "accessToken",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "accessTokenExpiresAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "SpotifyConnection",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "profile",
+      "otherEntityRelationshipName": "spotifyConnection",
+      "ownerSide": false,
+      "relationshipName": "profile",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

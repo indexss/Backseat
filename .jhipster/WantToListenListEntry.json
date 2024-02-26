@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20240226152044",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "want_to_listen_list_entry",
+  "fields": [
+    {
+      "fieldName": "spotifyURI",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "userID",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "addTime",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "WantToListenListEntry",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}
