@@ -49,7 +49,7 @@ entity Profile {
     profilePhoto ImageBlob    
 }
 
-entity User {} // Stub
+// entity User
 
 entity SpotifyConnection {
 	spotifyURI String required
