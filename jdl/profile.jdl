@@ -25,6 +25,6 @@ entity Setting {
 }
 
 relationship OneToOne {
-    Profile{id} to User
-    Profile{id} to SpotifyConnection{id}
+    Profile{profile} to User
+    Profile{profile} to SpotifyConnection
 }
