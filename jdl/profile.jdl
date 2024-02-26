@@ -1,5 +1,4 @@
 entity Profile {
-    id String required
     username String required minlength(3)
     spotifyAccountID String
     joinDate ZonedDateTime required
@@ -7,7 +6,6 @@ entity Profile {
 }
 
 entity SpotifyConnection {
-    id String required
     refreshToken String
     accessToken String required
     accessTokenExpiresAt ZonedDateTime required
