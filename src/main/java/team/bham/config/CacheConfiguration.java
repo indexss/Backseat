@@ -48,27 +48,6 @@ public class CacheConfiguration {
             createCache(cm, team.bham.domain.User.class.getName());
             createCache(cm, team.bham.domain.Authority.class.getName());
             createCache(cm, team.bham.domain.User.class.getName() + ".authorities");
-            createCache(cm, team.bham.domain.Track.class.getName());
-            createCache(cm, team.bham.domain.Track.class.getName() + ".reviews");
-            createCache(cm, team.bham.domain.Track.class.getName() + ".artists");
-            createCache(cm, team.bham.domain.Album.class.getName());
-            createCache(cm, team.bham.domain.Album.class.getName() + ".tracks");
-            createCache(cm, team.bham.domain.Album.class.getName() + ".reviews");
-            createCache(cm, team.bham.domain.Album.class.getName() + ".artists");
-            createCache(cm, team.bham.domain.Review.class.getName());
-            createCache(cm, team.bham.domain.Artist.class.getName());
-            createCache(cm, team.bham.domain.Artist.class.getName() + ".tracks");
-            createCache(cm, team.bham.domain.Artist.class.getName() + ".albums");
-            createCache(cm, team.bham.domain.WantToListenListEntry.class.getName());
-            createCache(cm, team.bham.domain.Folder.class.getName());
-            createCache(cm, team.bham.domain.Folder.class.getName() + ".folderEntries");
-            createCache(cm, team.bham.domain.FolderEntry.class.getName());
-            createCache(cm, team.bham.domain.Profile.class.getName());
-            createCache(cm, team.bham.domain.Profile.class.getName() + ".folders");
-            createCache(cm, team.bham.domain.Profile.class.getName() + ".reviews");
-            createCache(cm, team.bham.domain.SpotifyConnection.class.getName());
-            createCache(cm, team.bham.domain.Follow.class.getName());
-            createCache(cm, team.bham.domain.Setting.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
