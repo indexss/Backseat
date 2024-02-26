@@ -6,7 +6,7 @@ entity Profile {
     profilePhotoPath String
 }
 
-entity SpotifyConnect {
+entity SpotifyConnection {
     id String required
     refreshToken String
     accessToken String required
@@ -26,4 +26,5 @@ entity Setting {
 
 relationship OneToOne {
     Profile{id} to User
+    Profile{id} to SpotifyConnection{id}
 }
