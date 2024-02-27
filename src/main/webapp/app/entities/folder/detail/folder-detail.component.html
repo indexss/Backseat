@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="folder">
+      <h2 data-cy="folderDetailsHeading"><span>Folder</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ folder.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ folder.name }}</span>
+        </dd>
+        <dt><span>Image</span></dt>
+        <dd>
+          <div *ngIf="folder.image">
+            <a (click)="openFile(folder.image, folder.imageContentType)">
+              <img [src]="'data:' + folder.imageContentType + ';base64,' + folder.image" style="max-width: 100%" alt="folder image" />
+            </a>
+            {{ folder.imageContentType }}, {{ byteSize(folder.image) }}
+          </div>
+        </dd>
+        <dt><span>Profile</span></dt>
+        <dd>
+          <div *ngIf="folder.profile">
+            <a [routerLink]="['/profile', folder.profile.id, 'view']">{{ folder.profile.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/folder', folder.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
