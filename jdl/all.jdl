@@ -1,5 +1,5 @@
 entity Track {
-	spotifyURI String required
+    spotifyURI String required
     name String required
     description String
     releaseDate LocalDate required
@@ -7,7 +7,7 @@ entity Track {
 }
 
 entity Album {
-	spotifyURI String required
+    spotifyURI String required
     name String required
     totalTracks Integer required
     description String
@@ -16,35 +16,35 @@ entity Album {
 }
 
 entity Review {
-	rating Integer required min(1) max(5)
+    rating Integer required min(1) max(5)
     content TextBlob
     date Instant required
 }
 
 entity Artist {
-	spotifyURI String required
+    spotifyURI String required
     name String required
 }
 
 entity WantToListenListEntry {
-	spotifyURI String required
+    spotifyURI String required
     userID String required
     addTime Instant required
 }
 
 entity Folder {
-	name String required
+    name String required
     imagePath ImageBlob
 }
 
 entity FolderEntry {
-	folderID String required
+    folderID String required
     spotifyURI String required
     addTime Instant required
 }
 
 entity Profile {
-	username String required
+    username String required
     spotifyURI String required
     profilePhoto ImageBlob    
 }
@@ -52,25 +52,25 @@ entity Profile {
 // entity User
 
 entity SpotifyConnection {
-	spotifyURI String required
-	refreshToken String required
+    spotifyURI String required
+    refreshToken String required
     accessToken String required
     accessTokenExpiresAt Instant required 
 }
 
 entity Follow {
-	sourceUserID String required
+    sourceUserID String required
     targetUserID String required
 }
 
 entity Setting {
-	userID String required
+    userID String required
     key String required
     value String required
 }
 
 relationship OneToMany {
-	Track to Review
+    Track to Review
     Album to Track
     Album to Review
     Folder to FolderEntry
@@ -78,20 +78,20 @@ relationship OneToMany {
 }
 
 relationship ManyToMany {
-	Track to Artist
+    Track to Artist
     Track{folderEntry} to FolderEntry{track(spotifyURI)}
-	Track{wantToListenListEntry} to WantToListenListEntry{track(spotifyURI)}
+    Track{wantToListenListEntry} to WantToListenListEntry{track(spotifyURI)}
     Album to Artist
     Album{folderEntry} to FolderEntry{album(spotifyURI)}
     Album{wantToListenListEntry} to WantToListenListEntry{album(spotifyURI)}
 }
 
 relationship ManyToOne {
-	Review to Profile
+    Review to Profile
 }
 
 relationship OneToOne {
-	Profile to User
+    Profile to User
     Profile to SpotifyConnection
 }
 
