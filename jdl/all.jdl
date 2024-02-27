@@ -34,7 +34,7 @@ entity WantToListenListEntry {
 
 entity Folder {
     name String required
-    imagePath ImageBlob
+    image ImageBlob
 }
 
 entity FolderEntry {
