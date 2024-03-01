@@ -1,0 +1,99 @@
+entity Track {
+    spotifyURI String required
+    name String required
+    description String
+    releaseDate LocalDate required
+    rating Double required
+}
+
+entity Album {
+    spotifyURI String required
+    name String required
+    totalTracks Integer required
+    description String
+    releaseDate LocalDate required
+    rating Double required
+}
+
+entity Review {
+    rating Integer required min(1) max(5)
+    content TextBlob
+    date Instant required
+}
+
+entity Artist {
+    spotifyURI String required
+    name String required
+}
+
+entity WantToListenListEntry {
+    spotifyURI String required
+    userID String required
+    addTime Instant required
+}
+
+entity Folder {
+    name String required
+    image ImageBlob
+}
+
+entity FolderEntry {
+    spotifyURI String required
+    addTime Instant required
+}
+
+entity Profile {
+    username String required
+    spotifyURI String required
+    profilePhoto ImageBlob    
+}
+
+// entity User
+
+entity SpotifyConnection {
+    spotifyURI String required
+    refreshToken String required
+    accessToken String required
+    accessTokenExpiresAt Instant required 
+}
+
+entity Follow {
+    sourceUserID String required
+    targetUserID String required
+}
+
+entity Setting {
+    userID String required
+    key String required
+    value String required
+}
+
+relationship OneToMany {
+    Track to Review
+    Album to Track
+    Album to Review
+    Folder to FolderEntry
+    Profile to Folder
+}
+
+relationship ManyToMany {
+    Track to Artist
+    Track{folderEntry} to FolderEntry{track(spotifyURI)}
+    Track{wantToListenListEntry} to WantToListenListEntry{track(spotifyURI)}
+    Album to Artist
+    Album{folderEntry} to FolderEntry{album(spotifyURI)}
+    Album{wantToListenListEntry} to WantToListenListEntry{album(spotifyURI)}
+}
+
+relationship ManyToOne {
+    Review to Profile
+}
+
+relationship OneToOne {
+    Profile to User
+    Profile to SpotifyConnection
+}
+
+paginate Album, Artist, Track, Review, Profile with pagination
+service all with serviceImpl
+dto * with mapstruct

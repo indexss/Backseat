@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Album.
+    -->
+    <changeSet id="20240227172536-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="album_id"
+                                 baseTableName="rel_album__artist"
+                                 constraintName="fk_rel_album__artist__album_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="album"/>
+
+        <addForeignKeyConstraint baseColumnNames="artist_id"
+                                 baseTableName="rel_album__artist"
+                                 constraintName="fk_rel_album__artist__artist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="artist"/>
+
+        <addForeignKeyConstraint baseColumnNames="album_id"
+                                 baseTableName="rel_album__folder_entry"
+                                 constraintName="fk_rel_album__folder_entry__album_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="album"/>
+
+        <addForeignKeyConstraint baseColumnNames="folder_entry_id"
+                                 baseTableName="rel_album__folder_entry"
+                                 constraintName="fk_rel_album__folder_entry__folder_entry_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="folder_entry"/>
+
+        <addForeignKeyConstraint baseColumnNames="album_id"
+                                 baseTableName="rel_album__want_to_listen_list_entry"
+                                 constraintName="fk_rel_album__want_to_listen_list_entry__album_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="album"/>
+
+        <addForeignKeyConstraint baseColumnNames="want_to_listen_list_entry_id"
+                                 baseTableName="rel_album__want_to_listen_list_entry"
+                                 constraintName="fk_rel_album__want_to_listen_li__want_to_listen_list_entr_a9_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="want_to_listen_list_entry"/>
+    </changeSet>
+</databaseChangeLog>
