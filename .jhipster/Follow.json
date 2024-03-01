@@ -1,0 +1,26 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301175107",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "follow",
+  "fields": [
+    {
+      "fieldName": "sourceUserID",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "targetUserID",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Follow",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

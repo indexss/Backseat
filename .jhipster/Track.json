@@ -1,0 +1,77 @@
+{
+  "applications": "*",
+  "changelogDate": "20240301175058",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "track",
+  "fields": [
+    {
+      "fieldName": "spotifyURI",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"],
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "releaseDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "rating",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Track",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "review",
+      "otherEntityRelationshipName": "track",
+      "relationshipName": "review",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "artist",
+      "otherEntityRelationshipName": "track",
+      "ownerSide": true,
+      "relationshipName": "artist",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "folderEntry",
+      "otherEntityRelationshipName": "track",
+      "ownerSide": true,
+      "relationshipName": "folderEntry",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "wantToListenListEntry",
+      "otherEntityRelationshipName": "track",
+      "ownerSide": true,
+      "relationshipName": "wantToListenListEntry",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "album",
+      "otherEntityRelationshipName": "track",
+      "relationshipName": "album",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}
