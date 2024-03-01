@@ -1,5 +1,5 @@
 entity Track {
-    spotifyURI String required
+    @Id spotifyURI String required
     name String required
     description String
     releaseDate LocalDate required
@@ -7,7 +7,7 @@ entity Track {
 }
 
 entity Album {
-    spotifyURI String required
+    @Id spotifyURI String required
     name String required
     totalTracks Integer required
     description String
@@ -22,7 +22,7 @@ entity Review {
 }
 
 entity Artist {
-    spotifyURI String required
+    @Id spotifyURI String required
     name String required
 }
 
@@ -45,16 +45,16 @@ entity FolderEntry {
 entity Profile {
     username String required
     spotifyURI String required
-    profilePhoto ImageBlob    
+    profilePhoto ImageBlob
 }
 
 // entity User
 
 entity SpotifyConnection {
-    spotifyURI String required
+    @Id spotifyURI String required
     refreshToken String required
     accessToken String required
-    accessTokenExpiresAt Instant required 
+    accessTokenExpiresAt Instant required
 }
 
 entity Follow {
