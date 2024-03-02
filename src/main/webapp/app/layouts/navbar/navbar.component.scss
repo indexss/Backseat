@@ -5,6 +5,21 @@
 /* ==========================================================================
 Navbar
 ========================================================================== */
+.icon-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.icon-text-wrapper fa-icon {
+  margin-bottom: -6px;
+}
+
+.text {
+  font-size: 0.8em;
+  // color: $navbar-dark-color;
+}
 
 .navbar-version {
   font-size: 0.65em;

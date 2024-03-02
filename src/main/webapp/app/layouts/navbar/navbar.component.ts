@@ -62,3 +62,6 @@ export class NavbarComponent implements OnInit {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 }
+
+//这个导航栏在哪个文件里面引用了呢？
+// Path: src/main/webapp/app/layouts/main/main.component.html

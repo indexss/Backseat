@@ -8,10 +8,37 @@ import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 
+import { DiscoverComponent } from './discover/discover.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { SearchComponent } from './search/search.component';
+
 @NgModule({
   imports: [
     RouterModule.forRoot(
       [
+        {
+          path: 'search',
+          component: SearchComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
+        {
+          path: 'leaderboard',
+          component: LeaderboardComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
+        {
+          path: 'discover',
+          component: DiscoverComponent,
+          data: {
+            authorities: [],
+          },
+        },
         {
           path: 'admin',
           data: {
