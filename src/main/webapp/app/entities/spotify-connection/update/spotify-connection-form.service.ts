@@ -53,9 +53,7 @@ export class SpotifyConnectionFormService {
           validators: [Validators.required],
         }
       ),
-      refreshToken: new FormControl(spotifyConnectionRawValue.refreshToken, {
-        validators: [Validators.required],
-      }),
+      refreshToken: new FormControl(spotifyConnectionRawValue.refreshToken),
       accessToken: new FormControl(spotifyConnectionRawValue.accessToken, {
         validators: [Validators.required],
       }),

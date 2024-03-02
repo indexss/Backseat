@@ -139,28 +139,6 @@ class SpotifyConnectionResourceIT {
 
     @Test
     @Transactional
-    void checkRefreshTokenIsRequired() throws Exception {
-        int databaseSizeBeforeTest = spotifyConnectionRepository.findAll().size();
-        // set the field null
-        spotifyConnection.setRefreshToken(null);
-
-        // Create the SpotifyConnection, which fails.
-        SpotifyConnectionDTO spotifyConnectionDTO = spotifyConnectionMapper.toDto(spotifyConnection);
-
-        restSpotifyConnectionMockMvc
-            .perform(
-                post(ENTITY_API_URL)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(spotifyConnectionDTO))
-            )
-            .andExpect(status().isBadRequest());
-
-        List<SpotifyConnection> spotifyConnectionList = spotifyConnectionRepository.findAll();
-        assertThat(spotifyConnectionList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void checkAccessTokenIsRequired() throws Exception {
         int databaseSizeBeforeTest = spotifyConnectionRepository.findAll().size();
         // set the field null

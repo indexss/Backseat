@@ -107,4 +107,6 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  spotify-client-id: "83899dc34f244726b192636cbd8d4ef1"
+  spotify-client-secret: "2e7dc078cc8d4edd80ef07acd87acde7"

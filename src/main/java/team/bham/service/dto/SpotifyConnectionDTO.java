@@ -14,7 +14,6 @@ public class SpotifyConnectionDTO implements Serializable {
     @NotNull
     private String spotifyURI;
 
-    @NotNull
     private String refreshToken;
 
     @NotNull
