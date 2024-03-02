@@ -19,7 +19,7 @@ export class ArtistComponent implements OnInit {
   artists?: IArtist[];
   isLoading = false;
 
-  predicate = 'id';
+  predicate = 'spotifyURI';
   ascending = true;
 
   itemsPerPage = ITEMS_PER_PAGE;
@@ -33,7 +33,7 @@ export class ArtistComponent implements OnInit {
     protected modalService: NgbModal
   ) {}
 
-  trackId = (_index: number, item: IArtist): number => this.artistService.getArtistIdentifier(item);
+  trackSpotifyURI = (_index: number, item: IArtist): string => this.artistService.getArtistIdentifier(item);
 
   ngOnInit(): void {
     this.load();

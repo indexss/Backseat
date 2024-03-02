@@ -26,13 +26,13 @@ describe('SpotifyConnection Management Component', () => {
           provide: ActivatedRoute,
           useValue: {
             data: of({
-              defaultSort: 'id,asc',
+              defaultSort: 'spotifyURI,asc',
             }),
             queryParamMap: of(
               jest.requireActual('@angular/router').convertToParamMap({
                 page: '1',
                 size: '1',
-                sort: 'id,desc',
+                sort: 'spotifyURI,desc',
               })
             ),
             snapshot: { queryParams: {} },
@@ -51,7 +51,7 @@ describe('SpotifyConnection Management Component', () => {
     jest.spyOn(service, 'query').mockReturnValue(
       of(
         new HttpResponse({
-          body: [{ id: 123 }],
+          body: [{ spotifyURI: 'ABC' }],
           headers,
         })
       )
@@ -64,16 +64,16 @@ describe('SpotifyConnection Management Component', () => {
 
     // THEN
     expect(service.query).toHaveBeenCalled();
-    expect(comp.spotifyConnections?.[0]).toEqual(expect.objectContaining({ id: 123 }));
+    expect(comp.spotifyConnections?.[0]).toEqual(expect.objectContaining({ spotifyURI: 'ABC' }));
   });
 
-  describe('trackId', () => {
+  describe('trackSpotifyURI', () => {
     it('Should forward to spotifyConnectionService', () => {
-      const entity = { id: 123 };
+      const entity = { spotifyURI: 'ABC' };
       jest.spyOn(service, 'getSpotifyConnectionIdentifier');
-      const id = comp.trackId(0, entity);
+      const spotifyURI = comp.trackSpotifyURI(0, entity);
       expect(service.getSpotifyConnectionIdentifier).toHaveBeenCalledWith(entity);
-      expect(id).toBe(entity.id);
+      expect(spotifyURI).toBe(entity.spotifyURI);
     });
   });
 });

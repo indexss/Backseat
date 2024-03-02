@@ -9,4 +9,4 @@ import team.bham.domain.SpotifyConnection;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SpotifyConnectionRepository extends JpaRepository<SpotifyConnection, Long> {}
+public interface SpotifyConnectionRepository extends JpaRepository<SpotifyConnection, String> {}

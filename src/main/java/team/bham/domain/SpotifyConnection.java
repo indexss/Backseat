@@ -7,25 +7,22 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A SpotifyConnection.
  */
+@JsonIgnoreProperties(value = { "new" })
 @Entity
 @Table(name = "spotify_connection")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class SpotifyConnection implements Serializable {
+public class SpotifyConnection implements Serializable, Persistable<String> {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
-
     @NotNull
+    @Id
     @Column(name = "spotify_uri", nullable = false)
     private String spotifyURI;
 
@@ -41,24 +38,14 @@ public class SpotifyConnection implements Serializable {
     @Column(name = "access_token_expires_at", nullable = false)
     private Instant accessTokenExpiresAt;
 
+    @Transient
+    private boolean isPersisted;
+
     @JsonIgnoreProperties(value = { "user", "spotifyConnection", "folders", "reviews" }, allowSetters = true)
     @OneToOne(mappedBy = "spotifyConnection")
     private Profile profile;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public SpotifyConnection id(Long id) {
-        this.setId(id);
-        return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSpotifyURI() {
         return this.spotifyURI;
@@ -112,6 +99,28 @@ public class SpotifyConnection implements Serializable {
         this.accessTokenExpiresAt = accessTokenExpiresAt;
     }
 
+    @Override
+    public String getId() {
+        return this.spotifyURI;
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public SpotifyConnection setIsPersisted() {
+        this.isPersisted = true;
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
+    }
+
     public Profile getProfile() {
         return this.profile;
     }
@@ -141,7 +150,7 @@ public class SpotifyConnection implements Serializable {
         if (!(o instanceof SpotifyConnection)) {
             return false;
         }
-        return id != null && id.equals(((SpotifyConnection) o).id);
+        return spotifyURI != null && spotifyURI.equals(((SpotifyConnection) o).spotifyURI);
     }
 
     @Override
@@ -154,8 +163,7 @@ public class SpotifyConnection implements Serializable {
     @Override
     public String toString() {
         return "SpotifyConnection{" +
-            "id=" + getId() +
-            ", spotifyURI='" + getSpotifyURI() + "'" +
+            "spotifyURI=" + getSpotifyURI() +
             ", refreshToken='" + getRefreshToken() + "'" +
             ", accessToken='" + getAccessToken() + "'" +
             ", accessTokenExpiresAt='" + getAccessTokenExpiresAt() + "'" +

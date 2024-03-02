@@ -17,7 +17,7 @@ export class TrackDeleteDialogComponent {
     this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number): void {
+  confirmDelete(id: string): void {
     this.trackService.delete(id).subscribe(() => {
       this.activeModal.close(ITEM_DELETED_EVENT);
     });

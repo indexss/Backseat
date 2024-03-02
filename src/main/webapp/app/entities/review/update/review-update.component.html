@@ -67,7 +67,7 @@
           <label class="form-label" for="field_track">Track</label>
           <select class="form-control" id="field_track" data-cy="track" name="track" formControlName="track" [compareWith]="compareTrack">
             <option [ngValue]="null"></option>
-            <option [ngValue]="trackOption" *ngFor="let trackOption of tracksSharedCollection">{{ trackOption.id }}</option>
+            <option [ngValue]="trackOption" *ngFor="let trackOption of tracksSharedCollection">{{ trackOption.spotifyURI }}</option>
           </select>
         </div>
 
@@ -75,7 +75,7 @@
           <label class="form-label" for="field_album">Album</label>
           <select class="form-control" id="field_album" data-cy="album" name="album" formControlName="album" [compareWith]="compareAlbum">
             <option [ngValue]="null"></option>
-            <option [ngValue]="albumOption" *ngFor="let albumOption of albumsSharedCollection">{{ albumOption.id }}</option>
+            <option [ngValue]="albumOption" *ngFor="let albumOption of albumsSharedCollection">{{ albumOption.spotifyURI }}</option>
           </select>
         </div>
       </div>

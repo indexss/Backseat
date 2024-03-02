@@ -46,7 +46,7 @@ describe('Artist Management Update Component', () => {
 
   describe('ngOnInit', () => {
     it('Should update editForm', () => {
-      const artist: IArtist = { id: 456 };
+      const artist: IArtist = { spotifyURI: 'CBA' };
 
       activatedRoute.data = of({ artist });
       comp.ngOnInit();
@@ -59,7 +59,7 @@ describe('Artist Management Update Component', () => {
     it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IArtist>>();
-      const artist = { id: 123 };
+      const artist = { spotifyURI: 'ABC' };
       jest.spyOn(artistFormService, 'getArtist').mockReturnValue(artist);
       jest.spyOn(artistService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -82,8 +82,8 @@ describe('Artist Management Update Component', () => {
     it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IArtist>>();
-      const artist = { id: 123 };
-      jest.spyOn(artistFormService, 'getArtist').mockReturnValue({ id: null });
+      const artist = { spotifyURI: 'ABC' };
+      jest.spyOn(artistFormService, 'getArtist').mockReturnValue({ spotifyURI: null });
       jest.spyOn(artistService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ artist: null });
@@ -105,7 +105,7 @@ describe('Artist Management Update Component', () => {
     it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IArtist>>();
-      const artist = { id: 123 };
+      const artist = { spotifyURI: 'ABC' };
       jest.spyOn(artistService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ artist });

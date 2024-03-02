@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Profile.
     -->
-    <changeSet id="20240227172542-2" author="jhipster">
+    <changeSet id="20240301175105-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="profile"
@@ -14,10 +14,10 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 
-        <addForeignKeyConstraint baseColumnNames="spotify_connection_id"
+        <addForeignKeyConstraint baseColumnNames="spotify_connection_spotify_uri"
                                  baseTableName="profile"
                                  constraintName="fk_profile__spotify_connection_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="spotify_connection"/>
     </changeSet>
 </databaseChangeLog>

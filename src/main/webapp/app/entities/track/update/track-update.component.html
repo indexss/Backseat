@@ -6,11 +6,6 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
-          <label class="form-label" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
-
         <div class="row mb-3">
           <label class="form-label" for="field_spotifyURI">Spotify URI</label>
           <input
@@ -20,6 +15,7 @@
             id="field_spotifyURI"
             data-cy="spotifyURI"
             formControlName="spotifyURI"
+            [readonly]="editForm.get('spotifyURI')!.value != null"
           />
           <div *ngIf="editForm.get('spotifyURI')!.invalid && (editForm.get('spotifyURI')!.dirty || editForm.get('spotifyURI')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('spotifyURI')?.errors?.required"> This field is required. </small>
@@ -88,7 +84,7 @@
             formControlName="artists"
             [compareWith]="compareArtist"
           >
-            <option [ngValue]="artistOption" *ngFor="let artistOption of artistsSharedCollection">{{ artistOption.id }}</option>
+            <option [ngValue]="artistOption" *ngFor="let artistOption of artistsSharedCollection">{{ artistOption.spotifyURI }}</option>
           </select>
         </div>
 
@@ -133,7 +129,7 @@
           <label class="form-label" for="field_album">Album</label>
           <select class="form-control" id="field_album" data-cy="album" name="album" formControlName="album" [compareWith]="compareAlbum">
             <option [ngValue]="null"></option>
-            <option [ngValue]="albumOption" *ngFor="let albumOption of albumsSharedCollection">{{ albumOption.id }}</option>
+            <option [ngValue]="albumOption" *ngFor="let albumOption of albumsSharedCollection">{{ albumOption.spotifyURI }}</option>
           </select>
         </div>
       </div>

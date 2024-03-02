@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20240227172536",
+  "changelogDate": "20240301175059",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "album",
@@ -8,7 +8,10 @@
     {
       "fieldName": "spotifyURI",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "options": {
+        "id": true
+      }
     },
     {
       "fieldName": "name",

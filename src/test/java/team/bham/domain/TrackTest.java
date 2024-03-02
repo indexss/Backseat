@@ -11,13 +11,13 @@ class TrackTest {
     void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Track.class);
         Track track1 = new Track();
-        track1.setId(1L);
+        track1.setSpotifyURI("id1");
         Track track2 = new Track();
-        track2.setId(track1.getId());
+        track2.setSpotifyURI(track1.getSpotifyURI());
         assertThat(track1).isEqualTo(track2);
-        track2.setId(2L);
+        track2.setSpotifyURI("id2");
         assertThat(track1).isNotEqualTo(track2);
-        track1.setId(null);
+        track1.setSpotifyURI(null);
         assertThat(track1).isNotEqualTo(track2);
     }
 }

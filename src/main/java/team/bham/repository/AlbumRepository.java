@@ -16,9 +16,9 @@ import team.bham.domain.Album;
  * For more information refer to https://github.com/jhipster/generator-jhipster/issues/17990.
  */
 @Repository
-public interface AlbumRepository extends AlbumRepositoryWithBagRelationships, JpaRepository<Album, Long> {
-    default Optional<Album> findOneWithEagerRelationships(Long id) {
-        return this.fetchBagRelationships(this.findById(id));
+public interface AlbumRepository extends AlbumRepositoryWithBagRelationships, JpaRepository<Album, String> {
+    default Optional<Album> findOneWithEagerRelationships(String spotifyURI) {
+        return this.fetchBagRelationships(this.findById(spotifyURI));
     }
 
     default List<Album> findAllWithEagerRelationships() {

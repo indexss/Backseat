@@ -100,7 +100,7 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="spotifyConnectionOption" *ngFor="let spotifyConnectionOption of spotifyConnectionsCollection">
-              {{ spotifyConnectionOption.id }}
+              {{ spotifyConnectionOption.spotifyURI }}
             </option>
           </select>
         </div>

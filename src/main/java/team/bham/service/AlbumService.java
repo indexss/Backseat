@@ -55,12 +55,12 @@ public interface AlbumService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<AlbumDTO> findOne(Long id);
+    Optional<AlbumDTO> findOne(String id);
 
     /**
      * Delete the "id" album.
      *
      * @param id the id of the entity.
      */
-    void delete(Long id);
+    void delete(String id);
 }

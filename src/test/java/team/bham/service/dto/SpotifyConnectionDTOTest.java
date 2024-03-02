@@ -11,14 +11,14 @@ class SpotifyConnectionDTOTest {
     void dtoEqualsVerifier() throws Exception {
         TestUtil.equalsVerifier(SpotifyConnectionDTO.class);
         SpotifyConnectionDTO spotifyConnectionDTO1 = new SpotifyConnectionDTO();
-        spotifyConnectionDTO1.setId(1L);
+        spotifyConnectionDTO1.setSpotifyURI("id1");
         SpotifyConnectionDTO spotifyConnectionDTO2 = new SpotifyConnectionDTO();
         assertThat(spotifyConnectionDTO1).isNotEqualTo(spotifyConnectionDTO2);
-        spotifyConnectionDTO2.setId(spotifyConnectionDTO1.getId());
+        spotifyConnectionDTO2.setSpotifyURI(spotifyConnectionDTO1.getSpotifyURI());
         assertThat(spotifyConnectionDTO1).isEqualTo(spotifyConnectionDTO2);
-        spotifyConnectionDTO2.setId(2L);
+        spotifyConnectionDTO2.setSpotifyURI("id2");
         assertThat(spotifyConnectionDTO1).isNotEqualTo(spotifyConnectionDTO2);
-        spotifyConnectionDTO1.setId(null);
+        spotifyConnectionDTO1.setSpotifyURI(null);
         assertThat(spotifyConnectionDTO1).isNotEqualTo(spotifyConnectionDTO2);
     }
 }

@@ -6,8 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.UUID;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,17 +30,11 @@ import team.bham.service.mapper.ArtistMapper;
 @WithMockUser
 class ArtistResourceIT {
 
-    private static final String DEFAULT_SPOTIFY_URI = "AAAAAAAAAA";
-    private static final String UPDATED_SPOTIFY_URI = "BBBBBBBBBB";
-
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/artists";
-    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
-
-    private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{spotifyURI}";
 
     @Autowired
     private ArtistRepository artistRepository;
@@ -64,7 +57,7 @@ class ArtistResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Artist createEntity(EntityManager em) {
-        Artist artist = new Artist().spotifyURI(DEFAULT_SPOTIFY_URI).name(DEFAULT_NAME);
+        Artist artist = new Artist().name(DEFAULT_NAME);
         return artist;
     }
 
@@ -75,7 +68,7 @@ class ArtistResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Artist createUpdatedEntity(EntityManager em) {
-        Artist artist = new Artist().spotifyURI(UPDATED_SPOTIFY_URI).name(UPDATED_NAME);
+        Artist artist = new Artist().name(UPDATED_NAME);
         return artist;
     }
 
@@ -98,7 +91,6 @@ class ArtistResourceIT {
         List<Artist> artistList = artistRepository.findAll();
         assertThat(artistList).hasSize(databaseSizeBeforeCreate + 1);
         Artist testArtist = artistList.get(artistList.size() - 1);
-        assertThat(testArtist.getSpotifyURI()).isEqualTo(DEFAULT_SPOTIFY_URI);
         assertThat(testArtist.getName()).isEqualTo(DEFAULT_NAME);
     }
 
@@ -106,7 +98,7 @@ class ArtistResourceIT {
     @Transactional
     void createArtistWithExistingId() throws Exception {
         // Create the Artist with an existing ID
-        artist.setId(1L);
+        artist.setSpotifyURI("existing_id");
         ArtistDTO artistDTO = artistMapper.toDto(artist);
 
         int databaseSizeBeforeCreate = artistRepository.findAll().size();
@@ -119,24 +111,6 @@ class ArtistResourceIT {
         // Validate the Artist in the database
         List<Artist> artistList = artistRepository.findAll();
         assertThat(artistList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkSpotifyURIIsRequired() throws Exception {
-        int databaseSizeBeforeTest = artistRepository.findAll().size();
-        // set the field null
-        artist.setSpotifyURI(null);
-
-        // Create the Artist, which fails.
-        ArtistDTO artistDTO = artistMapper.toDto(artist);
-
-        restArtistMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(artistDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Artist> artistList = artistRepository.findAll();
-        assertThat(artistList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -161,15 +135,15 @@ class ArtistResourceIT {
     @Transactional
     void getAllArtists() throws Exception {
         // Initialize the database
+        artist.setSpotifyURI(UUID.randomUUID().toString());
         artistRepository.saveAndFlush(artist);
 
         // Get all the artistList
         restArtistMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
+            .perform(get(ENTITY_API_URL + "?sort=spotifyURI,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(artist.getId().intValue())))
-            .andExpect(jsonPath("$.[*].spotifyURI").value(hasItem(DEFAULT_SPOTIFY_URI)))
+            .andExpect(jsonPath("$.[*].spotifyURI").value(hasItem(artist.getSpotifyURI())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
     }
 
@@ -177,15 +151,15 @@ class ArtistResourceIT {
     @Transactional
     void getArtist() throws Exception {
         // Initialize the database
+        artist.setSpotifyURI(UUID.randomUUID().toString());
         artistRepository.saveAndFlush(artist);
 
         // Get the artist
         restArtistMockMvc
-            .perform(get(ENTITY_API_URL_ID, artist.getId()))
+            .perform(get(ENTITY_API_URL_ID, artist.getSpotifyURI()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(artist.getId().intValue()))
-            .andExpect(jsonPath("$.spotifyURI").value(DEFAULT_SPOTIFY_URI))
+            .andExpect(jsonPath("$.spotifyURI").value(artist.getSpotifyURI()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
     }
 
@@ -200,20 +174,21 @@ class ArtistResourceIT {
     @Transactional
     void putExistingArtist() throws Exception {
         // Initialize the database
+        artist.setSpotifyURI(UUID.randomUUID().toString());
         artistRepository.saveAndFlush(artist);
 
         int databaseSizeBeforeUpdate = artistRepository.findAll().size();
 
         // Update the artist
-        Artist updatedArtist = artistRepository.findById(artist.getId()).get();
+        Artist updatedArtist = artistRepository.findById(artist.getSpotifyURI()).get();
         // Disconnect from session so that the updates on updatedArtist are not directly saved in db
         em.detach(updatedArtist);
-        updatedArtist.spotifyURI(UPDATED_SPOTIFY_URI).name(UPDATED_NAME);
+        updatedArtist.name(UPDATED_NAME);
         ArtistDTO artistDTO = artistMapper.toDto(updatedArtist);
 
         restArtistMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, artistDTO.getId())
+                put(ENTITY_API_URL_ID, artistDTO.getSpotifyURI())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(artistDTO))
             )
@@ -223,7 +198,6 @@ class ArtistResourceIT {
         List<Artist> artistList = artistRepository.findAll();
         assertThat(artistList).hasSize(databaseSizeBeforeUpdate);
         Artist testArtist = artistList.get(artistList.size() - 1);
-        assertThat(testArtist.getSpotifyURI()).isEqualTo(UPDATED_SPOTIFY_URI);
         assertThat(testArtist.getName()).isEqualTo(UPDATED_NAME);
     }
 
@@ -231,7 +205,7 @@ class ArtistResourceIT {
     @Transactional
     void putNonExistingArtist() throws Exception {
         int databaseSizeBeforeUpdate = artistRepository.findAll().size();
-        artist.setId(count.incrementAndGet());
+        artist.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Artist
         ArtistDTO artistDTO = artistMapper.toDto(artist);
@@ -239,7 +213,7 @@ class ArtistResourceIT {
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restArtistMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, artistDTO.getId())
+                put(ENTITY_API_URL_ID, artistDTO.getSpotifyURI())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(artistDTO))
             )
@@ -254,7 +228,7 @@ class ArtistResourceIT {
     @Transactional
     void putWithIdMismatchArtist() throws Exception {
         int databaseSizeBeforeUpdate = artistRepository.findAll().size();
-        artist.setId(count.incrementAndGet());
+        artist.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Artist
         ArtistDTO artistDTO = artistMapper.toDto(artist);
@@ -262,7 +236,7 @@ class ArtistResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restArtistMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(artistDTO))
             )
@@ -277,7 +251,7 @@ class ArtistResourceIT {
     @Transactional
     void putWithMissingIdPathParamArtist() throws Exception {
         int databaseSizeBeforeUpdate = artistRepository.findAll().size();
-        artist.setId(count.incrementAndGet());
+        artist.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Artist
         ArtistDTO artistDTO = artistMapper.toDto(artist);
@@ -296,19 +270,18 @@ class ArtistResourceIT {
     @Transactional
     void partialUpdateArtistWithPatch() throws Exception {
         // Initialize the database
+        artist.setSpotifyURI(UUID.randomUUID().toString());
         artistRepository.saveAndFlush(artist);
 
         int databaseSizeBeforeUpdate = artistRepository.findAll().size();
 
         // Update the artist using partial update
         Artist partialUpdatedArtist = new Artist();
-        partialUpdatedArtist.setId(artist.getId());
-
-        partialUpdatedArtist.name(UPDATED_NAME);
+        partialUpdatedArtist.setSpotifyURI(artist.getSpotifyURI());
 
         restArtistMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedArtist.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedArtist.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedArtist))
             )
@@ -318,27 +291,27 @@ class ArtistResourceIT {
         List<Artist> artistList = artistRepository.findAll();
         assertThat(artistList).hasSize(databaseSizeBeforeUpdate);
         Artist testArtist = artistList.get(artistList.size() - 1);
-        assertThat(testArtist.getSpotifyURI()).isEqualTo(DEFAULT_SPOTIFY_URI);
-        assertThat(testArtist.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testArtist.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
     @Transactional
     void fullUpdateArtistWithPatch() throws Exception {
         // Initialize the database
+        artist.setSpotifyURI(UUID.randomUUID().toString());
         artistRepository.saveAndFlush(artist);
 
         int databaseSizeBeforeUpdate = artistRepository.findAll().size();
 
         // Update the artist using partial update
         Artist partialUpdatedArtist = new Artist();
-        partialUpdatedArtist.setId(artist.getId());
+        partialUpdatedArtist.setSpotifyURI(artist.getSpotifyURI());
 
-        partialUpdatedArtist.spotifyURI(UPDATED_SPOTIFY_URI).name(UPDATED_NAME);
+        partialUpdatedArtist.name(UPDATED_NAME);
 
         restArtistMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedArtist.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedArtist.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedArtist))
             )
@@ -348,7 +321,6 @@ class ArtistResourceIT {
         List<Artist> artistList = artistRepository.findAll();
         assertThat(artistList).hasSize(databaseSizeBeforeUpdate);
         Artist testArtist = artistList.get(artistList.size() - 1);
-        assertThat(testArtist.getSpotifyURI()).isEqualTo(UPDATED_SPOTIFY_URI);
         assertThat(testArtist.getName()).isEqualTo(UPDATED_NAME);
     }
 
@@ -356,7 +328,7 @@ class ArtistResourceIT {
     @Transactional
     void patchNonExistingArtist() throws Exception {
         int databaseSizeBeforeUpdate = artistRepository.findAll().size();
-        artist.setId(count.incrementAndGet());
+        artist.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Artist
         ArtistDTO artistDTO = artistMapper.toDto(artist);
@@ -364,7 +336,7 @@ class ArtistResourceIT {
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restArtistMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, artistDTO.getId())
+                patch(ENTITY_API_URL_ID, artistDTO.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(artistDTO))
             )
@@ -379,7 +351,7 @@ class ArtistResourceIT {
     @Transactional
     void patchWithIdMismatchArtist() throws Exception {
         int databaseSizeBeforeUpdate = artistRepository.findAll().size();
-        artist.setId(count.incrementAndGet());
+        artist.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Artist
         ArtistDTO artistDTO = artistMapper.toDto(artist);
@@ -387,7 +359,7 @@ class ArtistResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restArtistMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(artistDTO))
             )
@@ -402,7 +374,7 @@ class ArtistResourceIT {
     @Transactional
     void patchWithMissingIdPathParamArtist() throws Exception {
         int databaseSizeBeforeUpdate = artistRepository.findAll().size();
-        artist.setId(count.incrementAndGet());
+        artist.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Artist
         ArtistDTO artistDTO = artistMapper.toDto(artist);
@@ -423,13 +395,14 @@ class ArtistResourceIT {
     @Transactional
     void deleteArtist() throws Exception {
         // Initialize the database
+        artist.setSpotifyURI(UUID.randomUUID().toString());
         artistRepository.saveAndFlush(artist);
 
         int databaseSizeBeforeDelete = artistRepository.findAll().size();
 
         // Delete the artist
         restArtistMockMvc
-            .perform(delete(ENTITY_API_URL_ID, artist.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, artist.getSpotifyURI()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

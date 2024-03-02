@@ -13,12 +13,12 @@ const albumRoute: Routes = [
     path: '',
     component: AlbumComponent,
     data: {
-      defaultSort: 'id,' + ASC,
+      defaultSort: 'spotifyURI,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: ':spotifyURI/view',
     component: AlbumDetailComponent,
     resolve: {
       album: AlbumRoutingResolveService,
@@ -34,7 +34,7 @@ const albumRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit',
+    path: ':spotifyURI/edit',
     component: AlbumUpdateComponent,
     resolve: {
       album: AlbumRoutingResolveService,

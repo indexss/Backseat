@@ -9,13 +9,10 @@
     <!--
         Added the entity Track.
     -->
-    <changeSet id="20240227172535-1" author="jhipster">
+    <changeSet id="20240301175058-1" author="jhipster">
         <createTable tableName="track">
-            <column name="id" type="bigint">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
             <column name="spotify_uri" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
@@ -29,47 +26,47 @@
             <column name="rating" type="double">
                 <constraints nullable="false" />
             </column>
-            <column name="album_id" type="bigint">
+            <column name="album_spotify_uri" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
 
-    <changeSet id="20240227172535-1-relations" author="jhipster">
+    <changeSet id="20240301175058-1-relations" author="jhipster">
 
         <createTable tableName="rel_track__artist">
-            <column name="artist_id" type="bigint">
+            <column name="artist_spotify_uri" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="track_id" type="bigint">
+            <column name="track_spotify_uri" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="track_id, artist_id" tableName="rel_track__artist"/>
+        <addPrimaryKey columnNames="track_spotify_uri, artist_spotify_uri" tableName="rel_track__artist"/>
 
         <createTable tableName="rel_track__folder_entry">
             <column name="folder_entry_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="track_id" type="bigint">
+            <column name="track_spotify_uri" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="track_id, folder_entry_id" tableName="rel_track__folder_entry"/>
+        <addPrimaryKey columnNames="track_spotify_uri, folder_entry_id" tableName="rel_track__folder_entry"/>
 
         <createTable tableName="rel_track__want_to_listen_list_entry">
             <column name="want_to_listen_list_entry_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="track_id" type="bigint">
+            <column name="track_spotify_uri" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="track_id, want_to_listen_list_entry_id" tableName="rel_track__want_to_listen_list_entry"/>
+        <addPrimaryKey columnNames="track_spotify_uri, want_to_listen_list_entry_id" tableName="rel_track__want_to_listen_list_entry"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -82,13 +79,12 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20240227172535-1-data" author="jhipster" context="faker">
+    <changeSet id="20240301175058-1-data" author="jhipster" context="faker">
         <loadData
                   file="config/liquibase/fake-data/track.csv"
                   separator=";"
                   tableName="track"
                   usePreparedStatements="true">
-            <column name="id" type="numeric"/>
             <column name="spotify_uri" type="string"/>
             <column name="name" type="string"/>
             <column name="description" type="string"/>

@@ -42,8 +42,8 @@ describe('SpotifyConnection routing resolve service', () => {
   describe('resolve', () => {
     it('should return ISpotifyConnection returned by find', () => {
       // GIVEN
-      service.find = jest.fn(id => of(new HttpResponse({ body: { id } })));
-      mockActivatedRouteSnapshot.params = { id: 123 };
+      service.find = jest.fn(spotifyURI => of(new HttpResponse({ body: { spotifyURI } })));
+      mockActivatedRouteSnapshot.params = { spotifyURI: 'ABC' };
 
       // WHEN
       routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
@@ -51,8 +51,8 @@ describe('SpotifyConnection routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).toBeCalledWith(123);
-      expect(resultSpotifyConnection).toEqual({ id: 123 });
+      expect(service.find).toBeCalledWith('ABC');
+      expect(resultSpotifyConnection).toEqual({ spotifyURI: 'ABC' });
     });
 
     it('should return null if id is not provided', () => {
@@ -73,7 +73,7 @@ describe('SpotifyConnection routing resolve service', () => {
     it('should route to 404 page if data not found in server', () => {
       // GIVEN
       jest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse<ISpotifyConnection>({ body: null })));
-      mockActivatedRouteSnapshot.params = { id: 123 };
+      mockActivatedRouteSnapshot.params = { spotifyURI: 'ABC' };
 
       // WHEN
       routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
@@ -81,7 +81,7 @@ describe('SpotifyConnection routing resolve service', () => {
       });
 
       // THEN
-      expect(service.find).toBeCalledWith(123);
+      expect(service.find).toBeCalledWith('ABC');
       expect(resultSpotifyConnection).toEqual(undefined);
       expect(mockRouter.navigate).toHaveBeenCalledWith(['404']);
     });

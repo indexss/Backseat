@@ -6,24 +6,24 @@
     <!--
         Added the constraints for entity Track.
     -->
-    <changeSet id="20240227172535-2" author="jhipster">
+    <changeSet id="20240301175058-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="track_id"
+        <addForeignKeyConstraint baseColumnNames="track_spotify_uri"
                                  baseTableName="rel_track__artist"
                                  constraintName="fk_rel_track__artist__track_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="track"/>
 
-        <addForeignKeyConstraint baseColumnNames="artist_id"
+        <addForeignKeyConstraint baseColumnNames="artist_spotify_uri"
                                  baseTableName="rel_track__artist"
                                  constraintName="fk_rel_track__artist__artist_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="artist"/>
 
-        <addForeignKeyConstraint baseColumnNames="track_id"
+        <addForeignKeyConstraint baseColumnNames="track_spotify_uri"
                                  baseTableName="rel_track__folder_entry"
                                  constraintName="fk_rel_track__folder_entry__track_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="track"/>
 
         <addForeignKeyConstraint baseColumnNames="folder_entry_id"
@@ -32,10 +32,10 @@
                                  referencedColumnNames="id"
                                  referencedTableName="folder_entry"/>
 
-        <addForeignKeyConstraint baseColumnNames="track_id"
+        <addForeignKeyConstraint baseColumnNames="track_spotify_uri"
                                  baseTableName="rel_track__want_to_listen_list_entry"
                                  constraintName="fk_rel_track__want_to_listen_list_entry__track_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="track"/>
 
         <addForeignKeyConstraint baseColumnNames="want_to_listen_list_entry_id"
@@ -44,10 +44,10 @@
                                  referencedColumnNames="id"
                                  referencedTableName="want_to_listen_list_entry"/>
 
-        <addForeignKeyConstraint baseColumnNames="album_id"
+        <addForeignKeyConstraint baseColumnNames="album_spotify_uri"
                                  baseTableName="track"
                                  constraintName="fk_track__album_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="album"/>
     </changeSet>
 </databaseChangeLog>

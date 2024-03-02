@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Review.
     -->
-    <changeSet id="20240227172537-2" author="jhipster">
+    <changeSet id="20240301175100-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="profile_id"
                                  baseTableName="review"
@@ -14,16 +14,16 @@
                                  referencedColumnNames="id"
                                  referencedTableName="profile"/>
 
-        <addForeignKeyConstraint baseColumnNames="track_id"
+        <addForeignKeyConstraint baseColumnNames="track_spotify_uri"
                                  baseTableName="review"
                                  constraintName="fk_review__track_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="track"/>
 
-        <addForeignKeyConstraint baseColumnNames="album_id"
+        <addForeignKeyConstraint baseColumnNames="album_spotify_uri"
                                  baseTableName="review"
                                  constraintName="fk_review__album_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="album"/>
     </changeSet>
 </databaseChangeLog>

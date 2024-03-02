@@ -8,31 +8,31 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A Artist.
  */
+@JsonIgnoreProperties(value = { "new" })
 @Entity
 @Table(name = "artist")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Artist implements Serializable {
+public class Artist implements Serializable, Persistable<String> {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
-
     @NotNull
+    @Id
     @Column(name = "spotify_uri", nullable = false)
     private String spotifyURI;
 
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Transient
+    private boolean isPersisted;
 
     @ManyToMany(mappedBy = "artists")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -45,19 +45,6 @@ public class Artist implements Serializable {
     private Set<Album> albums = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public Artist id(Long id) {
-        this.setId(id);
-        return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSpotifyURI() {
         return this.spotifyURI;
@@ -83,6 +70,28 @@ public class Artist implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String getId() {
+        return this.spotifyURI;
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public Artist setIsPersisted() {
+        this.isPersisted = true;
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
     }
 
     public Set<Track> getTracks() {
@@ -157,7 +166,7 @@ public class Artist implements Serializable {
         if (!(o instanceof Artist)) {
             return false;
         }
-        return id != null && id.equals(((Artist) o).id);
+        return spotifyURI != null && spotifyURI.equals(((Artist) o).spotifyURI);
     }
 
     @Override
@@ -170,8 +179,7 @@ public class Artist implements Serializable {
     @Override
     public String toString() {
         return "Artist{" +
-            "id=" + getId() +
-            ", spotifyURI='" + getSpotifyURI() + "'" +
+            "spotifyURI=" + getSpotifyURI() +
             ", name='" + getName() + "'" +
             "}";
     }

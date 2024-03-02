@@ -55,12 +55,12 @@ public interface TrackService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<TrackDTO> findOne(Long id);
+    Optional<TrackDTO> findOne(String id);
 
     /**
      * Delete the "id" track.
      *
      * @param id the id of the entity.
      */
-    void delete(Long id);
+    void delete(String id);
 }

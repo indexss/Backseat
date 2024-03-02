@@ -50,13 +50,13 @@ public class TrackRepositoryWithBagRelationshipsImpl implements TrackRepositoryW
 
     List<Track> fetchArtists(List<Track> tracks) {
         HashMap<Object, Integer> order = new HashMap<>();
-        IntStream.range(0, tracks.size()).forEach(index -> order.put(tracks.get(index).getId(), index));
+        IntStream.range(0, tracks.size()).forEach(index -> order.put(tracks.get(index).getSpotifyURI(), index));
         List<Track> result = entityManager
             .createQuery("select distinct track from Track track left join fetch track.artists where track in :tracks", Track.class)
             .setParameter("tracks", tracks)
             .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
             .getResultList();
-        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
+        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getSpotifyURI()), order.get(o2.getSpotifyURI())));
         return result;
     }
 
@@ -70,13 +70,13 @@ public class TrackRepositoryWithBagRelationshipsImpl implements TrackRepositoryW
 
     List<Track> fetchFolderEntries(List<Track> tracks) {
         HashMap<Object, Integer> order = new HashMap<>();
-        IntStream.range(0, tracks.size()).forEach(index -> order.put(tracks.get(index).getId(), index));
+        IntStream.range(0, tracks.size()).forEach(index -> order.put(tracks.get(index).getSpotifyURI(), index));
         List<Track> result = entityManager
             .createQuery("select distinct track from Track track left join fetch track.folderEntries where track in :tracks", Track.class)
             .setParameter("tracks", tracks)
             .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
             .getResultList();
-        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
+        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getSpotifyURI()), order.get(o2.getSpotifyURI())));
         return result;
     }
 
@@ -90,7 +90,7 @@ public class TrackRepositoryWithBagRelationshipsImpl implements TrackRepositoryW
 
     List<Track> fetchWantToListenListEntries(List<Track> tracks) {
         HashMap<Object, Integer> order = new HashMap<>();
-        IntStream.range(0, tracks.size()).forEach(index -> order.put(tracks.get(index).getId(), index));
+        IntStream.range(0, tracks.size()).forEach(index -> order.put(tracks.get(index).getSpotifyURI(), index));
         List<Track> result = entityManager
             .createQuery(
                 "select distinct track from Track track left join fetch track.wantToListenListEntries where track in :tracks",
@@ -99,7 +99,7 @@ public class TrackRepositoryWithBagRelationshipsImpl implements TrackRepositoryW
             .setParameter("tracks", tracks)
             .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
             .getResultList();
-        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
+        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getSpotifyURI()), order.get(o2.getSpotifyURI())));
         return result;
     }
 }

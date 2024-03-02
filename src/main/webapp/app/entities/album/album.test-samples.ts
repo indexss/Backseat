@@ -3,40 +3,37 @@ import dayjs from 'dayjs/esm';
 import { IAlbum, NewAlbum } from './album.model';
 
 export const sampleWithRequiredData: IAlbum = {
-  id: 51589,
-  spotifyURI: 'back-end',
-  name: 'Chips',
-  totalTracks: 81956,
-  releaseDate: dayjs('2024-02-27'),
-  rating: 26055,
+  spotifyURI: '84c2f12f-bd04-426e-a855-0d4397e29271',
+  name: 'niches Avon Designer',
+  totalTracks: 62684,
+  releaseDate: dayjs('2024-03-01'),
+  rating: 23409,
 };
 
 export const sampleWithPartialData: IAlbum = {
-  id: 43494,
-  spotifyURI: 'deliver value-added loyalty',
-  name: 'Corporate Shoes',
-  totalTracks: 77164,
-  releaseDate: dayjs('2024-02-27'),
-  rating: 38216,
+  spotifyURI: '97fcf301-2e1d-4423-9063-1fefb274650d',
+  name: 'mission-critical cutting-edge Sterling',
+  totalTracks: 6876,
+  description: 'synthesize payment Dinar',
+  releaseDate: dayjs('2024-03-01'),
+  rating: 8712,
 };
 
 export const sampleWithFullData: IAlbum = {
-  id: 71559,
-  spotifyURI: 'Frozen Home',
-  name: 'Account parse Music',
-  totalTracks: 87624,
-  description: 'compressing',
-  releaseDate: dayjs('2024-02-27'),
-  rating: 9622,
+  spotifyURI: 'bc6ad8f9-8fd5-485c-8894-bcefbd5cd594',
+  name: 'Wooden RAM primary',
+  totalTracks: 782,
+  description: 'Intelligent',
+  releaseDate: dayjs('2024-03-01'),
+  rating: 30563,
 };
 
 export const sampleWithNewData: NewAlbum = {
-  spotifyURI: 'enhance',
-  name: 'Chief turquoise action-items',
-  totalTracks: 81649,
-  releaseDate: dayjs('2024-02-26'),
-  rating: 34898,
-  id: null,
+  name: 'ivory',
+  totalTracks: 57301,
+  releaseDate: dayjs('2024-03-01'),
+  rating: 82581,
+  spotifyURI: null,
 };
 
 Object.freeze(sampleWithNewData);

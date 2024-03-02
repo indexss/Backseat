@@ -14,7 +14,7 @@ describe('SpotifyConnection Management Detail Component', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { data: of({ spotifyConnection: { id: 123 } }) },
+          useValue: { data: of({ spotifyConnection: { spotifyURI: 'ABC' } }) },
         },
       ],
     })
@@ -30,7 +30,7 @@ describe('SpotifyConnection Management Detail Component', () => {
       comp.ngOnInit();
 
       // THEN
-      expect(comp.spotifyConnection).toEqual(expect.objectContaining({ id: 123 }));
+      expect(comp.spotifyConnection).toEqual(expect.objectContaining({ spotifyURI: 'ABC' }));
     });
   });
 });

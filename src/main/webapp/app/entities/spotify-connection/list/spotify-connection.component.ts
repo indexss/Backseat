@@ -17,7 +17,7 @@ export class SpotifyConnectionComponent implements OnInit {
   spotifyConnections?: ISpotifyConnection[];
   isLoading = false;
 
-  predicate = 'id';
+  predicate = 'spotifyURI';
   ascending = true;
 
   constructor(
@@ -28,7 +28,8 @@ export class SpotifyConnectionComponent implements OnInit {
     protected modalService: NgbModal
   ) {}
 
-  trackId = (_index: number, item: ISpotifyConnection): number => this.spotifyConnectionService.getSpotifyConnectionIdentifier(item);
+  trackSpotifyURI = (_index: number, item: ISpotifyConnection): string =>
+    this.spotifyConnectionService.getSpotifyConnectionIdentifier(item);
 
   ngOnInit(): void {
     this.load();

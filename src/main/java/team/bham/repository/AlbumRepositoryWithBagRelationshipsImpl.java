@@ -50,13 +50,13 @@ public class AlbumRepositoryWithBagRelationshipsImpl implements AlbumRepositoryW
 
     List<Album> fetchArtists(List<Album> albums) {
         HashMap<Object, Integer> order = new HashMap<>();
-        IntStream.range(0, albums.size()).forEach(index -> order.put(albums.get(index).getId(), index));
+        IntStream.range(0, albums.size()).forEach(index -> order.put(albums.get(index).getSpotifyURI(), index));
         List<Album> result = entityManager
             .createQuery("select distinct album from Album album left join fetch album.artists where album in :albums", Album.class)
             .setParameter("albums", albums)
             .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
             .getResultList();
-        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
+        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getSpotifyURI()), order.get(o2.getSpotifyURI())));
         return result;
     }
 
@@ -70,13 +70,13 @@ public class AlbumRepositoryWithBagRelationshipsImpl implements AlbumRepositoryW
 
     List<Album> fetchFolderEntries(List<Album> albums) {
         HashMap<Object, Integer> order = new HashMap<>();
-        IntStream.range(0, albums.size()).forEach(index -> order.put(albums.get(index).getId(), index));
+        IntStream.range(0, albums.size()).forEach(index -> order.put(albums.get(index).getSpotifyURI(), index));
         List<Album> result = entityManager
             .createQuery("select distinct album from Album album left join fetch album.folderEntries where album in :albums", Album.class)
             .setParameter("albums", albums)
             .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
             .getResultList();
-        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
+        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getSpotifyURI()), order.get(o2.getSpotifyURI())));
         return result;
     }
 
@@ -90,7 +90,7 @@ public class AlbumRepositoryWithBagRelationshipsImpl implements AlbumRepositoryW
 
     List<Album> fetchWantToListenListEntries(List<Album> albums) {
         HashMap<Object, Integer> order = new HashMap<>();
-        IntStream.range(0, albums.size()).forEach(index -> order.put(albums.get(index).getId(), index));
+        IntStream.range(0, albums.size()).forEach(index -> order.put(albums.get(index).getSpotifyURI(), index));
         List<Album> result = entityManager
             .createQuery(
                 "select distinct album from Album album left join fetch album.wantToListenListEntries where album in :albums",
@@ -99,7 +99,7 @@ public class AlbumRepositoryWithBagRelationshipsImpl implements AlbumRepositoryW
             .setParameter("albums", albums)
             .setHint(QueryHints.PASS_DISTINCT_THROUGH, false)
             .getResultList();
-        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getId()), order.get(o2.getId())));
+        Collections.sort(result, (o1, o2) -> Integer.compare(order.get(o1.getSpotifyURI()), order.get(o2.getSpotifyURI())));
         return result;
     }
 }

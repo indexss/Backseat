@@ -57,54 +57,54 @@ public class SpotifyConnectionResource {
     public ResponseEntity<SpotifyConnectionDTO> createSpotifyConnection(@Valid @RequestBody SpotifyConnectionDTO spotifyConnectionDTO)
         throws URISyntaxException {
         log.debug("REST request to save SpotifyConnection : {}", spotifyConnectionDTO);
-        if (spotifyConnectionDTO.getId() != null) {
+        if (spotifyConnectionDTO.getSpotifyURI() != null) {
             throw new BadRequestAlertException("A new spotifyConnection cannot already have an ID", ENTITY_NAME, "idexists");
         }
         SpotifyConnectionDTO result = spotifyConnectionService.save(spotifyConnectionDTO);
         return ResponseEntity
-            .created(new URI("/api/spotify-connections/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .created(new URI("/api/spotify-connections/" + result.getSpotifyURI()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getSpotifyURI()))
             .body(result);
     }
 
     /**
-     * {@code PUT  /spotify-connections/:id} : Updates an existing spotifyConnection.
+     * {@code PUT  /spotify-connections/:spotifyURI} : Updates an existing spotifyConnection.
      *
-     * @param id the id of the spotifyConnectionDTO to save.
+     * @param spotifyURI the id of the spotifyConnectionDTO to save.
      * @param spotifyConnectionDTO the spotifyConnectionDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated spotifyConnectionDTO,
      * or with status {@code 400 (Bad Request)} if the spotifyConnectionDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the spotifyConnectionDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/spotify-connections/{id}")
+    @PutMapping("/spotify-connections/{spotifyURI}")
     public ResponseEntity<SpotifyConnectionDTO> updateSpotifyConnection(
-        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "spotifyURI", required = false) final String spotifyURI,
         @Valid @RequestBody SpotifyConnectionDTO spotifyConnectionDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update SpotifyConnection : {}, {}", id, spotifyConnectionDTO);
-        if (spotifyConnectionDTO.getId() == null) {
+        log.debug("REST request to update SpotifyConnection : {}, {}", spotifyURI, spotifyConnectionDTO);
+        if (spotifyConnectionDTO.getSpotifyURI() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, spotifyConnectionDTO.getId())) {
+        if (!Objects.equals(spotifyURI, spotifyConnectionDTO.getSpotifyURI())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        if (!spotifyConnectionRepository.existsById(id)) {
+        if (!spotifyConnectionRepository.existsById(spotifyURI)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         SpotifyConnectionDTO result = spotifyConnectionService.update(spotifyConnectionDTO);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, spotifyConnectionDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, spotifyConnectionDTO.getSpotifyURI()))
             .body(result);
     }
 
     /**
-     * {@code PATCH  /spotify-connections/:id} : Partial updates given fields of an existing spotifyConnection, field will ignore if it is null
+     * {@code PATCH  /spotify-connections/:spotifyURI} : Partial updates given fields of an existing spotifyConnection, field will ignore if it is null
      *
-     * @param id the id of the spotifyConnectionDTO to save.
+     * @param spotifyURI the id of the spotifyConnectionDTO to save.
      * @param spotifyConnectionDTO the spotifyConnectionDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated spotifyConnectionDTO,
      * or with status {@code 400 (Bad Request)} if the spotifyConnectionDTO is not valid,
@@ -112,20 +112,20 @@ public class SpotifyConnectionResource {
      * or with status {@code 500 (Internal Server Error)} if the spotifyConnectionDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/spotify-connections/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/spotify-connections/{spotifyURI}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<SpotifyConnectionDTO> partialUpdateSpotifyConnection(
-        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "spotifyURI", required = false) final String spotifyURI,
         @NotNull @RequestBody SpotifyConnectionDTO spotifyConnectionDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update SpotifyConnection partially : {}, {}", id, spotifyConnectionDTO);
-        if (spotifyConnectionDTO.getId() == null) {
+        log.debug("REST request to partial update SpotifyConnection partially : {}, {}", spotifyURI, spotifyConnectionDTO);
+        if (spotifyConnectionDTO.getSpotifyURI() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, spotifyConnectionDTO.getId())) {
+        if (!Objects.equals(spotifyURI, spotifyConnectionDTO.getSpotifyURI())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        if (!spotifyConnectionRepository.existsById(id)) {
+        if (!spotifyConnectionRepository.existsById(spotifyURI)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
@@ -133,7 +133,7 @@ public class SpotifyConnectionResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, spotifyConnectionDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, spotifyConnectionDTO.getSpotifyURI())
         );
     }
 
@@ -160,7 +160,7 @@ public class SpotifyConnectionResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the spotifyConnectionDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/spotify-connections/{id}")
-    public ResponseEntity<SpotifyConnectionDTO> getSpotifyConnection(@PathVariable Long id) {
+    public ResponseEntity<SpotifyConnectionDTO> getSpotifyConnection(@PathVariable String id) {
         log.debug("REST request to get SpotifyConnection : {}", id);
         Optional<SpotifyConnectionDTO> spotifyConnectionDTO = spotifyConnectionService.findOne(id);
         return ResponseUtil.wrapOrNotFound(spotifyConnectionDTO);
@@ -173,12 +173,9 @@ public class SpotifyConnectionResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/spotify-connections/{id}")
-    public ResponseEntity<Void> deleteSpotifyConnection(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSpotifyConnection(@PathVariable String id) {
         log.debug("REST request to delete SpotifyConnection : {}", id);
         spotifyConnectionService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
 }

@@ -12,7 +12,7 @@ export class TrackRoutingResolveService implements Resolve<ITrack | null> {
   constructor(protected service: TrackService, protected router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ITrack | null | never> {
-    const id = route.params['id'];
+    const id = route.params['spotifyURI'];
     if (id) {
       return this.service.find(id).pipe(
         mergeMap((track: HttpResponse<ITrack>) => {

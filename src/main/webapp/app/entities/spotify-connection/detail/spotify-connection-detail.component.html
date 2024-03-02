@@ -10,10 +10,6 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ spotifyConnection.id }}</span>
-        </dd>
         <dt><span>Spotify URI</span></dt>
         <dd>
           <span>{{ spotifyConnection.spotifyURI }}</span>
@@ -36,7 +32,7 @@
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
 
-      <button type="button" [routerLink]="['/spotify-connection', spotifyConnection.id, 'edit']" class="btn btn-primary">
+      <button type="button" [routerLink]="['/spotify-connection', spotifyConnection.spotifyURI, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
       </button>
     </div>

@@ -6,7 +6,7 @@ import { IAlbum, NewAlbum } from '../album.model';
 /**
  * A partial Type with required key is used as form input.
  */
-type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
+type PartialWithRequiredKeyOf<T extends { spotifyURI: unknown }> = Partial<Omit<T, 'spotifyURI'>> & { spotifyURI: T['spotifyURI'] };
 
 /**
  * Type for createFormGroup and resetForm argument.
@@ -14,11 +14,10 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type AlbumFormGroupInput = IAlbum | PartialWithRequiredKeyOf<NewAlbum>;
 
-type AlbumFormDefaults = Pick<NewAlbum, 'id' | 'artists' | 'folderEntries' | 'wantToListenListEntries'>;
+type AlbumFormDefaults = Pick<NewAlbum, 'spotifyURI' | 'artists' | 'folderEntries' | 'wantToListenListEntries'>;
 
 type AlbumFormGroupContent = {
-  id: FormControl<IAlbum['id'] | NewAlbum['id']>;
-  spotifyURI: FormControl<IAlbum['spotifyURI']>;
+  spotifyURI: FormControl<IAlbum['spotifyURI'] | NewAlbum['spotifyURI']>;
   name: FormControl<IAlbum['name']>;
   totalTracks: FormControl<IAlbum['totalTracks']>;
   description: FormControl<IAlbum['description']>;
@@ -33,22 +32,19 @@ export type AlbumFormGroup = FormGroup<AlbumFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class AlbumFormService {
-  createAlbumFormGroup(album: AlbumFormGroupInput = { id: null }): AlbumFormGroup {
+  createAlbumFormGroup(album: AlbumFormGroupInput = { spotifyURI: null }): AlbumFormGroup {
     const albumRawValue = {
       ...this.getFormDefaults(),
       ...album,
     };
     return new FormGroup<AlbumFormGroupContent>({
-      id: new FormControl(
-        { value: albumRawValue.id, disabled: true },
+      spotifyURI: new FormControl(
+        { value: albumRawValue.spotifyURI, disabled: albumRawValue.spotifyURI !== null },
         {
           nonNullable: true,
           validators: [Validators.required],
         }
       ),
-      spotifyURI: new FormControl(albumRawValue.spotifyURI, {
-        validators: [Validators.required],
-      }),
       name: new FormControl(albumRawValue.name, {
         validators: [Validators.required],
       }),
@@ -77,14 +73,14 @@ export class AlbumFormService {
     form.reset(
       {
         ...albumRawValue,
-        id: { value: albumRawValue.id, disabled: true },
+        spotifyURI: { value: albumRawValue.spotifyURI, disabled: albumRawValue.spotifyURI !== null },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }
 
   private getFormDefaults(): AlbumFormDefaults {
     return {
-      id: null,
+      spotifyURI: null,
       artists: [],
       folderEntries: [],
       wantToListenListEntries: [],

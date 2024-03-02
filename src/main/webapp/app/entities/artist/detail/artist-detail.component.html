@@ -10,10 +10,6 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ artist.id }}</span>
-        </dd>
         <dt><span>Spotify URI</span></dt>
         <dd>
           <span>{{ artist.spotifyURI }}</span>
@@ -28,7 +24,7 @@
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
 
-      <button type="button" [routerLink]="['/artist', artist.id, 'edit']" class="btn btn-primary">
+      <button type="button" [routerLink]="['/artist', artist.spotifyURI, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
       </button>
     </div>

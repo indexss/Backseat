@@ -14,7 +14,7 @@ describe('Album Management Detail Component', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { data: of({ album: { id: 123 } }) },
+          useValue: { data: of({ album: { spotifyURI: 'ABC' } }) },
         },
       ],
     })
@@ -30,7 +30,7 @@ describe('Album Management Detail Component', () => {
       comp.ngOnInit();
 
       // THEN
-      expect(comp.album).toEqual(expect.objectContaining({ id: 123 }));
+      expect(comp.album).toEqual(expect.objectContaining({ spotifyURI: 'ABC' }));
     });
   });
 });

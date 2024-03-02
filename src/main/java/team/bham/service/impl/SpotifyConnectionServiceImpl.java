@@ -48,6 +48,7 @@ public class SpotifyConnectionServiceImpl implements SpotifyConnectionService {
     public SpotifyConnectionDTO update(SpotifyConnectionDTO spotifyConnectionDTO) {
         log.debug("Request to update SpotifyConnection : {}", spotifyConnectionDTO);
         SpotifyConnection spotifyConnection = spotifyConnectionMapper.toEntity(spotifyConnectionDTO);
+        spotifyConnection.setIsPersisted();
         spotifyConnection = spotifyConnectionRepository.save(spotifyConnection);
         return spotifyConnectionMapper.toDto(spotifyConnection);
     }
@@ -57,7 +58,7 @@ public class SpotifyConnectionServiceImpl implements SpotifyConnectionService {
         log.debug("Request to partially update SpotifyConnection : {}", spotifyConnectionDTO);
 
         return spotifyConnectionRepository
-            .findById(spotifyConnectionDTO.getId())
+            .findById(spotifyConnectionDTO.getSpotifyURI())
             .map(existingSpotifyConnection -> {
                 spotifyConnectionMapper.partialUpdate(existingSpotifyConnection, spotifyConnectionDTO);
 
@@ -94,13 +95,13 @@ public class SpotifyConnectionServiceImpl implements SpotifyConnectionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<SpotifyConnectionDTO> findOne(Long id) {
+    public Optional<SpotifyConnectionDTO> findOne(String id) {
         log.debug("Request to get SpotifyConnection : {}", id);
         return spotifyConnectionRepository.findById(id).map(spotifyConnectionMapper::toDto);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         log.debug("Request to delete SpotifyConnection : {}", id);
         spotifyConnectionRepository.deleteById(id);
     }

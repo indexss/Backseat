@@ -8,8 +8,8 @@ export interface IFolderEntry {
   spotifyURI?: string | null;
   addTime?: dayjs.Dayjs | null;
   folder?: Pick<IFolder, 'id'> | null;
-  tracks?: Pick<ITrack, 'id' | 'spotifyURI'>[] | null;
-  albums?: Pick<IAlbum, 'id' | 'spotifyURI'>[] | null;
+  tracks?: Pick<ITrack, 'spotifyURI'>[] | null;
+  albums?: Pick<IAlbum, 'spotifyURI'>[] | null;
 }
 
 export type NewFolderEntry = Omit<IFolderEntry, 'id'> & { id: null };

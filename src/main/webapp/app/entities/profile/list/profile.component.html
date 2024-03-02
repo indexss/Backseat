@@ -62,7 +62,7 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="spotifyConnection.id">
+          <th scope="col" jhiSortBy="spotifyConnection.spotifyURI">
             <div class="d-flex">
               <span>Spotify Connection</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -93,7 +93,9 @@
           </td>
           <td>
             <div *ngIf="profile.spotifyConnection">
-              <a [routerLink]="['/spotify-connection', profile.spotifyConnection.id, 'view']">{{ profile.spotifyConnection.id }}</a>
+              <a [routerLink]="['/spotify-connection', profile.spotifyConnection.spotifyURI, 'view']">{{
+                profile.spotifyConnection.spotifyURI
+              }}</a>
             </div>
           </td>
           <td class="text-end">

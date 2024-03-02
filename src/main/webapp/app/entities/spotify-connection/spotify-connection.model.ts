@@ -1,11 +1,10 @@
 import dayjs from 'dayjs/esm';
 
 export interface ISpotifyConnection {
-  id: number;
-  spotifyURI?: string | null;
+  spotifyURI: string;
   refreshToken?: string | null;
   accessToken?: string | null;
   accessTokenExpiresAt?: dayjs.Dayjs | null;
 }
 
-export type NewSpotifyConnection = Omit<ISpotifyConnection, 'id'> & { id: null };
+export type NewSpotifyConnection = Omit<ISpotifyConnection, 'spotifyURI'> & { spotifyURI: null };

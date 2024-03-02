@@ -14,7 +14,7 @@ describe('Artist Management Detail Component', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { data: of({ artist: { id: 123 } }) },
+          useValue: { data: of({ artist: { spotifyURI: 'ABC' } }) },
         },
       ],
     })
@@ -30,7 +30,7 @@ describe('Artist Management Detail Component', () => {
       comp.ngOnInit();
 
       // THEN
-      expect(comp.artist).toEqual(expect.objectContaining({ id: 123 }));
+      expect(comp.artist).toEqual(expect.objectContaining({ spotifyURI: 'ABC' }));
     });
   });
 });

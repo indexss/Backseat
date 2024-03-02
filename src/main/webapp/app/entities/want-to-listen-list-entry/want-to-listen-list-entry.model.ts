@@ -7,8 +7,8 @@ export interface IWantToListenListEntry {
   spotifyURI?: string | null;
   userID?: string | null;
   addTime?: dayjs.Dayjs | null;
-  tracks?: Pick<ITrack, 'id' | 'spotifyURI'>[] | null;
-  albums?: Pick<IAlbum, 'id' | 'spotifyURI'>[] | null;
+  tracks?: Pick<ITrack, 'spotifyURI'>[] | null;
+  albums?: Pick<IAlbum, 'spotifyURI'>[] | null;
 }
 
 export type NewWantToListenListEntry = Omit<IWantToListenListEntry, 'id'> & { id: null };

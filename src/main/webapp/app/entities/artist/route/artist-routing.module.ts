@@ -13,12 +13,12 @@ const artistRoute: Routes = [
     path: '',
     component: ArtistComponent,
     data: {
-      defaultSort: 'id,' + ASC,
+      defaultSort: 'spotifyURI,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: ':spotifyURI/view',
     component: ArtistDetailComponent,
     resolve: {
       artist: ArtistRoutingResolveService,
@@ -34,7 +34,7 @@ const artistRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit',
+    path: ':spotifyURI/edit',
     component: ArtistUpdateComponent,
     resolve: {
       artist: ArtistRoutingResolveService,

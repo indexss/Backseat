@@ -51,12 +51,12 @@ public interface SpotifyConnectionService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<SpotifyConnectionDTO> findOne(Long id);
+    Optional<SpotifyConnectionDTO> findOne(String id);
 
     /**
      * Delete the "id" spotifyConnection.
      *
      * @param id the id of the entity.
      */
-    void delete(Long id);
+    void delete(String id);
 }

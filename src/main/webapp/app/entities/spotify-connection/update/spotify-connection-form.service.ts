@@ -8,7 +8,7 @@ import { ISpotifyConnection, NewSpotifyConnection } from '../spotify-connection.
 /**
  * A partial Type with required key is used as form input.
  */
-type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
+type PartialWithRequiredKeyOf<T extends { spotifyURI: unknown }> = Partial<Omit<T, 'spotifyURI'>> & { spotifyURI: T['spotifyURI'] };
 
 /**
  * Type for createFormGroup and resetForm argument.
@@ -27,11 +27,10 @@ type SpotifyConnectionFormRawValue = FormValueOf<ISpotifyConnection>;
 
 type NewSpotifyConnectionFormRawValue = FormValueOf<NewSpotifyConnection>;
 
-type SpotifyConnectionFormDefaults = Pick<NewSpotifyConnection, 'id' | 'accessTokenExpiresAt'>;
+type SpotifyConnectionFormDefaults = Pick<NewSpotifyConnection, 'spotifyURI' | 'accessTokenExpiresAt'>;
 
 type SpotifyConnectionFormGroupContent = {
-  id: FormControl<SpotifyConnectionFormRawValue['id'] | NewSpotifyConnection['id']>;
-  spotifyURI: FormControl<SpotifyConnectionFormRawValue['spotifyURI']>;
+  spotifyURI: FormControl<SpotifyConnectionFormRawValue['spotifyURI'] | NewSpotifyConnection['spotifyURI']>;
   refreshToken: FormControl<SpotifyConnectionFormRawValue['refreshToken']>;
   accessToken: FormControl<SpotifyConnectionFormRawValue['accessToken']>;
   accessTokenExpiresAt: FormControl<SpotifyConnectionFormRawValue['accessTokenExpiresAt']>;
@@ -41,22 +40,19 @@ export type SpotifyConnectionFormGroup = FormGroup<SpotifyConnectionFormGroupCon
 
 @Injectable({ providedIn: 'root' })
 export class SpotifyConnectionFormService {
-  createSpotifyConnectionFormGroup(spotifyConnection: SpotifyConnectionFormGroupInput = { id: null }): SpotifyConnectionFormGroup {
+  createSpotifyConnectionFormGroup(spotifyConnection: SpotifyConnectionFormGroupInput = { spotifyURI: null }): SpotifyConnectionFormGroup {
     const spotifyConnectionRawValue = this.convertSpotifyConnectionToSpotifyConnectionRawValue({
       ...this.getFormDefaults(),
       ...spotifyConnection,
     });
     return new FormGroup<SpotifyConnectionFormGroupContent>({
-      id: new FormControl(
-        { value: spotifyConnectionRawValue.id, disabled: true },
+      spotifyURI: new FormControl(
+        { value: spotifyConnectionRawValue.spotifyURI, disabled: spotifyConnectionRawValue.spotifyURI !== null },
         {
           nonNullable: true,
           validators: [Validators.required],
         }
       ),
-      spotifyURI: new FormControl(spotifyConnectionRawValue.spotifyURI, {
-        validators: [Validators.required],
-      }),
       refreshToken: new FormControl(spotifyConnectionRawValue.refreshToken, {
         validators: [Validators.required],
       }),
@@ -83,7 +79,7 @@ export class SpotifyConnectionFormService {
     form.reset(
       {
         ...spotifyConnectionRawValue,
-        id: { value: spotifyConnectionRawValue.id, disabled: true },
+        spotifyURI: { value: spotifyConnectionRawValue.spotifyURI, disabled: spotifyConnectionRawValue.spotifyURI !== null },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }
@@ -92,7 +88,7 @@ export class SpotifyConnectionFormService {
     const currentTime = dayjs();
 
     return {
-      id: null,
+      spotifyURI: null,
       accessTokenExpiresAt: currentTime,
     };
   }

@@ -13,12 +13,12 @@ const trackRoute: Routes = [
     path: '',
     component: TrackComponent,
     data: {
-      defaultSort: 'id,' + ASC,
+      defaultSort: 'spotifyURI,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: ':spotifyURI/view',
     component: TrackDetailComponent,
     resolve: {
       track: TrackRoutingResolveService,
@@ -34,7 +34,7 @@ const trackRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit',
+    path: ':spotifyURI/edit',
     component: TrackUpdateComponent,
     resolve: {
       track: TrackRoutingResolveService,

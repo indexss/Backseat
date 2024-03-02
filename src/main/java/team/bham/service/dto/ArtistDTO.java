@@ -10,21 +10,11 @@ import javax.validation.constraints.*;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class ArtistDTO implements Serializable {
 
-    private Long id;
-
     @NotNull
     private String spotifyURI;
 
     @NotNull
     private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSpotifyURI() {
         return spotifyURI;
@@ -52,23 +42,22 @@ public class ArtistDTO implements Serializable {
         }
 
         ArtistDTO artistDTO = (ArtistDTO) o;
-        if (this.id == null) {
+        if (this.spotifyURI == null) {
             return false;
         }
-        return Objects.equals(this.id, artistDTO.id);
+        return Objects.equals(this.spotifyURI, artistDTO.spotifyURI);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id);
+        return Objects.hash(this.spotifyURI);
     }
 
     // prettier-ignore
     @Override
     public String toString() {
         return "ArtistDTO{" +
-            "id=" + getId() +
-            ", spotifyURI='" + getSpotifyURI() + "'" +
+            "spotifyURI='" + getSpotifyURI() + "'" +
             ", name='" + getName() + "'" +
             "}";
     }

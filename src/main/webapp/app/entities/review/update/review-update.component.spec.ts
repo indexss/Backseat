@@ -81,10 +81,10 @@ describe('Review Management Update Component', () => {
 
     it('Should call Track query and add missing value', () => {
       const review: IReview = { id: 456 };
-      const track: ITrack = { id: 33022 };
+      const track: ITrack = { spotifyURI: '535dbf55-eb4b-4191-ae63-c2aa8330d25f' };
       review.track = track;
 
-      const trackCollection: ITrack[] = [{ id: 24505 }];
+      const trackCollection: ITrack[] = [{ spotifyURI: '13a49e67-8df2-4b7d-aeb5-26be091bb25a' }];
       jest.spyOn(trackService, 'query').mockReturnValue(of(new HttpResponse({ body: trackCollection })));
       const additionalTracks = [track];
       const expectedCollection: ITrack[] = [...additionalTracks, ...trackCollection];
@@ -103,10 +103,10 @@ describe('Review Management Update Component', () => {
 
     it('Should call Album query and add missing value', () => {
       const review: IReview = { id: 456 };
-      const album: IAlbum = { id: 4872 };
+      const album: IAlbum = { spotifyURI: '0407cf40-b23b-45c8-9446-e60936f061d8' };
       review.album = album;
 
-      const albumCollection: IAlbum[] = [{ id: 28602 }];
+      const albumCollection: IAlbum[] = [{ spotifyURI: '85c9d073-9c26-45dd-9e5b-815f26bc3224' }];
       jest.spyOn(albumService, 'query').mockReturnValue(of(new HttpResponse({ body: albumCollection })));
       const additionalAlbums = [album];
       const expectedCollection: IAlbum[] = [...additionalAlbums, ...albumCollection];
@@ -127,9 +127,9 @@ describe('Review Management Update Component', () => {
       const review: IReview = { id: 456 };
       const profile: IProfile = { id: 72645 };
       review.profile = profile;
-      const track: ITrack = { id: 32597 };
+      const track: ITrack = { spotifyURI: '316051ff-ea4d-448b-97e3-3161a2ddfb06' };
       review.track = track;
-      const album: IAlbum = { id: 3780 };
+      const album: IAlbum = { spotifyURI: 'cecab264-774b-46c8-a148-8b988fac2440' };
       review.album = album;
 
       activatedRoute.data = of({ review });
@@ -223,8 +223,8 @@ describe('Review Management Update Component', () => {
 
     describe('compareTrack', () => {
       it('Should forward to trackService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+        const entity = { spotifyURI: 'ABC' };
+        const entity2 = { spotifyURI: 'CBA' };
         jest.spyOn(trackService, 'compareTrack');
         comp.compareTrack(entity, entity2);
         expect(trackService.compareTrack).toHaveBeenCalledWith(entity, entity2);
@@ -233,8 +233,8 @@ describe('Review Management Update Component', () => {
 
     describe('compareAlbum', () => {
       it('Should forward to albumService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+        const entity = { spotifyURI: 'ABC' };
+        const entity2 = { spotifyURI: 'CBA' };
         jest.spyOn(albumService, 'compareAlbum');
         comp.compareAlbum(entity, entity2);
         expect(albumService.compareAlbum).toHaveBeenCalledWith(entity, entity2);

@@ -62,11 +62,11 @@ describe('Track Management Update Component', () => {
 
   describe('ngOnInit', () => {
     it('Should call Artist query and add missing value', () => {
-      const track: ITrack = { id: 456 };
-      const artists: IArtist[] = [{ id: 30428 }];
+      const track: ITrack = { spotifyURI: 'CBA' };
+      const artists: IArtist[] = [{ spotifyURI: '4c8724de-ebb8-488f-809a-64a89830455e' }];
       track.artists = artists;
 
-      const artistCollection: IArtist[] = [{ id: 76435 }];
+      const artistCollection: IArtist[] = [{ spotifyURI: 'bdaed844-fabb-404b-9198-e06074872b1c' }];
       jest.spyOn(artistService, 'query').mockReturnValue(of(new HttpResponse({ body: artistCollection })));
       const additionalArtists = [...artists];
       const expectedCollection: IArtist[] = [...additionalArtists, ...artistCollection];
@@ -84,7 +84,7 @@ describe('Track Management Update Component', () => {
     });
 
     it('Should call FolderEntry query and add missing value', () => {
-      const track: ITrack = { id: 456 };
+      const track: ITrack = { spotifyURI: 'CBA' };
       const folderEntries: IFolderEntry[] = [{ id: 66426 }];
       track.folderEntries = folderEntries;
 
@@ -106,7 +106,7 @@ describe('Track Management Update Component', () => {
     });
 
     it('Should call WantToListenListEntry query and add missing value', () => {
-      const track: ITrack = { id: 456 };
+      const track: ITrack = { spotifyURI: 'CBA' };
       const wantToListenListEntries: IWantToListenListEntry[] = [{ id: 91812 }];
       track.wantToListenListEntries = wantToListenListEntries;
 
@@ -128,11 +128,11 @@ describe('Track Management Update Component', () => {
     });
 
     it('Should call Album query and add missing value', () => {
-      const track: ITrack = { id: 456 };
-      const album: IAlbum = { id: 73103 };
+      const track: ITrack = { spotifyURI: 'CBA' };
+      const album: IAlbum = { spotifyURI: 'be425d3d-77ee-4db8-bef1-cea35adb4173' };
       track.album = album;
 
-      const albumCollection: IAlbum[] = [{ id: 87588 }];
+      const albumCollection: IAlbum[] = [{ spotifyURI: 'c4da6d2f-9b96-44bf-85b9-64ab2d76d67f' }];
       jest.spyOn(albumService, 'query').mockReturnValue(of(new HttpResponse({ body: albumCollection })));
       const additionalAlbums = [album];
       const expectedCollection: IAlbum[] = [...additionalAlbums, ...albumCollection];
@@ -150,14 +150,14 @@ describe('Track Management Update Component', () => {
     });
 
     it('Should update editForm', () => {
-      const track: ITrack = { id: 456 };
-      const artist: IArtist = { id: 50702 };
+      const track: ITrack = { spotifyURI: 'CBA' };
+      const artist: IArtist = { spotifyURI: '806e0188-9392-4938-a936-92b2d0fdd27f' };
       track.artists = [artist];
       const folderEntry: IFolderEntry = { id: 45935 };
       track.folderEntries = [folderEntry];
       const wantToListenListEntry: IWantToListenListEntry = { id: 84478 };
       track.wantToListenListEntries = [wantToListenListEntry];
-      const album: IAlbum = { id: 26665 };
+      const album: IAlbum = { spotifyURI: '8adff9f4-8f47-478f-a3f3-01564ba6ae50' };
       track.album = album;
 
       activatedRoute.data = of({ track });
@@ -175,7 +175,7 @@ describe('Track Management Update Component', () => {
     it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ITrack>>();
-      const track = { id: 123 };
+      const track = { spotifyURI: 'ABC' };
       jest.spyOn(trackFormService, 'getTrack').mockReturnValue(track);
       jest.spyOn(trackService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -198,8 +198,8 @@ describe('Track Management Update Component', () => {
     it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ITrack>>();
-      const track = { id: 123 };
-      jest.spyOn(trackFormService, 'getTrack').mockReturnValue({ id: null });
+      const track = { spotifyURI: 'ABC' };
+      jest.spyOn(trackFormService, 'getTrack').mockReturnValue({ spotifyURI: null });
       jest.spyOn(trackService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ track: null });
@@ -221,7 +221,7 @@ describe('Track Management Update Component', () => {
     it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ITrack>>();
-      const track = { id: 123 };
+      const track = { spotifyURI: 'ABC' };
       jest.spyOn(trackService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ track });
@@ -242,8 +242,8 @@ describe('Track Management Update Component', () => {
   describe('Compare relationships', () => {
     describe('compareArtist', () => {
       it('Should forward to artistService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+        const entity = { spotifyURI: 'ABC' };
+        const entity2 = { spotifyURI: 'CBA' };
         jest.spyOn(artistService, 'compareArtist');
         comp.compareArtist(entity, entity2);
         expect(artistService.compareArtist).toHaveBeenCalledWith(entity, entity2);
@@ -272,8 +272,8 @@ describe('Track Management Update Component', () => {
 
     describe('compareAlbum', () => {
       it('Should forward to albumService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+        const entity = { spotifyURI: 'ABC' };
+        const entity2 = { spotifyURI: 'CBA' };
         jest.spyOn(albumService, 'compareAlbum');
         comp.compareAlbum(entity, entity2);
         expect(albumService.compareAlbum).toHaveBeenCalledWith(entity, entity2);

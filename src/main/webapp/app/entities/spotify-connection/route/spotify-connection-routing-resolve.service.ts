@@ -12,7 +12,7 @@ export class SpotifyConnectionRoutingResolveService implements Resolve<ISpotifyC
   constructor(protected service: SpotifyConnectionService, protected router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ISpotifyConnection | null | never> {
-    const id = route.params['id'];
+    const id = route.params['spotifyURI'];
     if (id) {
       return this.service.find(id).pipe(
         mergeMap((spotifyConnection: HttpResponse<ISpotifyConnection>) => {

@@ -10,10 +10,6 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ album.id }}</span>
-        </dd>
         <dt><span>Spotify URI</span></dt>
         <dd>
           <span>{{ album.spotifyURI }}</span>
@@ -41,7 +37,7 @@
         <dt><span>Artist</span></dt>
         <dd>
           <span *ngFor="let artist of album.artists; let last = last">
-            <a [routerLink]="['/artist', artist.id, 'view']">{{ artist.id }}</a
+            <a [routerLink]="['/artist', artist.spotifyURI, 'view']">{{ artist.spotifyURI }}</a
             >{{ last ? '' : ', ' }}
           </span>
         </dd>
@@ -65,7 +61,7 @@
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
 
-      <button type="button" [routerLink]="['/album', album.id, 'edit']" class="btn btn-primary">
+      <button type="button" [routerLink]="['/album', album.spotifyURI, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
       </button>
     </div>

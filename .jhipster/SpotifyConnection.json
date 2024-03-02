@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20240227172543",
+  "changelogDate": "20240301175106",
   "dto": "mapstruct",
   "embedded": false,
   "entityTableName": "spotify_connection",
@@ -8,7 +8,10 @@
     {
       "fieldName": "spotifyURI",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required"],
+      "options": {
+        "id": true
+      }
     },
     {
       "fieldName": "refreshToken",

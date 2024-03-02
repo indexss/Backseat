@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.UUID;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,9 +42,6 @@ import team.bham.service.mapper.AlbumMapper;
 @WithMockUser
 class AlbumResourceIT {
 
-    private static final String DEFAULT_SPOTIFY_URI = "AAAAAAAAAA";
-    private static final String UPDATED_SPOTIFY_URI = "BBBBBBBBBB";
-
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -62,10 +58,7 @@ class AlbumResourceIT {
     private static final Double UPDATED_RATING = 2D;
 
     private static final String ENTITY_API_URL = "/api/albums";
-    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
-
-    private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{spotifyURI}";
 
     @Autowired
     private AlbumRepository albumRepository;
@@ -95,7 +88,6 @@ class AlbumResourceIT {
      */
     public static Album createEntity(EntityManager em) {
         Album album = new Album()
-            .spotifyURI(DEFAULT_SPOTIFY_URI)
             .name(DEFAULT_NAME)
             .totalTracks(DEFAULT_TOTAL_TRACKS)
             .description(DEFAULT_DESCRIPTION)
@@ -112,7 +104,6 @@ class AlbumResourceIT {
      */
     public static Album createUpdatedEntity(EntityManager em) {
         Album album = new Album()
-            .spotifyURI(UPDATED_SPOTIFY_URI)
             .name(UPDATED_NAME)
             .totalTracks(UPDATED_TOTAL_TRACKS)
             .description(UPDATED_DESCRIPTION)
@@ -140,7 +131,6 @@ class AlbumResourceIT {
         List<Album> albumList = albumRepository.findAll();
         assertThat(albumList).hasSize(databaseSizeBeforeCreate + 1);
         Album testAlbum = albumList.get(albumList.size() - 1);
-        assertThat(testAlbum.getSpotifyURI()).isEqualTo(DEFAULT_SPOTIFY_URI);
         assertThat(testAlbum.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testAlbum.getTotalTracks()).isEqualTo(DEFAULT_TOTAL_TRACKS);
         assertThat(testAlbum.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
@@ -152,7 +142,7 @@ class AlbumResourceIT {
     @Transactional
     void createAlbumWithExistingId() throws Exception {
         // Create the Album with an existing ID
-        album.setId(1L);
+        album.setSpotifyURI("existing_id");
         AlbumDTO albumDTO = albumMapper.toDto(album);
 
         int databaseSizeBeforeCreate = albumRepository.findAll().size();
@@ -165,24 +155,6 @@ class AlbumResourceIT {
         // Validate the Album in the database
         List<Album> albumList = albumRepository.findAll();
         assertThat(albumList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkSpotifyURIIsRequired() throws Exception {
-        int databaseSizeBeforeTest = albumRepository.findAll().size();
-        // set the field null
-        album.setSpotifyURI(null);
-
-        // Create the Album, which fails.
-        AlbumDTO albumDTO = albumMapper.toDto(album);
-
-        restAlbumMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(albumDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Album> albumList = albumRepository.findAll();
-        assertThat(albumList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -261,15 +233,15 @@ class AlbumResourceIT {
     @Transactional
     void getAllAlbums() throws Exception {
         // Initialize the database
+        album.setSpotifyURI(UUID.randomUUID().toString());
         albumRepository.saveAndFlush(album);
 
         // Get all the albumList
         restAlbumMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
+            .perform(get(ENTITY_API_URL + "?sort=spotifyURI,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(album.getId().intValue())))
-            .andExpect(jsonPath("$.[*].spotifyURI").value(hasItem(DEFAULT_SPOTIFY_URI)))
+            .andExpect(jsonPath("$.[*].spotifyURI").value(hasItem(album.getSpotifyURI())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].totalTracks").value(hasItem(DEFAULT_TOTAL_TRACKS)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
@@ -298,15 +270,15 @@ class AlbumResourceIT {
     @Transactional
     void getAlbum() throws Exception {
         // Initialize the database
+        album.setSpotifyURI(UUID.randomUUID().toString());
         albumRepository.saveAndFlush(album);
 
         // Get the album
         restAlbumMockMvc
-            .perform(get(ENTITY_API_URL_ID, album.getId()))
+            .perform(get(ENTITY_API_URL_ID, album.getSpotifyURI()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(album.getId().intValue()))
-            .andExpect(jsonPath("$.spotifyURI").value(DEFAULT_SPOTIFY_URI))
+            .andExpect(jsonPath("$.spotifyURI").value(album.getSpotifyURI()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.totalTracks").value(DEFAULT_TOTAL_TRACKS))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
@@ -325,16 +297,16 @@ class AlbumResourceIT {
     @Transactional
     void putExistingAlbum() throws Exception {
         // Initialize the database
+        album.setSpotifyURI(UUID.randomUUID().toString());
         albumRepository.saveAndFlush(album);
 
         int databaseSizeBeforeUpdate = albumRepository.findAll().size();
 
         // Update the album
-        Album updatedAlbum = albumRepository.findById(album.getId()).get();
+        Album updatedAlbum = albumRepository.findById(album.getSpotifyURI()).get();
         // Disconnect from session so that the updates on updatedAlbum are not directly saved in db
         em.detach(updatedAlbum);
         updatedAlbum
-            .spotifyURI(UPDATED_SPOTIFY_URI)
             .name(UPDATED_NAME)
             .totalTracks(UPDATED_TOTAL_TRACKS)
             .description(UPDATED_DESCRIPTION)
@@ -344,7 +316,7 @@ class AlbumResourceIT {
 
         restAlbumMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, albumDTO.getId())
+                put(ENTITY_API_URL_ID, albumDTO.getSpotifyURI())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(albumDTO))
             )
@@ -354,7 +326,6 @@ class AlbumResourceIT {
         List<Album> albumList = albumRepository.findAll();
         assertThat(albumList).hasSize(databaseSizeBeforeUpdate);
         Album testAlbum = albumList.get(albumList.size() - 1);
-        assertThat(testAlbum.getSpotifyURI()).isEqualTo(UPDATED_SPOTIFY_URI);
         assertThat(testAlbum.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testAlbum.getTotalTracks()).isEqualTo(UPDATED_TOTAL_TRACKS);
         assertThat(testAlbum.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
@@ -366,7 +337,7 @@ class AlbumResourceIT {
     @Transactional
     void putNonExistingAlbum() throws Exception {
         int databaseSizeBeforeUpdate = albumRepository.findAll().size();
-        album.setId(count.incrementAndGet());
+        album.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Album
         AlbumDTO albumDTO = albumMapper.toDto(album);
@@ -374,7 +345,7 @@ class AlbumResourceIT {
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAlbumMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, albumDTO.getId())
+                put(ENTITY_API_URL_ID, albumDTO.getSpotifyURI())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(albumDTO))
             )
@@ -389,7 +360,7 @@ class AlbumResourceIT {
     @Transactional
     void putWithIdMismatchAlbum() throws Exception {
         int databaseSizeBeforeUpdate = albumRepository.findAll().size();
-        album.setId(count.incrementAndGet());
+        album.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Album
         AlbumDTO albumDTO = albumMapper.toDto(album);
@@ -397,7 +368,7 @@ class AlbumResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAlbumMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(albumDTO))
             )
@@ -412,7 +383,7 @@ class AlbumResourceIT {
     @Transactional
     void putWithMissingIdPathParamAlbum() throws Exception {
         int databaseSizeBeforeUpdate = albumRepository.findAll().size();
-        album.setId(count.incrementAndGet());
+        album.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Album
         AlbumDTO albumDTO = albumMapper.toDto(album);
@@ -431,19 +402,20 @@ class AlbumResourceIT {
     @Transactional
     void partialUpdateAlbumWithPatch() throws Exception {
         // Initialize the database
+        album.setSpotifyURI(UUID.randomUUID().toString());
         albumRepository.saveAndFlush(album);
 
         int databaseSizeBeforeUpdate = albumRepository.findAll().size();
 
         // Update the album using partial update
         Album partialUpdatedAlbum = new Album();
-        partialUpdatedAlbum.setId(album.getId());
+        partialUpdatedAlbum.setSpotifyURI(album.getSpotifyURI());
 
-        partialUpdatedAlbum.name(UPDATED_NAME).totalTracks(UPDATED_TOTAL_TRACKS).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
+        partialUpdatedAlbum.totalTracks(UPDATED_TOTAL_TRACKS).description(UPDATED_DESCRIPTION).rating(UPDATED_RATING);
 
         restAlbumMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedAlbum.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedAlbum.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedAlbum))
             )
@@ -453,11 +425,10 @@ class AlbumResourceIT {
         List<Album> albumList = albumRepository.findAll();
         assertThat(albumList).hasSize(databaseSizeBeforeUpdate);
         Album testAlbum = albumList.get(albumList.size() - 1);
-        assertThat(testAlbum.getSpotifyURI()).isEqualTo(DEFAULT_SPOTIFY_URI);
-        assertThat(testAlbum.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testAlbum.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testAlbum.getTotalTracks()).isEqualTo(UPDATED_TOTAL_TRACKS);
-        assertThat(testAlbum.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testAlbum.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
+        assertThat(testAlbum.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testAlbum.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
         assertThat(testAlbum.getRating()).isEqualTo(UPDATED_RATING);
     }
 
@@ -465,16 +436,16 @@ class AlbumResourceIT {
     @Transactional
     void fullUpdateAlbumWithPatch() throws Exception {
         // Initialize the database
+        album.setSpotifyURI(UUID.randomUUID().toString());
         albumRepository.saveAndFlush(album);
 
         int databaseSizeBeforeUpdate = albumRepository.findAll().size();
 
         // Update the album using partial update
         Album partialUpdatedAlbum = new Album();
-        partialUpdatedAlbum.setId(album.getId());
+        partialUpdatedAlbum.setSpotifyURI(album.getSpotifyURI());
 
         partialUpdatedAlbum
-            .spotifyURI(UPDATED_SPOTIFY_URI)
             .name(UPDATED_NAME)
             .totalTracks(UPDATED_TOTAL_TRACKS)
             .description(UPDATED_DESCRIPTION)
@@ -483,7 +454,7 @@ class AlbumResourceIT {
 
         restAlbumMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedAlbum.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedAlbum.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedAlbum))
             )
@@ -493,7 +464,6 @@ class AlbumResourceIT {
         List<Album> albumList = albumRepository.findAll();
         assertThat(albumList).hasSize(databaseSizeBeforeUpdate);
         Album testAlbum = albumList.get(albumList.size() - 1);
-        assertThat(testAlbum.getSpotifyURI()).isEqualTo(UPDATED_SPOTIFY_URI);
         assertThat(testAlbum.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testAlbum.getTotalTracks()).isEqualTo(UPDATED_TOTAL_TRACKS);
         assertThat(testAlbum.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
@@ -505,7 +475,7 @@ class AlbumResourceIT {
     @Transactional
     void patchNonExistingAlbum() throws Exception {
         int databaseSizeBeforeUpdate = albumRepository.findAll().size();
-        album.setId(count.incrementAndGet());
+        album.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Album
         AlbumDTO albumDTO = albumMapper.toDto(album);
@@ -513,7 +483,7 @@ class AlbumResourceIT {
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAlbumMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, albumDTO.getId())
+                patch(ENTITY_API_URL_ID, albumDTO.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(albumDTO))
             )
@@ -528,7 +498,7 @@ class AlbumResourceIT {
     @Transactional
     void patchWithIdMismatchAlbum() throws Exception {
         int databaseSizeBeforeUpdate = albumRepository.findAll().size();
-        album.setId(count.incrementAndGet());
+        album.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Album
         AlbumDTO albumDTO = albumMapper.toDto(album);
@@ -536,7 +506,7 @@ class AlbumResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restAlbumMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(albumDTO))
             )
@@ -551,7 +521,7 @@ class AlbumResourceIT {
     @Transactional
     void patchWithMissingIdPathParamAlbum() throws Exception {
         int databaseSizeBeforeUpdate = albumRepository.findAll().size();
-        album.setId(count.incrementAndGet());
+        album.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Album
         AlbumDTO albumDTO = albumMapper.toDto(album);
@@ -570,13 +540,14 @@ class AlbumResourceIT {
     @Transactional
     void deleteAlbum() throws Exception {
         // Initialize the database
+        album.setSpotifyURI(UUID.randomUUID().toString());
         albumRepository.saveAndFlush(album);
 
         int databaseSizeBeforeDelete = albumRepository.findAll().size();
 
         // Delete the album
         restAlbumMockMvc
-            .perform(delete(ENTITY_API_URL_ID, album.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, album.getSpotifyURI()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

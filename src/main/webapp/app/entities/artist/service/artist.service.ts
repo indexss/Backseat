@@ -7,7 +7,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { IArtist, NewArtist } from '../artist.model';
 
-export type PartialUpdateArtist = Partial<IArtist> & Pick<IArtist, 'id'>;
+export type PartialUpdateArtist = Partial<IArtist> & Pick<IArtist, 'spotifyURI'>;
 
 export type EntityResponseType = HttpResponse<IArtist>;
 export type EntityArrayResponseType = HttpResponse<IArtist[]>;
@@ -30,7 +30,7 @@ export class ArtistService {
     return this.http.patch<IArtist>(`${this.resourceUrl}/${this.getArtistIdentifier(artist)}`, artist, { observe: 'response' });
   }
 
-  find(id: number): Observable<EntityResponseType> {
+  find(id: string): Observable<EntityResponseType> {
     return this.http.get<IArtist>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
@@ -39,19 +39,19 @@ export class ArtistService {
     return this.http.get<IArtist[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
+  delete(id: string): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  getArtistIdentifier(artist: Pick<IArtist, 'id'>): number {
-    return artist.id;
+  getArtistIdentifier(artist: Pick<IArtist, 'spotifyURI'>): string {
+    return artist.spotifyURI;
   }
 
-  compareArtist(o1: Pick<IArtist, 'id'> | null, o2: Pick<IArtist, 'id'> | null): boolean {
+  compareArtist(o1: Pick<IArtist, 'spotifyURI'> | null, o2: Pick<IArtist, 'spotifyURI'> | null): boolean {
     return o1 && o2 ? this.getArtistIdentifier(o1) === this.getArtistIdentifier(o2) : o1 === o2;
   }
 
-  addArtistToCollectionIfMissing<Type extends Pick<IArtist, 'id'>>(
+  addArtistToCollectionIfMissing<Type extends Pick<IArtist, 'spotifyURI'>>(
     artistCollection: Type[],
     ...artistsToCheck: (Type | null | undefined)[]
   ): Type[] {

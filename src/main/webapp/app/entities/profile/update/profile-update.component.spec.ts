@@ -78,10 +78,10 @@ describe('Profile Management Update Component', () => {
 
     it('Should call spotifyConnection query and add missing value', () => {
       const profile: IProfile = { id: 456 };
-      const spotifyConnection: ISpotifyConnection = { id: 5694 };
+      const spotifyConnection: ISpotifyConnection = { spotifyURI: '08f36a46-aecf-485e-bf8a-4c5fbf2e058d' };
       profile.spotifyConnection = spotifyConnection;
 
-      const spotifyConnectionCollection: ISpotifyConnection[] = [{ id: 55052 }];
+      const spotifyConnectionCollection: ISpotifyConnection[] = [{ spotifyURI: 'db2aa4c9-40e1-4fab-b866-2f2237fb1fe6' }];
       jest.spyOn(spotifyConnectionService, 'query').mockReturnValue(of(new HttpResponse({ body: spotifyConnectionCollection })));
       const expectedCollection: ISpotifyConnection[] = [spotifyConnection, ...spotifyConnectionCollection];
       jest.spyOn(spotifyConnectionService, 'addSpotifyConnectionToCollectionIfMissing').mockReturnValue(expectedCollection);
@@ -101,7 +101,7 @@ describe('Profile Management Update Component', () => {
       const profile: IProfile = { id: 456 };
       const user: IUser = { id: 63630 };
       profile.user = user;
-      const spotifyConnection: ISpotifyConnection = { id: 97005 };
+      const spotifyConnection: ISpotifyConnection = { spotifyURI: '98d5da80-3422-4e78-b9f9-256220bdd380' };
       profile.spotifyConnection = spotifyConnection;
 
       activatedRoute.data = of({ profile });
@@ -194,8 +194,8 @@ describe('Profile Management Update Component', () => {
 
     describe('compareSpotifyConnection', () => {
       it('Should forward to spotifyConnectionService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+        const entity = { spotifyURI: 'ABC' };
+        const entity2 = { spotifyURI: 'CBA' };
         jest.spyOn(spotifyConnectionService, 'compareSpotifyConnection');
         comp.compareSpotifyConnection(entity, entity2);
         expect(spotifyConnectionService.compareSpotifyConnection).toHaveBeenCalledWith(entity, entity2);

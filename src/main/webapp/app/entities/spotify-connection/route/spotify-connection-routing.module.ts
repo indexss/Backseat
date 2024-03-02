@@ -13,12 +13,12 @@ const spotifyConnectionRoute: Routes = [
     path: '',
     component: SpotifyConnectionComponent,
     data: {
-      defaultSort: 'id,' + ASC,
+      defaultSort: 'spotifyURI,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: ':spotifyURI/view',
     component: SpotifyConnectionDetailComponent,
     resolve: {
       spotifyConnection: SpotifyConnectionRoutingResolveService,
@@ -34,7 +34,7 @@ const spotifyConnectionRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/edit',
+    path: ':spotifyURI/edit',
     component: SpotifyConnectionUpdateComponent,
     resolve: {
       spotifyConnection: SpotifyConnectionRoutingResolveService,

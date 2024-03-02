@@ -10,7 +10,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { IAlbum, NewAlbum } from '../album.model';
 
-export type PartialUpdateAlbum = Partial<IAlbum> & Pick<IAlbum, 'id'>;
+export type PartialUpdateAlbum = Partial<IAlbum> & Pick<IAlbum, 'spotifyURI'>;
 
 type RestOf<T extends IAlbum | NewAlbum> = Omit<T, 'releaseDate'> & {
   releaseDate?: string | null;
@@ -50,7 +50,7 @@ export class AlbumService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  find(id: number): Observable<EntityResponseType> {
+  find(id: string): Observable<EntityResponseType> {
     return this.http
       .get<RestAlbum>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
@@ -63,19 +63,19 @@ export class AlbumService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
+  delete(id: string): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  getAlbumIdentifier(album: Pick<IAlbum, 'id'>): number {
-    return album.id;
+  getAlbumIdentifier(album: Pick<IAlbum, 'spotifyURI'>): string {
+    return album.spotifyURI;
   }
 
-  compareAlbum(o1: Pick<IAlbum, 'id'> | null, o2: Pick<IAlbum, 'id'> | null): boolean {
+  compareAlbum(o1: Pick<IAlbum, 'spotifyURI'> | null, o2: Pick<IAlbum, 'spotifyURI'> | null): boolean {
     return o1 && o2 ? this.getAlbumIdentifier(o1) === this.getAlbumIdentifier(o2) : o1 === o2;
   }
 
-  addAlbumToCollectionIfMissing<Type extends Pick<IAlbum, 'id'>>(
+  addAlbumToCollectionIfMissing<Type extends Pick<IAlbum, 'spotifyURI'>>(
     albumCollection: Type[],
     ...albumsToCheck: (Type | null | undefined)[]
   ): Type[] {

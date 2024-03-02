@@ -17,7 +17,7 @@ import team.bham.service.dto.WantToListenListEntryDTO;
  */
 @Mapper(componentModel = "spring")
 public interface AlbumMapper extends EntityMapper<AlbumDTO, Album> {
-    @Mapping(target = "artists", source = "artists", qualifiedByName = "artistIdSet")
+    @Mapping(target = "artists", source = "artists", qualifiedByName = "artistSpotifyURISet")
     @Mapping(target = "folderEntries", source = "folderEntries", qualifiedByName = "folderEntryIdSet")
     @Mapping(target = "wantToListenListEntries", source = "wantToListenListEntries", qualifiedByName = "wantToListenListEntryIdSet")
     AlbumDTO toDto(Album s);
@@ -27,14 +27,14 @@ public interface AlbumMapper extends EntityMapper<AlbumDTO, Album> {
     @Mapping(target = "removeWantToListenListEntry", ignore = true)
     Album toEntity(AlbumDTO albumDTO);
 
-    @Named("artistId")
+    @Named("artistSpotifyURI")
     @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    ArtistDTO toDtoArtistId(Artist artist);
+    @Mapping(target = "spotifyURI", source = "spotifyURI")
+    ArtistDTO toDtoArtistSpotifyURI(Artist artist);
 
-    @Named("artistIdSet")
-    default Set<ArtistDTO> toDtoArtistIdSet(Set<Artist> artist) {
-        return artist.stream().map(this::toDtoArtistId).collect(Collectors.toSet());
+    @Named("artistSpotifyURISet")
+    default Set<ArtistDTO> toDtoArtistSpotifyURISet(Set<Artist> artist) {
+        return artist.stream().map(this::toDtoArtistSpotifyURI).collect(Collectors.toSet());
     }
 
     @Named("folderEntryId")

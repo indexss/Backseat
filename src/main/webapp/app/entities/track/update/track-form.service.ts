@@ -6,7 +6,7 @@ import { ITrack, NewTrack } from '../track.model';
 /**
  * A partial Type with required key is used as form input.
  */
-type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
+type PartialWithRequiredKeyOf<T extends { spotifyURI: unknown }> = Partial<Omit<T, 'spotifyURI'>> & { spotifyURI: T['spotifyURI'] };
 
 /**
  * Type for createFormGroup and resetForm argument.
@@ -14,11 +14,10 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type TrackFormGroupInput = ITrack | PartialWithRequiredKeyOf<NewTrack>;
 
-type TrackFormDefaults = Pick<NewTrack, 'id' | 'artists' | 'folderEntries' | 'wantToListenListEntries'>;
+type TrackFormDefaults = Pick<NewTrack, 'spotifyURI' | 'artists' | 'folderEntries' | 'wantToListenListEntries'>;
 
 type TrackFormGroupContent = {
-  id: FormControl<ITrack['id'] | NewTrack['id']>;
-  spotifyURI: FormControl<ITrack['spotifyURI']>;
+  spotifyURI: FormControl<ITrack['spotifyURI'] | NewTrack['spotifyURI']>;
   name: FormControl<ITrack['name']>;
   description: FormControl<ITrack['description']>;
   releaseDate: FormControl<ITrack['releaseDate']>;
@@ -33,22 +32,19 @@ export type TrackFormGroup = FormGroup<TrackFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class TrackFormService {
-  createTrackFormGroup(track: TrackFormGroupInput = { id: null }): TrackFormGroup {
+  createTrackFormGroup(track: TrackFormGroupInput = { spotifyURI: null }): TrackFormGroup {
     const trackRawValue = {
       ...this.getFormDefaults(),
       ...track,
     };
     return new FormGroup<TrackFormGroupContent>({
-      id: new FormControl(
-        { value: trackRawValue.id, disabled: true },
+      spotifyURI: new FormControl(
+        { value: trackRawValue.spotifyURI, disabled: trackRawValue.spotifyURI !== null },
         {
           nonNullable: true,
           validators: [Validators.required],
         }
       ),
-      spotifyURI: new FormControl(trackRawValue.spotifyURI, {
-        validators: [Validators.required],
-      }),
       name: new FormControl(trackRawValue.name, {
         validators: [Validators.required],
       }),
@@ -75,14 +71,14 @@ export class TrackFormService {
     form.reset(
       {
         ...trackRawValue,
-        id: { value: trackRawValue.id, disabled: true },
+        spotifyURI: { value: trackRawValue.spotifyURI, disabled: trackRawValue.spotifyURI !== null },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }
 
   private getFormDefaults(): TrackFormDefaults {
     return {
-      id: null,
+      spotifyURI: null,
       artists: [],
       folderEntries: [],
       wantToListenListEntries: [],

@@ -32,12 +32,6 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="spotifyURI">
             <div class="d-flex">
               <span>Spotify URI</span>
@@ -68,7 +62,7 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="album.id">
+          <th scope="col" jhiSortBy="album.spotifyURI">
             <div class="d-flex">
               <span>Album</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -78,28 +72,37 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let track of tracks; trackBy: trackId" data-cy="entityTable">
+        <tr *ngFor="let track of tracks; trackBy: trackSpotifyURI" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/track', track.id, 'view']">{{ track.id }}</a>
+            <a [routerLink]="['/track', track.spotifyURI, 'view']">{{ track.spotifyURI }}</a>
           </td>
-          <td>{{ track.spotifyURI }}</td>
           <td>{{ track.name }}</td>
           <td>{{ track.description }}</td>
           <td>{{ track.releaseDate | formatMediumDate }}</td>
           <td>{{ track.rating }}</td>
           <td>
             <div *ngIf="track.album">
-              <a [routerLink]="['/album', track.album.id, 'view']">{{ track.album.id }}</a>
+              <a [routerLink]="['/album', track.album.spotifyURI, 'view']">{{ track.album.spotifyURI }}</a>
             </div>
           </td>
           <td class="text-end">
             <div class="btn-group">
-              <button type="submit" [routerLink]="['/track', track.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <button
+                type="submit"
+                [routerLink]="['/track', track.spotifyURI, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">View</span>
               </button>
 
-              <button type="submit" [routerLink]="['/track', track.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button
+                type="submit"
+                [routerLink]="['/track', track.spotifyURI, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Edit</span>
               </button>

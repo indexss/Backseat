@@ -58,11 +58,11 @@ describe('Album Management Update Component', () => {
 
   describe('ngOnInit', () => {
     it('Should call Artist query and add missing value', () => {
-      const album: IAlbum = { id: 456 };
-      const artists: IArtist[] = [{ id: 13630 }];
+      const album: IAlbum = { spotifyURI: 'CBA' };
+      const artists: IArtist[] = [{ spotifyURI: '23f33f70-a984-470a-806b-c33f7091a5a1' }];
       album.artists = artists;
 
-      const artistCollection: IArtist[] = [{ id: 20501 }];
+      const artistCollection: IArtist[] = [{ spotifyURI: '5294bffe-25af-4cf5-b9f0-2d6c1f59486f' }];
       jest.spyOn(artistService, 'query').mockReturnValue(of(new HttpResponse({ body: artistCollection })));
       const additionalArtists = [...artists];
       const expectedCollection: IArtist[] = [...additionalArtists, ...artistCollection];
@@ -80,7 +80,7 @@ describe('Album Management Update Component', () => {
     });
 
     it('Should call FolderEntry query and add missing value', () => {
-      const album: IAlbum = { id: 456 };
+      const album: IAlbum = { spotifyURI: 'CBA' };
       const folderEntries: IFolderEntry[] = [{ id: 92022 }];
       album.folderEntries = folderEntries;
 
@@ -102,7 +102,7 @@ describe('Album Management Update Component', () => {
     });
 
     it('Should call WantToListenListEntry query and add missing value', () => {
-      const album: IAlbum = { id: 456 };
+      const album: IAlbum = { spotifyURI: 'CBA' };
       const wantToListenListEntries: IWantToListenListEntry[] = [{ id: 45402 }];
       album.wantToListenListEntries = wantToListenListEntries;
 
@@ -124,8 +124,8 @@ describe('Album Management Update Component', () => {
     });
 
     it('Should update editForm', () => {
-      const album: IAlbum = { id: 456 };
-      const artist: IArtist = { id: 95993 };
+      const album: IAlbum = { spotifyURI: 'CBA' };
+      const artist: IArtist = { spotifyURI: 'df38830e-bb3a-405b-b913-c937e102d469' };
       album.artists = [artist];
       const folderEntry: IFolderEntry = { id: 38114 };
       album.folderEntries = [folderEntry];
@@ -146,7 +146,7 @@ describe('Album Management Update Component', () => {
     it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IAlbum>>();
-      const album = { id: 123 };
+      const album = { spotifyURI: 'ABC' };
       jest.spyOn(albumFormService, 'getAlbum').mockReturnValue(album);
       jest.spyOn(albumService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -169,8 +169,8 @@ describe('Album Management Update Component', () => {
     it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IAlbum>>();
-      const album = { id: 123 };
-      jest.spyOn(albumFormService, 'getAlbum').mockReturnValue({ id: null });
+      const album = { spotifyURI: 'ABC' };
+      jest.spyOn(albumFormService, 'getAlbum').mockReturnValue({ spotifyURI: null });
       jest.spyOn(albumService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ album: null });
@@ -192,7 +192,7 @@ describe('Album Management Update Component', () => {
     it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<IAlbum>>();
-      const album = { id: 123 };
+      const album = { spotifyURI: 'ABC' };
       jest.spyOn(albumService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ album });
@@ -213,8 +213,8 @@ describe('Album Management Update Component', () => {
   describe('Compare relationships', () => {
     describe('compareArtist', () => {
       it('Should forward to artistService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
+        const entity = { spotifyURI: 'ABC' };
+        const entity2 = { spotifyURI: 'CBA' };
         jest.spyOn(artistService, 'compareArtist');
         comp.compareArtist(entity, entity2);
         expect(artistService.compareArtist).toHaveBeenCalledWith(entity, entity2);

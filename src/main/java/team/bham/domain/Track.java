@@ -9,25 +9,22 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.domain.Persistable;
 
 /**
  * A Track.
  */
+@JsonIgnoreProperties(value = { "new" })
 @Entity
 @Table(name = "track")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Track implements Serializable {
+public class Track implements Serializable, Persistable<String> {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
-
     @NotNull
+    @Id
     @Column(name = "spotify_uri", nullable = false)
     private String spotifyURI;
 
@@ -46,6 +43,9 @@ public class Track implements Serializable {
     @Column(name = "rating", nullable = false)
     private Double rating;
 
+    @Transient
+    private boolean isPersisted;
+
     @OneToMany(mappedBy = "track")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "profile", "track", "album" }, allowSetters = true)
@@ -54,8 +54,8 @@ public class Track implements Serializable {
     @ManyToMany
     @JoinTable(
         name = "rel_track__artist",
-        joinColumns = @JoinColumn(name = "track_id"),
-        inverseJoinColumns = @JoinColumn(name = "artist_id")
+        joinColumns = @JoinColumn(name = "track_spotify_uri"),
+        inverseJoinColumns = @JoinColumn(name = "artist_spotify_uri")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "tracks", "albums" }, allowSetters = true)
@@ -64,7 +64,7 @@ public class Track implements Serializable {
     @ManyToMany
     @JoinTable(
         name = "rel_track__folder_entry",
-        joinColumns = @JoinColumn(name = "track_id"),
+        joinColumns = @JoinColumn(name = "track_spotify_uri"),
         inverseJoinColumns = @JoinColumn(name = "folder_entry_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -74,7 +74,7 @@ public class Track implements Serializable {
     @ManyToMany
     @JoinTable(
         name = "rel_track__want_to_listen_list_entry",
-        joinColumns = @JoinColumn(name = "track_id"),
+        joinColumns = @JoinColumn(name = "track_spotify_uri"),
         inverseJoinColumns = @JoinColumn(name = "want_to_listen_list_entry_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -86,19 +86,6 @@ public class Track implements Serializable {
     private Album album;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public Track id(Long id) {
-        this.setId(id);
-        return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSpotifyURI() {
         return this.spotifyURI;
@@ -163,6 +150,28 @@ public class Track implements Serializable {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public String getId() {
+        return this.spotifyURI;
+    }
+
+    @Transient
+    @Override
+    public boolean isNew() {
+        return !this.isPersisted;
+    }
+
+    public Track setIsPersisted() {
+        this.isPersisted = true;
+        return this;
+    }
+
+    @PostLoad
+    @PostPersist
+    public void updateEntityState() {
+        this.setIsPersisted();
     }
 
     public Set<Review> getReviews() {
@@ -294,7 +303,7 @@ public class Track implements Serializable {
         if (!(o instanceof Track)) {
             return false;
         }
-        return id != null && id.equals(((Track) o).id);
+        return spotifyURI != null && spotifyURI.equals(((Track) o).spotifyURI);
     }
 
     @Override
@@ -307,8 +316,7 @@ public class Track implements Serializable {
     @Override
     public String toString() {
         return "Track{" +
-            "id=" + getId() +
-            ", spotifyURI='" + getSpotifyURI() + "'" +
+            "spotifyURI=" + getSpotifyURI() +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", releaseDate='" + getReleaseDate() + "'" +

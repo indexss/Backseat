@@ -58,54 +58,54 @@ public class TrackResource {
     @PostMapping("/tracks")
     public ResponseEntity<TrackDTO> createTrack(@Valid @RequestBody TrackDTO trackDTO) throws URISyntaxException {
         log.debug("REST request to save Track : {}", trackDTO);
-        if (trackDTO.getId() != null) {
+        if (trackDTO.getSpotifyURI() != null) {
             throw new BadRequestAlertException("A new track cannot already have an ID", ENTITY_NAME, "idexists");
         }
         TrackDTO result = trackService.save(trackDTO);
         return ResponseEntity
-            .created(new URI("/api/tracks/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .created(new URI("/api/tracks/" + result.getSpotifyURI()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getSpotifyURI()))
             .body(result);
     }
 
     /**
-     * {@code PUT  /tracks/:id} : Updates an existing track.
+     * {@code PUT  /tracks/:spotifyURI} : Updates an existing track.
      *
-     * @param id the id of the trackDTO to save.
+     * @param spotifyURI the id of the trackDTO to save.
      * @param trackDTO the trackDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated trackDTO,
      * or with status {@code 400 (Bad Request)} if the trackDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the trackDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/tracks/{id}")
+    @PutMapping("/tracks/{spotifyURI}")
     public ResponseEntity<TrackDTO> updateTrack(
-        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "spotifyURI", required = false) final String spotifyURI,
         @Valid @RequestBody TrackDTO trackDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update Track : {}, {}", id, trackDTO);
-        if (trackDTO.getId() == null) {
+        log.debug("REST request to update Track : {}, {}", spotifyURI, trackDTO);
+        if (trackDTO.getSpotifyURI() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, trackDTO.getId())) {
+        if (!Objects.equals(spotifyURI, trackDTO.getSpotifyURI())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        if (!trackRepository.existsById(id)) {
+        if (!trackRepository.existsById(spotifyURI)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         TrackDTO result = trackService.update(trackDTO);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, trackDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, trackDTO.getSpotifyURI()))
             .body(result);
     }
 
     /**
-     * {@code PATCH  /tracks/:id} : Partial updates given fields of an existing track, field will ignore if it is null
+     * {@code PATCH  /tracks/:spotifyURI} : Partial updates given fields of an existing track, field will ignore if it is null
      *
-     * @param id the id of the trackDTO to save.
+     * @param spotifyURI the id of the trackDTO to save.
      * @param trackDTO the trackDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated trackDTO,
      * or with status {@code 400 (Bad Request)} if the trackDTO is not valid,
@@ -113,20 +113,20 @@ public class TrackResource {
      * or with status {@code 500 (Internal Server Error)} if the trackDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/tracks/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/tracks/{spotifyURI}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<TrackDTO> partialUpdateTrack(
-        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "spotifyURI", required = false) final String spotifyURI,
         @NotNull @RequestBody TrackDTO trackDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update Track partially : {}, {}", id, trackDTO);
-        if (trackDTO.getId() == null) {
+        log.debug("REST request to partial update Track partially : {}, {}", spotifyURI, trackDTO);
+        if (trackDTO.getSpotifyURI() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, trackDTO.getId())) {
+        if (!Objects.equals(spotifyURI, trackDTO.getSpotifyURI())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        if (!trackRepository.existsById(id)) {
+        if (!trackRepository.existsById(spotifyURI)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
@@ -134,7 +134,7 @@ public class TrackResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, trackDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, trackDTO.getSpotifyURI())
         );
     }
 
@@ -168,7 +168,7 @@ public class TrackResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the trackDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/tracks/{id}")
-    public ResponseEntity<TrackDTO> getTrack(@PathVariable Long id) {
+    public ResponseEntity<TrackDTO> getTrack(@PathVariable String id) {
         log.debug("REST request to get Track : {}", id);
         Optional<TrackDTO> trackDTO = trackService.findOne(id);
         return ResponseUtil.wrapOrNotFound(trackDTO);
@@ -181,12 +181,9 @@ public class TrackResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/tracks/{id}")
-    public ResponseEntity<Void> deleteTrack(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTrack(@PathVariable String id) {
         log.debug("REST request to delete Track : {}", id);
         trackService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
 }

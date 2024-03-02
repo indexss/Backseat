@@ -40,7 +40,7 @@ export class SpotifyConnectionUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const spotifyConnection = this.spotifyConnectionFormService.getSpotifyConnection(this.editForm);
-    if (spotifyConnection.id !== null) {
+    if (spotifyConnection.spotifyURI !== null) {
       this.subscribeToSaveResponse(this.spotifyConnectionService.update(spotifyConnection));
     } else {
       this.subscribeToSaveResponse(this.spotifyConnectionService.create(spotifyConnection));

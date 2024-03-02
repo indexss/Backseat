@@ -8,7 +8,7 @@ export interface IProfile {
   profilePhoto?: string | null;
   profilePhotoContentType?: string | null;
   user?: Pick<IUser, 'id'> | null;
-  spotifyConnection?: Pick<ISpotifyConnection, 'id'> | null;
+  spotifyConnection?: Pick<ISpotifyConnection, 'spotifyURI'> | null;
 }
 
 export type NewProfile = Omit<IProfile, 'id'> & { id: null };

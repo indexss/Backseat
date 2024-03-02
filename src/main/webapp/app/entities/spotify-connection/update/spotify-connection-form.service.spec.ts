@@ -19,7 +19,6 @@ describe('SpotifyConnection Form Service', () => {
 
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
-            id: expect.any(Object),
             spotifyURI: expect.any(Object),
             refreshToken: expect.any(Object),
             accessToken: expect.any(Object),
@@ -33,7 +32,6 @@ describe('SpotifyConnection Form Service', () => {
 
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
-            id: expect.any(Object),
             spotifyURI: expect.any(Object),
             refreshToken: expect.any(Object),
             accessToken: expect.any(Object),
@@ -71,22 +69,22 @@ describe('SpotifyConnection Form Service', () => {
     });
 
     describe('resetForm', () => {
-      it('passing ISpotifyConnection should not enable id FormControl', () => {
+      it('passing ISpotifyConnection should not enable spotifyURI FormControl', () => {
         const formGroup = service.createSpotifyConnectionFormGroup();
-        expect(formGroup.controls.id.disabled).toBe(true);
+        expect(formGroup.controls.spotifyURI.disabled).toBe(true);
 
         service.resetForm(formGroup, sampleWithRequiredData);
 
-        expect(formGroup.controls.id.disabled).toBe(true);
+        expect(formGroup.controls.spotifyURI.disabled).toBe(true);
       });
 
-      it('passing NewSpotifyConnection should disable id FormControl', () => {
+      it('passing NewSpotifyConnection should disable spotifyURI FormControl', () => {
         const formGroup = service.createSpotifyConnectionFormGroup(sampleWithRequiredData);
-        expect(formGroup.controls.id.disabled).toBe(true);
+        expect(formGroup.controls.spotifyURI.disabled).toBe(true);
 
-        service.resetForm(formGroup, { id: null });
+        service.resetForm(formGroup, { spotifyURI: null });
 
-        expect(formGroup.controls.id.disabled).toBe(true);
+        expect(formGroup.controls.spotifyURI.disabled).toBe(true);
       });
     });
   });

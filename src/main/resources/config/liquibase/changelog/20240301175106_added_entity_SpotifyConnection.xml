@@ -7,33 +7,25 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity Profile.
+        Added the entity SpotifyConnection.
     -->
-    <changeSet id="20240227172542-1" author="jhipster">
-        <createTable tableName="profile">
-            <column name="id" type="bigint">
+    <changeSet id="20240301175106-1" author="jhipster">
+        <createTable tableName="spotify_connection">
+            <column name="spotify_uri" type="varchar(255)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="username" type="varchar(255)">
+            <column name="refresh_token" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="spotify_uri" type="varchar(255)">
+            <column name="access_token" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="profile_photo" type="${blobType}">
-                <constraints nullable="true" />
-            </column>
-            <column name="profile_photo_content_type" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="user_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_profile__user_id" />
-            </column>
-            <column name="spotify_connection_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_profile__spotify_connection_id" />
+            <column name="access_token_expires_at" type="${datetimeType}">
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="spotify_connection" columnName="access_token_expires_at" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -46,17 +38,16 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20240227172542-1-data" author="jhipster" context="faker">
+    <changeSet id="20240301175106-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/profile.csv"
+                  file="config/liquibase/fake-data/spotify_connection.csv"
                   separator=";"
-                  tableName="profile"
+                  tableName="spotify_connection"
                   usePreparedStatements="true">
-            <column name="id" type="numeric"/>
-            <column name="username" type="string"/>
             <column name="spotify_uri" type="string"/>
-            <column name="profile_photo" type="blob"/>
-            <column name="profile_photo_content_type" type="string"/>
+            <column name="refresh_token" type="string"/>
+            <column name="access_token" type="string"/>
+            <column name="access_token_expires_at" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

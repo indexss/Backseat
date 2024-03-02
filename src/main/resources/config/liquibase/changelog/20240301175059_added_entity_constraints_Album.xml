@@ -6,24 +6,24 @@
     <!--
         Added the constraints for entity Album.
     -->
-    <changeSet id="20240227172536-2" author="jhipster">
+    <changeSet id="20240301175059-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="album_id"
+        <addForeignKeyConstraint baseColumnNames="album_spotify_uri"
                                  baseTableName="rel_album__artist"
                                  constraintName="fk_rel_album__artist__album_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="album"/>
 
-        <addForeignKeyConstraint baseColumnNames="artist_id"
+        <addForeignKeyConstraint baseColumnNames="artist_spotify_uri"
                                  baseTableName="rel_album__artist"
                                  constraintName="fk_rel_album__artist__artist_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="artist"/>
 
-        <addForeignKeyConstraint baseColumnNames="album_id"
+        <addForeignKeyConstraint baseColumnNames="album_spotify_uri"
                                  baseTableName="rel_album__folder_entry"
                                  constraintName="fk_rel_album__folder_entry__album_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="album"/>
 
         <addForeignKeyConstraint baseColumnNames="folder_entry_id"
@@ -32,10 +32,10 @@
                                  referencedColumnNames="id"
                                  referencedTableName="folder_entry"/>
 
-        <addForeignKeyConstraint baseColumnNames="album_id"
+        <addForeignKeyConstraint baseColumnNames="album_spotify_uri"
                                  baseTableName="rel_album__want_to_listen_list_entry"
                                  constraintName="fk_rel_album__want_to_listen_list_entry__album_id"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="spotify_uri"
                                  referencedTableName="album"/>
 
         <addForeignKeyConstraint baseColumnNames="want_to_listen_list_entry_id"

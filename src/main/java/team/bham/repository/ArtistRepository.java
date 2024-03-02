@@ -9,4 +9,4 @@ import team.bham.domain.Artist;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ArtistRepository extends JpaRepository<Artist, Long> {}
+public interface ArtistRepository extends JpaRepository<Artist, String> {}

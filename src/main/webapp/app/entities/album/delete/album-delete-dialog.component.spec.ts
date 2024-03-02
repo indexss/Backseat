@@ -38,11 +38,11 @@ describe('Album Management Delete Component', () => {
         jest.spyOn(service, 'delete').mockReturnValue(of(new HttpResponse({ body: {} })));
 
         // WHEN
-        comp.confirmDelete(123);
+        comp.confirmDelete('ABC');
         tick();
 
         // THEN
-        expect(service.delete).toHaveBeenCalledWith(123);
+        expect(service.delete).toHaveBeenCalledWith('ABC');
         expect(mockActiveModal.close).toHaveBeenCalledWith('deleted');
       })
     ));

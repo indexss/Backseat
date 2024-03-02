@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity FolderEntry.
     -->
-    <changeSet id="20240227172541-2" author="jhipster">
+    <changeSet id="20240301175104-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="folder_id"
                                  baseTableName="folder_entry"

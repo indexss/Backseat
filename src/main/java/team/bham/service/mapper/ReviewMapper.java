@@ -16,8 +16,8 @@ import team.bham.service.dto.TrackDTO;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper extends EntityMapper<ReviewDTO, Review> {
     @Mapping(target = "profile", source = "profile", qualifiedByName = "profileId")
-    @Mapping(target = "track", source = "track", qualifiedByName = "trackId")
-    @Mapping(target = "album", source = "album", qualifiedByName = "albumId")
+    @Mapping(target = "track", source = "track", qualifiedByName = "trackSpotifyURI")
+    @Mapping(target = "album", source = "album", qualifiedByName = "albumSpotifyURI")
     ReviewDTO toDto(Review s);
 
     @Named("profileId")
@@ -25,13 +25,13 @@ public interface ReviewMapper extends EntityMapper<ReviewDTO, Review> {
     @Mapping(target = "id", source = "id")
     ProfileDTO toDtoProfileId(Profile profile);
 
-    @Named("trackId")
+    @Named("trackSpotifyURI")
     @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    TrackDTO toDtoTrackId(Track track);
+    @Mapping(target = "spotifyURI", source = "spotifyURI")
+    TrackDTO toDtoTrackSpotifyURI(Track track);
 
-    @Named("albumId")
+    @Named("albumSpotifyURI")
     @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    AlbumDTO toDtoAlbumId(Album album);
+    @Mapping(target = "spotifyURI", source = "spotifyURI")
+    AlbumDTO toDtoAlbumSpotifyURI(Album album);
 }

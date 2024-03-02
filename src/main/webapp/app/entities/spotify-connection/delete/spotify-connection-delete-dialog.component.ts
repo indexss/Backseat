@@ -17,7 +17,7 @@ export class SpotifyConnectionDeleteDialogComponent {
     this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number): void {
+  confirmDelete(id: string): void {
     this.spotifyConnectionService.delete(id).subscribe(() => {
       this.activeModal.close(ITEM_DELETED_EVENT);
     });

@@ -10,7 +10,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { ITrack, NewTrack } from '../track.model';
 
-export type PartialUpdateTrack = Partial<ITrack> & Pick<ITrack, 'id'>;
+export type PartialUpdateTrack = Partial<ITrack> & Pick<ITrack, 'spotifyURI'>;
 
 type RestOf<T extends ITrack | NewTrack> = Omit<T, 'releaseDate'> & {
   releaseDate?: string | null;
@@ -50,7 +50,7 @@ export class TrackService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  find(id: number): Observable<EntityResponseType> {
+  find(id: string): Observable<EntityResponseType> {
     return this.http
       .get<RestTrack>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
@@ -63,19 +63,19 @@ export class TrackService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
+  delete(id: string): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  getTrackIdentifier(track: Pick<ITrack, 'id'>): number {
-    return track.id;
+  getTrackIdentifier(track: Pick<ITrack, 'spotifyURI'>): string {
+    return track.spotifyURI;
   }
 
-  compareTrack(o1: Pick<ITrack, 'id'> | null, o2: Pick<ITrack, 'id'> | null): boolean {
+  compareTrack(o1: Pick<ITrack, 'spotifyURI'> | null, o2: Pick<ITrack, 'spotifyURI'> | null): boolean {
     return o1 && o2 ? this.getTrackIdentifier(o1) === this.getTrackIdentifier(o2) : o1 === o2;
   }
 
-  addTrackToCollectionIfMissing<Type extends Pick<ITrack, 'id'>>(
+  addTrackToCollectionIfMissing<Type extends Pick<ITrack, 'spotifyURI'>>(
     trackCollection: Type[],
     ...tracksToCheck: (Type | null | undefined)[]
   ): Type[] {

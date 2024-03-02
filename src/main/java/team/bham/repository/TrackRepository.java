@@ -16,9 +16,9 @@ import team.bham.domain.Track;
  * For more information refer to https://github.com/jhipster/generator-jhipster/issues/17990.
  */
 @Repository
-public interface TrackRepository extends TrackRepositoryWithBagRelationships, JpaRepository<Track, Long> {
-    default Optional<Track> findOneWithEagerRelationships(Long id) {
-        return this.fetchBagRelationships(this.findById(id));
+public interface TrackRepository extends TrackRepositoryWithBagRelationships, JpaRepository<Track, String> {
+    default Optional<Track> findOneWithEagerRelationships(String spotifyURI) {
+        return this.fetchBagRelationships(this.findById(spotifyURI));
     }
 
     default List<Track> findAllWithEagerRelationships() {

@@ -8,8 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.UUID;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,9 +32,6 @@ import team.bham.service.mapper.SpotifyConnectionMapper;
 @WithMockUser
 class SpotifyConnectionResourceIT {
 
-    private static final String DEFAULT_SPOTIFY_URI = "AAAAAAAAAA";
-    private static final String UPDATED_SPOTIFY_URI = "BBBBBBBBBB";
-
     private static final String DEFAULT_REFRESH_TOKEN = "AAAAAAAAAA";
     private static final String UPDATED_REFRESH_TOKEN = "BBBBBBBBBB";
 
@@ -46,10 +42,7 @@ class SpotifyConnectionResourceIT {
     private static final Instant UPDATED_ACCESS_TOKEN_EXPIRES_AT = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/spotify-connections";
-    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
-
-    private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{spotifyURI}";
 
     @Autowired
     private SpotifyConnectionRepository spotifyConnectionRepository;
@@ -73,7 +66,6 @@ class SpotifyConnectionResourceIT {
      */
     public static SpotifyConnection createEntity(EntityManager em) {
         SpotifyConnection spotifyConnection = new SpotifyConnection()
-            .spotifyURI(DEFAULT_SPOTIFY_URI)
             .refreshToken(DEFAULT_REFRESH_TOKEN)
             .accessToken(DEFAULT_ACCESS_TOKEN)
             .accessTokenExpiresAt(DEFAULT_ACCESS_TOKEN_EXPIRES_AT);
@@ -88,7 +80,6 @@ class SpotifyConnectionResourceIT {
      */
     public static SpotifyConnection createUpdatedEntity(EntityManager em) {
         SpotifyConnection spotifyConnection = new SpotifyConnection()
-            .spotifyURI(UPDATED_SPOTIFY_URI)
             .refreshToken(UPDATED_REFRESH_TOKEN)
             .accessToken(UPDATED_ACCESS_TOKEN)
             .accessTokenExpiresAt(UPDATED_ACCESS_TOKEN_EXPIRES_AT);
@@ -118,7 +109,6 @@ class SpotifyConnectionResourceIT {
         List<SpotifyConnection> spotifyConnectionList = spotifyConnectionRepository.findAll();
         assertThat(spotifyConnectionList).hasSize(databaseSizeBeforeCreate + 1);
         SpotifyConnection testSpotifyConnection = spotifyConnectionList.get(spotifyConnectionList.size() - 1);
-        assertThat(testSpotifyConnection.getSpotifyURI()).isEqualTo(DEFAULT_SPOTIFY_URI);
         assertThat(testSpotifyConnection.getRefreshToken()).isEqualTo(DEFAULT_REFRESH_TOKEN);
         assertThat(testSpotifyConnection.getAccessToken()).isEqualTo(DEFAULT_ACCESS_TOKEN);
         assertThat(testSpotifyConnection.getAccessTokenExpiresAt()).isEqualTo(DEFAULT_ACCESS_TOKEN_EXPIRES_AT);
@@ -128,7 +118,7 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void createSpotifyConnectionWithExistingId() throws Exception {
         // Create the SpotifyConnection with an existing ID
-        spotifyConnection.setId(1L);
+        spotifyConnection.setSpotifyURI("existing_id");
         SpotifyConnectionDTO spotifyConnectionDTO = spotifyConnectionMapper.toDto(spotifyConnection);
 
         int databaseSizeBeforeCreate = spotifyConnectionRepository.findAll().size();
@@ -145,28 +135,6 @@ class SpotifyConnectionResourceIT {
         // Validate the SpotifyConnection in the database
         List<SpotifyConnection> spotifyConnectionList = spotifyConnectionRepository.findAll();
         assertThat(spotifyConnectionList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkSpotifyURIIsRequired() throws Exception {
-        int databaseSizeBeforeTest = spotifyConnectionRepository.findAll().size();
-        // set the field null
-        spotifyConnection.setSpotifyURI(null);
-
-        // Create the SpotifyConnection, which fails.
-        SpotifyConnectionDTO spotifyConnectionDTO = spotifyConnectionMapper.toDto(spotifyConnection);
-
-        restSpotifyConnectionMockMvc
-            .perform(
-                post(ENTITY_API_URL)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(spotifyConnectionDTO))
-            )
-            .andExpect(status().isBadRequest());
-
-        List<SpotifyConnection> spotifyConnectionList = spotifyConnectionRepository.findAll();
-        assertThat(spotifyConnectionList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -239,15 +207,15 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void getAllSpotifyConnections() throws Exception {
         // Initialize the database
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
         spotifyConnectionRepository.saveAndFlush(spotifyConnection);
 
         // Get all the spotifyConnectionList
         restSpotifyConnectionMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
+            .perform(get(ENTITY_API_URL + "?sort=spotifyURI,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(spotifyConnection.getId().intValue())))
-            .andExpect(jsonPath("$.[*].spotifyURI").value(hasItem(DEFAULT_SPOTIFY_URI)))
+            .andExpect(jsonPath("$.[*].spotifyURI").value(hasItem(spotifyConnection.getSpotifyURI())))
             .andExpect(jsonPath("$.[*].refreshToken").value(hasItem(DEFAULT_REFRESH_TOKEN)))
             .andExpect(jsonPath("$.[*].accessToken").value(hasItem(DEFAULT_ACCESS_TOKEN)))
             .andExpect(jsonPath("$.[*].accessTokenExpiresAt").value(hasItem(DEFAULT_ACCESS_TOKEN_EXPIRES_AT.toString())));
@@ -257,15 +225,15 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void getSpotifyConnection() throws Exception {
         // Initialize the database
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
         spotifyConnectionRepository.saveAndFlush(spotifyConnection);
 
         // Get the spotifyConnection
         restSpotifyConnectionMockMvc
-            .perform(get(ENTITY_API_URL_ID, spotifyConnection.getId()))
+            .perform(get(ENTITY_API_URL_ID, spotifyConnection.getSpotifyURI()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(spotifyConnection.getId().intValue()))
-            .andExpect(jsonPath("$.spotifyURI").value(DEFAULT_SPOTIFY_URI))
+            .andExpect(jsonPath("$.spotifyURI").value(spotifyConnection.getSpotifyURI()))
             .andExpect(jsonPath("$.refreshToken").value(DEFAULT_REFRESH_TOKEN))
             .andExpect(jsonPath("$.accessToken").value(DEFAULT_ACCESS_TOKEN))
             .andExpect(jsonPath("$.accessTokenExpiresAt").value(DEFAULT_ACCESS_TOKEN_EXPIRES_AT.toString()));
@@ -282,16 +250,16 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void putExistingSpotifyConnection() throws Exception {
         // Initialize the database
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
         spotifyConnectionRepository.saveAndFlush(spotifyConnection);
 
         int databaseSizeBeforeUpdate = spotifyConnectionRepository.findAll().size();
 
         // Update the spotifyConnection
-        SpotifyConnection updatedSpotifyConnection = spotifyConnectionRepository.findById(spotifyConnection.getId()).get();
+        SpotifyConnection updatedSpotifyConnection = spotifyConnectionRepository.findById(spotifyConnection.getSpotifyURI()).get();
         // Disconnect from session so that the updates on updatedSpotifyConnection are not directly saved in db
         em.detach(updatedSpotifyConnection);
         updatedSpotifyConnection
-            .spotifyURI(UPDATED_SPOTIFY_URI)
             .refreshToken(UPDATED_REFRESH_TOKEN)
             .accessToken(UPDATED_ACCESS_TOKEN)
             .accessTokenExpiresAt(UPDATED_ACCESS_TOKEN_EXPIRES_AT);
@@ -299,7 +267,7 @@ class SpotifyConnectionResourceIT {
 
         restSpotifyConnectionMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, spotifyConnectionDTO.getId())
+                put(ENTITY_API_URL_ID, spotifyConnectionDTO.getSpotifyURI())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(spotifyConnectionDTO))
             )
@@ -309,7 +277,6 @@ class SpotifyConnectionResourceIT {
         List<SpotifyConnection> spotifyConnectionList = spotifyConnectionRepository.findAll();
         assertThat(spotifyConnectionList).hasSize(databaseSizeBeforeUpdate);
         SpotifyConnection testSpotifyConnection = spotifyConnectionList.get(spotifyConnectionList.size() - 1);
-        assertThat(testSpotifyConnection.getSpotifyURI()).isEqualTo(UPDATED_SPOTIFY_URI);
         assertThat(testSpotifyConnection.getRefreshToken()).isEqualTo(UPDATED_REFRESH_TOKEN);
         assertThat(testSpotifyConnection.getAccessToken()).isEqualTo(UPDATED_ACCESS_TOKEN);
         assertThat(testSpotifyConnection.getAccessTokenExpiresAt()).isEqualTo(UPDATED_ACCESS_TOKEN_EXPIRES_AT);
@@ -319,7 +286,7 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void putNonExistingSpotifyConnection() throws Exception {
         int databaseSizeBeforeUpdate = spotifyConnectionRepository.findAll().size();
-        spotifyConnection.setId(count.incrementAndGet());
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the SpotifyConnection
         SpotifyConnectionDTO spotifyConnectionDTO = spotifyConnectionMapper.toDto(spotifyConnection);
@@ -327,7 +294,7 @@ class SpotifyConnectionResourceIT {
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSpotifyConnectionMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, spotifyConnectionDTO.getId())
+                put(ENTITY_API_URL_ID, spotifyConnectionDTO.getSpotifyURI())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(spotifyConnectionDTO))
             )
@@ -342,7 +309,7 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void putWithIdMismatchSpotifyConnection() throws Exception {
         int databaseSizeBeforeUpdate = spotifyConnectionRepository.findAll().size();
-        spotifyConnection.setId(count.incrementAndGet());
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the SpotifyConnection
         SpotifyConnectionDTO spotifyConnectionDTO = spotifyConnectionMapper.toDto(spotifyConnection);
@@ -350,7 +317,7 @@ class SpotifyConnectionResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSpotifyConnectionMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(spotifyConnectionDTO))
             )
@@ -365,7 +332,7 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void putWithMissingIdPathParamSpotifyConnection() throws Exception {
         int databaseSizeBeforeUpdate = spotifyConnectionRepository.findAll().size();
-        spotifyConnection.setId(count.incrementAndGet());
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the SpotifyConnection
         SpotifyConnectionDTO spotifyConnectionDTO = spotifyConnectionMapper.toDto(spotifyConnection);
@@ -386,19 +353,20 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void partialUpdateSpotifyConnectionWithPatch() throws Exception {
         // Initialize the database
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
         spotifyConnectionRepository.saveAndFlush(spotifyConnection);
 
         int databaseSizeBeforeUpdate = spotifyConnectionRepository.findAll().size();
 
         // Update the spotifyConnection using partial update
         SpotifyConnection partialUpdatedSpotifyConnection = new SpotifyConnection();
-        partialUpdatedSpotifyConnection.setId(spotifyConnection.getId());
+        partialUpdatedSpotifyConnection.setSpotifyURI(spotifyConnection.getSpotifyURI());
 
-        partialUpdatedSpotifyConnection.accessToken(UPDATED_ACCESS_TOKEN);
+        partialUpdatedSpotifyConnection.accessTokenExpiresAt(UPDATED_ACCESS_TOKEN_EXPIRES_AT);
 
         restSpotifyConnectionMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedSpotifyConnection.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedSpotifyConnection.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSpotifyConnection))
             )
@@ -408,33 +376,32 @@ class SpotifyConnectionResourceIT {
         List<SpotifyConnection> spotifyConnectionList = spotifyConnectionRepository.findAll();
         assertThat(spotifyConnectionList).hasSize(databaseSizeBeforeUpdate);
         SpotifyConnection testSpotifyConnection = spotifyConnectionList.get(spotifyConnectionList.size() - 1);
-        assertThat(testSpotifyConnection.getSpotifyURI()).isEqualTo(DEFAULT_SPOTIFY_URI);
         assertThat(testSpotifyConnection.getRefreshToken()).isEqualTo(DEFAULT_REFRESH_TOKEN);
-        assertThat(testSpotifyConnection.getAccessToken()).isEqualTo(UPDATED_ACCESS_TOKEN);
-        assertThat(testSpotifyConnection.getAccessTokenExpiresAt()).isEqualTo(DEFAULT_ACCESS_TOKEN_EXPIRES_AT);
+        assertThat(testSpotifyConnection.getAccessToken()).isEqualTo(DEFAULT_ACCESS_TOKEN);
+        assertThat(testSpotifyConnection.getAccessTokenExpiresAt()).isEqualTo(UPDATED_ACCESS_TOKEN_EXPIRES_AT);
     }
 
     @Test
     @Transactional
     void fullUpdateSpotifyConnectionWithPatch() throws Exception {
         // Initialize the database
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
         spotifyConnectionRepository.saveAndFlush(spotifyConnection);
 
         int databaseSizeBeforeUpdate = spotifyConnectionRepository.findAll().size();
 
         // Update the spotifyConnection using partial update
         SpotifyConnection partialUpdatedSpotifyConnection = new SpotifyConnection();
-        partialUpdatedSpotifyConnection.setId(spotifyConnection.getId());
+        partialUpdatedSpotifyConnection.setSpotifyURI(spotifyConnection.getSpotifyURI());
 
         partialUpdatedSpotifyConnection
-            .spotifyURI(UPDATED_SPOTIFY_URI)
             .refreshToken(UPDATED_REFRESH_TOKEN)
             .accessToken(UPDATED_ACCESS_TOKEN)
             .accessTokenExpiresAt(UPDATED_ACCESS_TOKEN_EXPIRES_AT);
 
         restSpotifyConnectionMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedSpotifyConnection.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedSpotifyConnection.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedSpotifyConnection))
             )
@@ -444,7 +411,6 @@ class SpotifyConnectionResourceIT {
         List<SpotifyConnection> spotifyConnectionList = spotifyConnectionRepository.findAll();
         assertThat(spotifyConnectionList).hasSize(databaseSizeBeforeUpdate);
         SpotifyConnection testSpotifyConnection = spotifyConnectionList.get(spotifyConnectionList.size() - 1);
-        assertThat(testSpotifyConnection.getSpotifyURI()).isEqualTo(UPDATED_SPOTIFY_URI);
         assertThat(testSpotifyConnection.getRefreshToken()).isEqualTo(UPDATED_REFRESH_TOKEN);
         assertThat(testSpotifyConnection.getAccessToken()).isEqualTo(UPDATED_ACCESS_TOKEN);
         assertThat(testSpotifyConnection.getAccessTokenExpiresAt()).isEqualTo(UPDATED_ACCESS_TOKEN_EXPIRES_AT);
@@ -454,7 +420,7 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void patchNonExistingSpotifyConnection() throws Exception {
         int databaseSizeBeforeUpdate = spotifyConnectionRepository.findAll().size();
-        spotifyConnection.setId(count.incrementAndGet());
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the SpotifyConnection
         SpotifyConnectionDTO spotifyConnectionDTO = spotifyConnectionMapper.toDto(spotifyConnection);
@@ -462,7 +428,7 @@ class SpotifyConnectionResourceIT {
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSpotifyConnectionMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, spotifyConnectionDTO.getId())
+                patch(ENTITY_API_URL_ID, spotifyConnectionDTO.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(spotifyConnectionDTO))
             )
@@ -477,7 +443,7 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void patchWithIdMismatchSpotifyConnection() throws Exception {
         int databaseSizeBeforeUpdate = spotifyConnectionRepository.findAll().size();
-        spotifyConnection.setId(count.incrementAndGet());
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the SpotifyConnection
         SpotifyConnectionDTO spotifyConnectionDTO = spotifyConnectionMapper.toDto(spotifyConnection);
@@ -485,7 +451,7 @@ class SpotifyConnectionResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSpotifyConnectionMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(spotifyConnectionDTO))
             )
@@ -500,7 +466,7 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void patchWithMissingIdPathParamSpotifyConnection() throws Exception {
         int databaseSizeBeforeUpdate = spotifyConnectionRepository.findAll().size();
-        spotifyConnection.setId(count.incrementAndGet());
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the SpotifyConnection
         SpotifyConnectionDTO spotifyConnectionDTO = spotifyConnectionMapper.toDto(spotifyConnection);
@@ -523,13 +489,14 @@ class SpotifyConnectionResourceIT {
     @Transactional
     void deleteSpotifyConnection() throws Exception {
         // Initialize the database
+        spotifyConnection.setSpotifyURI(UUID.randomUUID().toString());
         spotifyConnectionRepository.saveAndFlush(spotifyConnection);
 
         int databaseSizeBeforeDelete = spotifyConnectionRepository.findAll().size();
 
         // Delete the spotifyConnection
         restSpotifyConnectionMockMvc
-            .perform(delete(ENTITY_API_URL_ID, spotifyConnection.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, spotifyConnection.getSpotifyURI()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

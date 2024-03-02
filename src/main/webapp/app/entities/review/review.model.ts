@@ -9,8 +9,8 @@ export interface IReview {
   content?: string | null;
   date?: dayjs.Dayjs | null;
   profile?: Pick<IProfile, 'id'> | null;
-  track?: Pick<ITrack, 'id'> | null;
-  album?: Pick<IAlbum, 'id'> | null;
+  track?: Pick<ITrack, 'spotifyURI'> | null;
+  album?: Pick<IAlbum, 'spotifyURI'> | null;
 }
 
 export type NewReview = Omit<IReview, 'id'> & { id: null };

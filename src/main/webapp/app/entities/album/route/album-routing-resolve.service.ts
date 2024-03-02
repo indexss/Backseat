@@ -12,7 +12,7 @@ export class AlbumRoutingResolveService implements Resolve<IAlbum | null> {
   constructor(protected service: AlbumService, protected router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IAlbum | null | never> {
-    const id = route.params['id'];
+    const id = route.params['spotifyURI'];
     if (id) {
       return this.service.find(id).pipe(
         mergeMap((album: HttpResponse<IAlbum>) => {

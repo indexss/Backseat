@@ -32,12 +32,6 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="spotifyURI">
             <div class="d-flex">
               <span>Spotify URI</span>
@@ -54,20 +48,29 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let artist of artists; trackBy: trackId" data-cy="entityTable">
+        <tr *ngFor="let artist of artists; trackBy: trackSpotifyURI" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/artist', artist.id, 'view']">{{ artist.id }}</a>
+            <a [routerLink]="['/artist', artist.spotifyURI, 'view']">{{ artist.spotifyURI }}</a>
           </td>
-          <td>{{ artist.spotifyURI }}</td>
           <td>{{ artist.name }}</td>
           <td class="text-end">
             <div class="btn-group">
-              <button type="submit" [routerLink]="['/artist', artist.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <button
+                type="submit"
+                [routerLink]="['/artist', artist.spotifyURI, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">View</span>
               </button>
 
-              <button type="submit" [routerLink]="['/artist', artist.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button
+                type="submit"
+                [routerLink]="['/artist', artist.spotifyURI, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Edit</span>
               </button>

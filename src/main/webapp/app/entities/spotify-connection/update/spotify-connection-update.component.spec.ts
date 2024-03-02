@@ -46,7 +46,7 @@ describe('SpotifyConnection Management Update Component', () => {
 
   describe('ngOnInit', () => {
     it('Should update editForm', () => {
-      const spotifyConnection: ISpotifyConnection = { id: 456 };
+      const spotifyConnection: ISpotifyConnection = { spotifyURI: 'CBA' };
 
       activatedRoute.data = of({ spotifyConnection });
       comp.ngOnInit();
@@ -59,7 +59,7 @@ describe('SpotifyConnection Management Update Component', () => {
     it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ISpotifyConnection>>();
-      const spotifyConnection = { id: 123 };
+      const spotifyConnection = { spotifyURI: 'ABC' };
       jest.spyOn(spotifyConnectionFormService, 'getSpotifyConnection').mockReturnValue(spotifyConnection);
       jest.spyOn(spotifyConnectionService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -82,8 +82,8 @@ describe('SpotifyConnection Management Update Component', () => {
     it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ISpotifyConnection>>();
-      const spotifyConnection = { id: 123 };
-      jest.spyOn(spotifyConnectionFormService, 'getSpotifyConnection').mockReturnValue({ id: null });
+      const spotifyConnection = { spotifyURI: 'ABC' };
+      jest.spyOn(spotifyConnectionFormService, 'getSpotifyConnection').mockReturnValue({ spotifyURI: null });
       jest.spyOn(spotifyConnectionService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ spotifyConnection: null });
@@ -105,7 +105,7 @@ describe('SpotifyConnection Management Update Component', () => {
     it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ISpotifyConnection>>();
-      const spotifyConnection = { id: 123 };
+      const spotifyConnection = { spotifyURI: 'ABC' };
       jest.spyOn(spotifyConnectionService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ spotifyConnection });

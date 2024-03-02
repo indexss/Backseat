@@ -40,7 +40,7 @@ export class ArtistUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const artist = this.artistFormService.getArtist(this.editForm);
-    if (artist.id !== null) {
+    if (artist.spotifyURI !== null) {
       this.subscribeToSaveResponse(this.artistService.update(artist));
     } else {
       this.subscribeToSaveResponse(this.artistService.create(artist));

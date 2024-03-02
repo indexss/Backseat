@@ -6,27 +6,27 @@ export const sampleWithRequiredData: IWantToListenListEntry = {
   id: 47370,
   spotifyURI: 'radical Montana',
   userID: 'Data initiatives',
-  addTime: dayjs('2024-02-26T17:35'),
+  addTime: dayjs('2024-02-29T18:01'),
 };
 
 export const sampleWithPartialData: IWantToListenListEntry = {
   id: 42922,
   spotifyURI: 'Oro',
   userID: 'Steel',
-  addTime: dayjs('2024-02-26T19:17'),
+  addTime: dayjs('2024-02-29T19:42'),
 };
 
 export const sampleWithFullData: IWantToListenListEntry = {
   id: 23804,
   spotifyURI: 'hacking Cheese hacking',
   userID: 'Brand',
-  addTime: dayjs('2024-02-27T08:32'),
+  addTime: dayjs('2024-03-01T08:57'),
 };
 
 export const sampleWithNewData: NewWantToListenListEntry = {
   spotifyURI: 'Sleek enable',
   userID: 'Compatible primary Outdoors',
-  addTime: dayjs('2024-02-27T08:52'),
+  addTime: dayjs('2024-03-01T09:17'),
   id: null,
 };
 

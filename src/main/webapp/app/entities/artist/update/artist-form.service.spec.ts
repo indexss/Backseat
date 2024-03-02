@@ -19,7 +19,6 @@ describe('Artist Form Service', () => {
 
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
-            id: expect.any(Object),
             spotifyURI: expect.any(Object),
             name: expect.any(Object),
             tracks: expect.any(Object),
@@ -33,7 +32,6 @@ describe('Artist Form Service', () => {
 
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
-            id: expect.any(Object),
             spotifyURI: expect.any(Object),
             name: expect.any(Object),
             tracks: expect.any(Object),
@@ -71,22 +69,22 @@ describe('Artist Form Service', () => {
     });
 
     describe('resetForm', () => {
-      it('passing IArtist should not enable id FormControl', () => {
+      it('passing IArtist should not enable spotifyURI FormControl', () => {
         const formGroup = service.createArtistFormGroup();
-        expect(formGroup.controls.id.disabled).toBe(true);
+        expect(formGroup.controls.spotifyURI.disabled).toBe(true);
 
         service.resetForm(formGroup, sampleWithRequiredData);
 
-        expect(formGroup.controls.id.disabled).toBe(true);
+        expect(formGroup.controls.spotifyURI.disabled).toBe(true);
       });
 
-      it('passing NewArtist should disable id FormControl', () => {
+      it('passing NewArtist should disable spotifyURI FormControl', () => {
         const formGroup = service.createArtistFormGroup(sampleWithRequiredData);
-        expect(formGroup.controls.id.disabled).toBe(true);
+        expect(formGroup.controls.spotifyURI.disabled).toBe(true);
 
-        service.resetForm(formGroup, { id: null });
+        service.resetForm(formGroup, { spotifyURI: null });
 
-        expect(formGroup.controls.id.disabled).toBe(true);
+        expect(formGroup.controls.spotifyURI.disabled).toBe(true);
       });
     });
   });

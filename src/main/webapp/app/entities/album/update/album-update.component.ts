@@ -62,7 +62,7 @@ export class AlbumUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const album = this.albumFormService.getAlbum(this.editForm);
-    if (album.id !== null) {
+    if (album.spotifyURI !== null) {
       this.subscribeToSaveResponse(this.albumService.update(album));
     } else {
       this.subscribeToSaveResponse(this.albumService.create(album));

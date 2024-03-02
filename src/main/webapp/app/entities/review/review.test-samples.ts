@@ -5,26 +5,26 @@ import { IReview, NewReview } from './review.model';
 export const sampleWithRequiredData: IReview = {
   id: 33078,
   rating: 3,
-  date: dayjs('2024-02-27T02:44'),
+  date: dayjs('2024-03-01T03:10'),
 };
 
 export const sampleWithPartialData: IReview = {
   id: 80527,
   rating: 4,
   content: '../fake-data/blob/hipster.txt',
-  date: dayjs('2024-02-27T08:12'),
+  date: dayjs('2024-03-01T08:37'),
 };
 
 export const sampleWithFullData: IReview = {
   id: 55918,
   rating: 1,
   content: '../fake-data/blob/hipster.txt',
-  date: dayjs('2024-02-26T21:30'),
+  date: dayjs('2024-02-29T21:55'),
 };
 
 export const sampleWithNewData: NewReview = {
   rating: 5,
-  date: dayjs('2024-02-26T22:42'),
+  date: dayjs('2024-02-29T23:07'),
   id: null,
 };
 

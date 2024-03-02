@@ -19,7 +19,7 @@ export class TrackComponent implements OnInit {
   tracks?: ITrack[];
   isLoading = false;
 
-  predicate = 'id';
+  predicate = 'spotifyURI';
   ascending = true;
 
   itemsPerPage = ITEMS_PER_PAGE;
@@ -33,7 +33,7 @@ export class TrackComponent implements OnInit {
     protected modalService: NgbModal
   ) {}
 
-  trackId = (_index: number, item: ITrack): number => this.trackService.getTrackIdentifier(item);
+  trackSpotifyURI = (_index: number, item: ITrack): string => this.trackService.getTrackIdentifier(item);
 
   ngOnInit(): void {
     this.load();

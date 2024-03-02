@@ -11,13 +11,13 @@ class ArtistTest {
     void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Artist.class);
         Artist artist1 = new Artist();
-        artist1.setId(1L);
+        artist1.setSpotifyURI("id1");
         Artist artist2 = new Artist();
-        artist2.setId(artist1.getId());
+        artist2.setSpotifyURI(artist1.getSpotifyURI());
         assertThat(artist1).isEqualTo(artist2);
-        artist2.setId(2L);
+        artist2.setSpotifyURI("id2");
         assertThat(artist1).isNotEqualTo(artist2);
-        artist1.setId(null);
+        artist1.setSpotifyURI(null);
         assertThat(artist1).isNotEqualTo(artist2);
     }
 }

@@ -43,6 +43,7 @@ public class TrackServiceImpl implements TrackService {
     public TrackDTO update(TrackDTO trackDTO) {
         log.debug("Request to update Track : {}", trackDTO);
         Track track = trackMapper.toEntity(trackDTO);
+        track.setIsPersisted();
         track = trackRepository.save(track);
         return trackMapper.toDto(track);
     }
@@ -52,7 +53,7 @@ public class TrackServiceImpl implements TrackService {
         log.debug("Request to partially update Track : {}", trackDTO);
 
         return trackRepository
-            .findById(trackDTO.getId())
+            .findById(trackDTO.getSpotifyURI())
             .map(existingTrack -> {
                 trackMapper.partialUpdate(existingTrack, trackDTO);
 
@@ -75,13 +76,13 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<TrackDTO> findOne(Long id) {
+    public Optional<TrackDTO> findOne(String id) {
         log.debug("Request to get Track : {}", id);
         return trackRepository.findOneWithEagerRelationships(id).map(trackMapper::toDto);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         log.debug("Request to delete Track : {}", id);
         trackRepository.deleteById(id);
     }

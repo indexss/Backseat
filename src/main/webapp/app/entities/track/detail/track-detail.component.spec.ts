@@ -14,7 +14,7 @@ describe('Track Management Detail Component', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { data: of({ track: { id: 123 } }) },
+          useValue: { data: of({ track: { spotifyURI: 'ABC' } }) },
         },
       ],
     })
@@ -30,7 +30,7 @@ describe('Track Management Detail Component', () => {
       comp.ngOnInit();
 
       // THEN
-      expect(comp.track).toEqual(expect.objectContaining({ id: 123 }));
+      expect(comp.track).toEqual(expect.objectContaining({ spotifyURI: 'ABC' }));
     });
   });
 });

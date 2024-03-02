@@ -32,12 +32,6 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="spotifyURI">
             <div class="d-flex">
               <span>Spotify URI</span>
@@ -66,11 +60,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let spotifyConnection of spotifyConnections; trackBy: trackId" data-cy="entityTable">
+        <tr *ngFor="let spotifyConnection of spotifyConnections; trackBy: trackSpotifyURI" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/spotify-connection', spotifyConnection.id, 'view']">{{ spotifyConnection.id }}</a>
+            <a [routerLink]="['/spotify-connection', spotifyConnection.spotifyURI, 'view']">{{ spotifyConnection.spotifyURI }}</a>
           </td>
-          <td>{{ spotifyConnection.spotifyURI }}</td>
           <td>{{ spotifyConnection.refreshToken }}</td>
           <td>{{ spotifyConnection.accessToken }}</td>
           <td>{{ spotifyConnection.accessTokenExpiresAt | formatMediumDatetime }}</td>
@@ -78,7 +71,7 @@
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/spotify-connection', spotifyConnection.id, 'view']"
+                [routerLink]="['/spotify-connection', spotifyConnection.spotifyURI, 'view']"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
               >
@@ -88,7 +81,7 @@
 
               <button
                 type="submit"
-                [routerLink]="['/spotify-connection', spotifyConnection.id, 'edit']"
+                [routerLink]="['/spotify-connection', spotifyConnection.spotifyURI, 'edit']"
                 class="btn btn-primary btn-sm"
                 data-cy="entityEditButton"
               >

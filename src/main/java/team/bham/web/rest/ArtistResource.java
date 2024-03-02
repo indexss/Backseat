@@ -58,54 +58,54 @@ public class ArtistResource {
     @PostMapping("/artists")
     public ResponseEntity<ArtistDTO> createArtist(@Valid @RequestBody ArtistDTO artistDTO) throws URISyntaxException {
         log.debug("REST request to save Artist : {}", artistDTO);
-        if (artistDTO.getId() != null) {
+        if (artistDTO.getSpotifyURI() != null) {
             throw new BadRequestAlertException("A new artist cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ArtistDTO result = artistService.save(artistDTO);
         return ResponseEntity
-            .created(new URI("/api/artists/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .created(new URI("/api/artists/" + result.getSpotifyURI()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getSpotifyURI()))
             .body(result);
     }
 
     /**
-     * {@code PUT  /artists/:id} : Updates an existing artist.
+     * {@code PUT  /artists/:spotifyURI} : Updates an existing artist.
      *
-     * @param id the id of the artistDTO to save.
+     * @param spotifyURI the id of the artistDTO to save.
      * @param artistDTO the artistDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated artistDTO,
      * or with status {@code 400 (Bad Request)} if the artistDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the artistDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/artists/{id}")
+    @PutMapping("/artists/{spotifyURI}")
     public ResponseEntity<ArtistDTO> updateArtist(
-        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "spotifyURI", required = false) final String spotifyURI,
         @Valid @RequestBody ArtistDTO artistDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update Artist : {}, {}", id, artistDTO);
-        if (artistDTO.getId() == null) {
+        log.debug("REST request to update Artist : {}, {}", spotifyURI, artistDTO);
+        if (artistDTO.getSpotifyURI() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, artistDTO.getId())) {
+        if (!Objects.equals(spotifyURI, artistDTO.getSpotifyURI())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        if (!artistRepository.existsById(id)) {
+        if (!artistRepository.existsById(spotifyURI)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         ArtistDTO result = artistService.update(artistDTO);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, artistDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, artistDTO.getSpotifyURI()))
             .body(result);
     }
 
     /**
-     * {@code PATCH  /artists/:id} : Partial updates given fields of an existing artist, field will ignore if it is null
+     * {@code PATCH  /artists/:spotifyURI} : Partial updates given fields of an existing artist, field will ignore if it is null
      *
-     * @param id the id of the artistDTO to save.
+     * @param spotifyURI the id of the artistDTO to save.
      * @param artistDTO the artistDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated artistDTO,
      * or with status {@code 400 (Bad Request)} if the artistDTO is not valid,
@@ -113,20 +113,20 @@ public class ArtistResource {
      * or with status {@code 500 (Internal Server Error)} if the artistDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/artists/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/artists/{spotifyURI}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ArtistDTO> partialUpdateArtist(
-        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "spotifyURI", required = false) final String spotifyURI,
         @NotNull @RequestBody ArtistDTO artistDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update Artist partially : {}, {}", id, artistDTO);
-        if (artistDTO.getId() == null) {
+        log.debug("REST request to partial update Artist partially : {}, {}", spotifyURI, artistDTO);
+        if (artistDTO.getSpotifyURI() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, artistDTO.getId())) {
+        if (!Objects.equals(spotifyURI, artistDTO.getSpotifyURI())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        if (!artistRepository.existsById(id)) {
+        if (!artistRepository.existsById(spotifyURI)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
@@ -134,7 +134,7 @@ public class ArtistResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, artistDTO.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, artistDTO.getSpotifyURI())
         );
     }
 
@@ -159,7 +159,7 @@ public class ArtistResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the artistDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/artists/{id}")
-    public ResponseEntity<ArtistDTO> getArtist(@PathVariable Long id) {
+    public ResponseEntity<ArtistDTO> getArtist(@PathVariable String id) {
         log.debug("REST request to get Artist : {}", id);
         Optional<ArtistDTO> artistDTO = artistService.findOne(id);
         return ResponseUtil.wrapOrNotFound(artistDTO);
@@ -172,12 +172,9 @@ public class ArtistResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/artists/{id}")
-    public ResponseEntity<Void> deleteArtist(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteArtist(@PathVariable String id) {
         log.debug("REST request to delete Artist : {}", id);
         artistService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id)).build();
     }
 }

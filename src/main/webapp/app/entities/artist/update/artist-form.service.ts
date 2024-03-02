@@ -6,7 +6,7 @@ import { IArtist, NewArtist } from '../artist.model';
 /**
  * A partial Type with required key is used as form input.
  */
-type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>> & { id: T['id'] };
+type PartialWithRequiredKeyOf<T extends { spotifyURI: unknown }> = Partial<Omit<T, 'spotifyURI'>> & { spotifyURI: T['spotifyURI'] };
 
 /**
  * Type for createFormGroup and resetForm argument.
@@ -14,11 +14,10 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type ArtistFormGroupInput = IArtist | PartialWithRequiredKeyOf<NewArtist>;
 
-type ArtistFormDefaults = Pick<NewArtist, 'id' | 'tracks' | 'albums'>;
+type ArtistFormDefaults = Pick<NewArtist, 'spotifyURI' | 'tracks' | 'albums'>;
 
 type ArtistFormGroupContent = {
-  id: FormControl<IArtist['id'] | NewArtist['id']>;
-  spotifyURI: FormControl<IArtist['spotifyURI']>;
+  spotifyURI: FormControl<IArtist['spotifyURI'] | NewArtist['spotifyURI']>;
   name: FormControl<IArtist['name']>;
   tracks: FormControl<IArtist['tracks']>;
   albums: FormControl<IArtist['albums']>;
@@ -28,22 +27,19 @@ export type ArtistFormGroup = FormGroup<ArtistFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class ArtistFormService {
-  createArtistFormGroup(artist: ArtistFormGroupInput = { id: null }): ArtistFormGroup {
+  createArtistFormGroup(artist: ArtistFormGroupInput = { spotifyURI: null }): ArtistFormGroup {
     const artistRawValue = {
       ...this.getFormDefaults(),
       ...artist,
     };
     return new FormGroup<ArtistFormGroupContent>({
-      id: new FormControl(
-        { value: artistRawValue.id, disabled: true },
+      spotifyURI: new FormControl(
+        { value: artistRawValue.spotifyURI, disabled: artistRawValue.spotifyURI !== null },
         {
           nonNullable: true,
           validators: [Validators.required],
         }
       ),
-      spotifyURI: new FormControl(artistRawValue.spotifyURI, {
-        validators: [Validators.required],
-      }),
       name: new FormControl(artistRawValue.name, {
         validators: [Validators.required],
       }),
@@ -61,14 +57,14 @@ export class ArtistFormService {
     form.reset(
       {
         ...artistRawValue,
-        id: { value: artistRawValue.id, disabled: true },
+        spotifyURI: { value: artistRawValue.spotifyURI, disabled: artistRawValue.spotifyURI !== null },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }
 
   private getFormDefaults(): ArtistFormDefaults {
     return {
-      id: null,
+      spotifyURI: null,
       tracks: [],
       albums: [],
     };

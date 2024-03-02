@@ -7,25 +7,21 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity FolderEntry.
+        Added the entity Follow.
     -->
-    <changeSet id="20240227172541-1" author="jhipster">
-        <createTable tableName="folder_entry">
+    <changeSet id="20240301175107-1" author="jhipster">
+        <createTable tableName="follow">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="spotify_uri" type="varchar(255)">
+            <column name="source_user_id" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="add_time" type="${datetimeType}">
+            <column name="target_user_id" type="varchar(255)">
                 <constraints nullable="false" />
-            </column>
-            <column name="folder_id" type="bigint">
-                <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="folder_entry" columnName="add_time" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -38,15 +34,15 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20240227172541-1-data" author="jhipster" context="faker">
+    <changeSet id="20240301175107-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/folder_entry.csv"
+                  file="config/liquibase/fake-data/follow.csv"
                   separator=";"
-                  tableName="folder_entry"
+                  tableName="follow"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="spotify_uri" type="string"/>
-            <column name="add_time" type="date"/>
+            <column name="source_user_id" type="string"/>
+            <column name="target_user_id" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

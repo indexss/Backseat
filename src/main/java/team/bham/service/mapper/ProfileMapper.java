@@ -14,7 +14,7 @@ import team.bham.service.dto.UserDTO;
 @Mapper(componentModel = "spring")
 public interface ProfileMapper extends EntityMapper<ProfileDTO, Profile> {
     @Mapping(target = "user", source = "user", qualifiedByName = "userId")
-    @Mapping(target = "spotifyConnection", source = "spotifyConnection", qualifiedByName = "spotifyConnectionId")
+    @Mapping(target = "spotifyConnection", source = "spotifyConnection", qualifiedByName = "spotifyConnectionSpotifyURI")
     ProfileDTO toDto(Profile s);
 
     @Named("userId")
@@ -22,8 +22,8 @@ public interface ProfileMapper extends EntityMapper<ProfileDTO, Profile> {
     @Mapping(target = "id", source = "id")
     UserDTO toDtoUserId(User user);
 
-    @Named("spotifyConnectionId")
+    @Named("spotifyConnectionSpotifyURI")
     @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    SpotifyConnectionDTO toDtoSpotifyConnectionId(SpotifyConnection spotifyConnection);
+    @Mapping(target = "spotifyURI", source = "spotifyURI")
+    SpotifyConnectionDTO toDtoSpotifyConnectionSpotifyURI(SpotifyConnection spotifyConnection);
 }

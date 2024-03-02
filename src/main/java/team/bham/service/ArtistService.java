@@ -47,12 +47,12 @@ public interface ArtistService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<ArtistDTO> findOne(Long id);
+    Optional<ArtistDTO> findOne(String id);
 
     /**
      * Delete the "id" artist.
      *
      * @param id the id of the entity.
      */
-    void delete(Long id);
+    void delete(String id);
 }

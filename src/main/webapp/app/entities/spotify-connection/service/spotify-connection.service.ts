@@ -9,7 +9,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { ISpotifyConnection, NewSpotifyConnection } from '../spotify-connection.model';
 
-export type PartialUpdateSpotifyConnection = Partial<ISpotifyConnection> & Pick<ISpotifyConnection, 'id'>;
+export type PartialUpdateSpotifyConnection = Partial<ISpotifyConnection> & Pick<ISpotifyConnection, 'spotifyURI'>;
 
 type RestOf<T extends ISpotifyConnection | NewSpotifyConnection> = Omit<T, 'accessTokenExpiresAt'> & {
   accessTokenExpiresAt?: string | null;
@@ -55,7 +55,7 @@ export class SpotifyConnectionService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  find(id: number): Observable<EntityResponseType> {
+  find(id: string): Observable<EntityResponseType> {
     return this.http
       .get<RestSpotifyConnection>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
@@ -68,19 +68,19 @@ export class SpotifyConnectionService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
+  delete(id: string): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  getSpotifyConnectionIdentifier(spotifyConnection: Pick<ISpotifyConnection, 'id'>): number {
-    return spotifyConnection.id;
+  getSpotifyConnectionIdentifier(spotifyConnection: Pick<ISpotifyConnection, 'spotifyURI'>): string {
+    return spotifyConnection.spotifyURI;
   }
 
-  compareSpotifyConnection(o1: Pick<ISpotifyConnection, 'id'> | null, o2: Pick<ISpotifyConnection, 'id'> | null): boolean {
+  compareSpotifyConnection(o1: Pick<ISpotifyConnection, 'spotifyURI'> | null, o2: Pick<ISpotifyConnection, 'spotifyURI'> | null): boolean {
     return o1 && o2 ? this.getSpotifyConnectionIdentifier(o1) === this.getSpotifyConnectionIdentifier(o2) : o1 === o2;
   }
 
-  addSpotifyConnectionToCollectionIfMissing<Type extends Pick<ISpotifyConnection, 'id'>>(
+  addSpotifyConnectionToCollectionIfMissing<Type extends Pick<ISpotifyConnection, 'spotifyURI'>>(
     spotifyConnectionCollection: Type[],
     ...spotifyConnectionsToCheck: (Type | null | undefined)[]
   ): Type[] {

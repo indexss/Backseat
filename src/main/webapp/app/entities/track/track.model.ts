@@ -5,16 +5,15 @@ import { IWantToListenListEntry } from 'app/entities/want-to-listen-list-entry/w
 import { IAlbum } from 'app/entities/album/album.model';
 
 export interface ITrack {
-  id: number;
-  spotifyURI?: string | null;
+  spotifyURI: string;
   name?: string | null;
   description?: string | null;
   releaseDate?: dayjs.Dayjs | null;
   rating?: number | null;
-  artists?: Pick<IArtist, 'id'>[] | null;
+  artists?: Pick<IArtist, 'spotifyURI'>[] | null;
   folderEntries?: Pick<IFolderEntry, 'id'>[] | null;
   wantToListenListEntries?: Pick<IWantToListenListEntry, 'id'>[] | null;
-  album?: Pick<IAlbum, 'id'> | null;
+  album?: Pick<IAlbum, 'spotifyURI'> | null;
 }
 
-export type NewTrack = Omit<ITrack, 'id'> & { id: null };
+export type NewTrack = Omit<ITrack, 'spotifyURI'> & { spotifyURI: null };

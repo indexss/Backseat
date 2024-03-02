@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.UUID;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,9 +42,6 @@ import team.bham.service.mapper.TrackMapper;
 @WithMockUser
 class TrackResourceIT {
 
-    private static final String DEFAULT_SPOTIFY_URI = "AAAAAAAAAA";
-    private static final String UPDATED_SPOTIFY_URI = "BBBBBBBBBB";
-
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -59,10 +55,7 @@ class TrackResourceIT {
     private static final Double UPDATED_RATING = 2D;
 
     private static final String ENTITY_API_URL = "/api/tracks";
-    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
-
-    private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{spotifyURI}";
 
     @Autowired
     private TrackRepository trackRepository;
@@ -92,7 +85,6 @@ class TrackResourceIT {
      */
     public static Track createEntity(EntityManager em) {
         Track track = new Track()
-            .spotifyURI(DEFAULT_SPOTIFY_URI)
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
             .releaseDate(DEFAULT_RELEASE_DATE)
@@ -108,7 +100,6 @@ class TrackResourceIT {
      */
     public static Track createUpdatedEntity(EntityManager em) {
         Track track = new Track()
-            .spotifyURI(UPDATED_SPOTIFY_URI)
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .releaseDate(UPDATED_RELEASE_DATE)
@@ -135,7 +126,6 @@ class TrackResourceIT {
         List<Track> trackList = trackRepository.findAll();
         assertThat(trackList).hasSize(databaseSizeBeforeCreate + 1);
         Track testTrack = trackList.get(trackList.size() - 1);
-        assertThat(testTrack.getSpotifyURI()).isEqualTo(DEFAULT_SPOTIFY_URI);
         assertThat(testTrack.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testTrack.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testTrack.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
@@ -146,7 +136,7 @@ class TrackResourceIT {
     @Transactional
     void createTrackWithExistingId() throws Exception {
         // Create the Track with an existing ID
-        track.setId(1L);
+        track.setSpotifyURI("existing_id");
         TrackDTO trackDTO = trackMapper.toDto(track);
 
         int databaseSizeBeforeCreate = trackRepository.findAll().size();
@@ -159,24 +149,6 @@ class TrackResourceIT {
         // Validate the Track in the database
         List<Track> trackList = trackRepository.findAll();
         assertThat(trackList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkSpotifyURIIsRequired() throws Exception {
-        int databaseSizeBeforeTest = trackRepository.findAll().size();
-        // set the field null
-        track.setSpotifyURI(null);
-
-        // Create the Track, which fails.
-        TrackDTO trackDTO = trackMapper.toDto(track);
-
-        restTrackMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(trackDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Track> trackList = trackRepository.findAll();
-        assertThat(trackList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -237,15 +209,15 @@ class TrackResourceIT {
     @Transactional
     void getAllTracks() throws Exception {
         // Initialize the database
+        track.setSpotifyURI(UUID.randomUUID().toString());
         trackRepository.saveAndFlush(track);
 
         // Get all the trackList
         restTrackMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc"))
+            .perform(get(ENTITY_API_URL + "?sort=spotifyURI,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(track.getId().intValue())))
-            .andExpect(jsonPath("$.[*].spotifyURI").value(hasItem(DEFAULT_SPOTIFY_URI)))
+            .andExpect(jsonPath("$.[*].spotifyURI").value(hasItem(track.getSpotifyURI())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].releaseDate").value(hasItem(DEFAULT_RELEASE_DATE.toString())))
@@ -273,15 +245,15 @@ class TrackResourceIT {
     @Transactional
     void getTrack() throws Exception {
         // Initialize the database
+        track.setSpotifyURI(UUID.randomUUID().toString());
         trackRepository.saveAndFlush(track);
 
         // Get the track
         restTrackMockMvc
-            .perform(get(ENTITY_API_URL_ID, track.getId()))
+            .perform(get(ENTITY_API_URL_ID, track.getSpotifyURI()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(track.getId().intValue()))
-            .andExpect(jsonPath("$.spotifyURI").value(DEFAULT_SPOTIFY_URI))
+            .andExpect(jsonPath("$.spotifyURI").value(track.getSpotifyURI()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.releaseDate").value(DEFAULT_RELEASE_DATE.toString()))
@@ -299,25 +271,21 @@ class TrackResourceIT {
     @Transactional
     void putExistingTrack() throws Exception {
         // Initialize the database
+        track.setSpotifyURI(UUID.randomUUID().toString());
         trackRepository.saveAndFlush(track);
 
         int databaseSizeBeforeUpdate = trackRepository.findAll().size();
 
         // Update the track
-        Track updatedTrack = trackRepository.findById(track.getId()).get();
+        Track updatedTrack = trackRepository.findById(track.getSpotifyURI()).get();
         // Disconnect from session so that the updates on updatedTrack are not directly saved in db
         em.detach(updatedTrack);
-        updatedTrack
-            .spotifyURI(UPDATED_SPOTIFY_URI)
-            .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION)
-            .releaseDate(UPDATED_RELEASE_DATE)
-            .rating(UPDATED_RATING);
+        updatedTrack.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
         TrackDTO trackDTO = trackMapper.toDto(updatedTrack);
 
         restTrackMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, trackDTO.getId())
+                put(ENTITY_API_URL_ID, trackDTO.getSpotifyURI())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(trackDTO))
             )
@@ -327,7 +295,6 @@ class TrackResourceIT {
         List<Track> trackList = trackRepository.findAll();
         assertThat(trackList).hasSize(databaseSizeBeforeUpdate);
         Track testTrack = trackList.get(trackList.size() - 1);
-        assertThat(testTrack.getSpotifyURI()).isEqualTo(UPDATED_SPOTIFY_URI);
         assertThat(testTrack.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testTrack.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testTrack.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
@@ -338,7 +305,7 @@ class TrackResourceIT {
     @Transactional
     void putNonExistingTrack() throws Exception {
         int databaseSizeBeforeUpdate = trackRepository.findAll().size();
-        track.setId(count.incrementAndGet());
+        track.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Track
         TrackDTO trackDTO = trackMapper.toDto(track);
@@ -346,7 +313,7 @@ class TrackResourceIT {
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restTrackMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, trackDTO.getId())
+                put(ENTITY_API_URL_ID, trackDTO.getSpotifyURI())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(trackDTO))
             )
@@ -361,7 +328,7 @@ class TrackResourceIT {
     @Transactional
     void putWithIdMismatchTrack() throws Exception {
         int databaseSizeBeforeUpdate = trackRepository.findAll().size();
-        track.setId(count.incrementAndGet());
+        track.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Track
         TrackDTO trackDTO = trackMapper.toDto(track);
@@ -369,7 +336,7 @@ class TrackResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restTrackMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(trackDTO))
             )
@@ -384,7 +351,7 @@ class TrackResourceIT {
     @Transactional
     void putWithMissingIdPathParamTrack() throws Exception {
         int databaseSizeBeforeUpdate = trackRepository.findAll().size();
-        track.setId(count.incrementAndGet());
+        track.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Track
         TrackDTO trackDTO = trackMapper.toDto(track);
@@ -403,19 +370,20 @@ class TrackResourceIT {
     @Transactional
     void partialUpdateTrackWithPatch() throws Exception {
         // Initialize the database
+        track.setSpotifyURI(UUID.randomUUID().toString());
         trackRepository.saveAndFlush(track);
 
         int databaseSizeBeforeUpdate = trackRepository.findAll().size();
 
         // Update the track using partial update
         Track partialUpdatedTrack = new Track();
-        partialUpdatedTrack.setId(track.getId());
+        partialUpdatedTrack.setSpotifyURI(track.getSpotifyURI());
 
-        partialUpdatedTrack.spotifyURI(UPDATED_SPOTIFY_URI).description(UPDATED_DESCRIPTION).releaseDate(UPDATED_RELEASE_DATE);
+        partialUpdatedTrack.name(UPDATED_NAME).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
 
         restTrackMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedTrack.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedTrack.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedTrack))
             )
@@ -425,35 +393,30 @@ class TrackResourceIT {
         List<Track> trackList = trackRepository.findAll();
         assertThat(trackList).hasSize(databaseSizeBeforeUpdate);
         Track testTrack = trackList.get(trackList.size() - 1);
-        assertThat(testTrack.getSpotifyURI()).isEqualTo(UPDATED_SPOTIFY_URI);
-        assertThat(testTrack.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testTrack.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testTrack.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testTrack.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testTrack.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
-        assertThat(testTrack.getRating()).isEqualTo(DEFAULT_RATING);
+        assertThat(testTrack.getRating()).isEqualTo(UPDATED_RATING);
     }
 
     @Test
     @Transactional
     void fullUpdateTrackWithPatch() throws Exception {
         // Initialize the database
+        track.setSpotifyURI(UUID.randomUUID().toString());
         trackRepository.saveAndFlush(track);
 
         int databaseSizeBeforeUpdate = trackRepository.findAll().size();
 
         // Update the track using partial update
         Track partialUpdatedTrack = new Track();
-        partialUpdatedTrack.setId(track.getId());
+        partialUpdatedTrack.setSpotifyURI(track.getSpotifyURI());
 
-        partialUpdatedTrack
-            .spotifyURI(UPDATED_SPOTIFY_URI)
-            .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION)
-            .releaseDate(UPDATED_RELEASE_DATE)
-            .rating(UPDATED_RATING);
+        partialUpdatedTrack.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
 
         restTrackMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, partialUpdatedTrack.getId())
+                patch(ENTITY_API_URL_ID, partialUpdatedTrack.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(partialUpdatedTrack))
             )
@@ -463,7 +426,6 @@ class TrackResourceIT {
         List<Track> trackList = trackRepository.findAll();
         assertThat(trackList).hasSize(databaseSizeBeforeUpdate);
         Track testTrack = trackList.get(trackList.size() - 1);
-        assertThat(testTrack.getSpotifyURI()).isEqualTo(UPDATED_SPOTIFY_URI);
         assertThat(testTrack.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testTrack.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testTrack.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
@@ -474,7 +436,7 @@ class TrackResourceIT {
     @Transactional
     void patchNonExistingTrack() throws Exception {
         int databaseSizeBeforeUpdate = trackRepository.findAll().size();
-        track.setId(count.incrementAndGet());
+        track.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Track
         TrackDTO trackDTO = trackMapper.toDto(track);
@@ -482,7 +444,7 @@ class TrackResourceIT {
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restTrackMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, trackDTO.getId())
+                patch(ENTITY_API_URL_ID, trackDTO.getSpotifyURI())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(trackDTO))
             )
@@ -497,7 +459,7 @@ class TrackResourceIT {
     @Transactional
     void patchWithIdMismatchTrack() throws Exception {
         int databaseSizeBeforeUpdate = trackRepository.findAll().size();
-        track.setId(count.incrementAndGet());
+        track.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Track
         TrackDTO trackDTO = trackMapper.toDto(track);
@@ -505,7 +467,7 @@ class TrackResourceIT {
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restTrackMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(trackDTO))
             )
@@ -520,7 +482,7 @@ class TrackResourceIT {
     @Transactional
     void patchWithMissingIdPathParamTrack() throws Exception {
         int databaseSizeBeforeUpdate = trackRepository.findAll().size();
-        track.setId(count.incrementAndGet());
+        track.setSpotifyURI(UUID.randomUUID().toString());
 
         // Create the Track
         TrackDTO trackDTO = trackMapper.toDto(track);
@@ -539,13 +501,14 @@ class TrackResourceIT {
     @Transactional
     void deleteTrack() throws Exception {
         // Initialize the database
+        track.setSpotifyURI(UUID.randomUUID().toString());
         trackRepository.saveAndFlush(track);
 
         int databaseSizeBeforeDelete = trackRepository.findAll().size();
 
         // Delete the track
         restTrackMockMvc
-            .perform(delete(ENTITY_API_URL_ID, track.getId()).accept(MediaType.APPLICATION_JSON))
+            .perform(delete(ENTITY_API_URL_ID, track.getSpotifyURI()).accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

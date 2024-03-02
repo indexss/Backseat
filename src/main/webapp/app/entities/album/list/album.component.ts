@@ -19,7 +19,7 @@ export class AlbumComponent implements OnInit {
   albums?: IAlbum[];
   isLoading = false;
 
-  predicate = 'id';
+  predicate = 'spotifyURI';
   ascending = true;
 
   itemsPerPage = ITEMS_PER_PAGE;
@@ -33,7 +33,7 @@ export class AlbumComponent implements OnInit {
     protected modalService: NgbModal
   ) {}
 
-  trackId = (_index: number, item: IAlbum): number => this.albumService.getAlbumIdentifier(item);
+  trackSpotifyURI = (_index: number, item: IAlbum): string => this.albumService.getAlbumIdentifier(item);
 
   ngOnInit(): void {
     this.load();

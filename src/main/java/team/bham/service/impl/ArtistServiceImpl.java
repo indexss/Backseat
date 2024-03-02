@@ -43,6 +43,7 @@ public class ArtistServiceImpl implements ArtistService {
     public ArtistDTO update(ArtistDTO artistDTO) {
         log.debug("Request to update Artist : {}", artistDTO);
         Artist artist = artistMapper.toEntity(artistDTO);
+        artist.setIsPersisted();
         artist = artistRepository.save(artist);
         return artistMapper.toDto(artist);
     }
@@ -52,7 +53,7 @@ public class ArtistServiceImpl implements ArtistService {
         log.debug("Request to partially update Artist : {}", artistDTO);
 
         return artistRepository
-            .findById(artistDTO.getId())
+            .findById(artistDTO.getSpotifyURI())
             .map(existingArtist -> {
                 artistMapper.partialUpdate(existingArtist, artistDTO);
 
@@ -71,13 +72,13 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<ArtistDTO> findOne(Long id) {
+    public Optional<ArtistDTO> findOne(String id) {
         log.debug("Request to get Artist : {}", id);
         return artistRepository.findById(id).map(artistMapper::toDto);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         log.debug("Request to delete Artist : {}", id);
         artistRepository.deleteById(id);
     }

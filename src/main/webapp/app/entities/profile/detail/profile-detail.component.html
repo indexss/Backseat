@@ -42,7 +42,9 @@
         <dt><span>Spotify Connection</span></dt>
         <dd>
           <div *ngIf="profile.spotifyConnection">
-            <a [routerLink]="['/spotify-connection', profile.spotifyConnection.id, 'view']">{{ profile.spotifyConnection.id }}</a>
+            <a [routerLink]="['/spotify-connection', profile.spotifyConnection.spotifyURI, 'view']">{{
+              profile.spotifyConnection.spotifyURI
+            }}</a>
           </div>
         </dd>
       </dl>

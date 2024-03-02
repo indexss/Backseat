@@ -3,37 +3,33 @@ import dayjs from 'dayjs/esm';
 import { ITrack, NewTrack } from './track.model';
 
 export const sampleWithRequiredData: ITrack = {
-  id: 60514,
-  spotifyURI: 'Motorway',
-  name: 'Ports cultivate',
-  releaseDate: dayjs('2024-02-27'),
-  rating: 1658,
+  spotifyURI: '9278777a-e6e2-470b-aa2d-996fd8ff8755',
+  name: 'Salad',
+  releaseDate: dayjs('2024-02-29'),
+  rating: 46590,
 };
 
 export const sampleWithPartialData: ITrack = {
-  id: 62950,
-  spotifyURI: 'Fresh Account',
-  name: 'Vanuatu Jersey concept',
-  description: 'Fresh connect Lock',
-  releaseDate: dayjs('2024-02-27'),
-  rating: 87358,
+  spotifyURI: '7706dc8e-b603-4cb8-8486-431aae6a399f',
+  name: 'Usability',
+  description: 'Assistant indexing supply-chains',
+  releaseDate: dayjs('2024-03-01'),
+  rating: 47420,
 };
 
 export const sampleWithFullData: ITrack = {
-  id: 78091,
-  spotifyURI: 'International Electronics',
-  name: 'Fiji Island green',
-  description: 'District Persevering',
-  releaseDate: dayjs('2024-02-26'),
-  rating: 24419,
+  spotifyURI: 'a882a9e3-8405-4aaa-b6ac-74547754e38a',
+  name: 'context-sensitive Cambridgeshire scale',
+  description: 'needs-based Secured Buckinghamshire',
+  releaseDate: dayjs('2024-02-29'),
+  rating: 41925,
 };
 
 export const sampleWithNewData: NewTrack = {
-  spotifyURI: 'Manager Assistant indexing',
-  name: 'Buckinghamshire Radial',
-  releaseDate: dayjs('2024-02-27'),
-  rating: 17556,
-  id: null,
+  name: 'Bedfordshire infomediaries Kyat',
+  releaseDate: dayjs('2024-02-29'),
+  rating: 51105,
+  spotifyURI: null,
 };
 
 Object.freeze(sampleWithNewData);

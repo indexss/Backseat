@@ -68,7 +68,7 @@ export class TrackUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const track = this.trackFormService.getTrack(this.editForm);
-    if (track.id !== null) {
+    if (track.spotifyURI !== null) {
       this.subscribeToSaveResponse(this.trackService.update(track));
     } else {
       this.subscribeToSaveResponse(this.trackService.create(track));

@@ -62,13 +62,13 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="track.id">
+          <th scope="col" jhiSortBy="track.spotifyURI">
             <div class="d-flex">
               <span>Track</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="album.id">
+          <th scope="col" jhiSortBy="album.spotifyURI">
             <div class="d-flex">
               <span>Album</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -92,12 +92,12 @@
           </td>
           <td>
             <div *ngIf="review.track">
-              <a [routerLink]="['/track', review.track.id, 'view']">{{ review.track.id }}</a>
+              <a [routerLink]="['/track', review.track.spotifyURI, 'view']">{{ review.track.spotifyURI }}</a>
             </div>
           </td>
           <td>
             <div *ngIf="review.album">
-              <a [routerLink]="['/album', review.album.id, 'view']">{{ review.album.id }}</a>
+              <a [routerLink]="['/album', review.album.spotifyURI, 'view']">{{ review.album.spotifyURI }}</a>
             </div>
           </td>
           <td class="text-end">

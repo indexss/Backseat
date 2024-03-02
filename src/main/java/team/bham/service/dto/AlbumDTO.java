@@ -13,8 +13,6 @@ import javax.validation.constraints.*;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class AlbumDTO implements Serializable {
 
-    private Long id;
-
     @NotNull
     private String spotifyURI;
 
@@ -37,14 +35,6 @@ public class AlbumDTO implements Serializable {
     private Set<FolderEntryDTO> folderEntries = new HashSet<>();
 
     private Set<WantToListenListEntryDTO> wantToListenListEntries = new HashSet<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSpotifyURI() {
         return spotifyURI;
@@ -128,23 +118,22 @@ public class AlbumDTO implements Serializable {
         }
 
         AlbumDTO albumDTO = (AlbumDTO) o;
-        if (this.id == null) {
+        if (this.spotifyURI == null) {
             return false;
         }
-        return Objects.equals(this.id, albumDTO.id);
+        return Objects.equals(this.spotifyURI, albumDTO.spotifyURI);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id);
+        return Objects.hash(this.spotifyURI);
     }
 
     // prettier-ignore
     @Override
     public String toString() {
         return "AlbumDTO{" +
-            "id=" + getId() +
-            ", spotifyURI='" + getSpotifyURI() + "'" +
+            "spotifyURI='" + getSpotifyURI() + "'" +
             ", name='" + getName() + "'" +
             ", totalTracks=" + getTotalTracks() +
             ", description='" + getDescription() + "'" +

@@ -11,8 +11,6 @@ import javax.validation.constraints.*;
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class SpotifyConnectionDTO implements Serializable {
 
-    private Long id;
-
     @NotNull
     private String spotifyURI;
 
@@ -24,14 +22,6 @@ public class SpotifyConnectionDTO implements Serializable {
 
     @NotNull
     private Instant accessTokenExpiresAt;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSpotifyURI() {
         return spotifyURI;
@@ -75,23 +65,22 @@ public class SpotifyConnectionDTO implements Serializable {
         }
 
         SpotifyConnectionDTO spotifyConnectionDTO = (SpotifyConnectionDTO) o;
-        if (this.id == null) {
+        if (this.spotifyURI == null) {
             return false;
         }
-        return Objects.equals(this.id, spotifyConnectionDTO.id);
+        return Objects.equals(this.spotifyURI, spotifyConnectionDTO.spotifyURI);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id);
+        return Objects.hash(this.spotifyURI);
     }
 
     // prettier-ignore
     @Override
     public String toString() {
         return "SpotifyConnectionDTO{" +
-            "id=" + getId() +
-            ", spotifyURI='" + getSpotifyURI() + "'" +
+            "spotifyURI='" + getSpotifyURI() + "'" +
             ", refreshToken='" + getRefreshToken() + "'" +
             ", accessToken='" + getAccessToken() + "'" +
             ", accessTokenExpiresAt='" + getAccessTokenExpiresAt() + "'" +

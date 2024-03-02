@@ -43,6 +43,7 @@ public class AlbumServiceImpl implements AlbumService {
     public AlbumDTO update(AlbumDTO albumDTO) {
         log.debug("Request to update Album : {}", albumDTO);
         Album album = albumMapper.toEntity(albumDTO);
+        album.setIsPersisted();
         album = albumRepository.save(album);
         return albumMapper.toDto(album);
     }
@@ -52,7 +53,7 @@ public class AlbumServiceImpl implements AlbumService {
         log.debug("Request to partially update Album : {}", albumDTO);
 
         return albumRepository
-            .findById(albumDTO.getId())
+            .findById(albumDTO.getSpotifyURI())
             .map(existingAlbum -> {
                 albumMapper.partialUpdate(existingAlbum, albumDTO);
 
@@ -75,13 +76,13 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<AlbumDTO> findOne(Long id) {
+    public Optional<AlbumDTO> findOne(String id) {
         log.debug("Request to get Album : {}", id);
         return albumRepository.findOneWithEagerRelationships(id).map(albumMapper::toDto);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         log.debug("Request to delete Album : {}", id);
         albumRepository.deleteById(id);
     }
