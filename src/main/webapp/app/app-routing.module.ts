@@ -11,6 +11,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { DiscoverComponent } from './discover/discover.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
+import { RatingComponent } from './rating/rating.component';
 
 @NgModule({
   imports: [
@@ -39,6 +40,15 @@ import { SearchComponent } from './search/search.component';
             authorities: [],
           },
         },
+
+        {
+          path: 'rating',
+          component: RatingComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
         {
           path: 'admin',
           data: {

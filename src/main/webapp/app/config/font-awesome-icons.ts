@@ -39,6 +39,7 @@ import {
   faWrench,
   faCompass,
   faListOl,
+  faStar,
 
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
@@ -85,5 +86,6 @@ export const fontAwesomeIcons = [
   faCompass,
   faListOl,
   faSearch,
+  faStar,
   // jhipster-needle-add-icon-import
 ];
