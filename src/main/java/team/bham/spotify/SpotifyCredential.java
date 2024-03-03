@@ -3,9 +3,9 @@ package team.bham.spotify;
 import team.bham.config.ApplicationProperties;
 import team.bham.service.SpotifyConnectionService;
 import team.bham.service.dto.SpotifyConnectionDTO;
-import team.bham.spotify.responses.ClientCredentialsResponse;
-import team.bham.spotify.responses.AuthenticationErrorResponse;
 import team.bham.spotify.responses.AccessTokenResponse;
+import team.bham.spotify.responses.AuthenticationErrorResponse;
+import team.bham.spotify.responses.ClientCredentialsResponse;
 
 import java.io.IOException;
 import java.net.URI;

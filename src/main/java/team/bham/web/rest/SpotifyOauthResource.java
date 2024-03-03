@@ -1,11 +1,5 @@
 package team.bham.web.rest;
 
-import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import team.bham.config.ApplicationProperties;
 import team.bham.service.SpotifyConnectionService;
-import team.bham.spotify.*;
+import team.bham.spotify.SpotifyAPI;
+import team.bham.spotify.SpotifyException;
+import team.bham.spotify.SpotifyOauth;
+import team.bham.spotify.SpotifyPlainCredential;
 import team.bham.spotify.responses.AccessTokenResponse;
 import team.bham.spotify.responses.UserProfileResponse;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/oauth")
@@ -27,23 +30,16 @@ public class SpotifyOauthResource {
     public final static String STATE_COOKIE = "backseat-oauth-state";
 
     private final Logger log = LoggerFactory.getLogger(SpotifyOauthResource.class);
-
+    private final SpotifyConnectionService spotifyConnectionService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
     @Autowired
     private ApplicationProperties appProps;
-
-    private final SpotifyConnectionService spotifyConnectionService;
 
     public SpotifyOauthResource(
         SpotifyConnectionService spotifyConnectionService
     ) {
         this.spotifyConnectionService = spotifyConnectionService;
-    }
-
-    public class GetUrlResponse {
-        public String url;
     }
 
     @GetMapping("/get-url")
@@ -54,17 +50,6 @@ public class SpotifyOauthResource {
         return resp;
     }
 
-    public static class StoreResultRequest {
-        @NotNull
-        public String code;
-        @NotNull
-        public String state;
-    }
-
-
-    public static class StoreResultResponse {
-        public String displayName;
-    }
     @PostMapping("/store-result")
     public ResponseEntity<StoreResultResponse> storeResult(HttpServletRequest request, @Valid @RequestBody SpotifyOauthResource.StoreResultRequest body) throws IOException, InterruptedException {
         // Verify state
@@ -101,6 +86,22 @@ public class SpotifyOauthResource {
         StoreResultResponse resp = new StoreResultResponse();
         resp.displayName = userProfile.displayName;
         return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+
+    public static class StoreResultRequest {
+        @NotNull
+        public String code;
+        @NotNull
+        public String state;
+    }
+
+
+    public static class StoreResultResponse {
+        public String displayName;
+    }
+
+    public class GetUrlResponse {
+        public String url;
     }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ApplicationConfigService} from "../../core/config/application-config.service";
@@ -7,13 +7,15 @@ export class CodeRequest {
   constructor(
     public code: string,
     public state: string
-  ) {}
+  ) {
+  }
 }
 
 export class CodeResponse {
   constructor(
     public displayName: string,
-  ) {}
+  ) {
+  }
 }
 
 @Component({
@@ -35,7 +37,8 @@ export class InboundComponent implements OnInit {
   nextURL: string = "/";
   displayName: string = "";
 
-  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService, private route: ActivatedRoute, private router: Router) {
+  }
 
   ngOnInit(): void {
     const pm: ParamMap = this.route.snapshot.queryParamMap;

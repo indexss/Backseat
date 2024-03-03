@@ -1,12 +1,14 @@
 <div [ngSwitch]="pageState">
   <ng-container *ngSwitchCase="pageState_error">
     <div class="alert alert-danger">
-      <strong>Failed to perform Spotify authentication!</strong><br>The reason provided by Spotify was: {{ errorMessage }}
+      <strong>Failed to perform Spotify authentication!</strong><br>The reason provided by Spotify
+      was: {{ errorMessage }}
     </div>
   </ng-container>
   <ng-container *ngSwitchCase="pageState_ready">
     <div class="alert alert-success">
-      <strong>Successfully connected to Spotify</strong> - hi {{ displayName }}!<br><p>If you're not redirected shortly, <a [routerLink]="nextURL">click here</a>.
+      <strong>Successfully connected to Spotify</strong> - hi {{ displayName }}!<br>
+      <p>If you're not redirected shortly, <a [routerLink]="nextURL">click here</a>.
     </div>
   </ng-container>
   <ng-container *ngSwitchDefault>Working...</ng-container>

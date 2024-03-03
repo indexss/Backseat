@@ -1,6 +1,5 @@
 package team.bham.spotify;
 
-import io.micrometer.core.ipc.http.HttpSender;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 

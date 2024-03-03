@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ApplicationConfigService} from "../../core/config/application-config.service";
 
 export class URLResponse {
   constructor(
     public url: string
-  ) {}
+  ) {
+  }
 }
 
 
@@ -16,9 +17,10 @@ export class URLResponse {
 })
 export class OutboundComponent implements OnInit {
 
-  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) { }
-
   redirectURL: string | null = null;
+
+  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {
+  }
 
   ngOnInit(): void {
     this.http.get<URLResponse>(this.applicationConfigService.getEndpointFor("api/oauth/get-url")).subscribe(resp => {

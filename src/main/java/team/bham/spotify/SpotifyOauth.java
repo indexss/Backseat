@@ -28,7 +28,7 @@ public class SpotifyOauth {
         this.spotifyConnectionService = serv;
     }
 
-    public static String generateState( HttpServletRequest request) {
+    public static String generateState(HttpServletRequest request) {
         byte[] rawState;
 
         try {

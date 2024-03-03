@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { InboundComponent } from './inbound/inbound.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {InboundComponent} from './inbound/inbound.component';
 import {RouterModule} from "@angular/router";
-import { OutboundComponent } from './outbound/outbound.component';
+import {OutboundComponent} from './outbound/outbound.component';
 
 @NgModule({
   declarations: [
@@ -28,4 +28,5 @@ import { OutboundComponent } from './outbound/outbound.component';
     ]),
   ]
 })
-export class OauthModule { }
+export class OauthModule {
+}
