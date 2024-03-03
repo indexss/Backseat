@@ -1,2 +1,12 @@
-<p>inbound works!</p>
-<p>Parameters: {{requestParams}}</p>
+<div [ngSwitch]="pageState">
+  <ng-container *ngSwitchCase="pageState_error">
+    <div class="alert alert-danger">
+      <strong>Failed to perform Spotify authentication!</strong><br>The reason provided by Spotify was: {{ errorMessage }}
+    </div>
+  </ng-container>
+  <ng-container *ngSwitchCase="pageState_ready"><ul>
+    <li>Code: {{ code }}</li>
+    <li>State: {{ state }}</li>
+  </ul></ng-container>
+  <ng-container *ngSwitchDefault>Working...</ng-container>
+</div>
