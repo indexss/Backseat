@@ -1,5 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
+import {ApplicationConfigService} from "../../core/config/application-config.service";
+
+export class CodeRequest {
+  constructor(
+    public code: string,
+    public state: string
+  ) {}
+}
+
 
 @Component({
   selector: 'jhi-inbound',
@@ -17,7 +27,9 @@ export class InboundComponent implements OnInit {
   state: string = "";
   code: string = "";
 
-  constructor(private route: ActivatedRoute) { }
+  nextURL: string = "/";
+
+  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     const pm: ParamMap = this.route.snapshot.queryParamMap;
@@ -43,8 +55,16 @@ export class InboundComponent implements OnInit {
       this.state = <string>pm.get("state");
     }
 
-    // TODO(txp271): communicate this to the backend
+    let respBody = new CodeRequest(
+      this.code, this.state
+    );
 
-    this.pageState = this.pageState_ready;
+    this.http.post(this.applicationConfigService.getEndpointFor("api/oauth/store-result"), respBody).subscribe(_ => {
+      // a-ok!
+      this.pageState = this.pageState_ready;
+      window.setTimeout(() => {
+        this.router.navigateByUrl(this.nextURL);
+      }, 1500);
+    })
   }
 }

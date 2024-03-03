@@ -1,5 +1,6 @@
 package team.bham.spotify;
 
+import org.springframework.http.HttpHeaders;
 import team.bham.config.ApplicationProperties;
 import team.bham.service.SpotifyConnectionService;
 import team.bham.spotify.responses.AccessTokenResponse;
@@ -33,8 +34,7 @@ public class SpotifyOAuth {
     }
 
     private static String generateInboundOauthUrl(HttpServletRequest request) {
-        return "http://localhost:9000/oauth/inbound";
-//        return request.getProtocol().split("/")[0].toLowerCase() + "://" + request.getHeader(HttpHeaders.HOST) + "/oauth/inbound";
+        return request.getProtocol().split("/")[0].toLowerCase() + "://" + request.getHeader(HttpHeaders.HOST) + "/oauth/inbound";
     }
 
     public String generateOauthRedirectUrl(String state, HttpServletRequest request) {

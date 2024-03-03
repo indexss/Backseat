@@ -4,9 +4,10 @@
       <strong>Failed to perform Spotify authentication!</strong><br>The reason provided by Spotify was: {{ errorMessage }}
     </div>
   </ng-container>
-  <ng-container *ngSwitchCase="pageState_ready"><ul>
-    <li>Code: {{ code }}</li>
-    <li>State: {{ state }}</li>
-  </ul></ng-container>
+  <ng-container *ngSwitchCase="pageState_ready">
+    <div class="alert alert-success">
+      <strong>Successfully connected to Spotify!</strong><br><p>If you're not redirected shortly, <a [routerLink]="nextURL">click here</a>.
+    </div>
+  </ng-container>
   <ng-container *ngSwitchDefault>Working...</ng-container>
 </div>
