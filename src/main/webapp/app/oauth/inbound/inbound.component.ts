@@ -10,6 +10,11 @@ export class CodeRequest {
   ) {}
 }
 
+export class CodeResponse {
+  constructor(
+    public displayName: string,
+  ) {}
+}
 
 @Component({
   selector: 'jhi-inbound',
@@ -28,6 +33,7 @@ export class InboundComponent implements OnInit {
   code: string = "";
 
   nextURL: string = "/";
+  displayName: string = "";
 
   constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService, private route: ActivatedRoute, private router: Router) { }
 
@@ -59,12 +65,13 @@ export class InboundComponent implements OnInit {
       this.code, this.state
     );
 
-    this.http.post(this.applicationConfigService.getEndpointFor("api/oauth/store-result"), respBody).subscribe(_ => {
+    this.http.post<CodeResponse>(this.applicationConfigService.getEndpointFor("api/oauth/store-result"), respBody).subscribe(resp => {
       // a-ok!
+      this.displayName = resp.displayName;
       this.pageState = this.pageState_ready;
       window.setTimeout(() => {
         this.router.navigateByUrl(this.nextURL);
-      }, 1500);
+      }, 3000);
     })
   }
 }

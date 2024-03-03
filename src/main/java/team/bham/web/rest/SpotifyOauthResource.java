@@ -100,7 +100,7 @@ public class SpotifyOauthResource {
 
         StoreResultResponse resp = new StoreResultResponse();
         resp.displayName = userProfile.displayName;
-        return new ResponseEntity<>(resp, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
 }
