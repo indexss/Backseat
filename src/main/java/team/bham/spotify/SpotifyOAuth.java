@@ -65,10 +65,10 @@ public class SpotifyOAuth {
         );
 
         if (resp.statusCode() != 200) {
-            AuthenticationErrorResponse err = SpotifyAPI.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
+            AuthenticationErrorResponse err = Util.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
             throw new SpotifyException("unable to obtain Spotify access token", err.error);
         }
 
-        return SpotifyAPI.unmarshalJson(resp.body(), AccessTokenResponse.class);
+        return Util.unmarshalJson(resp.body(), AccessTokenResponse.class);
     }
 }

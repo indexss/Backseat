@@ -108,4 +108,6 @@ jhipster:
 # ===================================================================
 
 application:
-  
+  spotify-client-id: "83899dc34f244726b192636cbd8d4ef1"
+  spotify-client-secret: "51f6bed813c34ddd9c5b4b58a6c874c7"
+

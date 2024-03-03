@@ -24,10 +24,6 @@ public class SpotifyAPI {
         return resp;
     }
 
-    protected static <T> T unmarshalJson(String data, Class<T> cl) throws JsonProcessingException {
-        return new ObjectMapper().readValue(data, cl);
-    }
-
     protected static URI formUri(String path) {
         return URI.create("https://api.spotify.com/v1" + path);
     }
@@ -50,10 +46,10 @@ public class SpotifyAPI {
         );
 
         if (resp.statusCode() != 200) {
-            APIErrorResponse res = unmarshalJson(resp.body(), APIErrorResponse.class);
+            APIErrorResponse res = Util.unmarshalJson(resp.body(), APIErrorResponse.class);
             throw res.toException();
         }
 
-        return unmarshalJson(resp.body(), UserProfileResponse.class);
+        return Util.unmarshalJson(resp.body(), UserProfileResponse.class);
     }
 }

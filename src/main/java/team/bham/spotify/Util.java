@@ -1,5 +1,8 @@
 package team.bham.spotify;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -22,5 +25,9 @@ class Util {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    protected static <T> T unmarshalJson(String data, Class<T> cl) throws JsonProcessingException {
+        return new ObjectMapper().readValue(data, cl);
     }
 }

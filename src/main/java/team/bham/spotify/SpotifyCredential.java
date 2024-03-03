@@ -75,16 +75,16 @@ public class SpotifyCredential {
 
         if (resp.statusCode() != 200) {
             // TODO(txp271): what does this look like when we have a 401 or 403 or for whatever reason the refresh token is bad?
-            AuthenticationErrorResponse err = SpotifyAPI.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
+            AuthenticationErrorResponse err = Util.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
             throw new SpotifyException("unable to refresh Spotify access token", err.error);
         }
 
         SpotifyConnectionDTO newDto;
 
         if (isSystem()) {
-            newDto = SpotifyAPI.unmarshalJson(resp.body(), ClientCredentialsResponse.class).asSpotifyConnectionDTO();
+            newDto = Util.unmarshalJson(resp.body(), ClientCredentialsResponse.class).asSpotifyConnectionDTO();
         } else {
-            newDto = SpotifyAPI.unmarshalJson(resp.body(), AccessTokenResponse.class).asSpotifyConnectionDTO(this.uri);
+            newDto = Util.unmarshalJson(resp.body(), AccessTokenResponse.class).asSpotifyConnectionDTO(this.uri);
         }
 
         spotifyConnectionService.update(newDto);
