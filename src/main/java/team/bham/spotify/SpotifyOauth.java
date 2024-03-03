@@ -21,11 +21,8 @@ public class SpotifyOauth {
     public final static String SCOPES = "user-read-recently-played";
 
     private final ApplicationProperties appProps;
-    private final SpotifyConnectionService spotifyConnectionService;
-
-    public SpotifyOauth(ApplicationProperties appProps, SpotifyConnectionService serv) {
+    public SpotifyOauth(ApplicationProperties appProps) {
         this.appProps = appProps;
-        this.spotifyConnectionService = serv;
     }
 
     public static String generateState(HttpServletRequest request) {

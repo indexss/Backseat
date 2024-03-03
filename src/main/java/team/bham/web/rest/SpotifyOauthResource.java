@@ -45,7 +45,7 @@ public class SpotifyOauthResource {
     @GetMapping("/get-url")
     public GetUrlResponse getUrl(HttpServletRequest request, HttpServletResponse response) {
         GetUrlResponse resp = new GetUrlResponse();
-        resp.url = new SpotifyOauth(this.appProps, this.spotifyConnectionService)
+        resp.url = new SpotifyOauth(this.appProps)
             .generateOauthRedirectUrl(SpotifyOauth.generateState(request), request);
         return resp;
     }
@@ -62,7 +62,7 @@ public class SpotifyOauthResource {
         // Do token exchange
         AccessTokenResponse accessToken;
         try {
-            accessToken = new SpotifyOauth(this.appProps, this.spotifyConnectionService)
+            accessToken = new SpotifyOauth(this.appProps)
                 .performTokenExchange(request, body.code);
         } catch (SpotifyException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "unable to perform token exchange", e);
