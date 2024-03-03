@@ -45,9 +45,6 @@ class TrackResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
-    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
-
     private static final LocalDate DEFAULT_RELEASE_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_RELEASE_DATE = LocalDate.now(ZoneId.systemDefault());
 
@@ -84,11 +81,7 @@ class TrackResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Track createEntity(EntityManager em) {
-        Track track = new Track()
-            .name(DEFAULT_NAME)
-            .description(DEFAULT_DESCRIPTION)
-            .releaseDate(DEFAULT_RELEASE_DATE)
-            .rating(DEFAULT_RATING);
+        Track track = new Track().name(DEFAULT_NAME).releaseDate(DEFAULT_RELEASE_DATE).rating(DEFAULT_RATING);
         return track;
     }
 
@@ -99,11 +92,7 @@ class TrackResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Track createUpdatedEntity(EntityManager em) {
-        Track track = new Track()
-            .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION)
-            .releaseDate(UPDATED_RELEASE_DATE)
-            .rating(UPDATED_RATING);
+        Track track = new Track().name(UPDATED_NAME).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
         return track;
     }
 
@@ -127,7 +116,6 @@ class TrackResourceIT {
         assertThat(trackList).hasSize(databaseSizeBeforeCreate + 1);
         Track testTrack = trackList.get(trackList.size() - 1);
         assertThat(testTrack.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testTrack.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testTrack.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
         assertThat(testTrack.getRating()).isEqualTo(DEFAULT_RATING);
     }
@@ -219,7 +207,6 @@ class TrackResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].spotifyURI").value(hasItem(track.getSpotifyURI())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].releaseDate").value(hasItem(DEFAULT_RELEASE_DATE.toString())))
             .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING.doubleValue())));
     }
@@ -255,7 +242,6 @@ class TrackResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.spotifyURI").value(track.getSpotifyURI()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.releaseDate").value(DEFAULT_RELEASE_DATE.toString()))
             .andExpect(jsonPath("$.rating").value(DEFAULT_RATING.doubleValue()));
     }
@@ -280,7 +266,7 @@ class TrackResourceIT {
         Track updatedTrack = trackRepository.findById(track.getSpotifyURI()).get();
         // Disconnect from session so that the updates on updatedTrack are not directly saved in db
         em.detach(updatedTrack);
-        updatedTrack.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
+        updatedTrack.name(UPDATED_NAME).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
         TrackDTO trackDTO = trackMapper.toDto(updatedTrack);
 
         restTrackMockMvc
@@ -296,7 +282,6 @@ class TrackResourceIT {
         assertThat(trackList).hasSize(databaseSizeBeforeUpdate);
         Track testTrack = trackList.get(trackList.size() - 1);
         assertThat(testTrack.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testTrack.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testTrack.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
         assertThat(testTrack.getRating()).isEqualTo(UPDATED_RATING);
     }
@@ -379,7 +364,7 @@ class TrackResourceIT {
         Track partialUpdatedTrack = new Track();
         partialUpdatedTrack.setSpotifyURI(track.getSpotifyURI());
 
-        partialUpdatedTrack.name(UPDATED_NAME).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
+        partialUpdatedTrack.name(UPDATED_NAME).rating(UPDATED_RATING);
 
         restTrackMockMvc
             .perform(
@@ -394,8 +379,7 @@ class TrackResourceIT {
         assertThat(trackList).hasSize(databaseSizeBeforeUpdate);
         Track testTrack = trackList.get(trackList.size() - 1);
         assertThat(testTrack.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testTrack.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testTrack.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
+        assertThat(testTrack.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
         assertThat(testTrack.getRating()).isEqualTo(UPDATED_RATING);
     }
 
@@ -412,7 +396,7 @@ class TrackResourceIT {
         Track partialUpdatedTrack = new Track();
         partialUpdatedTrack.setSpotifyURI(track.getSpotifyURI());
 
-        partialUpdatedTrack.name(UPDATED_NAME).description(UPDATED_DESCRIPTION).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
+        partialUpdatedTrack.name(UPDATED_NAME).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
 
         restTrackMockMvc
             .perform(
@@ -427,7 +411,6 @@ class TrackResourceIT {
         assertThat(trackList).hasSize(databaseSizeBeforeUpdate);
         Track testTrack = trackList.get(trackList.size() - 1);
         assertThat(testTrack.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testTrack.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testTrack.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
         assertThat(testTrack.getRating()).isEqualTo(UPDATED_RATING);
     }

@@ -22,8 +22,6 @@ public class AlbumDTO implements Serializable {
     @NotNull
     private Integer totalTracks;
 
-    private String description;
-
     @NotNull
     private LocalDate releaseDate;
 
@@ -58,14 +56,6 @@ public class AlbumDTO implements Serializable {
 
     public void setTotalTracks(Integer totalTracks) {
         this.totalTracks = totalTracks;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDate getReleaseDate() {
@@ -136,7 +126,6 @@ public class AlbumDTO implements Serializable {
             "spotifyURI='" + getSpotifyURI() + "'" +
             ", name='" + getName() + "'" +
             ", totalTracks=" + getTotalTracks() +
-            ", description='" + getDescription() + "'" +
             ", releaseDate='" + getReleaseDate() + "'" +
             ", rating=" + getRating() +
             ", artists=" + getArtists() +

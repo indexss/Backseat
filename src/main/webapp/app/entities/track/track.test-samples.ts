@@ -10,25 +10,23 @@ export const sampleWithRequiredData: ITrack = {
 };
 
 export const sampleWithPartialData: ITrack = {
-  spotifyURI: '7706dc8e-b603-4cb8-8486-431aae6a399f',
-  name: 'Usability',
-  description: 'Assistant indexing supply-chains',
+  spotifyURI: '87706dc8-eb60-43cb-8448-6431aae6a399',
+  name: 'User-centric Reduced multi-byte',
   releaseDate: dayjs('2024-03-01'),
-  rating: 47420,
+  rating: 15282,
 };
 
 export const sampleWithFullData: ITrack = {
-  spotifyURI: 'a882a9e3-8405-4aaa-b6ac-74547754e38a',
-  name: 'context-sensitive Cambridgeshire scale',
-  description: 'needs-based Secured Buckinghamshire',
-  releaseDate: dayjs('2024-02-29'),
-  rating: 41925,
+  spotifyURI: '67ab7a88-2a9e-4384-85aa-af6ac7454775',
+  name: 'SSL',
+  releaseDate: dayjs('2024-03-01'),
+  rating: 82473,
 };
 
 export const sampleWithNewData: NewTrack = {
-  name: 'Bedfordshire infomediaries Kyat',
+  name: 'Sharable',
   releaseDate: dayjs('2024-02-29'),
-  rating: 51105,
+  rating: 25508,
   spotifyURI: null,
 };
 

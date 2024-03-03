@@ -19,8 +19,6 @@ public class TrackDTO implements Serializable {
     @NotNull
     private String name;
 
-    private String description;
-
     @NotNull
     private LocalDate releaseDate;
 
@@ -49,14 +47,6 @@ public class TrackDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDate getReleaseDate() {
@@ -134,7 +124,6 @@ public class TrackDTO implements Serializable {
         return "TrackDTO{" +
             "spotifyURI='" + getSpotifyURI() + "'" +
             ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
             ", releaseDate='" + getReleaseDate() + "'" +
             ", rating=" + getRating() +
             ", artists=" + getArtists() +
