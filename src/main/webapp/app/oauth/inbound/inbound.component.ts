@@ -3,7 +3,7 @@ import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ApplicationConfigService} from "../../core/config/application-config.service";
 
-export class CodeRequest {
+export class StoreResultRequest {
   constructor(
     public code: string,
     public state: string
@@ -11,7 +11,7 @@ export class CodeRequest {
   }
 }
 
-export class CodeResponse {
+export class StoreResultResponse {
   constructor(
     public displayName: string,
   ) {
@@ -64,11 +64,11 @@ export class InboundComponent implements OnInit {
       this.state = <string>pm.get("state");
     }
 
-    let respBody = new CodeRequest(
+    let respBody = new StoreResultRequest(
       this.code, this.state
     );
 
-    this.http.post<CodeResponse>(this.applicationConfigService.getEndpointFor("api/oauth/store-result"), respBody).subscribe(resp => {
+    this.http.post<StoreResultResponse>(this.applicationConfigService.getEndpointFor("api/oauth/store-result"), respBody).subscribe(resp => {
       // a-ok!
       this.displayName = resp.displayName;
       this.pageState = this.pageState_ready;

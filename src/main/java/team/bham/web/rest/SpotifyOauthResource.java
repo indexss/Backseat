@@ -27,12 +27,10 @@ import java.io.IOException;
 @RequestMapping("/api/oauth")
 public class SpotifyOauthResource {
 
-    public final static String STATE_COOKIE = "backseat-oauth-state";
 
     private final Logger log = LoggerFactory.getLogger(SpotifyOauthResource.class);
     private final SpotifyConnectionService spotifyConnectionService;
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
+
     @Autowired
     private ApplicationProperties appProps;
 
