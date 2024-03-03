@@ -70,7 +70,7 @@ public class SpotifyOauth {
 
         if (resp.statusCode() != 200) {
             AuthenticationErrorResponse err = Util.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
-            throw new SpotifyException("unable to obtain Spotify access token", err.error);
+            throw new SpotifyException("unable to obtain Spotify access token: " + err.errorDescription, err.error);
         }
 
         return Util.unmarshalJson(resp.body(), AccessTokenResponse.class);
