@@ -1,6 +1,7 @@
 package team.bham.spotify;
 
 import team.bham.spotify.responses.APIErrorResponse;
+import team.bham.spotify.responses.TrackResponse;
 import team.bham.spotify.responses.UserProfileResponse;
 
 import java.io.IOException;
@@ -48,5 +49,14 @@ public class SpotifyAPI {
         }
 
         return Util.unmarshalJson(resp.body(), UserProfileResponse.class);
+    }
+
+    public TrackResponse getTrack(String id) {
+        return getTrack(id, "GB");
+    }
+
+    public TrackResponse getTrack(String id, String market) {
+        // TODO(txp271): implement this
+        return null;
     }
 }
