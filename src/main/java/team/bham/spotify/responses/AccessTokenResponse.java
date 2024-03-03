@@ -5,9 +5,7 @@ import team.bham.service.dto.SpotifyConnectionDTO;
 
 import java.time.Instant;
 
-import static team.bham.spotify.SpotifyCredential.SYSTEM;
-
-public class RefreshAccessTokenResponse {
+public class AccessTokenResponse {
     @JsonProperty("access_token")
     public String accessToken;
     @JsonProperty("token_type")
@@ -19,9 +17,9 @@ public class RefreshAccessTokenResponse {
     @JsonProperty("refresh_token")
     public String refreshToken;
 
-    public SpotifyConnectionDTO asSpotifyConnectionDTO() {
+    public SpotifyConnectionDTO asSpotifyConnectionDTO(String uri) {
         SpotifyConnectionDTO dto = new SpotifyConnectionDTO();
-        dto.setSpotifyURI(SYSTEM);
+        dto.setSpotifyURI(uri);
         dto.setAccessToken(this.accessToken);
         dto.setAccessTokenExpiresAt(Instant.now().plusSeconds(this.expiresInSeconds));
         dto.setRefreshToken(this.refreshToken);

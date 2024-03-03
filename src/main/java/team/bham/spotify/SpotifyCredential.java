@@ -4,8 +4,8 @@ import team.bham.config.ApplicationProperties;
 import team.bham.service.SpotifyConnectionService;
 import team.bham.service.dto.SpotifyConnectionDTO;
 import team.bham.spotify.responses.ClientCredentialsResponse;
-import team.bham.spotify.responses.ErrorResponse;
-import team.bham.spotify.responses.RefreshAccessTokenResponse;
+import team.bham.spotify.responses.AuthenticationErrorResponse;
+import team.bham.spotify.responses.AccessTokenResponse;
 
 import java.io.IOException;
 import java.net.URI;
@@ -75,7 +75,7 @@ public class SpotifyCredential {
 
         if (resp.statusCode() != 200) {
             // TODO(txp271): what does this look like when we have a 401 or 403 or for whatever reason the refresh token is bad?
-            ErrorResponse err = SpotifyAPI.unmarshalJson(resp.body(), ErrorResponse.class);
+            AuthenticationErrorResponse err = SpotifyAPI.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
             throw new SpotifyException("unable to refresh Spotify access token", err.error);
         }
 
@@ -84,7 +84,7 @@ public class SpotifyCredential {
         if (isSystem()) {
             newDto = SpotifyAPI.unmarshalJson(resp.body(), ClientCredentialsResponse.class).asSpotifyConnectionDTO();
         } else {
-            newDto = SpotifyAPI.unmarshalJson(resp.body(), RefreshAccessTokenResponse.class).asSpotifyConnectionDTO();
+            newDto = SpotifyAPI.unmarshalJson(resp.body(), AccessTokenResponse.class).asSpotifyConnectionDTO(this.uri);
         }
 
         spotifyConnectionService.update(newDto);
@@ -106,6 +106,6 @@ public class SpotifyCredential {
             refreshAndStoreToken();
         }
 
-        return connDto.getAccessToken();
+        return "Bearer " + connDto.getAccessToken();
     }
 }

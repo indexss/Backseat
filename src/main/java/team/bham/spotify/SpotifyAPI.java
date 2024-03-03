@@ -2,17 +2,15 @@ package team.bham.spotify;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpHeaders;
+import team.bham.spotify.responses.APIErrorResponse;
+import team.bham.spotify.responses.AccessTokenResponse;
+import team.bham.spotify.responses.UserProfileResponse;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Locale;
 
 public class SpotifyAPI {
 
@@ -28,5 +26,34 @@ public class SpotifyAPI {
 
     protected static <T> T unmarshalJson(String data, Class<T> cl) throws JsonProcessingException {
         return new ObjectMapper().readValue(data, cl);
+    }
+
+    protected static URI formUri(String path) {
+        return URI.create("https://api.spotify.com/v1" + path);
+    }
+
+    private HttpRequest.Builder getAuthenticatedRequestBuilder() throws SpotifyException, IOException, InterruptedException {
+        return HttpRequest.newBuilder().header("Authorization", tokenProvider.getAccessToken());
+    }
+
+    AccessTokenProvider tokenProvider;
+
+    public SpotifyAPI(AccessTokenProvider tokenProvider) {
+        this.tokenProvider = tokenProvider;
+    }
+
+    public UserProfileResponse getCurrentUserProfile() throws SpotifyException, IOException, InterruptedException {
+        HttpResponse<String> resp = doHttpRequest(
+            getAuthenticatedRequestBuilder()
+                .uri(formUri("/me"))
+                .build()
+        );
+
+        if (resp.statusCode() != 200) {
+            APIErrorResponse res = unmarshalJson(resp.body(), APIErrorResponse.class);
+            throw res.toException();
+        }
+
+        return unmarshalJson(resp.body(), UserProfileResponse.class);
     }
 }

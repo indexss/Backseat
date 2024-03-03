@@ -3,7 +3,7 @@ package team.bham.spotify.responses;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import team.bham.spotify.SpotifyException;
 
-public class ErrorResponse {
+public class AuthenticationErrorResponse {
     @JsonProperty("error")
     public String error;
 
