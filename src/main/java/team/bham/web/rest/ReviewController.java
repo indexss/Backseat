@@ -1,6 +1,12 @@
 package team.bham.web.rest;
 
+import javax.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import team.bham.service.ReviewTrackSevice;
+import team.bham.service.dto.ReviewTrackDTO;
+import team.bham.utils.ResponseUtils;
 
 /**
  * @project : team31
@@ -12,4 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-public class ReviewController {}
+@RequestMapping("/api")
+public class ReviewController {
+
+    @Resource
+    private ReviewTrackSevice reviewTrackSevice;
+
+    @GetMapping("/reivews")
+    public ResponseUtils fetchReviews(String id) {
+        ResponseUtils resp = null;
+        try {
+            ReviewTrackDTO reviewTrackDTO = reviewTrackSevice.fetchReviewAndTrackInfo(id);
+            resp = new ResponseUtils().put("review", reviewTrackDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+}

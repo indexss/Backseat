@@ -35,7 +35,7 @@ spring:
     #    url: jdbc:h2:file:./target/h2db/db/teamproject;DB_CLOSE_DELAY=-1;MODE=LEGACY
     url: jdbc:postgresql://localhost:5432/teamproject
     username: postgres
-    password:
+    password: 1941-06-06
     hikari:
       poolName: Hikari
       auto-commit: false

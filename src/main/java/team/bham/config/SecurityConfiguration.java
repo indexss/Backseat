@@ -73,6 +73,7 @@ public class SecurityConfiguration {
         .and()
             .authorizeRequests()
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            .antMatchers("/api/reivews/**").permitAll()
             .antMatchers("/app/**/*.{js,html}").permitAll()
             .antMatchers("/i18n/**").permitAll()
             .antMatchers("/content/**").permitAll()
