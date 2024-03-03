@@ -11,6 +11,6 @@ public class APIErrorResponse {
     public String message;
 
     public SpotifyException toException() {
-        return new SpotifyException(message);
+        return new SpotifyException(message, status);
     }
 }
