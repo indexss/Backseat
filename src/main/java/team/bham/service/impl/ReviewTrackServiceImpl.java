@@ -101,7 +101,7 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         Profile profile = optionalProfile.get();
         newReview.setProfile(profile);
 
-        System.out.println("888888888888: " + trackId);
+        //        System.out.println("888888888888: " + trackId);
         Optional<Track> optionalTrack = trackRepository.findBySpotifyURI(trackId);
         Track track = optionalTrack.get();
         newReview.setTrack(track);

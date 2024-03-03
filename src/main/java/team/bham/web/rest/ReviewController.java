@@ -56,17 +56,15 @@ public class ReviewController {
         String userId = null;
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            // 这里假设用户名即为用户ID
             userId = userDetails.getUsername();
         } else if (authentication != null && authentication.getPrincipal() instanceof String) {
-            // 在某些情况下，Principal直接是一个字符串，例如用户ID
             userId = (String) authentication.getPrincipal();
         }
-        System.out.println("7777777777: " + addReviewDTO.getId());
-        System.out.println("7777777777: " + addReviewDTO.getContent());
-        System.out.println("7777777777: " + addReviewDTO.getRating());
+        //        System.out.println("7777777777: " + addReviewDTO.getId());
+        //        System.out.println("7777777777: " + addReviewDTO.getContent());
+        //        System.out.println("7777777777: " + addReviewDTO.getRating());
 
-        System.out.println("888888888888888888888888: " + userId);
+        //        System.out.println("888888888888888888888888: " + userId);
         try {
             System.out.println(userId);
             reviewTrackSevice.addReview(addReviewDTO.getRating(), addReviewDTO.getContent(), addReviewDTO.getId(), userId);
