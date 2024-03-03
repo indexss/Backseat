@@ -13,18 +13,17 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.HashMap;
 
-public class SpotifyOAuth {
+public class SpotifyOauth {
 
     public final static String SCOPES = "user-read-recently-played";
 
     private final ApplicationProperties appProps;
     private final SpotifyConnectionService spotifyConnectionService;
 
-    public SpotifyOAuth(ApplicationProperties appProps, SpotifyConnectionService serv) {
+    public SpotifyOauth(ApplicationProperties appProps, SpotifyConnectionService serv) {
         this.appProps = appProps;
         this.spotifyConnectionService = serv;
     }

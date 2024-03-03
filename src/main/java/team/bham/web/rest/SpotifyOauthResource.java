@@ -1,7 +1,6 @@
 package team.bham.web.rest;
 
 import java.io.IOException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import team.bham.config.ApplicationProperties;
-import team.bham.repository.SpotifyConnectionRepository;
 import team.bham.service.SpotifyConnectionService;
 import team.bham.spotify.*;
 import team.bham.spotify.responses.AccessTokenResponse;
@@ -51,8 +49,8 @@ public class SpotifyOauthResource {
     @GetMapping("/get-url")
     public GetUrlResponse getUrl(HttpServletRequest request, HttpServletResponse response) {
         GetUrlResponse resp = new GetUrlResponse();
-        resp.url = new SpotifyOAuth(this.appProps, this.spotifyConnectionService)
-            .generateOauthRedirectUrl(SpotifyOAuth.generateState(request), request);
+        resp.url = new SpotifyOauth(this.appProps, this.spotifyConnectionService)
+            .generateOauthRedirectUrl(SpotifyOauth.generateState(request), request);
         return resp;
     }
 
@@ -63,19 +61,23 @@ public class SpotifyOauthResource {
         public String state;
     }
 
+
+    public static class StoreResultResponse {
+        public String displayName;
+    }
     @PostMapping("/store-result")
-    public ResponseEntity<String> storeResult(HttpServletRequest request, @Valid @RequestBody SpotifyOauthResource.StoreResultRequest body) throws IOException, InterruptedException {
+    public ResponseEntity<StoreResultResponse> storeResult(HttpServletRequest request, @Valid @RequestBody SpotifyOauthResource.StoreResultRequest body) throws IOException, InterruptedException {
         // Verify state
-        String state = SpotifyOAuth.generateState(request);
+        String state = SpotifyOauth.generateState(request);
 
         if (!body.state.equals(state)) {
-            return new ResponseEntity<>("Invalid state", HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid state");
         }
 
         // Do token exchange
         AccessTokenResponse accessToken;
         try {
-            accessToken = new SpotifyOAuth(this.appProps, this.spotifyConnectionService)
+            accessToken = new SpotifyOauth(this.appProps, this.spotifyConnectionService)
                 .performTokenExchange(request, body.code);
         } catch (SpotifyException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "unable to perform token exchange", e);
@@ -93,8 +95,12 @@ public class SpotifyOauthResource {
 
         // Store result
         this.spotifyConnectionService.update(accessToken.asSpotifyConnectionDTO(userProfile.uri));
+
         // TODO(txp271): link this SpotifyConnection to Profile
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        StoreResultResponse resp = new StoreResultResponse();
+        resp.displayName = userProfile.displayName;
+        return new ResponseEntity<>(resp, HttpStatus.NO_CONTENT);
     }
 
 }
