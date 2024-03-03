@@ -50,12 +50,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="description">
-            <div class="d-flex">
-              <span>Description</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="releaseDate">
             <div class="d-flex">
               <span>Release Date</span>
@@ -78,7 +72,6 @@
           </td>
           <td>{{ album.name }}</td>
           <td>{{ album.totalTracks }}</td>
-          <td>{{ album.description }}</td>
           <td>{{ album.releaseDate | formatMediumDate }}</td>
           <td>{{ album.rating }}</td>
           <td class="text-end">

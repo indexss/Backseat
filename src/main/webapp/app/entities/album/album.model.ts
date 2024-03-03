@@ -7,7 +7,6 @@ export interface IAlbum {
   spotifyURI: string;
   name?: string | null;
   totalTracks?: number | null;
-  description?: string | null;
   releaseDate?: dayjs.Dayjs | null;
   rating?: number | null;
   artists?: Pick<IArtist, 'spotifyURI'>[] | null;

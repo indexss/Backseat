@@ -11,28 +11,26 @@ export const sampleWithRequiredData: IAlbum = {
 };
 
 export const sampleWithPartialData: IAlbum = {
-  spotifyURI: '97fcf301-2e1d-4423-9063-1fefb274650d',
-  name: 'mission-critical cutting-edge Sterling',
-  totalTracks: 6876,
-  description: 'synthesize payment Dinar',
+  spotifyURI: 'b97fcf30-12e1-4d42-b106-31fefb274650',
+  name: 'National withdrawal synthesize',
+  totalTracks: 85549,
   releaseDate: dayjs('2024-03-01'),
-  rating: 8712,
+  rating: 89269,
 };
 
 export const sampleWithFullData: IAlbum = {
-  spotifyURI: 'bc6ad8f9-8fd5-485c-8894-bcefbd5cd594',
-  name: 'Wooden RAM primary',
-  totalTracks: 782,
-  description: 'Intelligent',
-  releaseDate: dayjs('2024-03-01'),
-  rating: 30563,
+  spotifyURI: '682a9db1-f01b-4c6a-98f9-8fd585c0894b',
+  name: 'Principal PCI PCI',
+  totalTracks: 26913,
+  releaseDate: dayjs('2024-02-29'),
+  rating: 4007,
 };
 
 export const sampleWithNewData: NewAlbum = {
-  name: 'ivory',
-  totalTracks: 57301,
+  name: 'Bike RAM primary',
+  totalTracks: 782,
   releaseDate: dayjs('2024-03-01'),
-  rating: 82581,
+  rating: 7185,
   spotifyURI: null,
 };
 
