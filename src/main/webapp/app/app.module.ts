@@ -28,9 +28,11 @@ import { DiscoverComponent } from './discover/discover.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
 import { RatingComponent } from './rating/rating.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
+    FormsModule,
     BrowserModule,
     SharedModule,
     HomeModule,

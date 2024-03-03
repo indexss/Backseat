@@ -1,40 +1,42 @@
 <div class="container">
   <div class="row">
-    <div class="col d-flex align-items-start">
+    <div class="col-12 col-md d-flex align-items-start">
       <img class="cover img-thumbnail me-3" src="https://i.kfs.io/album/global/262842770,0v1/fit/500x500.jpg" alt="Cover" />
       <div>
-        <span class="title d-block">Hold On A Sec</span>
-        <span class="album d-block">CHIN UP!</span>
-        <span class="artist d-block">Eason Chan</span>
-        <span class="rdate d-block">2023/10/27</span>
+        <span class="title d-block">{{ trackName }}</span>
+        <span class="album d-block">{{ albumName }}</span>
+        <span class="artist d-block">{{ artistName }}</span>
+        <span class="rdate d-block">{{ releaseDate }}</span>
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
-        <span class="avgrating d-block">average rating: 3.4</span>
+        <span class="avgrating d-block">average rating: {{ avgRating }}</span>
         <br />
-        <span class="description d-block"
-          >Eason Chan's "Hold On A Sec" brilliantly captures the essence of contemporary life's hustle and the internal turmoil it breeds.
-          With his masterful vocal expression, Chan delves into themes of anxiety, pursuit, and self-reflection, making the song not just a
-          musical piece but a mirror to the listener's soul. The fusion of traditional Chinese sounds with modern pop elements gives the
-          track a unique flavor, highlighting Chan's innovative approach to music.
-        </span>
+        <span class="description d-block">{{ description }}</span>
       </div>
     </div>
   </div>
   <br />
+
+  <ngb-alert [dismissible]="false" *ngIf="showAlert">
+    <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
+  </ngb-alert>
+  <!-- <ngb-alert [dismissible]="false" *ngIf="showAlert">
+	<strong>Warning!</strong> Comments cannot be empty!
+  </ngb-alert> -->
 
   <div class="row">
     <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
       <h5 class="mb-4">Leave Review</h5>
       <!-- <p class="mb-2">Rate the Place</p> -->
       <!-- <ngb-rating [(rate)]="rating" /> -->
-      <ngb-rating [max]="5"></ngb-rating>
+      <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>
       <form>
         <div class="form-group">
           <label>Your Comment</label>
-          <textarea class="form-control"></textarea>
+          <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>
         </div>
         <br />
         <div class="form-group">
-          <button class="btn btn-primary btn-sm" type="button">Submit Comment</button>
+          <button (click)="submitReview()" class="btn btn-primary btn-sm" type="button">Submit Comment</button>
         </div>
       </form>
     </div>
@@ -48,7 +50,7 @@
       <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
       <h3 class="mb-1">All Ratings and Reviews</h3>
 
-      <div class="reviews-members pt-4 pb-4">
+      <!-- <div class="reviews-members pt-4 pb-4">
         <div class="media">
           <a href="#"
             ><img alt="Generic placeholder image" src="http://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-pill"
@@ -69,9 +71,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <hr />
+      <!-- <hr />
 
       <div class="reviews-members pt-4 pb-4">
         <div class="media">
@@ -94,6 +96,28 @@
             </div>
           </div>
         </div>
+      </div> -->
+      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
+        <div class="media">
+          <a href="#">
+            <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill" />
+          </a>
+          <div class="media-body">
+            <div class="reviews-members-header">
+              <h6 class="mb-1">
+                <a class="text-black" href="#">{{ review.username }}</a>
+              </h6>
+              <p class="text-gray">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
+              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
+            </div>
+            <div class="reviews-members-body">
+              <p>
+                {{ review.reviewContent }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr />
       </div>
 
       <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a>

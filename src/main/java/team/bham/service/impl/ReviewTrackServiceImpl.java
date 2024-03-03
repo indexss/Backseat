@@ -1,19 +1,17 @@
 package team.bham.service.impl;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.annotation.Resource;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import team.bham.domain.Album;
-import team.bham.domain.Review;
-import team.bham.domain.Track;
-import team.bham.repository.AlbumRepository;
-import team.bham.repository.ArtistRepository;
-import team.bham.repository.ReviewRepository;
-import team.bham.repository.TrackRepository;
+import team.bham.domain.*;
+import team.bham.repository.*;
 import team.bham.service.ReviewTrackSevice;
 import team.bham.service.dto.ReviewTrackDTO;
 
@@ -45,6 +43,12 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
     //    //get reviewList
     private ReviewRepository reviewRepository;
 
+    @Resource
+    private UserRepository userRepository;
+
+    @Resource
+    private ProfileRepository profileRepository;
+
     @Override
     public ReviewTrackDTO fetchReviewAndTrackInfo(String trackSpotifyId) {
         ReviewTrackDTO reviewTrackDTO = new ReviewTrackDTO();
@@ -57,13 +61,54 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
         //        reviewTrackDTO.setAlbumName(optionalAlbum.get().getName());
         reviewTrackDTO.setAlbumName(track.getAlbum().getName());
-        reviewTrackDTO.setArtistName(track.getArtists().toString());
+        StringBuilder artistNameBuilder = new StringBuilder();
+        Set<Artist> artists = track.getArtists();
+        List<Artist> artistList = new ArrayList<>(artists);
+        for (int i = 0; i < artistList.size(); i++) {
+            if (i == artistList.size() - 1) {
+                artistNameBuilder.append(artistList.get(i).getName());
+            } else {
+                artistNameBuilder.append(artistList.get(i).getName());
+                artistNameBuilder.append(", ");
+            }
+        }
+        reviewTrackDTO.setArtistName(artistNameBuilder.toString());
+        //        reviewTrackDTO.setArtistName(track.getArtists().toString());
         //        reviewTrackDTO.setReviewList(track.getReviews());
         Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
+        ArrayList<Review> reviews = new ArrayList<>(reviewList);
+        double sum = 0;
+        for (int i = 0; i < reviews.size(); i++) {
+            sum += reviews.get(i).getRating();
+        }
+        reviewTrackDTO.setAvgRating((sum * 1.0) / reviews.size());
+
         reviewTrackDTO.setReviewList(reviewList);
 
         //TODO: Error handling
 
         return reviewTrackDTO;
+    }
+
+    @Override
+    public void addReview(int rating, String content, String trackId, String username) {
+        Review newReview = new Review();
+        newReview.setRating(rating);
+        newReview.setContent(content);
+        newReview.setDate(Instant.now());
+
+        Optional<Profile> optionalProfile = profileRepository.findByUserLogin(username);
+        Profile profile = optionalProfile.get();
+        newReview.setProfile(profile);
+
+        System.out.println("888888888888: " + trackId);
+        Optional<Track> optionalTrack = trackRepository.findBySpotifyURI(trackId);
+        Track track = optionalTrack.get();
+        newReview.setTrack(track);
+
+        Album album = track.getAlbum();
+        newReview.setAlbum(album);
+
+        reviewRepository.save(newReview);
     }
 }

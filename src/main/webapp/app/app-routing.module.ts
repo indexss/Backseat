@@ -41,8 +41,16 @@ import { RatingComponent } from './rating/rating.component';
           },
         },
 
+        // {
+        //   path: 'rating',
+        //   component: RatingComponent,
+        //   data: {
+        //     authorities: [],
+        //   },
+        // },
+
         {
-          path: 'rating',
+          path: 'rating/:id',
           component: RatingComponent,
           data: {
             authorities: [],

@@ -24,6 +24,16 @@ public class ReviewTrackDTO implements Serializable {
     private String description;
     private Set<Review> reviewList;
 
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    private double avgRating;
+
     public ReviewTrackDTO() {}
 
     public ReviewTrackDTO(
@@ -32,7 +42,8 @@ public class ReviewTrackDTO implements Serializable {
         String artistName,
         LocalDate releaseDate,
         String description,
-        Set<Review> reviewList
+        Set<Review> reviewList,
+        double avgRating
     ) {
         this.trackName = trackName;
         this.albumName = albumName;
@@ -40,6 +51,7 @@ public class ReviewTrackDTO implements Serializable {
         this.releaseDate = releaseDate;
         this.description = description;
         this.reviewList = reviewList;
+        this.avgRating = avgRating;
     }
 
     public String getTrackName() {

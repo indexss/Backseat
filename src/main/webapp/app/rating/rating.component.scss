@@ -4,6 +4,16 @@
   display: inline;
 }
 
+@media (max-width: 768px) {
+  .d-flex {
+    flex-direction: column;
+    align-items: center;
+  }
+  .cover {
+    margin-bottom: 15px;
+  }
+}
+
 .title {
   vertical-align: top;
   margin-left: 20px;
