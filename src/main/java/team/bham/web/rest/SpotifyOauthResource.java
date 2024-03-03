@@ -50,15 +50,9 @@ public class SpotifyOauthResource {
 
     @GetMapping("/get-url")
     public GetUrlResponse getUrl(HttpServletRequest request, HttpServletResponse response) {
-        String state = SpotifyOAuth.generateState();
-
-        Cookie stateCookie = new Cookie(STATE_COOKIE, state);
-        stateCookie.setHttpOnly(true);
-        response.addCookie(stateCookie);
-
         GetUrlResponse resp = new GetUrlResponse();
         resp.url = new SpotifyOAuth(this.appProps, this.spotifyConnectionService)
-            .generateOauthRedirectUrl(state, request);
+            .generateOauthRedirectUrl(SpotifyOAuth.generateState(request), request);
         return resp;
     }
 
@@ -72,19 +66,9 @@ public class SpotifyOauthResource {
     @PostMapping("/store-result")
     public ResponseEntity<String> storeResult(HttpServletRequest request, @Valid @RequestBody SpotifyOauthResource.StoreResultRequest body) throws IOException, InterruptedException {
         // Verify state
-        Cookie stateCookie = null;
-        for (Cookie c : request.getCookies()) {
-            if (STATE_COOKIE.equals(c.getName())) {
-                stateCookie = c;
-                break;
-            }
-        }
+        String state = SpotifyOAuth.generateState(request);
 
-        if (stateCookie == null) {
-            return new ResponseEntity<>("Missing state", HttpStatus.BAD_REQUEST);
-        }
-
-        if (!body.state.equals(stateCookie.getValue())) {
+        if (!body.state.equals(state)) {
             return new ResponseEntity<>("Invalid state", HttpStatus.BAD_REQUEST);
         }
 

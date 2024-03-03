@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.HashMap;
@@ -27,9 +29,15 @@ public class SpotifyOAuth {
         this.spotifyConnectionService = serv;
     }
 
-    public static String generateState() {
-        byte[] rawState = new byte[32];
-        new SecureRandom().nextBytes(rawState);
+    public static String generateState( HttpServletRequest request) {
+        byte[] rawState;
+
+        try {
+            rawState = MessageDigest.getInstance("SHA-256").digest(request.getHeader(HttpHeaders.AUTHORIZATION).getBytes());
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
         return Util.bytesToHexString(rawState);
     }
 
