@@ -66,7 +66,7 @@ public class SpotifyCredential {
         HttpResponse<String> resp = SpotifyAPI.doHttpRequest(
             HttpRequest.newBuilder()
                 .uri(URI.create("https://accounts.spotify.com/api/token"))
-                .POST(HttpRequest.BodyPublishers.ofString(SpotifyAPI.createUrlEncodedForm(params)))
+                .POST(HttpRequest.BodyPublishers.ofString(Util.createUrlEncodedString(params)))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("Authorization", "Basic " + Base64.getEncoder().encodeToString(
                     (appProps.getSpotifyClientId() + ":" + appProps.getSpotifyClientSecret()).getBytes()

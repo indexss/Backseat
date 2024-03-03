@@ -2,15 +2,17 @@ package team.bham.spotify;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpHeaders;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.stream.Collectors;
+import java.util.Locale;
 
 public class SpotifyAPI {
 
@@ -22,12 +24,6 @@ public class SpotifyAPI {
         HttpResponse<String> resp = SpotifyAPI.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
         System.err.printf("REQ %s (%d)\n", resp.uri(), resp.statusCode());
         return resp;
-    }
-
-    protected static String createUrlEncodedForm(HashMap<String, String> params) {
-        return params.keySet().stream()
-            .map(key -> key + "=" + URLEncoder.encode(params.get(key), StandardCharsets.UTF_8))
-            .collect(Collectors.joining("&"));
     }
 
     protected static <T> T unmarshalJson(String data, Class<T> cl) throws JsonProcessingException {
