@@ -14,9 +14,9 @@ class Util {
 
     protected static String bytesToHexString(byte[] data) {
         StringBuilder hexString = new StringBuilder(2 * data.length);
-        for (int i = 0; i < data.length; i++) {
-            String hex = Integer.toHexString(0xff & data[i]);
-            if(hex.length() == 1) {
+        for (byte b : data) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
                 hexString.append('0');
             }
             hexString.append(hex);
