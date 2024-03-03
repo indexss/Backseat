@@ -78,7 +78,6 @@ export class InboundComponent implements OnInit {
           }, 3000);
         },
         error: (err: HttpErrorResponse) => {
-          console.log(err)
           this.errorMessage = err.error.detail;
           this.pageState = this.pageState_error;
         },
