@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ApplicationConfigService} from "../../core/config/application-config.service";
 
 export class StoreResultRequest {
@@ -68,13 +68,20 @@ export class InboundComponent implements OnInit {
       this.code, this.state
     );
 
-    this.http.post<StoreResultResponse>(this.applicationConfigService.getEndpointFor("api/oauth/store-result"), respBody).subscribe(resp => {
-      // a-ok!
-      this.displayName = resp.displayName;
-      this.pageState = this.pageState_ready;
-      window.setTimeout(() => {
-        this.router.navigateByUrl(this.nextURL);
-      }, 3000);
-    })
+    this.http.post<StoreResultResponse>(this.applicationConfigService.getEndpointFor("api/oauth/store-result"), respBody)
+      .subscribe({
+        next: (resp: StoreResultResponse) => {
+          this.displayName = resp.displayName;
+          this.pageState = this.pageState_ready;
+          window.setTimeout(() => {
+            this.router.navigateByUrl(this.nextURL);
+          }, 3000);
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err)
+          this.errorMessage = err.error.detail;
+          this.pageState = this.pageState_error;
+        },
+      });
   }
 }
