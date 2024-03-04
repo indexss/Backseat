@@ -32,11 +32,6 @@
             data-cy="refreshToken"
             formControlName="refreshToken"
           />
-          <div
-            *ngIf="editForm.get('refreshToken')!.invalid && (editForm.get('refreshToken')!.dirty || editForm.get('refreshToken')!.touched)"
-          >
-            <small class="form-text text-danger" *ngIf="editForm.get('refreshToken')?.errors?.required"> This field is required. </small>
-          </div>
         </div>
 
         <div class="row mb-3">
