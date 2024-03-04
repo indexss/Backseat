@@ -12,6 +12,7 @@ import { DiscoverComponent } from './discover/discover.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
 import { RatingComponent } from './rating/rating.component';
+import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 
 @NgModule({
   imports: [
@@ -52,6 +53,14 @@ import { RatingComponent } from './rating/rating.component';
         {
           path: 'rating/:id',
           component: RatingComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
+        {
+          path: 'rating-not-found',
+          component: RatingNotFoundComponent,
           data: {
             authorities: [],
           },

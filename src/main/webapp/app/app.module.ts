@@ -29,6 +29,7 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
 import { RatingComponent } from './rating/rating.component';
 import { FormsModule } from '@angular/forms';
+import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { FormsModule } from '@angular/forms';
     LeaderboardComponent,
     SearchComponent,
     RatingComponent,
+    RatingNotFoundComponent,
   ],
   bootstrap: [MainComponent],
 })

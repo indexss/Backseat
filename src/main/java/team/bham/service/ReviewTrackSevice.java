@@ -16,4 +16,6 @@ public interface ReviewTrackSevice {
     public ReviewTrackDTO fetchReviewAndTrackInfo(String trackSpotifyId);
 
     public void addReview(int rating, String content, String trackId, String userId);
+
+    public Boolean checkExist(String trackId);
 }

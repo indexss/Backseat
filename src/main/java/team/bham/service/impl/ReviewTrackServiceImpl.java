@@ -111,4 +111,10 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
 
         reviewRepository.save(newReview);
     }
+
+    @Override
+    public Boolean checkExist(String trackId) {
+        Optional<Track> optionalTrack = trackRepository.findById(trackId);
+        return optionalTrack.isPresent();
+    }
 }

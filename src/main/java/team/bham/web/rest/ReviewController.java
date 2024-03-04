@@ -75,4 +75,16 @@ public class ReviewController {
         }
         return resp;
     }
+
+    @GetMapping("/check")
+    public ResponseUtils checkExist(String id) {
+        ResponseUtils resp = null;
+        Boolean checkedExist = reviewTrackSevice.checkExist(id);
+        if (checkedExist) {
+            resp = new ResponseUtils().put("exist", "true");
+        } else {
+            resp = new ResponseUtils().put("exist", "false");
+        }
+        return resp;
+    }
 }
