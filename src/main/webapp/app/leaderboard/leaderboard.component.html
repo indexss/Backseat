@@ -46,7 +46,7 @@
         </td>
         <td class="text-center align-middle">{{ record.album }}</td>
         <td class="text-center align-middle">{{ record.reviews }}</td>
-        <td class="text-center align-middle">{{ record.rating }}</td>
+        <td class="text-center align-middle">{{ record.rating | number: '1.0-2' }}</td>
       </tr>
     </tbody>
   </table>

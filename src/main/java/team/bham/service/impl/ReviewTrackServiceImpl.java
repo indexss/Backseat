@@ -110,6 +110,17 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         newReview.setAlbum(album);
 
         reviewRepository.save(newReview);
+
+        Set<Review> reviews = reviewRepository.findByTrackSpotifyURI(trackId);
+        List<Review> reviewList = new ArrayList<>(reviews);
+        double sum = 0;
+        double avgRating = 0;
+        for (int i = 0; i < reviewList.size(); i++) {
+            sum += reviewList.get(i).getRating();
+        }
+        avgRating = sum / reviewList.size();
+        track.setRating(avgRating);
+        trackRepository.save(track);
     }
 
     @Override
