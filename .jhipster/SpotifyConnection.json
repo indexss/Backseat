@@ -16,7 +16,7 @@
     {
       "fieldName": "refreshToken",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": []
     },
     {
       "fieldName": "accessToken",

@@ -57,7 +57,7 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         Track track = optionalTrack.get();
         reviewTrackDTO.setTrackName(track.getName());
         reviewTrackDTO.setReleaseDate(track.getReleaseDate());
-        reviewTrackDTO.setDescription(track.getDescription());
+        reviewTrackDTO.setDescription("");
         //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
         //        reviewTrackDTO.setAlbumName(optionalAlbum.get().getName());
         reviewTrackDTO.setAlbumName(track.getAlbum().getName());

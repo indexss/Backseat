@@ -83,6 +83,10 @@ import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-fo
           loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
         },
         {
+          path: 'oauth',
+          loadChildren: () => import('./oauth/oauth.module').then(m => m.OauthModule),
+        },
+        {
           path: '',
           loadChildren: () => import(`./entities/entity-routing.module`).then(m => m.EntityRoutingModule),
         },
