@@ -6,6 +6,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { DatePipe } from '@angular/common';
 import { Account } from 'app/core/auth/account.model';
 import { AddReviewService } from './add-review.service';
+import { CheckExistService } from './check-exist.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -34,6 +35,7 @@ export class RatingComponent implements OnInit {
     private accountService: AccountService,
     private addReviewService: AddReviewService,
     private changeDetectorRef: ChangeDetectorRef,
+    private checkExistService: CheckExistService,
     private router: Router
   ) {}
 
@@ -48,14 +50,25 @@ export class RatingComponent implements OnInit {
       // console.log("next is id:");
       // console.log(params['id']);
       this.id = params['id'];
+      // this.router.navigate(['/rating-not-found']);
       this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
         // console.log(data);
+
+        this.checkExistService.checkExist(this.id).subscribe(data => {
+          console.log('data: ');
+          console.log(data);
+          if (data.data.exist === 'false') {
+            this.router.navigate(['/rating-not-found']);
+          }
+        });
+
         this.trackName = data.data.review.trackName;
         this.albumName = data.data.review.albumName;
         this.artistName = data.data.review.artistName;
         this.releaseDate = data.data.review.releaseDate;
         this.description = data.data.review.description;
         this.avgRating = data.data.review.avgRating;
+
         // console.log(this.avgRating);
         const reviewDTO = data.data.review.reviewList;
         for (let i = 0; i < reviewDTO.length; i++) {
