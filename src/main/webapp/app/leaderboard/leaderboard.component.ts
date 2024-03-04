@@ -5,12 +5,14 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
-interface Country {
+interface Record {
   id: number;
-  name: string;
-  flag: string;
-  area: number;
-  population: number;
+  trackName: string;
+  album: string;
+  reviews: number;
+  rating: number;
+  artist: string;
+  trackURI: string;
 }
 
 @Component({
@@ -20,35 +22,54 @@ interface Country {
 })
 export class LeaderboardComponent implements OnInit {
   page = 1;
-  pageSize = 4;
-  countries: Country[] = [
+  pageSize = 10;
+  trackURI = 'asd';
+  trackLink = '/rating/'.concat(this.trackURI);
+  recordList: Record[] = [
     {
       id: 1,
-      name: 'Russia',
-      flag: 'f/f3/Flag_of_Russia.svg',
-      area: 17075200,
-      population: 146989754,
+      trackName: 'The Beatles',
+      album: 'Abbey Road',
+      reviews: 100,
+      rating: 5,
+      artist: 'The Beatles',
+      trackURI: 'qwe',
     },
     {
       id: 2,
-      name: 'Canada',
-      flag: 'c/cf/Flag_of_Canada.svg',
-      area: 9976140,
-      population: 36624199,
+      trackName: 'The Beatles',
+      album: 'Abbey Road',
+      reviews: 100,
+      rating: 5,
+      artist: 'The Beatles',
+      trackURI: 'qwe',
     },
     {
       id: 3,
-      name: 'United States',
-      flag: 'a/a4/Flag_of_the_United_States.svg',
-      area: 9629091,
-      population: 324459463,
+      trackName: 'The Beatles',
+      album: 'Abbey Road',
+      reviews: 100,
+      rating: 5,
+      artist: 'The Beatles',
+      trackURI: 'qwe',
     },
     {
       id: 4,
-      name: 'China',
-      flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
-      area: 9596960,
-      population: 1409517397,
+      trackName: 'The Beatles',
+      album: 'Abbey Road',
+      reviews: 100,
+      rating: 5,
+      artist: 'The Beatles',
+      trackURI: 'qwe',
+    },
+    {
+      id: 5,
+      trackName: 'The Beatles',
+      album: 'Abbey Road',
+      reviews: 100,
+      rating: 5,
+      artist: 'The Beatles',
+      trackURI: 'qwe',
     },
   ];
 

@@ -1,39 +1,53 @@
-<h2>LEADERBOARD</h2>
+<div class="container">
+  <h2>LEADERBOARD</h2>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Country</th>
-      <th scope="col">Area</th>
-      <th scope="col">Population</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let country of countries">
-      <th scope="row">{{ country.id }}</th>
-      <td>
-        <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="me-2" style="width: 20px" />
-        {{ country.name }}
-      </td>
-      <td>{{ country.area | number }}</td>
-      <td>{{ country.population | number }}</td>
-    </tr>
-  </tbody>
-</table>
+  <form>
+    <div class="mb-3 row">
+      <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
+      <div class="col-xs-3 col-sm-auto">
+        <input id="table-filtering-search" class="form-control" type="text" placeholder="Not completed yet." />
+      </div>
+    </div>
+  </form>
 
-<div class="d-flex justify-content-between p-2">
-  <!-- <ngb-pagination
-		[collectionSize]="collectionSize"
-		[(page)]="page"
-		[pageSize]="pageSize"
-		(pageChange)="refreshCountries()"
-	> -->
-  <ngb-pagination [collectionSize]="10" [(page)]="page" [pageSize]="pageSize"> </ngb-pagination>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center align-middle table-text green">#</th>
+        <th scope="col" class="table-text green">Track</th>
+        <th scope="col" class="text-center align-middle table-text green">Album</th>
+        <th scope="col" class="text-center align-middle table-text green">Reviews</th>
+        <th scope="col" class="text-center align-middle table-text green">Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of recordList">
+        <th scope="row" class="text-center align-middle">{{ record.id }}</th>
+        <td class="text-center align-middle">
+          <div class="d-flex align-items-center">
+            <a [routerLink]="trackLink"
+              ><img
+                src="https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383"
+                style="width: 90px; margin: 2px; border-radius: 7%"
+                class="me-3"
+            /></a>
+            <a [routerLink]="trackLink">
+              <div>
+                <strong>{{ record.trackName }}</strong>
+                <p>{{ record.artist }}</p>
+              </div>
+            </a>
+          </div>
+        </td>
 
-  <select class="form-select" style="width: auto" [(ngModel)]="pageSize">
-    <option [ngValue]="2">2 items per page</option>
-    <option [ngValue]="4">4 items per page</option>
-    <option [ngValue]="6">6 items per page</option>
-  </select>
+        <td class="text-center align-middle">{{ record.album }}</td>
+        <td class="text-center align-middle">{{ record.reviews }}</td>
+        <td class="text-center align-middle">{{ record.rating }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="10" [(page)]="page" [pageSize]="pageSize"> </ngb-pagination>
+  </div>
 </div>

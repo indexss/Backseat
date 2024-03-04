@@ -5,6 +5,10 @@
 /* ==========================================================================
 Navbar
 ========================================================================== */
+.custom-navbar-bg {
+  background-color: #dcf7e0 !important;
+}
+
 .icon-text-wrapper {
   display: flex;
   flex-direction: column;
@@ -33,6 +37,7 @@ Navbar
 
 .navbar {
   padding: 0.2rem 1rem;
+  // background-color: #ff0101;
   .dropdown-item.active,
   .dropdown-item.active:focus,
   .dropdown-item.active:hover {
@@ -58,6 +63,7 @@ Logo styles
   width: 45px;
   display: inline-block;
   vertical-align: middle;
-  background: url('../../../content/images/logo-jhipster.png') no-repeat center center;
+  psbackground: url('../../../content/images/logo-jhipster.png') no-repeat center center;
+
   background-size: contain;
 }
