@@ -1,14 +1,14 @@
 <div class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
-      <img class="cover img-thumbnail me-3" src="https://i.kfs.io/album/global/262842770,0v1/fit/500x500.jpg" alt="Cover" />
+      <img class="cover img-thumbnail me-3" [src]="coverSrc" alt="Cover" />
       <div>
         <span class="title d-block">{{ trackName }}</span>
         <span class="album d-block">{{ albumName }}</span>
         <span class="artist d-block">{{ artistName }}</span>
         <span class="rdate d-block">{{ releaseDate }}</span>
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
-        <span class="avgrating d-block">average rating: {{ avgRating }}</span>
+        <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
         <br />
         <span class="description d-block">{{ description }}</span>
       </div>

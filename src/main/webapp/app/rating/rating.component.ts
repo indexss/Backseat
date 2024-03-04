@@ -28,6 +28,7 @@ export class RatingComponent implements OnInit {
   rating = 0;
   id!: any;
   showCommentAlert: boolean = false;
+  coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
 
   constructor(
     private route: ActivatedRoute,
@@ -128,6 +129,7 @@ export class RatingComponent implements OnInit {
             this.reviewList = [];
             this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
               // console.log(data);
+              this.avgRating = data.data.review.avgRating;
               const reviewDTO = data.data.review.reviewList;
               for (let i = 0; i < reviewDTO.length; i++) {
                 const review: Review = {
