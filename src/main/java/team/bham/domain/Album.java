@@ -36,9 +36,6 @@ public class Album implements Serializable, Persistable<String> {
     @Column(name = "total_tracks", nullable = false)
     private Integer totalTracks;
 
-    @Column(name = "description")
-    private String description;
-
     @NotNull
     @Column(name = "release_date", nullable = false)
     private LocalDate releaseDate;
@@ -129,19 +126,6 @@ public class Album implements Serializable, Persistable<String> {
 
     public void setTotalTracks(Integer totalTracks) {
         this.totalTracks = totalTracks;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public Album description(String description) {
-        this.setDescription(description);
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDate getReleaseDate() {
@@ -355,7 +339,6 @@ public class Album implements Serializable, Persistable<String> {
             "spotifyURI=" + getSpotifyURI() +
             ", name='" + getName() + "'" +
             ", totalTracks=" + getTotalTracks() +
-            ", description='" + getDescription() + "'" +
             ", releaseDate='" + getReleaseDate() + "'" +
             ", rating=" + getRating() +
             "}";

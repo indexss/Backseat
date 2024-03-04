@@ -19,7 +19,6 @@ type TrackFormDefaults = Pick<NewTrack, 'spotifyURI' | 'artists' | 'folderEntrie
 type TrackFormGroupContent = {
   spotifyURI: FormControl<ITrack['spotifyURI'] | NewTrack['spotifyURI']>;
   name: FormControl<ITrack['name']>;
-  description: FormControl<ITrack['description']>;
   releaseDate: FormControl<ITrack['releaseDate']>;
   rating: FormControl<ITrack['rating']>;
   artists: FormControl<ITrack['artists']>;
@@ -48,7 +47,6 @@ export class TrackFormService {
       name: new FormControl(trackRawValue.name, {
         validators: [Validators.required],
       }),
-      description: new FormControl(trackRawValue.description),
       releaseDate: new FormControl(trackRawValue.releaseDate, {
         validators: [Validators.required],
       }),
