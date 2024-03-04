@@ -31,4 +31,7 @@ public interface TrackRepository extends TrackRepositoryWithBagRelationships, Jp
 
     @Query("SELECT t FROM Track t WHERE t.spotifyURI = :spotifyURI")
     Optional<Track> findBySpotifyURI(@Param("spotifyURI") String spotifyURI);
+
+    @Query("select t from Track t order by t.rating DESC ")
+    List<Track> fetchTrackByRating();
 }

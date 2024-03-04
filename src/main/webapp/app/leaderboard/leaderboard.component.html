@@ -2,10 +2,13 @@
   <h2>LEADERBOARD</h2>
 
   <form>
-    <div class="mb-3 row">
-      <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Full text search:</label>
-      <div class="col-xs-3 col-sm-auto">
+    <div class="row mb-3 align-items-center">
+      <div class="col-sm-2">
         <input id="table-filtering-search" class="form-control" type="text" placeholder="Not completed yet." />
+      </div>
+      <div class="col-sm-5">
+        <a style="font-size: large; color: rgb(68, 120, 72)">By Rating</a>
+        <!-- 添加你的链接 -->
       </div>
     </div>
   </form>
@@ -23,23 +26,24 @@
     <tbody>
       <tr *ngFor="let record of recordList">
         <th scope="row" class="text-center align-middle">{{ record.id }}</th>
-        <td class="text-center align-middle">
+        <td>
           <div class="d-flex align-items-center">
-            <a [routerLink]="trackLink"
+            <a [routerLink]="['/rating', record.trackURI]"
               ><img
                 src="https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383"
                 style="width: 90px; margin: 2px; border-radius: 7%"
                 class="me-3"
             /></a>
-            <a [routerLink]="trackLink">
-              <div>
+            <div class="flex-grow-1">
+              <!-- Use flex-grow-1 to ensure the div takes up the available space -->
+              <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
+                <!-- Use text-left to align the text to the left -->
                 <strong>{{ record.trackName }}</strong>
                 <p>{{ record.artist }}</p>
-              </div>
-            </a>
+              </a>
+            </div>
           </div>
         </td>
-
         <td class="text-center align-middle">{{ record.album }}</td>
         <td class="text-center align-middle">{{ record.reviews }}</td>
         <td class="text-center align-middle">{{ record.rating }}</td>

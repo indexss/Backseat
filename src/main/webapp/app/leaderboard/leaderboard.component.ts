@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { FetchTrackLeaderboardService } from './fetch-track-leaderboard.service';
 
 interface Record {
   id: number;
@@ -25,55 +26,18 @@ export class LeaderboardComponent implements OnInit {
   pageSize = 10;
   trackURI = 'asd';
   trackLink = '/rating/'.concat(this.trackURI);
-  recordList: Record[] = [
-    {
-      id: 1,
-      trackName: 'The Beatles',
-      album: 'Abbey Road',
-      reviews: 100,
-      rating: 5,
-      artist: 'The Beatles',
-      trackURI: 'qwe',
-    },
-    {
-      id: 2,
-      trackName: 'The Beatles',
-      album: 'Abbey Road',
-      reviews: 100,
-      rating: 5,
-      artist: 'The Beatles',
-      trackURI: 'qwe',
-    },
-    {
-      id: 3,
-      trackName: 'The Beatles',
-      album: 'Abbey Road',
-      reviews: 100,
-      rating: 5,
-      artist: 'The Beatles',
-      trackURI: 'qwe',
-    },
-    {
-      id: 4,
-      trackName: 'The Beatles',
-      album: 'Abbey Road',
-      reviews: 100,
-      rating: 5,
-      artist: 'The Beatles',
-      trackURI: 'qwe',
-    },
-    {
-      id: 5,
-      trackName: 'The Beatles',
-      album: 'Abbey Road',
-      reviews: 100,
-      rating: 5,
-      artist: 'The Beatles',
-      trackURI: 'qwe',
-    },
-  ];
+  recordList: Record[] = [];
 
-  constructor() {}
+  constructor(private fetchTrackLeaderboardService: FetchTrackLeaderboardService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fetchTrackLeaderboardService.getTrackLeaderboard().subscribe(data => {
+      console.log('data: ');
+      console.log(data);
+      // this.recordList = data;
+      // console.log('recordList: ');
+      // console.log(this.recordList);
+      this.recordList = data.data.leaderboard;
+    });
+  }
 }
