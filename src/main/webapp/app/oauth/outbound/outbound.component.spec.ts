@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {OutboundComponent} from './outbound.component';
+import { OutboundComponent } from './outbound.component';
 
 describe('OutboundComponent', () => {
   let component: OutboundComponent;
@@ -8,9 +8,8 @@ describe('OutboundComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OutboundComponent]
-    })
-      .compileComponents();
+      declarations: [OutboundComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OutboundComponent);
     component = fixture.componentInstance;

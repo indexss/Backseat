@@ -3,12 +3,16 @@ package team.bham.service;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import team.bham.domain.User;
 import team.bham.service.dto.ProfileDTO;
+import team.bham.web.rest.vm.ManagedUserVM;
 
 /**
  * Service Interface for managing {@link team.bham.domain.Profile}.
  */
 public interface ProfileService {
+    void createWhenRegister(User user);
+
     /**
      * Save a profile.
      *

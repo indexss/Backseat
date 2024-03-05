@@ -1,16 +1,15 @@
 package team.bham.spotify;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import team.bham.spotify.responses.APIErrorResponse;
-import team.bham.spotify.responses.TrackResponse;
-import team.bham.spotify.responses.UserProfileResponse;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
+import team.bham.spotify.responses.APIErrorResponse;
+import team.bham.spotify.responses.TrackResponse;
+import team.bham.spotify.responses.UserProfileResponse;
 
 public class SpotifyAPI {
 
@@ -39,11 +38,7 @@ public class SpotifyAPI {
     }
 
     public UserProfileResponse getCurrentUserProfile() throws SpotifyException, IOException, InterruptedException {
-        HttpResponse<String> resp = doHttpRequest(
-            getAuthenticatedRequestBuilder()
-                .uri(formUri("/me"))
-                .build()
-        );
+        HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri("/me")).build());
 
         if (resp.statusCode() != 200) {
             APIErrorResponse res = Util.unmarshalJson(resp.body(), APIErrorResponse.class);
@@ -66,11 +61,7 @@ public class SpotifyAPI {
             pathString = pathString.concat("?" + Util.createUrlEncodedString(params));
         }
 
-        HttpResponse<String> resp = doHttpRequest(
-            getAuthenticatedRequestBuilder()
-                .uri(formUri(pathString))
-                .build()
-        );
+        HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri(pathString)).build());
 
         System.err.println(resp.body());
 

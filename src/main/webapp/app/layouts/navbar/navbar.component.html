@@ -1,9 +1,9 @@
-<nav data-cy="navbar" class="navbar navbar-light navbar-expand-md bg-light">
+<nav data-cy="navbar" class="custom-navbar-bg navbar navbar-light navbar-expand-md bg-light">
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <span class="navbar-title">Teamproject</span>
-      <span class="navbar-version">{{ version }}</span>
+      <span class="navbar-title">Backseat</span>
+      <span class="navbar-version"></span>
     </a>
     <a
       class="navbar-toggler d-lg-none"
@@ -18,15 +18,60 @@
       <fa-icon icon="bars"></fa-icon>
     </a>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/discover" (click)="collapseNavbar()">
+            <!-- <span> -->
+            <div class="icon-text-wrapper">
+              <!-- <fa-icon icon="compass"></fa-icon> -->
+              <fa-icon [icon]="['fas', 'compass']" style="font-size: 1.5em"></fa-icon>
+
+              <span class="text">Discover</span>
+            </div>
+            <!-- </span> -->
+          </a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/leaderboard" (click)="collapseNavbar()">
+            <div class="icon-text-wrapper">
+              <!-- <fa-icon icon="list-ol"></fa-icon> -->
+              <fa-icon [icon]="['fas', 'list-ol']" style="font-size: 1.5em"></fa-icon>
+              <span class="text">Leaderboard</span>
+            </div>
+          </a>
+        </li>
+
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/search" (click)="collapseNavbar()">
+            <div class="icon-text-wrapper">
+              <!-- <fa-icon icon="search"></fa-icon> -->
+              <fa-icon [icon]="['fas', 'search']" style="font-size: 1.5em"></fa-icon>
+              <span class="text">Search</span>
+            </div>
+          </a>
+        </li>
+
+        <!-- <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"> -->
+        <!-- <a class="nav-link" routerLink="/rating" (click)="collapseNavbar()"> -->
+        <!-- <div class="icon-text-wrapper"> -->
+        <!-- <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon> -->
+        <!-- <span class="text">Rating</span> -->
+        <!-- </div> -->
+        <!-- </a> -->
+        <!-- </li> -->
+      </ul>
+
+      <!-- <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
             <span>
               <fa-icon icon="home"></fa-icon>
               <span>Home</span>
             </span>
           </a>
-        </li>
+        </li> -->
+
+      <ul class="navbar-nav ms-auto">
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngSwitchCase="true"

@@ -1,12 +1,5 @@
 package team.bham.spotify;
 
-import team.bham.config.ApplicationProperties;
-import team.bham.service.SpotifyConnectionService;
-import team.bham.service.dto.SpotifyConnectionDTO;
-import team.bham.spotify.responses.AccessTokenResponse;
-import team.bham.spotify.responses.AuthenticationErrorResponse;
-import team.bham.spotify.responses.ClientCredentialsResponse;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;
@@ -16,6 +9,12 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import team.bham.config.ApplicationProperties;
+import team.bham.service.SpotifyConnectionService;
+import team.bham.service.dto.SpotifyConnectionDTO;
+import team.bham.spotify.responses.AccessTokenResponse;
+import team.bham.spotify.responses.AuthenticationErrorResponse;
+import team.bham.spotify.responses.ClientCredentialsResponse;
 
 // TODO(txp271): It might be useful to have a mechanism in here to mark a token as invalid so that it is always
 //  refreshed, eg: in the instance a password is changed and a new token is required.
@@ -64,13 +63,17 @@ public class SpotifyCredential implements AccessTokenProvider {
         }
 
         HttpResponse<String> resp = SpotifyAPI.doHttpRequest(
-            HttpRequest.newBuilder()
+            HttpRequest
+                .newBuilder()
                 .uri(URI.create("https://accounts.spotify.com/api/token"))
                 .POST(HttpRequest.BodyPublishers.ofString(Util.createUrlEncodedString(params)))
                 .header("Content-Type", "application/x-www-form-urlencoded")
-                .header("Authorization", "Basic " + Base64.getEncoder().encodeToString(
-                    (appProps.getSpotifyClientId() + ":" + appProps.getSpotifyClientSecret()).getBytes()
-                )).build()
+                .header(
+                    "Authorization",
+                    "Basic " +
+                    Base64.getEncoder().encodeToString((appProps.getSpotifyClientId() + ":" + appProps.getSpotifyClientSecret()).getBytes())
+                )
+                .build()
         );
 
         if (resp.statusCode() != 200) {

@@ -23,9 +23,17 @@ import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
+import { NavbarNewComponent } from './layouts/navbar-new/navbar-new.component';
+import { DiscoverComponent } from './discover/discover.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { SearchComponent } from './search/search.component';
+import { RatingComponent } from './rating/rating.component';
+import { FormsModule } from '@angular/forms';
+import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 
 @NgModule({
   imports: [
+    FormsModule,
     BrowserModule,
     SharedModule,
     HomeModule,
@@ -42,7 +50,19 @@ import { ErrorComponent } from './layouts/error/error.component';
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
+  declarations: [
+    MainComponent,
+    NavbarComponent,
+    ErrorComponent,
+    PageRibbonComponent,
+    FooterComponent,
+    NavbarNewComponent,
+    DiscoverComponent,
+    LeaderboardComponent,
+    SearchComponent,
+    RatingComponent,
+    RatingNotFoundComponent,
+  ],
   bootstrap: [MainComponent],
 })
 export class AppModule {

@@ -1,17 +1,19 @@
 package team.bham.spotify.responses;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import team.bham.service.dto.SpotifyConnectionDTO;
-
-import java.time.Instant;
-
 import static team.bham.spotify.SpotifyCredential.SYSTEM;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.Instant;
+import team.bham.service.dto.SpotifyConnectionDTO;
+
 public class ClientCredentialsResponse {
+
     @JsonProperty("access_token")
     public String accessToken;
+
     @JsonProperty("token_type")
     public String tokenType; // should always be "bearer"
+
     @JsonProperty("expires_in")
     public int expiresInSeconds;
 

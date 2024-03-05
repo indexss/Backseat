@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserProfileResponse {
+
     @JsonProperty("display_name")
     public String displayName;
 
@@ -16,10 +17,6 @@ public class UserProfileResponse {
 
     @Override
     public String toString() {
-        return "UserProfileResponse{" +
-            "displayName='" + displayName + '\'' +
-            ", id='" + id + '\'' +
-            ", uri='" + uri + '\'' +
-            '}';
+        return "UserProfileResponse{" + "displayName='" + displayName + '\'' + ", id='" + id + '\'' + ", uri='" + uri + '\'' + '}';
     }
 }

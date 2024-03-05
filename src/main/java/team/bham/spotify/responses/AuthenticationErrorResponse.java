@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import team.bham.spotify.SpotifyException;
 
 public class AuthenticationErrorResponse {
+
     @JsonProperty("error")
     public String error;
 

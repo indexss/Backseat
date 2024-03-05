@@ -1,16 +1,14 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {InboundComponent} from './inbound/inbound.component';
-import {RouterModule} from "@angular/router";
-import {OutboundComponent} from './outbound/outbound.component';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { InboundComponent } from './inbound/inbound.component';
+import { RouterModule } from '@angular/router';
+import { OutboundComponent } from './outbound/outbound.component';
 
 @NgModule({
-  declarations: [
-    InboundComponent,
-    OutboundComponent
-  ],
+  declarations: [InboundComponent, OutboundComponent],
   imports: [
-    CommonModule, RouterModule.forChild([
+    CommonModule,
+    RouterModule.forChild([
       {
         path: 'inbound',
         component: InboundComponent,
@@ -26,7 +24,6 @@ import {OutboundComponent} from './outbound/outbound.component';
         },
       },
     ]),
-  ]
+  ],
 })
-export class OauthModule {
-}
+export class OauthModule {}
