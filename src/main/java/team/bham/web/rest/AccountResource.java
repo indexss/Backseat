@@ -1,6 +1,7 @@
 package team.bham.web.rest;
 
 import java.util.*;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,7 @@ import team.bham.domain.User;
 import team.bham.repository.UserRepository;
 import team.bham.security.SecurityUtils;
 import team.bham.service.MailService;
+import team.bham.service.ProfileService;
 import team.bham.service.UserService;
 import team.bham.service.dto.AdminUserDTO;
 import team.bham.service.dto.PasswordChangeDTO;
@@ -25,6 +27,9 @@ import team.bham.web.rest.vm.ManagedUserVM;
 @RestController
 @RequestMapping("/api")
 public class AccountResource {
+
+    @Resource
+    private ProfileService profileService;
 
     private static class AccountResourceException extends RuntimeException {
 
@@ -62,6 +67,7 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        profileService.createWhenRegister(user);
         mailService.sendActivationEmail(user);
     }
 

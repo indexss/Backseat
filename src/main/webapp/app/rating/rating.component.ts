@@ -79,7 +79,7 @@ export class RatingComponent implements OnInit {
             userSporifyURI: reviewDTO[i].profile.userSporifyURI,
             username: reviewDTO[i].profile.username,
             // userProfileImage: reviewDTO[i].profile.profileImage,
-            userProfileImage: 'https://canvas.bham.ac.uk/images/thumbnails/12421586/QWn6RBm92OGV4fNrhx2Gm7DB5r0Q5pfkhnqpoKgH',
+            userProfileImage: './../../content/images/common_avatar.png',
             reviewContent: reviewDTO[i].content,
             reviewDate: reviewDTO[i].date,
             rating: reviewDTO[i].rating,
@@ -137,7 +137,7 @@ export class RatingComponent implements OnInit {
                 const review: Review = {
                   userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                   username: reviewDTO[i].profile.username,
-                  userProfileImage: 'https://canvas.bham.ac.uk/images/thumbnails/12421586/QWn6RBm92OGV4fNrhx2Gm7DB5r0Q5pfkhnqpoKgH',
+                  userProfileImage: './../../content/images/common_avatar.png',
                   reviewContent: reviewDTO[i].content,
                   reviewDate: reviewDTO[i].date,
                   rating: reviewDTO[i].rating,
