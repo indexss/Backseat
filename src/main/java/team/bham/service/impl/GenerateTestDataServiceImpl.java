@@ -1,15 +1,16 @@
 package team.bham.service.impl;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.annotation.Resource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import team.bham.domain.Album;
-import team.bham.domain.Artist;
-import team.bham.domain.Track;
-import team.bham.repository.AlbumRepository;
-import team.bham.repository.ArtistRepository;
-import team.bham.repository.TrackRepository;
+import team.bham.domain.*;
+import team.bham.repository.*;
 import team.bham.service.GenerateTestDataService;
 
 /**
@@ -33,6 +34,15 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
 
     @Resource
     private TrackRepository trackRepository;
+
+    @Resource
+    private UserRepository userRepository;
+
+    @Resource
+    private ProfileRepository profileRepository;
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void generateTestDate() {
@@ -62,6 +72,7 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         album1.setReleaseDate(LocalDate.of(2017, 5, 26));
         album1.setRating(5d);
         album1.setImageURL("https://i.scdn.co/image/ab67616d00001e027359994525d219f64872d3b1");
+        album1.setArtists(new HashSet<>(List.of(artist1)));
         albumRepository.save(album1);
 
         album2.setSpotifyURI("spotify:album:52E4RP7XDzalpIrOgSTgiQ");
@@ -70,6 +81,7 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         album2.setReleaseDate(LocalDate.of(2001, 10, 29));
         album2.setRating(5d);
         album2.setImageURL("https://i.scdn.co/image/ab67616d0000b273463de2351439f6532ff0dfbd");
+        album1.setArtists(new HashSet<>(List.of(artist2)));
         albumRepository.save(album2);
 
         album3.setSpotifyURI("spotify:album:7p1fX8aUySrBdx4WSYspOu");
@@ -78,6 +90,7 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         album3.setReleaseDate(LocalDate.of(2013, 11, 25));
         album3.setRating(5d);
         album3.setImageURL("https://i.scdn.co/image/ab67616d00001e022f76b797c382bedcafdf45e1");
+        album1.setArtists(new HashSet<>(List.of(artist3)));
         albumRepository.save(album3);
 
         Track track1 = new Track();
@@ -113,5 +126,18 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         trackRepository.save(track2);
         trackRepository.save(track3);
         trackRepository.save(track4);
+
+        User demoUser = new User();
+        demoUser.setLogin("demo");
+        demoUser.setEmail("demo@localhost");
+        demoUser.setActivated(true);
+        demoUser.setPassword(passwordEncoder.encode("bananaSplit!"));
+        userRepository.save(demoUser);
+
+        Profile demoUserProfile = new Profile();
+        demoUserProfile.setUsername("demouser1983");
+        demoUserProfile.setUser(demoUser);
+        demoUserProfile.setSpotifyURI("spotify:user:narotuwi");
+        profileRepository.save(demoUserProfile);
     }
 }
