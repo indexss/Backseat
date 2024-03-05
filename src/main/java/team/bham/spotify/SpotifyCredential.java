@@ -20,7 +20,7 @@ import java.util.Optional;
 // TODO(txp271): It might be useful to have a mechanism in here to mark a token as invalid so that it is always
 //  refreshed, eg: in the instance a password is changed and a new token is required.
 
-public class SpotifyCredential {
+public class SpotifyCredential implements AccessTokenProvider {
 
     // SYSTEM represents authentication with client credentials (ie. not as a user)
     public static final String SYSTEM = "SYSTEM";
