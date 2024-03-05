@@ -3,7 +3,10 @@
     <div class="col-md-8">
       <h1 data-cy="registerTitle">Registration</h1>
 
-      <div class="alert alert-success" *ngIf="success"><strong>Registration saved!</strong> Please check your email for confirmation.</div>
+      <div class="alert alert-success" *ngIf="success">
+        <strong>Registration saved!</strong> We have temporarily disabled the email verification step, you can now log in directly to leave
+        comments.
+      </div>
 
       <div class="alert alert-danger" *ngIf="error"><strong>Registration failed!</strong> Please try again later.</div>
 
