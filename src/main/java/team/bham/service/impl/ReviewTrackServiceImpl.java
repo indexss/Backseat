@@ -53,38 +53,39 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
     public ReviewTrackDTO fetchReviewAndTrackInfo(String trackSpotifyId) {
         ReviewTrackDTO reviewTrackDTO = new ReviewTrackDTO();
         Optional<Track> optionalTrack = trackRepository.findById(trackSpotifyId);
-        Track track = optionalTrack.get();
-        reviewTrackDTO.setTrackName(track.getName());
-        reviewTrackDTO.setReleaseDate(track.getReleaseDate());
-        reviewTrackDTO.setDescription("");
-        //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
-        //        reviewTrackDTO.setAlbumName(optionalAlbum.get().getName());
-        reviewTrackDTO.setAlbumName(track.getAlbum().getName());
-        reviewTrackDTO.setImgURL(track.getAlbum().getImageURL());
-        StringBuilder artistNameBuilder = new StringBuilder();
-        Set<Artist> artists = track.getArtists();
-        List<Artist> artistList = new ArrayList<>(artists);
-        for (int i = 0; i < artistList.size(); i++) {
-            if (i == artistList.size() - 1) {
-                artistNameBuilder.append(artistList.get(i).getName());
-            } else {
-                artistNameBuilder.append(artistList.get(i).getName());
-                artistNameBuilder.append(", ");
+        try {
+            Track track = optionalTrack.get();
+            reviewTrackDTO.setTrackName(track.getName());
+            reviewTrackDTO.setReleaseDate(track.getReleaseDate());
+            reviewTrackDTO.setDescription("");
+            //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
+            //        reviewTrackDTO.setAlbumName(optionalAlbum.get().getName());
+            reviewTrackDTO.setAlbumName(track.getAlbum().getName());
+            reviewTrackDTO.setImgURL(track.getAlbum().getImageURL());
+            StringBuilder artistNameBuilder = new StringBuilder();
+            Set<Artist> artists = track.getArtists();
+            List<Artist> artistList = new ArrayList<>(artists);
+            for (int i = 0; i < artistList.size(); i++) {
+                if (i == artistList.size() - 1) {
+                    artistNameBuilder.append(artistList.get(i).getName());
+                } else {
+                    artistNameBuilder.append(artistList.get(i).getName());
+                    artistNameBuilder.append(", ");
+                }
             }
-        }
-        reviewTrackDTO.setArtistName(artistNameBuilder.toString());
-        //        reviewTrackDTO.setArtistName(track.getArtists().toString());
-        //        reviewTrackDTO.setReviewList(track.getReviews());
-        Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
-        ArrayList<Review> reviews = new ArrayList<>(reviewList);
-        double sum = 0;
-        for (int i = 0; i < reviews.size(); i++) {
-            sum += reviews.get(i).getRating();
-        }
-        reviewTrackDTO.setAvgRating((sum * 1.0) / reviews.size());
+            reviewTrackDTO.setArtistName(artistNameBuilder.toString());
+            //        reviewTrackDTO.setArtistName(track.getArtists().toString());
+            //        reviewTrackDTO.setReviewList(track.getReviews());
+            Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
+            ArrayList<Review> reviews = new ArrayList<>(reviewList);
+            double sum = 0;
+            for (int i = 0; i < reviews.size(); i++) {
+                sum += reviews.get(i).getRating();
+            }
+            reviewTrackDTO.setAvgRating((sum * 1.0) / reviews.size());
 
-        reviewTrackDTO.setReviewList(reviewList);
-
+            reviewTrackDTO.setReviewList(reviewList);
+        } catch (Exception e) {}
         //TODO: Error handling
 
         return reviewTrackDTO;
