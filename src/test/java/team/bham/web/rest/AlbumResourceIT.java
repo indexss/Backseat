@@ -54,6 +54,9 @@ class AlbumResourceIT {
     private static final Double DEFAULT_RATING = 1D;
     private static final Double UPDATED_RATING = 2D;
 
+    private static final String DEFAULT_IMAGE_URL = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE_URL = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/albums";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{spotifyURI}";
 
@@ -88,7 +91,8 @@ class AlbumResourceIT {
             .name(DEFAULT_NAME)
             .totalTracks(DEFAULT_TOTAL_TRACKS)
             .releaseDate(DEFAULT_RELEASE_DATE)
-            .rating(DEFAULT_RATING);
+            .rating(DEFAULT_RATING)
+            .imageURL(DEFAULT_IMAGE_URL);
         return album;
     }
 
@@ -103,7 +107,8 @@ class AlbumResourceIT {
             .name(UPDATED_NAME)
             .totalTracks(UPDATED_TOTAL_TRACKS)
             .releaseDate(UPDATED_RELEASE_DATE)
-            .rating(UPDATED_RATING);
+            .rating(UPDATED_RATING)
+            .imageURL(UPDATED_IMAGE_URL);
         return album;
     }
 
@@ -130,6 +135,7 @@ class AlbumResourceIT {
         assertThat(testAlbum.getTotalTracks()).isEqualTo(DEFAULT_TOTAL_TRACKS);
         assertThat(testAlbum.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
         assertThat(testAlbum.getRating()).isEqualTo(DEFAULT_RATING);
+        assertThat(testAlbum.getImageURL()).isEqualTo(DEFAULT_IMAGE_URL);
     }
 
     @Test
@@ -225,6 +231,24 @@ class AlbumResourceIT {
 
     @Test
     @Transactional
+    void checkImageURLIsRequired() throws Exception {
+        int databaseSizeBeforeTest = albumRepository.findAll().size();
+        // set the field null
+        album.setImageURL(null);
+
+        // Create the Album, which fails.
+        AlbumDTO albumDTO = albumMapper.toDto(album);
+
+        restAlbumMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(albumDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Album> albumList = albumRepository.findAll();
+        assertThat(albumList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllAlbums() throws Exception {
         // Initialize the database
         album.setSpotifyURI(UUID.randomUUID().toString());
@@ -239,7 +263,8 @@ class AlbumResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].totalTracks").value(hasItem(DEFAULT_TOTAL_TRACKS)))
             .andExpect(jsonPath("$.[*].releaseDate").value(hasItem(DEFAULT_RELEASE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING.doubleValue())));
+            .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING.doubleValue())))
+            .andExpect(jsonPath("$.[*].imageURL").value(hasItem(DEFAULT_IMAGE_URL)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -275,7 +300,8 @@ class AlbumResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.totalTracks").value(DEFAULT_TOTAL_TRACKS))
             .andExpect(jsonPath("$.releaseDate").value(DEFAULT_RELEASE_DATE.toString()))
-            .andExpect(jsonPath("$.rating").value(DEFAULT_RATING.doubleValue()));
+            .andExpect(jsonPath("$.rating").value(DEFAULT_RATING.doubleValue()))
+            .andExpect(jsonPath("$.imageURL").value(DEFAULT_IMAGE_URL));
     }
 
     @Test
@@ -298,7 +324,12 @@ class AlbumResourceIT {
         Album updatedAlbum = albumRepository.findById(album.getSpotifyURI()).get();
         // Disconnect from session so that the updates on updatedAlbum are not directly saved in db
         em.detach(updatedAlbum);
-        updatedAlbum.name(UPDATED_NAME).totalTracks(UPDATED_TOTAL_TRACKS).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
+        updatedAlbum
+            .name(UPDATED_NAME)
+            .totalTracks(UPDATED_TOTAL_TRACKS)
+            .releaseDate(UPDATED_RELEASE_DATE)
+            .rating(UPDATED_RATING)
+            .imageURL(UPDATED_IMAGE_URL);
         AlbumDTO albumDTO = albumMapper.toDto(updatedAlbum);
 
         restAlbumMockMvc
@@ -317,6 +348,7 @@ class AlbumResourceIT {
         assertThat(testAlbum.getTotalTracks()).isEqualTo(UPDATED_TOTAL_TRACKS);
         assertThat(testAlbum.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
         assertThat(testAlbum.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testAlbum.getImageURL()).isEqualTo(UPDATED_IMAGE_URL);
     }
 
     @Test
@@ -397,7 +429,7 @@ class AlbumResourceIT {
         Album partialUpdatedAlbum = new Album();
         partialUpdatedAlbum.setSpotifyURI(album.getSpotifyURI());
 
-        partialUpdatedAlbum.totalTracks(UPDATED_TOTAL_TRACKS).releaseDate(UPDATED_RELEASE_DATE);
+        partialUpdatedAlbum.totalTracks(UPDATED_TOTAL_TRACKS).releaseDate(UPDATED_RELEASE_DATE).imageURL(UPDATED_IMAGE_URL);
 
         restAlbumMockMvc
             .perform(
@@ -415,6 +447,7 @@ class AlbumResourceIT {
         assertThat(testAlbum.getTotalTracks()).isEqualTo(UPDATED_TOTAL_TRACKS);
         assertThat(testAlbum.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
         assertThat(testAlbum.getRating()).isEqualTo(DEFAULT_RATING);
+        assertThat(testAlbum.getImageURL()).isEqualTo(UPDATED_IMAGE_URL);
     }
 
     @Test
@@ -430,7 +463,12 @@ class AlbumResourceIT {
         Album partialUpdatedAlbum = new Album();
         partialUpdatedAlbum.setSpotifyURI(album.getSpotifyURI());
 
-        partialUpdatedAlbum.name(UPDATED_NAME).totalTracks(UPDATED_TOTAL_TRACKS).releaseDate(UPDATED_RELEASE_DATE).rating(UPDATED_RATING);
+        partialUpdatedAlbum
+            .name(UPDATED_NAME)
+            .totalTracks(UPDATED_TOTAL_TRACKS)
+            .releaseDate(UPDATED_RELEASE_DATE)
+            .rating(UPDATED_RATING)
+            .imageURL(UPDATED_IMAGE_URL);
 
         restAlbumMockMvc
             .perform(
@@ -448,6 +486,7 @@ class AlbumResourceIT {
         assertThat(testAlbum.getTotalTracks()).isEqualTo(UPDATED_TOTAL_TRACKS);
         assertThat(testAlbum.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
         assertThat(testAlbum.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testAlbum.getImageURL()).isEqualTo(UPDATED_IMAGE_URL);
     }
 
     @Test

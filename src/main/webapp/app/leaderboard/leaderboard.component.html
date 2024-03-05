@@ -29,10 +29,7 @@
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/rating', record.trackURI]"
-              ><img
-                src="https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383"
-                style="width: 90px; margin: 2px; border-radius: 7%"
-                class="me-3"
+              ><img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3"
             /></a>
             <div class="flex-grow-1">
               <!-- Use flex-grow-1 to ensure the div takes up the available space -->

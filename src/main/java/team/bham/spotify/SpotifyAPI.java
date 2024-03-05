@@ -1,10 +1,12 @@
 package team.bham.spotify;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import team.bham.spotify.responses.APIErrorResponse;
 import team.bham.spotify.responses.TrackResponse;
 import team.bham.spotify.responses.UserProfileResponse;
@@ -46,12 +48,28 @@ public class SpotifyAPI {
         return Util.unmarshalJson(resp.body(), UserProfileResponse.class);
     }
 
-    public TrackResponse getTrack(String id) {
-        return getTrack(id, "GB");
+    public TrackResponse getTrack(String id) throws IOException, SpotifyException, InterruptedException {
+        return getTrack(id, null);
     }
 
-    public TrackResponse getTrack(String id, String market) {
-        // TODO(txp271): implement this
-        return null;
+    public TrackResponse getTrack(String id, String market) throws IOException, SpotifyException, InterruptedException {
+        String pathString = "/tracks/".concat(id);
+
+        if (market != null) {
+            HashMap<String, String> params = new HashMap<>();
+            params.put("market", market);
+            pathString = pathString.concat("?" + Util.createUrlEncodedString(params));
+        }
+
+        HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri(pathString)).build());
+
+        System.err.println(resp.body());
+
+        if (resp.statusCode() != 200) {
+            APIErrorResponse res = Util.unmarshalJson(resp.body(), APIErrorResponse.class);
+            throw res.toException();
+        }
+
+        return Util.unmarshalJson(resp.body(), TrackResponse.class);
     }
 }

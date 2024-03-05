@@ -19,10 +19,30 @@ public class LeaderboardTrackDTO {
     private String artist;
     private String trackURI;
 
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
+
+    private String imgURL;
+
     public LeaderboardTrackDTO() {}
 
-    public LeaderboardTrackDTO(int id, String trackName, String album, Integer reviews, Double rating, String artist, String trackURI) {
+    public LeaderboardTrackDTO(
+        String imgURL,
+        int id,
+        String trackName,
+        String album,
+        Integer reviews,
+        Double rating,
+        String artist,
+        String trackURI
+    ) {
         this.id = id;
+        this.imgURL = imgURL;
         this.trackName = trackName;
         this.album = album;
         this.reviews = reviews;

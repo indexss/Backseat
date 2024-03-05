@@ -44,22 +44,24 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         artist1.setName("Cerly Rae Japsen");
         artistRepository.save(artist1);
 
-        artist2.setSpotifyURI("spotify:artist:4AK6F7OLvEQ5QYCBNiQWHq");
-        artist2.setName("One Direction");
+        artist2.setSpotifyURI("spotify:artist:3fMbdgg4jU18AjLCKBhRSm");
+        artist2.setName("Michael Jackson");
         artistRepository.save(artist2);
 
-        artist3.setSpotifyURI("spotify:artist:3fMbdgg4jU18AjLCKBhRSm");
-        artist3.setName("Michael Jackson");
+        artist3.setSpotifyURI("spotify:artist:4AK6F7OLvEQ5QYCBNiQWHq");
+        artist3.setName("One Direction");
         artistRepository.save(artist3);
 
         Album album1 = new Album();
         Album album2 = new Album();
+        Album album3 = new Album();
 
         album1.setSpotifyURI("spotify:album:0tGPJ0bkWOUmH7MEOR77qc");
         album1.setName("Cut To The Feeling");
         album1.setTotalTracks(1);
         album1.setReleaseDate(LocalDate.of(2017, 5, 26));
         album1.setRating(5d);
+        album1.setImageURL("https://i.scdn.co/image/ab67616d00001e027359994525d219f64872d3b1");
         albumRepository.save(album1);
 
         album2.setSpotifyURI("spotify:album:52E4RP7XDzalpIrOgSTgiQ");
@@ -67,10 +69,21 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         album2.setTotalTracks(16);
         album2.setReleaseDate(LocalDate.of(2001, 10, 29));
         album2.setRating(5d);
+        album2.setImageURL("https://i.scdn.co/image/ab67616d0000b273463de2351439f6532ff0dfbd");
         albumRepository.save(album2);
+
+        album3.setSpotifyURI("spotify:album:7p1fX8aUySrBdx4WSYspOu");
+        album3.setName("Midnight Memories (Deluxe)");
+        album3.setTotalTracks(18);
+        album3.setReleaseDate(LocalDate.of(2013, 11, 25));
+        album3.setRating(5d);
+        album3.setImageURL("https://i.scdn.co/image/ab67616d00001e022f76b797c382bedcafdf45e1");
+        albumRepository.save(album3);
 
         Track track1 = new Track();
         Track track2 = new Track();
+        Track track3 = new Track();
+        Track track4 = new Track();
 
         track1.setSpotifyURI("spotify:track:11dFghVXANMlKmJXsNCbNl");
         track1.setName("Cut To The Feeling");
@@ -79,12 +92,26 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         track1.setAlbum(album1);
 
         track2.setSpotifyURI("spotify:track:5L9anTQJGLyRObYDYvLWdh");
-        track2.setName("Unbreadkable");
+        track2.setName("Unbreakable");
         track2.setReleaseDate(LocalDate.of(2001, 10, 29));
-        track2.setRating(3d);
+        track2.setRating(5d);
         track2.setAlbum(album2);
+
+        track3.setSpotifyURI("spotify:track:53NdDxLiNn7VSgDVi9KsYl");
+        track3.setName("Privacy");
+        track3.setReleaseDate(LocalDate.of(2001, 10, 29));
+        track3.setRating(5d);
+        track3.setAlbum(album2);
+
+        track4.setSpotifyURI("spotify:track:5wjmqUGN7vrAqFqDWrywlZ");
+        track4.setName("Midnight Memories");
+        track4.setReleaseDate(LocalDate.of(2013, 11, 25));
+        track4.setRating(5d);
+        track4.setAlbum(album3);
 
         trackRepository.save(track1);
         trackRepository.save(track2);
+        trackRepository.save(track3);
+        trackRepository.save(track4);
     }
 }

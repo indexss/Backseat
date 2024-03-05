@@ -1,6 +1,7 @@
 package team.bham.config;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 import jdk.jfr.DataAmount;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;

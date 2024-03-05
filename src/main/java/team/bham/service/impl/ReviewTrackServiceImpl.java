@@ -53,7 +53,6 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
     public ReviewTrackDTO fetchReviewAndTrackInfo(String trackSpotifyId) {
         ReviewTrackDTO reviewTrackDTO = new ReviewTrackDTO();
         Optional<Track> optionalTrack = trackRepository.findById(trackSpotifyId);
-
         Track track = optionalTrack.get();
         reviewTrackDTO.setTrackName(track.getName());
         reviewTrackDTO.setReleaseDate(track.getReleaseDate());
@@ -61,6 +60,7 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
         //        reviewTrackDTO.setAlbumName(optionalAlbum.get().getName());
         reviewTrackDTO.setAlbumName(track.getAlbum().getName());
+        reviewTrackDTO.setImgURL(track.getAlbum().getImageURL());
         StringBuilder artistNameBuilder = new StringBuilder();
         Set<Artist> artists = track.getArtists();
         List<Artist> artistList = new ArrayList<>(artists);

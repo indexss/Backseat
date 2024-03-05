@@ -42,6 +42,7 @@ public class LeaderboardServiceImpl implements LeaderboardService {
             dto.setId(i + 1);
             dto.setTrackName(tracks.get(i).getName());
             dto.setAlbum(tracks.get(i).getAlbum().getName());
+            dto.setImgURL(tracks.get(i).getAlbum().getImageURL());
             dto.setRating(tracks.get(i).getRating());
             dto.setTrackURI(tracks.get(i).getSpotifyURI());
             Set<Review> byTrackSpotifyURI = reviewRepository.findByTrackSpotifyURI(dto.getTrackURI());

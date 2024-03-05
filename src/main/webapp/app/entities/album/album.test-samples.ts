@@ -8,29 +8,33 @@ export const sampleWithRequiredData: IAlbum = {
   totalTracks: 62684,
   releaseDate: dayjs('2024-03-01'),
   rating: 23409,
+  imageURL: 'Account parse Music',
 };
 
 export const sampleWithPartialData: IAlbum = {
-  spotifyURI: 'b97fcf30-12e1-4d42-b106-31fefb274650',
-  name: 'National withdrawal synthesize',
-  totalTracks: 85549,
+  spotifyURI: 'e1d42310-631f-4efb-a746-50de52a5dbb4',
+  name: 'Unbranded payment Dinar',
+  totalTracks: 2186,
   releaseDate: dayjs('2024-03-01'),
-  rating: 89269,
+  rating: 74077,
+  imageURL: 'reintermediate Zimbabwe Islands',
 };
 
 export const sampleWithFullData: IAlbum = {
-  spotifyURI: '682a9db1-f01b-4c6a-98f9-8fd585c0894b',
-  name: 'Principal PCI PCI',
-  totalTracks: 26913,
-  releaseDate: dayjs('2024-02-29'),
-  rating: 4007,
+  spotifyURI: '585c0894-bcef-4bd5-8d59-4f0c236d1bc1',
+  name: 'Home',
+  totalTracks: 19092,
+  releaseDate: dayjs('2024-03-01'),
+  rating: 6037,
+  imageURL: 'Gloves',
 };
 
 export const sampleWithNewData: NewAlbum = {
-  name: 'Bike RAM primary',
-  totalTracks: 782,
-  releaseDate: dayjs('2024-03-01'),
-  rating: 7185,
+  name: 'parse',
+  totalTracks: 13010,
+  releaseDate: dayjs('2024-02-29'),
+  rating: 98707,
+  imageURL: 'seize',
   spotifyURI: null,
 };
 

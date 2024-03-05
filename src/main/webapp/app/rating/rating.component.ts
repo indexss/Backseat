@@ -23,6 +23,7 @@ export class RatingComponent implements OnInit {
   avgRating!: number;
   reviewList: Review[] = [];
   account!: Account;
+  imgURL!: string;
   showAlert: boolean = false;
   comment!: string;
   rating = 0;
@@ -69,6 +70,7 @@ export class RatingComponent implements OnInit {
         this.releaseDate = data.data.review.releaseDate;
         this.description = data.data.review.description;
         this.avgRating = data.data.review.avgRating;
+        this.imgURL = data.data.review.imgURL;
 
         // console.log(this.avgRating);
         const reviewDTO = data.data.review.reviewList;

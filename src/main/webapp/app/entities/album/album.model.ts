@@ -9,6 +9,7 @@ export interface IAlbum {
   totalTracks?: number | null;
   releaseDate?: dayjs.Dayjs | null;
   rating?: number | null;
+  imageURL?: string | null;
   artists?: Pick<IArtist, 'spotifyURI'>[] | null;
   folderEntries?: Pick<IFolderEntry, 'id'>[] | null;
   wantToListenListEntries?: Pick<IWantToListenListEntry, 'id'>[] | null;

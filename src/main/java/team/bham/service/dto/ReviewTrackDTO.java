@@ -22,6 +22,16 @@ public class ReviewTrackDTO implements Serializable {
     private String artistName;
     private LocalDate releaseDate;
     private String description;
+
+    public String getImgURL() {
+        return imgURL;
+    }
+
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
+    }
+
+    private String imgURL;
     private Set<Review> reviewList;
 
     public double getAvgRating() {
@@ -42,6 +52,7 @@ public class ReviewTrackDTO implements Serializable {
         String artistName,
         LocalDate releaseDate,
         String description,
+        String imgURL,
         Set<Review> reviewList,
         double avgRating
     ) {
@@ -50,6 +61,7 @@ public class ReviewTrackDTO implements Serializable {
         this.artistName = artistName;
         this.releaseDate = releaseDate;
         this.description = description;
+        this.imgURL = imgURL;
         this.reviewList = reviewList;
         this.avgRating = avgRating;
     }

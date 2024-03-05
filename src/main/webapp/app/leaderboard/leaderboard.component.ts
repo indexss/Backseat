@@ -14,6 +14,7 @@ interface Record {
   rating: number;
   artist: string;
   trackURI: string;
+  imgURL: string;
 }
 
 @Component({
