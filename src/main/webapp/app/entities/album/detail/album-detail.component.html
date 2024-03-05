@@ -30,6 +30,10 @@
         <dd>
           <span>{{ album.rating }}</span>
         </dd>
+        <dt><span>Image URL</span></dt>
+        <dd>
+          <span>{{ album.imageURL }}</span>
+        </dd>
         <dt><span>Artist</span></dt>
         <dd>
           <span *ngFor="let artist of album.artists; let last = last">

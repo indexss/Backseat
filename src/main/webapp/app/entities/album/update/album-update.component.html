@@ -80,6 +80,14 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" for="field_imageURL">Image URL</label>
+          <input type="text" class="form-control" name="imageURL" id="field_imageURL" data-cy="imageURL" formControlName="imageURL" />
+          <div *ngIf="editForm.get('imageURL')!.invalid && (editForm.get('imageURL')!.dirty || editForm.get('imageURL')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('imageURL')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
           <label for="field_artists">Artist</label>
           <select
             class="form-control"

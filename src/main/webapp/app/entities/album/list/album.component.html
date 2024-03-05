@@ -62,6 +62,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="imageURL">
+            <div class="d-flex">
+              <span>Image URL</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -74,6 +80,7 @@
           <td>{{ album.totalTracks }}</td>
           <td>{{ album.releaseDate | formatMediumDate }}</td>
           <td>{{ album.rating }}</td>
+          <td>{{ album.imageURL }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

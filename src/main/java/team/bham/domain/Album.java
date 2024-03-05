@@ -44,6 +44,10 @@ public class Album implements Serializable, Persistable<String> {
     @Column(name = "rating", nullable = false)
     private Double rating;
 
+    @NotNull
+    @Column(name = "image_url", nullable = false)
+    private String imageURL;
+
     @Transient
     private boolean isPersisted;
 
@@ -152,6 +156,19 @@ public class Album implements Serializable, Persistable<String> {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public String getImageURL() {
+        return this.imageURL;
+    }
+
+    public Album imageURL(String imageURL) {
+        this.setImageURL(imageURL);
+        return this;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override
@@ -341,6 +358,7 @@ public class Album implements Serializable, Persistable<String> {
             ", totalTracks=" + getTotalTracks() +
             ", releaseDate='" + getReleaseDate() + "'" +
             ", rating=" + getRating() +
+            ", imageURL='" + getImageURL() + "'" +
             "}";
     }
 }

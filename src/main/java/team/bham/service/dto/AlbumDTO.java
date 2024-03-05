@@ -28,6 +28,9 @@ public class AlbumDTO implements Serializable {
     @NotNull
     private Double rating;
 
+    @NotNull
+    private String imageURL;
+
     private Set<ArtistDTO> artists = new HashSet<>();
 
     private Set<FolderEntryDTO> folderEntries = new HashSet<>();
@@ -72,6 +75,14 @@ public class AlbumDTO implements Serializable {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public Set<ArtistDTO> getArtists() {
@@ -128,6 +139,7 @@ public class AlbumDTO implements Serializable {
             ", totalTracks=" + getTotalTracks() +
             ", releaseDate='" + getReleaseDate() + "'" +
             ", rating=" + getRating() +
+            ", imageURL='" + getImageURL() + "'" +
             ", artists=" + getArtists() +
             ", folderEntries=" + getFolderEntries() +
             ", wantToListenListEntries=" + getWantToListenListEntries() +

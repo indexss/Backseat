@@ -22,6 +22,7 @@ type AlbumFormGroupContent = {
   totalTracks: FormControl<IAlbum['totalTracks']>;
   releaseDate: FormControl<IAlbum['releaseDate']>;
   rating: FormControl<IAlbum['rating']>;
+  imageURL: FormControl<IAlbum['imageURL']>;
   artists: FormControl<IAlbum['artists']>;
   folderEntries: FormControl<IAlbum['folderEntries']>;
   wantToListenListEntries: FormControl<IAlbum['wantToListenListEntries']>;
@@ -54,6 +55,9 @@ export class AlbumFormService {
         validators: [Validators.required],
       }),
       rating: new FormControl(albumRawValue.rating, {
+        validators: [Validators.required],
+      }),
+      imageURL: new FormControl(albumRawValue.imageURL, {
         validators: [Validators.required],
       }),
       artists: new FormControl(albumRawValue.artists ?? []),
