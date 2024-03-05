@@ -124,7 +124,7 @@ export class RatingComponent implements OnInit {
             // console.log(data);
           });
 
-          this.comment = '';
+          this.comment = ' ';
           this.rating = 0;
 
           setTimeout(() => {
