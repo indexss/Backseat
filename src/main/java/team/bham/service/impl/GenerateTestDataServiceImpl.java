@@ -132,6 +132,9 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         demoUser.setEmail("demo@localhost");
         demoUser.setActivated(true);
         demoUser.setPassword(passwordEncoder.encode("bananaSplit!"));
+        Authority userAuth = new Authority();
+        userAuth.setName("ROLE_USER");
+        demoUser.setAuthorities(new HashSet<>(List.of(userAuth)));
         userRepository.save(demoUser);
 
         Profile demoUserProfile = new Profile();
