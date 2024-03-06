@@ -105,8 +105,14 @@ deploy-prod:
     - deploy-dev
   resource_group: deployment
   before_script:
+    - mkdir -p ~/.ssh
+    - cp src/main/ci/ssh-config ~/.ssh/config
+    - chmod 0600 ~/.ssh/config
+    # copy in SSH key
+    - cp ${RSA_NOPW} ~/.ssh/tpvm
+    - chmod 0600 ~/.ssh/tpvm
     #install and configure SSH on the gitlab-runner
     - chmod og= $RSA
     - apk update && apk add openssh-client sshpass
   script:
-    - sshpass -Ppassphrase -p $PASSPHRASE ssh -o StrictHostKeyChecking=no -i $RSA $USER@$IP "docker compose -f ~/team-project/prd.yml up -d && docker system prune --force --filter 'until=24h'"
+    - ssh teamproject2023-team31 "docker compose -f ~/team-project/prd.yml up -d && docker system prune --force --filter 'until=24h'"
