@@ -72,19 +72,26 @@ deploy-dev:
     #use one of the following instead  to get real SSL certs 'https://acme-v02.api.letsencrypt.org/directory' 'https://acme.zerossl.com/v2/DV90'
     ACME: 'https://acme-staging-v02.api.letsencrypt.org/directory'
   before_script:
+    # copy SSH config
+    - mkdir -p ~/.ssh
+    - cp src/main/ci/ssh-config ~/.ssh/config
+    - chmod 0600 ~/.ssh/config
+    # copy in SSH key
+    - cp ${RSA_NOPW} ~/.ssh/tpvm
+    - chmod 0600 ~/.ssh/tpvm
     #install and configure SSH on the gitlab-runner
     - chmod og= $RSA
     - apk update && apk add openssh-client sshpass
     #save CI pipeline variables ready for transfer to the deployment server
     - echo CI_REGISTRY_USER=${CI_REGISTRY_USER} CI_REGISTRY_PASSWORD=${CI_REGISTRY_PASSWORD} CI_REGISTRY_IMAGE=${CI_REGISTRY_IMAGE} CI_COMMIT_TAG=${CI_COMMIT_TAG} CI_REGISTRY=${CI_REGISTRY} URL=${URL} EMAIL=${GITLAB_USER_EMAIL} ACME=${ACME} > src/main/docker/.env
     #delete previous ~/team-project/ folder if it is there and run (install-docker.sh) on the deployment server if it is needed
-    - sshpass -Ppassphrase -p $PASSPHRASE ssh -o StrictHostKeyChecking=no -i $RSA $USER@$IP "(rm -rf ~/team-project || true ) && (which docker || sh team-project/install-docker.sh)"
+    - ssh teamproject2023-team31 "(rm -rf ~/team-project || true ) && (which docker || sh team-project/install-docker.sh)"
     #transfer src/main/docker/ to the deployment server
-    - sshpass -Ppassphrase -p $PASSPHRASE scp -o StrictHostKeyChecking=no -i $RSA -r src/main/docker/ $USER@$IP:~/team-project
+    - scp -r src/main/docker/ teamproject2023-team31:~/team-project
     #run (install-app.sh) on the deployment server
-    - sshpass -Ppassphrase -p $PASSPHRASE ssh -o StrictHostKeyChecking=no -i $RSA $USER@$IP "sh team-project/install-app.sh"
+    - ssh teamproject2023-team31 "sh team-project/install-app.sh"
   script:
-    - sshpass -Ppassphrase -p $PASSPHRASE ssh -o StrictHostKeyChecking=no -i $RSA $USER@$IP "docker compose -f ~/team-project/app.yml up -d && docker system prune --force --filter 'until=24h'"
+    - ssh teamproject2023-team31 "docker compose -f ~/team-project/app.yml up -d && docker system prune --force --filter 'until=24h'"
 
 deploy-prod:
   image: alpine:latest
