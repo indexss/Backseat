@@ -27,6 +27,7 @@ import { NavbarNewComponent } from './layouts/navbar-new/navbar-new.component';
 import { DiscoverComponent } from './discover/discover.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
+import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import { SearchComponent } from './search/search.component';
     DiscoverComponent,
     LeaderboardComponent,
     SearchComponent,
+    WantToListenComponent,
   ],
   bootstrap: [MainComponent],
 })

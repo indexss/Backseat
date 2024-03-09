@@ -11,6 +11,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { DiscoverComponent } from './discover/discover.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
+import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,14 @@ import { SearchComponent } from './search/search.component';
         {
           path: 'discover',
           component: DiscoverComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
+        {
+          path: 'want-to-listen',
+          component: WantToListenComponent,
           data: {
             authorities: [],
           },
