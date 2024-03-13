@@ -5,6 +5,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FetchTrackLeaderboardService } from './fetch-track-leaderboard.service';
+import { DeviceService } from 'app/mobile/device.service';
 
 interface Record {
   id: number;
@@ -27,12 +28,19 @@ export class LeaderboardComponent implements OnInit {
   pageSize: number = 7;
   isLoading = false;
   hasMore = true;
-
   recordList: Record[] = [];
+  ismobile: boolean = false;
 
-  constructor(private fetchTrackLeaderboardService: FetchTrackLeaderboardService) {}
+  constructor(private fetchTrackLeaderboardService: FetchTrackLeaderboardService, private deviceService: DeviceService) {}
 
   ngOnInit(): void {
+    if (this.deviceService.isMobile()) {
+      // console.log('用户在使用手机设备访问');
+      this.ismobile = true;
+    } else {
+      // console.log('用户在使用非手机设备访问');
+    }
+
     this.fetchTrackLeaderboardService.getTrackLeaderboard(this.page, this.pageSize).subscribe(data => {
       this.page = 0;
       this.pageSize = 7;
@@ -46,7 +54,6 @@ export class LeaderboardComponent implements OnInit {
   onWindowScroll() {
     const pos = window.scrollY + window.innerHeight;
     const max = document.documentElement.scrollHeight;
-
     if (pos >= max && !this.isLoading && this.hasMore) {
       this.isLoading = true;
       console.log('You are at the bottom!');
