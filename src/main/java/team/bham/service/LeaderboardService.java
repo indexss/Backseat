@@ -1,6 +1,7 @@
 package team.bham.service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
 import team.bham.service.dto.LeaderboardTrackDTO;
 
 /**
@@ -14,4 +15,6 @@ import team.bham.service.dto.LeaderboardTrackDTO;
 
 public interface LeaderboardService {
     public List<LeaderboardTrackDTO> fetchTrackLeaderboard();
+
+    public List<LeaderboardTrackDTO> fetchTrackLeaderboardPagination(int page, int size);
 }

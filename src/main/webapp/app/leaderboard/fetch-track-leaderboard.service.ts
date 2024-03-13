@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class FetchTrackLeaderboardService {
   constructor(private http: HttpClient) {}
-  getTrackLeaderboard(): Observable<any> {
-    return this.http.get('api/leaderboard/track');
+  getTrackLeaderboard(page: number, size: number): Observable<any> {
+    return this.http.get(`api/leaderboard/track/pagination?page=${page}&size=${size}`);
   }
 }

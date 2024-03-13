@@ -1,3 +1,4 @@
+<script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
 <div class="container">
   <h2>LEADERBOARD</h2>
 
@@ -8,7 +9,6 @@
       </div>
       <div class="col-sm-5">
         <a style="font-size: large; color: rgb(68, 120, 72)">By Rating</a>
-        <!-- 添加你的链接 -->
       </div>
     </div>
   </form>
@@ -47,8 +47,14 @@
       </tr>
     </tbody>
   </table>
-
-  <div class="d-flex justify-content-between p-2">
-    <ngb-pagination [collectionSize]="10" [(page)]="page" [pageSize]="pageSize"> </ngb-pagination>
+  <div *ngIf="isLoading" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="!hasMore">
+    <div class="text-primary">
+      <span>No more data!</span>
+    </div>
   </div>
 </div>

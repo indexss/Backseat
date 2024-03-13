@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 
@@ -23,22 +23,47 @@ interface Record {
   styleUrls: ['./leaderboard.component.scss'],
 })
 export class LeaderboardComponent implements OnInit {
-  page = 1;
-  pageSize = 10;
-  trackURI = 'asd';
-  trackLink = '/rating/'.concat(this.trackURI);
+  page: number = 0;
+  pageSize: number = 7;
+  isLoading = false;
+  hasMore = true;
+
   recordList: Record[] = [];
 
   constructor(private fetchTrackLeaderboardService: FetchTrackLeaderboardService) {}
 
   ngOnInit(): void {
-    this.fetchTrackLeaderboardService.getTrackLeaderboard().subscribe(data => {
-      console.log('data: ');
-      console.log(data);
-      // this.recordList = data;
-      // console.log('recordList: ');
-      // console.log(this.recordList);
+    this.fetchTrackLeaderboardService.getTrackLeaderboard(this.page, this.pageSize).subscribe(data => {
+      this.page = 0;
+      this.pageSize = 7;
+      console.log('page init:', this.page);
       this.recordList = data.data.leaderboard;
+      this.page += 1;
     });
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onWindowScroll() {
+    const pos = window.scrollY + window.innerHeight;
+    const max = document.documentElement.scrollHeight;
+
+    if (pos >= max && !this.isLoading && this.hasMore) {
+      this.isLoading = true;
+      console.log('You are at the bottom!');
+      this.fetchTrackLeaderboardService.getTrackLeaderboard(this.page, this.pageSize).subscribe(
+        data => {
+          console.log('more data:', data.data.leaderboard);
+          this.recordList = [...this.recordList, ...data.data.leaderboard];
+          this.page += 1;
+          this.isLoading = false;
+          if (data.data.leaderboard.length < this.pageSize) {
+            this.hasMore = false;
+          }
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
+    }
   }
 }
