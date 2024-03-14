@@ -1,26 +1,35 @@
-<script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
-<div class="container">
-  <h2 class="animated-element">LEADERBOARD</h2>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
 
-  <form>
-    <div class="row mb-3 align-items-center">
-      <div class="col-sm-2">
-        <input id="table-filtering-search" class="form-control" type="text" placeholder="Not completed yet." />
-      </div>
-      <div class="col-sm-5">
-        <a style="font-size: large; color: rgb(68, 120, 72)">By Rating</a>
-      </div>
+<div class="container">
+  <div class="row mb-3">
+    <div class="col d-flex justify-content-end align-items-center">
+      <h2 class="animated-element flex-grow-1">LEADERBOARD</h2>
+      <form class="form-inline">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-bottom-0 pe-0">
+            <i class="fas fa-search"></i>
+            <!-- Bootstrap Icons，如果使用其他图标库，请相应调整 -->
+          </span>
+          <input id="table-filtering-search" class="form-control form-control-underline" type="text" placeholder="Track/Album/Artist" />
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
+  <button id="back-to-top" class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px" (click)="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+  </button>
 
   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col" class="text-center align-middle table-text green">#</th>
-        <th scope="col" class="table-text green">Track</th>
-        <th *ngIf="ismobile" scope="col" class="text-center align-middle table-text green">Album</th>
-        <th *ngIf="ismobile" scope="col" class="text-center align-middle table-text green">Reviews</th>
-        <th scope="col" class="text-center align-middle table-text green">Rating</th>
+        <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
+        <th scope="col" class="table-text green anta-regular">Track</th>
+        <th *ngIf="ismobile" scope="col" class="text-center align-middle table-text green anta-regular">Album</th>
+        <th *ngIf="ismobile" scope="col" class="text-center align-middle table-text green anta-regular">Reviews</th>
+        <th scope="col" class="text-center align-middle table-text green anta-regular">Rating</th>
       </tr>
     </thead>
     <tbody>
@@ -29,7 +38,7 @@
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/rating', record.trackURI]"
-              ><img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3"
+              ><img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"
             /></a>
             <div class="flex-grow-1">
               <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
