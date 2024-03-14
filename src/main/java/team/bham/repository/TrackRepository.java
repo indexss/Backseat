@@ -35,6 +35,7 @@ public interface TrackRepository extends TrackRepositoryWithBagRelationships, Jp
     @Query("select t from Track t order by t.rating DESC ")
     List<Track> fetchTrackByRating();
 
-    @Query("select t from Track t order by t.rating DESC ")
+    //    @Query("select t from Track t order by t.rating DESC ")
+    @Query("select t from Track t order by t.rating DESC, size(t.reviews) DESC, t.name ASC")
     Page<Track> fetchTrackByRatingPagination(Pageable pageable);
 }

@@ -1,6 +1,6 @@
 <script src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"></script>
 <div class="container">
-  <h2>LEADERBOARD</h2>
+  <h2 class="animated-element">LEADERBOARD</h2>
 
   <form>
     <div class="row mb-3 align-items-center">
@@ -24,7 +24,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let record of recordList">
+      <tr *ngFor="let record of recordList; let i = index" [ngClass]="{ 'new-record-animation': record.newItem }" class="record-animation">
         <th scope="row" class="text-center align-middle">{{ record.id }}</th>
         <td>
           <div class="d-flex align-items-center">

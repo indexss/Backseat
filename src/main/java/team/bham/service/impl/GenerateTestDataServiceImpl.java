@@ -199,6 +199,8 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         track15.setRating(5d);
         track15.setAlbum(album3);
 
+        //generate more test track
+
         trackRepository.save(track1);
         trackRepository.save(track2);
         trackRepository.save(track3);
@@ -214,6 +216,16 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         trackRepository.save(track13);
         trackRepository.save(track14);
         trackRepository.save(track15);
+
+        for (int i = 20; i < 100; i++) {
+            Track track = new Track();
+            track.setSpotifyURI("spotify:track:5wjmqUGN7vrAqFqDWrywlZ" + i);
+            track.setName("Midnight Memories" + i);
+            track.setReleaseDate(LocalDate.of(2013, 11, 25));
+            track.setRating(5d);
+            track.setAlbum(album3);
+            trackRepository.save(track);
+        }
 
         User demoUser = new User();
         demoUser.setLogin("demo");

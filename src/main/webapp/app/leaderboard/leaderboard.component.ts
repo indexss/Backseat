@@ -16,6 +16,7 @@ interface Record {
   artist: string;
   trackURI: string;
   imgURL: string;
+  newItem?: boolean;
 }
 
 @Component({
@@ -45,8 +46,17 @@ export class LeaderboardComponent implements OnInit {
       this.page = 0;
       this.pageSize = 7;
       console.log('page init:', this.page);
-      this.recordList = data.data.leaderboard;
+      // this.recordList = data.data.leaderboard;
+      this.addAllWithAnimation(data.data.leaderboard);
       this.page += 1;
+    });
+  }
+
+  addAllWithAnimation(records: Record[]) {
+    records.forEach((item, index) => {
+      setTimeout(() => {
+        this.recordList.push({ ...item, newItem: true });
+      }, index * 100);
     });
   }
 
@@ -60,7 +70,9 @@ export class LeaderboardComponent implements OnInit {
       this.fetchTrackLeaderboardService.getTrackLeaderboard(this.page, this.pageSize).subscribe(
         data => {
           console.log('more data:', data.data.leaderboard);
-          this.recordList = [...this.recordList, ...data.data.leaderboard];
+          // this.recordList = [...this.recordList, ...data.data.leaderboard];
+          const newData = data.data.leaderboard.map((item: Record) => ({ ...item, newItem: true }));
+          this.recordList = [...this.recordList, ...newData];
           this.page += 1;
           this.isLoading = false;
           if (data.data.leaderboard.length < this.pageSize) {
