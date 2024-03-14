@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { FetchTrackLeaderboardService } from './fetch-track-leaderboard.service';
 import { DeviceService } from 'app/mobile/device.service';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 interface Record {
   id: number;
@@ -31,15 +32,26 @@ export class LeaderboardComponent implements OnInit {
   hasMore = true;
   recordList: Record[] = [];
   ismobile: boolean = false;
+  isCollapsed = true;
+
+  filter = {
+    category: 'track',
+    orderBy: 'rating',
+    timeSpan: 'whole',
+    order: 'DESC',
+    textInput: '',
+  };
 
   constructor(private fetchTrackLeaderboardService: FetchTrackLeaderboardService, private deviceService: DeviceService) {}
+  submitForm(): void {
+    console.log(this.filter);
+  }
 
   ngOnInit(): void {
     if (this.deviceService.isMobile()) {
-      // console.log('用户在使用手机设备访问');
       this.ismobile = true;
     } else {
-      // console.log('用户在使用非手机设备访问');
+      this.ismobile = false;
     }
 
     this.fetchTrackLeaderboardService.getTrackLeaderboard(this.page, this.pageSize).subscribe(data => {

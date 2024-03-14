@@ -6,14 +6,30 @@
 <div class="container">
   <div class="row mb-3">
     <div class="col d-flex justify-content-end align-items-center">
-      <h2 class="animated-element flex-grow-1">LEADERBOARD</h2>
+      <!-- <h2 class="animated-element flex-grow-1">LEADERBOARD</h2> -->
+      <div class="col d-flex justify-content-end align-items-center">
+        <h2 *ngIf="ismobile" class="animated-element flex-grow-1"><span class="big-l">L</span>EADERBOARD</h2>
+        <h2 *ngIf="!ismobile" class="animated-element flex-grow-1 mobile-h2"><span class="big-l">L</span>EADERBOARD</h2>
+      </div>
       <form class="form-inline">
         <div class="input-group">
           <span class="input-group-text bg-white border-bottom-0 pe-0">
             <i class="fas fa-search"></i>
-            <!-- Bootstrap Icons，如果使用其他图标库，请相应调整 -->
           </span>
-          <input id="table-filtering-search" class="form-control form-control-underline" type="text" placeholder="Track/Album/Artist" />
+          <input
+            *ngIf="ismobile"
+            id="table-filtering-search"
+            class="form-control form-control-underline"
+            type="text"
+            placeholder="Track / Album / Artist"
+          />
+          <input
+            *ngIf="!ismobile"
+            id="table-filtering-search"
+            class="form-control form-control-underline-mobile"
+            type="text"
+            placeholder="Search"
+          />
         </div>
       </form>
     </div>
@@ -21,6 +37,106 @@
   <button id="back-to-top" class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px" (click)="scrollToTop()">
     <i class="fas fa-arrow-up"></i>
   </button>
+
+  <p>
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="collapse.toggle()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+    >
+      <i class="fa-filter"></i>&nbsp;&nbsp;&nbsp;&nbsp;Set Filter
+    </button>
+  </p>
+  <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+    <div class="card">
+      <div class="card-body">
+        <h4>Filter Setting</h4>
+        <div class="container mt-5">
+          <form>
+            <!-- Category -->
+            <div class="mb-3">
+              <label class="form-label"><h5>Category</h5></label>
+              <div class="d-flex">
+                <div class="form-check me-2">
+                  <input class="form-check-input" type="radio" name="category" id="track" value="track" [(ngModel)]="filter.category" />
+                  <label class="form-check-label" for="track">Track</label>
+                </div>
+                <div class="form-check me-2">
+                  <input class="form-check-input" type="radio" name="category" id="album" value="album" [(ngModel)]="filter.category" />
+                  <label class="form-check-label" for="album">Album</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="category" id="artist" value="artist" [(ngModel)]="filter.category" />
+                  <label class="form-check-label" for="artist">Artist</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Order By -->
+            <div class="mb-3">
+              <label class="form-label"><h5>Order By</h5></label>
+              <div class="d-flex">
+                <div class="form-check me-2">
+                  <input class="form-check-input" type="radio" name="orderBy" id="rating" value="rating" [(ngModel)]="filter.orderBy" />
+                  <label class="form-check-label" for="rating">Rating</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="orderBy" id="review" value="review" [(ngModel)]="filter.orderBy" />
+                  <label class="form-check-label" for="review">Review</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Time Span -->
+            <div class="mb-3">
+              <label for="timeSpan" class="form-label"><h5>Time Span</h5></label>
+              <select class="form-select w-auto" id="timeSpan" name="timeSpan" [(ngModel)]="filter.timeSpan">
+                <option value="whole">Whole</option>
+                <option value="year">Year</option>
+                <option value="month">Month</option>
+                <option value="week">Week</option>
+              </select>
+            </div>
+
+            <!-- Order -->
+            <div class="mb-3">
+              <label class="form-label"><h5>Order</h5></label>
+              <div class="d-flex">
+                <div class="form-check me-2">
+                  <input class="form-check-input" type="radio" name="order" id="desc" value="DESC" [(ngModel)]="filter.order" />
+                  <label class="form-check-label" for="desc">Reverse</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="order" id="asc" value="ASC" [(ngModel)]="filter.order" />
+                  <label class="form-check-label" for="asc">Ascending</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Text Input -->
+            <div class="mb-3">
+              <label for="textInput" class="form-label"><h5>Track Name / Album Name / Artist Name</h5></label>
+              <div>
+                <input
+                  type="text"
+                  class="form-control-underline filter-search"
+                  id="textInput"
+                  name="textInput"
+                  [(ngModel)]="filter.textInput"
+                />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+            <button type="button" class="btn btn-primary" (click)="submitForm()">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <table class="table table-striped">
     <thead>
@@ -60,8 +176,9 @@
     </div>
   </div>
   <div *ngIf="!hasMore">
-    <div class="text-primary">
-      <span>No more data!</span>
+    <div class="text-primary justify-content-center">
+      <span>No more data!</span><span> Can't find the song you want?</span
+      ><span><a class="add" routerLink="/search"> Add from spotify!</a></span>
     </div>
   </div>
 </div>

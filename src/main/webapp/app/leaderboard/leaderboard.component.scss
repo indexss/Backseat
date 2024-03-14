@@ -1,10 +1,26 @@
 h2 {
   color: rgb(68, 120, 72);
-  font-size: 3.8em;
+  font-size: 3.4em;
   font-weight: 700;
   font-family: 'Anta', sans-serif;
+}
+
+h4 {
+  color: rgb(68, 120, 72);
+  // font-size: 3.4em;
   font-weight: 700;
-  font-style: normal;
+  font-family: 'Anta', sans-serif;
+}
+
+h5 {
+  color: rgb(68, 120, 72);
+  // font-size: 3.4em;
+  font-weight: 700;
+  font-family: 'Anta', sans-serif;
+}
+
+.big-l {
+  font-size: 130%;
 }
 
 .anta-regular {
@@ -83,12 +99,16 @@ a {
   border: none;
   outline: none;
   box-shadow: none;
-  border-bottom: 1px solid #ccc; /* 底部边框样式 */
-  border-radius: 0; /* 移除默认的圆角 */
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+}
+
+.filter-search {
+  width: 20em;
 }
 
 .form-control-underline:focus {
-  border-bottom-color: #0a6e14; /* 聚焦时的底部边框颜色，可以根据需要调整 */
+  border-bottom-color: #0a6e14;
 }
 
 .input-group-text.bg-white {
@@ -111,8 +131,26 @@ a {
   border-radius: 7%;
 }
 
-/* 鼠标悬停时图片放大 */
 .img-zoom:hover {
-  transform: scale(1.1); /* 根据需要调整放大比例 */
-  z-index: 1000; /* 确保图片在其他元素之上 */
+  transform: scale(1.1);
+  z-index: 1000;
+}
+
+.mobile-h2 {
+  font-size: 1.2em;
+}
+
+.form-control-underline-mobile {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+  height: 1.3em;
+  width: 5em;
+}
+
+.add {
+  color: #0a6e14;
+  margin-left: 10px;
 }
