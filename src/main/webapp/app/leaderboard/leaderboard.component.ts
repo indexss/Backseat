@@ -27,7 +27,7 @@ interface Record {
 })
 export class LeaderboardComponent implements OnInit {
   page: number = 0;
-  pageSize: number = 7;
+  pageSize: number = 10;
   isLoading = false;
   hasMore = true;
   recordList: Record[] = [];
@@ -45,6 +45,9 @@ export class LeaderboardComponent implements OnInit {
   constructor(private fetchTrackLeaderboardService: FetchTrackLeaderboardService, private deviceService: DeviceService) {}
   submitForm(): void {
     console.log(this.filter);
+    this.page = 0;
+    // this.isCollapsed = true;
+    this.recordList = [];
   }
 
   ngOnInit(): void {
@@ -54,12 +57,13 @@ export class LeaderboardComponent implements OnInit {
       this.ismobile = false;
     }
 
-    this.fetchTrackLeaderboardService.getTrackLeaderboard(this.page, this.pageSize).subscribe(data => {
+    this.fetchTrackLeaderboardService.getTrackLeaderboard(this.page, 50).subscribe(data => {
+      console.log('123123123123123123123');
       this.page = 0;
-      this.pageSize = 7;
       console.log('page init:', this.page);
       // this.recordList = data.data.leaderboard;
       this.addAllWithAnimation(data.data.leaderboard);
+      this.pageSize = 10;
       this.page += 1;
     });
   }
@@ -76,12 +80,14 @@ export class LeaderboardComponent implements OnInit {
   onWindowScroll() {
     const pos = window.scrollY + window.innerHeight;
     const max = document.documentElement.scrollHeight;
-    if (pos >= max && !this.isLoading && this.hasMore) {
+    while (pos >= (max / 9) * 8 && !this.isLoading && this.hasMore) {
+      console.log('pos1:', pos);
+      console.log('max1:', max);
       this.isLoading = true;
       console.log('You are at the bottom!');
       this.fetchTrackLeaderboardService.getTrackLeaderboard(this.page, this.pageSize).subscribe(
         data => {
-          console.log('more data:', data.data.leaderboard);
+          console.log('more data2:', data.data.leaderboard);
           // this.recordList = [...this.recordList, ...data.data.leaderboard];
           const newData = data.data.leaderboard.map((item: Record) => ({ ...item, newItem: true }));
           this.recordList = [...this.recordList, ...newData];
