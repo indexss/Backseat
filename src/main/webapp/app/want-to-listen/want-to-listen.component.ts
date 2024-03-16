@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { sampleWithFullData } from '../entities/want-to-listen-list-entry/want-to-listen-list-entry.test-samples';
 
 @Component({
   selector: 'jhi-want-to-listen',
@@ -13,4 +14,5 @@ export class WantToListenComponent implements OnInit {
 
   protected readonly faPlay = faPlay;
   protected readonly faPlayCircle = faPlayCircle;
+  protected readonly sampleWithFullData = sampleWithFullData;
 }

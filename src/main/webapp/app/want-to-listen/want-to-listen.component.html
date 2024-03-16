@@ -8,7 +8,9 @@
     <!--            <fa-icon [icon]="faPlayCircle" style="font-size: 2.5em; margin: 0; padding: 0"></fa-icon>-->
     <!--        </button>-->
   </div>
-  <table class="table table-striped">
+
+  <!--  Table head define-->
+  <table class="table" style="margin-bottom: 0">
     <thead style="color: #447848">
       <tr>
         <td>#</td>
@@ -18,8 +20,11 @@
         <td>Reviews</td>
       </tr>
     </thead>
-
-    <!--        responsible table-->
-    <tbody></tbody>
   </table>
+
+  <!--  Table contain define, using list group from bootstrap-->
+  <div class="list-group">
+    <jhi-list-item></jhi-list-item>
+    <jhi-list-item></jhi-list-item>
+  </div>
 </div>

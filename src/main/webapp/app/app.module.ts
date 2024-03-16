@@ -28,6 +28,7 @@ import { DiscoverComponent } from './discover/discover.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
+import { ListItemComponent } from './want-to-listen/list-item/list-item.component';
 
 @NgModule({
   imports: [
@@ -58,6 +59,7 @@ import { WantToListenComponent } from './want-to-listen/want-to-listen.component
     LeaderboardComponent,
     SearchComponent,
     WantToListenComponent,
+    ListItemComponent,
   ],
   bootstrap: [MainComponent],
 })
