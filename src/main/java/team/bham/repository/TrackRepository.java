@@ -1,5 +1,6 @@
 package team.bham.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import team.bham.domain.Album;
 import team.bham.domain.Track;
 
 /**
@@ -38,4 +40,48 @@ public interface TrackRepository extends TrackRepositoryWithBagRelationships, Jp
     //    @Query("select t from Track t order by t.rating DESC ")
     @Query("select t from Track t order by t.rating DESC, size(t.reviews) DESC, t.name ASC")
     Page<Track> fetchTrackByRatingPagination(Pageable pageable);
+
+    List<Track> findByAlbum(Album album);
+
+    // orderKey = rating / size(reviews), order = asc / desc, between startTime and endTime,  search = text, could order by rating or size of the reviews;
+
+    @Query(
+        "select t from Track t where t.releaseDate > :startTime and t.releaseDate <= :endTime and (t.name like %:text% or t.album.name like %:text%) order by t.rating DESC, size(t.reviews) DESC, t.name ASC"
+    )
+    Page<Track> fetchTrackLBWithFilterRatingDESC(
+        @Param("startTime") LocalDate startTime,
+        @Param("endTime") LocalDate endTime,
+        @Param("text") String text,
+        Pageable pageable
+    );
+
+    @Query(
+        "select t from Track t where t.releaseDate > :startTime and t.releaseDate <= :endTime and (t.name like %:text% or t.album.name like %:text%) order by t.rating ASC, size(t.reviews) DESC, t.name ASC"
+    )
+    Page<Track> fetchTrackLBWithFilterRatingASC(
+        @Param("startTime") LocalDate startTime,
+        @Param("endTime") LocalDate endTime,
+        @Param("text") String text,
+        Pageable pageable
+    );
+
+    @Query(
+        "select t from Track t where t.releaseDate > :startTime and t.releaseDate <= :endTime and (t.name like %:text% or t.album.name like %:text%) order by size(t.reviews) DESC, t.rating DESC, t.name ASC"
+    )
+    Page<Track> fetchTrackLBWithFilterReviewsDESC(
+        @Param("startTime") LocalDate startTime,
+        @Param("endTime") LocalDate endTime,
+        @Param("text") String text,
+        Pageable pageable
+    );
+
+    @Query(
+        "select t from Track t where t.releaseDate > :startTime and t.releaseDate <= :endTime and (t.name like %:text% or t.album.name like %:text%) order by size(t.reviews) ASC, t.rating DESC, t.name ASC"
+    )
+    Page<Track> fetchTrackLBFilterReviewsASC(
+        @Param("startTime") LocalDate startTime,
+        @Param("endTime") LocalDate endTime,
+        @Param("text") String text,
+        Pageable pageable
+    );
 }
