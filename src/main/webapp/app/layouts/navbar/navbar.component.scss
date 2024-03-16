@@ -6,7 +6,7 @@
 Navbar
 ========================================================================== */
 .custom-navbar-bg {
-  background-color: #dcf7e0 !important;
+  background-color: #507653 !important;
 }
 
 .icon-text-wrapper {
@@ -53,6 +53,31 @@ Navbar
       color: $navbar-dark-hover-color;
     }
   }
+}
+
+@font-face {
+  font-family: 'iconfont'; /* Project id  */
+  src: url('iconfont.ttf?t=1710607741114') format('truetype');
+}
+
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-search:before {
+  content: '\e6b9';
+}
+
+.icon-compass:before {
+  content: '\e77d';
+}
+
+.icon-list-ol:before {
+  content: '\e8b0';
 }
 
 /* ==========================================================================

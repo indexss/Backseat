@@ -3,7 +3,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
 
-<div class="container">
+<div class="container" [class.dark-mode]="darkMode">
   <div class="row mb-3">
     <div class="col d-flex justify-content-end align-items-center">
       <!-- <h2 class="animated-element flex-grow-1">LEADERBOARD</h2> -->
@@ -11,7 +11,7 @@
         <h2 *ngIf="ismobile" class="animated-element flex-grow-1"><span class="big-l">L</span>EADERBOARD</h2>
         <h2 *ngIf="!ismobile" class="animated-element flex-grow-1 mobile-h2"><span class="big-l">L</span>EADERBOARD</h2>
       </div>
-      <form class="form-inline" (ngSubmit)="submitForm()" #searchForm="ngForm">
+      <!-- <form class="form-inline" (ngSubmit)="submitForm()" #searchForm="ngForm">
         <div class="input-group">
           <span class="input-group-text bg-white border-bottom-0 pe-0">
             <i class="fas fa-search"></i>
@@ -37,7 +37,7 @@
             (keyup.enter)="searchForm.ngSubmit.emit()"
           />
         </div>
-      </form>
+      </form> -->
     </div>
   </div>
   <button id="back-to-top" class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px" (click)="scrollToTop()">
@@ -174,7 +174,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let record of recordList; let i = index" [ngClass]="{ 'new-record-animation': record.newItem }" class="record-animation">
-        <th scope="row" class="text-center align-middle">{{ record.id }}</th>
+        <th scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/rating', record.trackURI]"
@@ -188,9 +188,9 @@
             </div>
           </div>
         </td>
-        <td class="text-center align-middle" *ngIf="ismobile">{{ record.album }}</td>
-        <td class="text-center align-middle" *ngIf="ismobile">{{ record.reviews }}</td>
-        <td class="text-center align-middle">{{ record.rating | number: '1.0-2' }}</td>
+        <td class="text-center align-middle row-album" *ngIf="ismobile">{{ record.album }}</td>
+        <td class="text-center align-middle row-reviews" *ngIf="ismobile">{{ record.reviews }}</td>
+        <td class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
       </tr>
     </tbody>
   </table>

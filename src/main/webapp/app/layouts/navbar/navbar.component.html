@@ -1,8 +1,9 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 <nav data-cy="navbar" class="custom-navbar-bg navbar navbar-light navbar-expand-md bg-light">
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
-      <span class="navbar-title">Backseat</span>
+      <span class="navbar-title" style="color: white">Backseat</span>
       <span class="navbar-version"></span>
     </a>
     <a
@@ -24,9 +25,8 @@
             <!-- <span> -->
             <div class="icon-text-wrapper">
               <!-- <fa-icon icon="compass"></fa-icon> -->
-              <fa-icon [icon]="['fas', 'compass']" style="font-size: 1.5em"></fa-icon>
-
-              <span class="text">Discover</span>
+              <fa-icon [icon]="['fas', 'compass']" style="color: white; font-size: 1.5em"></fa-icon>
+              <span class="text" style="color: white">Discover</span>
             </div>
             <!-- </span> -->
           </a>
@@ -36,8 +36,8 @@
           <a class="nav-link" routerLink="/leaderboard" (click)="collapseNavbar()">
             <div class="icon-text-wrapper">
               <!-- <fa-icon icon="list-ol"></fa-icon> -->
-              <fa-icon [icon]="['fas', 'list-ol']" style="font-size: 1.5em"></fa-icon>
-              <span class="text">Leaderboard</span>
+              <fa-icon [icon]="['fas', 'list-ol']" style="color: white; font-size: 1.5em"></fa-icon>
+              <span class="text" style="color: white">Leaderboard</span>
             </div>
           </a>
         </li>
@@ -46,8 +46,8 @@
           <a class="nav-link" routerLink="/search" (click)="collapseNavbar()">
             <div class="icon-text-wrapper">
               <!-- <fa-icon icon="search"></fa-icon> -->
-              <fa-icon [icon]="['fas', 'search']" style="font-size: 1.5em"></fa-icon>
-              <span class="text">Search</span>
+              <fa-icon [icon]="['fas', 'search']" style="color: white; font-size: 1.5em"></fa-icon>
+              <span class="text" style="color: white">Search</span>
             </div>
           </a>
         </li>
@@ -290,7 +290,14 @@
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu" data-cy="accountMenu">
+          <a
+            class="nav-link dropdown-toggle"
+            ngbDropdownToggle
+            href="javascript:void(0);"
+            id="account-menu"
+            data-cy="accountMenu"
+            style="color: white"
+          >
             <span *ngIf="!account?.imageUrl">
               <fa-icon icon="user"></fa-icon>
               <span>Account</span>

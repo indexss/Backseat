@@ -27,7 +27,7 @@ interface Record {
 })
 export class LeaderboardComponent implements OnInit {
   page: number = 0;
-  pageSize: number = 10;
+  pageSize: number = 30;
   isLoading = false;
   hasMore = true;
   recordList: Record[] = [];
@@ -63,6 +63,12 @@ export class LeaderboardComponent implements OnInit {
     textInput: '',
   };
 
+  darkMode = false;
+
+  toggleDarkMode() {
+    this.darkMode = !this.darkMode;
+  }
+
   constructor(private fetchTrackLeaderboardService: FetchTrackLeaderboardService, private deviceService: DeviceService) {}
 
   getTodayDate(): string {
@@ -83,7 +89,7 @@ export class LeaderboardComponent implements OnInit {
     this.fetchTrackLeaderboardService
       .getTrackLeaderboard({
         page: this.page,
-        size: 10,
+        size: 30,
       })
       .subscribe(data => {
         // console.log('123123123123123123123');
@@ -91,7 +97,7 @@ export class LeaderboardComponent implements OnInit {
         // console.log('page init:', this.page);
         // this.recordList = data.data.leaderboard;
         this.addAllWithAnimation(data.data.leaderboard);
-        this.pageSize = 10;
+        this.pageSize = 30;
         this.page += 1;
       });
   }
@@ -116,7 +122,7 @@ export class LeaderboardComponent implements OnInit {
         order: this.filter.order,
         search: this.filter.textInput,
         page: this.page,
-        size: 10,
+        size: 30,
       })
       .subscribe(
         data => {
