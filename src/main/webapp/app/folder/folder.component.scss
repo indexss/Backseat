@@ -1,0 +1,36 @@
+h2 {
+  color: rgb(68, 120, 72);
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
+strong {
+  // color: rgb(59, 101, 62);
+  font-size: 1.2em;
+  font-weight: 1000;
+}
+
+.table-text {
+  font-size: 1.2em;
+  font-weight: 900;
+}
+
+.green {
+  color: rgb(68, 120, 72);
+}
+
+.rename-button {
+  position: absolute;
+  right: -80px;
+  bottom: -30px;
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: rgb(68, 120, 72);
+  border: none;
+  color: white;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #4caf50;
+  }
+}

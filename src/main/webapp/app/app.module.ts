@@ -30,6 +30,8 @@ import { SearchComponent } from './search/search.component';
 import { RatingComponent } from './rating/rating.component';
 import { FormsModule } from '@angular/forms';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
+import { FolderComponent } from './folder/folder.component';
+import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
 
 @NgModule({
   imports: [
@@ -62,6 +64,8 @@ import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-fo
     SearchComponent,
     RatingComponent,
     RatingNotFoundComponent,
+    FolderComponent,
+    AddToFolderComponent,
   ],
   bootstrap: [MainComponent],
 })

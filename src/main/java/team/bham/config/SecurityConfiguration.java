@@ -73,6 +73,7 @@ public class SecurityConfiguration {
         .and()
             .authorizeRequests()
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            .antMatchers("/api/folder/addfolder").permitAll()
             .antMatchers("/api/reivews/**").permitAll()
             .antMatchers("/api/reviews/**").permitAll()
             .antMatchers("/api/generate").permitAll()
