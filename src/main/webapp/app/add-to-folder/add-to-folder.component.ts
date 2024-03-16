@@ -19,7 +19,7 @@ interface Record {
 interface Folder {
   id: number;
   folderName: string;
-  imgURL: string;
+  imageURL: string;
 }
 
 @Component({
@@ -52,15 +52,17 @@ export class AddToFolderComponent implements OnInit {
     this.fetchTrackLeaderboardService.getTrackLeaderboard().subscribe(data => {
       this.recordList = data.data.leaderboard;
     });
+
+    this.addToFolderService.getUserFolder().subscribe(data => {
+      this.folderList = data.data.folder;
+    });
   }
 
-  // 打开模态框
   openModal(recordId: number, content: TemplateRef<any>) {
-    this.recordId = recordId; // 记录当前点击的歌曲 ID
+    this.recordId = recordId;
     this.modalRef = this.modalService.open(content, { centered: true });
   }
 
-  // 将歌曲添加到指定的播放列表中
   addToFolder(folderId: number) {
     console.log(`Adding song with ID ${this.recordId} to playlist with ID ${folderId}`);
     this.modalRef.close();
@@ -69,7 +71,6 @@ export class AddToFolderComponent implements OnInit {
   addFolder() {
     this.accountService.identity().subscribe(account => {
       if (account) {
-        // this.submitReview();
         if (this.folderName === undefined || this.folderName === '' || this.folderName === null || this.folderName.trim().length === 0) {
           this.showAlert = true;
           return;

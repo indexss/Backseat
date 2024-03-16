@@ -1,12 +1,14 @@
 package team.bham.web.rest;
 
+import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import team.bham.service.GenerateFolderService;
+import team.bham.service.FolderHandlerService;
 import team.bham.service.dto.AddFolderDTO;
+import team.bham.service.dto.FetchFolderDTO;
 import team.bham.utils.ResponseUtils;
 
 @RestController
@@ -14,7 +16,7 @@ import team.bham.utils.ResponseUtils;
 public class FolderController {
 
     @Resource
-    private GenerateFolderService generateFolderService;
+    private FolderHandlerService folderHandlerService;
 
     @PostMapping("/addfolder")
     public ResponseUtils generateData(@RequestBody AddFolderDTO addFolderDTO) {
@@ -29,8 +31,21 @@ public class FolderController {
             userId = (String) authentication.getPrincipal();
         }
         try {
-            generateFolderService.generateFolder(addFolderDTO.getFolderName(), addFolderDTO.getImgURL(), userId);
+            folderHandlerService.generateFolder(addFolderDTO.getFolderName(), addFolderDTO.getImgURL(), userId);
             resp = new ResponseUtils();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
+    @GetMapping("/fetchfolders")
+    public ResponseUtils fetchFolder() {
+        ResponseUtils resp = null;
+        try {
+            List<FetchFolderDTO> fetchFolderDTOS = folderHandlerService.fetchFolder();
+            resp = new ResponseUtils().put("folder", fetchFolderDTOS);
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());

@@ -17,4 +17,8 @@ export class AddToFolderService {
 
     return this.http.post(url, body);
   }
+
+  getUserFolder(): Observable<any> {
+    return this.http.get('api/folder/fetchfolders');
+  }
 }
