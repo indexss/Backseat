@@ -37,7 +37,7 @@ import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
         },
 
         {
-          path: 'folderPage',
+          path: 'folderPage/:id',
           component: FolderComponent,
           data: {
             authorities: [],

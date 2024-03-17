@@ -57,11 +57,11 @@
         <th scope="row" class="text-center">{{ folder.id }}</th>
         <td>
           <div class="d-flex align-items-center">
-            <a [routerLink]="['/pageFolder', folder.id]">
+            <a [routerLink]="['/folderPage', folder.folderId]">
               <img [src]="folder.imageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />
             </a>
             <div class="flex-grow-1">
-              <a [routerLink]="['/pageFolder', folder.id]" class="text-left d-block">
+              <a [routerLink]="['/folderPage', folder.folderId]" class="text-left d-block">
                 <strong>{{ folder.folderName }}</strong>
               </a>
             </div>
@@ -81,8 +81,8 @@
   </div>
   <div class="modal-body">
     <ul class="list-group">
-      <li *ngFor="let folder of folderDisplay" class="list-group-item" (click)="addToFolder(folder.id)">
-        {{ folder.name }}
+      <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.id)">
+        {{ folder.folderName }}
       </li>
     </ul>
   </div>

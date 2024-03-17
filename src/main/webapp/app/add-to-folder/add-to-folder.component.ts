@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
 import { FetchTrackLeaderboardService } from '../leaderboard/fetch-track-leaderboard.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AddToFolderService } from './add-to-folder.service';
@@ -18,6 +18,7 @@ interface Record {
 
 interface Folder {
   id: number;
+  folderId: number;
   folderName: string;
   imageURL: string;
 }
@@ -31,21 +32,17 @@ export class AddToFolderComponent implements OnInit {
   recordList: Record[] = [];
   folderList: Folder[] = [];
   recordId!: number;
-  folderDisplay: any[] = [
-    { id: 1, name: 'Playlist 1' },
-    { id: 2, name: 'Playlist 2' },
-    { id: 3, name: 'Playlist 3' },
-  ];
   modalRef!: NgbModalRef;
   folderName!: string;
-  imageURL: string = 'https://images.macrumors.com/t/vMbr05RQ60tz7V_zS5UEO9SbGR0=/1600x900/smart/article-new/2018/05/apple-music-note.jpg';
+  imageURL: string = 'https://i.scdn.co/image/ab67616d00001e02904445d70d04eb24d6bb79ac';
   account!: Account;
   showAlert: boolean = false;
   constructor(
     private fetchTrackLeaderboardService: FetchTrackLeaderboardService,
     private modalService: NgbModal,
     private addToFolderService: AddToFolderService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +74,7 @@ export class AddToFolderComponent implements OnInit {
         } else {
           this.showAlert = false;
           this.addToFolderService.addFolder(this.folderName, this.imageURL).subscribe(data => {});
+          this.folderName = '';
         }
       }
     });

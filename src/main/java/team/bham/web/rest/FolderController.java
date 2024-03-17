@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import team.bham.service.FolderHandlerService;
 import team.bham.service.dto.AddFolderDTO;
 import team.bham.service.dto.FetchFolderDTO;
+import team.bham.service.dto.FetchFolderEntryDTO;
 import team.bham.utils.ResponseUtils;
 
 @RestController
@@ -48,6 +49,18 @@ public class FolderController {
             resp = new ResponseUtils().put("folder", fetchFolderDTOS);
         } catch (Exception e) {
             e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
+    @GetMapping("/fetchfolderentry")
+    public ResponseUtils fetchFolderEntry(long id) {
+        ResponseUtils resp = null;
+        try {
+            FetchFolderEntryDTO fetchFolderEntryDTO = folderHandlerService.fetchFolderEntry(id);
+            resp = new ResponseUtils().put("folderEntry", fetchFolderEntryDTO);
+        } catch (Exception e) {
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
         }
         return resp;

@@ -3,16 +3,20 @@ package team.bham.service.dto;
 public class FetchFolderDTO {
 
     private int id;
+
+    private long folderId;
+
     private String folderName;
     private String imageURL;
 
-    public FetchFolderDTO(int id, String folderName, String imageURL) {
+    public FetchFolderDTO() {}
+
+    public FetchFolderDTO(int id, long folderId, String folderName, String imageURL) {
         this.id = id;
+        this.folderId = folderId;
         this.folderName = folderName;
         this.imageURL = imageURL;
     }
-
-    public FetchFolderDTO() {}
 
     public int getId() {
         return id;
@@ -20,6 +24,14 @@ public class FetchFolderDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public long getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(long folderId) {
+        this.folderId = folderId;
     }
 
     public String getFolderName() {

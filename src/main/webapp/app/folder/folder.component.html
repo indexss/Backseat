@@ -2,10 +2,10 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-auto">
-        <img [src]="imageUrl" style="width: 500px; margin: 5px; border-radius: 10%" class="me-3" />
+        <img [src]="imageUrl" style="width: 300px; margin: 5px; border-radius: 10%" class="me-3" />
       </div>
       <div class="col-auto d-flex flex-column position-relative">
-        <h2 style="color: rgb(68, 120, 72); font-size: 70px">{{ folderName }}</h2>
+        <h2 style="color: rgb(68, 120, 72); font-size: 70px">{{ folderName | slice: 0:20 }}</h2>
         <button class="rename-button mt-auto position-absolute" (click)="openDialog()">Rename</button>
       </div>
     </div>
@@ -15,30 +15,26 @@
     <thead class="thead-dark">
       <tr>
         <th scope="col" class="text-center align-middle table-text green">#</th>
-        <th scope="col" class="table-text green">Track/Album</th>
-        <th scope="col" class="text-center align-middle table-text green">Artist</th>
-        <th scope="col" class="text-center align-middle table-text green">Reviews</th>
-        <th scope="col" class="text-center align-middle table-text green">Rating</th>
+        <th scope="col" class="table-text green">SpotifyURI</th>
+        <th scope="col" class="text-center align-middle table-text green">addTime</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let record of recordList">
-        <th scope="row" class="text-center">{{ record.id }}</th>
+      <tr *ngFor="let folderEntry of folderEntryList; let i = index">
+        <th scope="row" class="text-center">i</th>
         <td>
           <div class="d-flex align-items-center">
-            <a [routerLink]="['/rating', record.trackURI]">
-              <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />
+            <a [routerLink]="['/rating', folderEntry.spotifyURI]">
+              <img [src]="imageUrl" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />
             </a>
             <div class="flex-grow-1">
-              <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
-                <strong>{{ record.trackName }}</strong>
+              <a [routerLink]="['/rating', folderEntry.spotifyURI]" class="text-left d-block">
+                <strong>{{ folderEntry.spotifyURI }}</strong>
               </a>
             </div>
           </div>
         </td>
-        <td class="text-center">{{ record.artist }}</td>
-        <td class="text-center">{{ record.reviews }}</td>
-        <td class="text-center">{{ record.rating | number: '1.0-2' }}</td>
+        <td class="text-center">{{ folderEntry.addTime }}</td>
       </tr>
     </tbody>
   </table>
