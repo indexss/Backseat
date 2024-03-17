@@ -1,3 +1,15 @@
-div.border-sep > div.col:not(:first-of-type) {
-  border-left: 1px solid grey;
+div.border-sep > div.col {
+  padding: 1rem;
+
+  &:not(:first-of-type) {
+    border-left: 1px solid lightgrey;
+  }
+}
+
+hr.separator {
+  width: 75%;
+  // TODO(txp271): why does this go nearly invisible when I do `color: lightgrey` if it doesn't on borders??
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
