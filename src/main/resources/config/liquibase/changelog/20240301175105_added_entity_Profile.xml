@@ -10,6 +10,7 @@
         Added the entity Profile.
     -->
     <changeSet id="20240301175105-1" author="jhipster">
+
         <createTable tableName="profile">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>

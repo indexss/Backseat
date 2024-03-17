@@ -12,6 +12,8 @@ import { DiscoverComponent } from './discover/discover.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
+import { RatingComponent } from './rating/rating.component';
+import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 
 @NgModule({
   imports: [
@@ -48,6 +50,31 @@ import { WantToListenComponent } from './want-to-listen/want-to-listen.component
             authorities: [],
           },
         },
+
+        // {
+        //   path: 'rating',
+        //   component: RatingComponent,
+        //   data: {
+        //     authorities: [],
+        //   },
+        // },
+
+        {
+          path: 'rating/:id',
+          component: RatingComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
+        {
+          path: 'rating-not-found',
+          component: RatingNotFoundComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
         {
           path: 'admin',
           data: {
@@ -63,6 +90,10 @@ import { WantToListenComponent } from './want-to-listen/want-to-listen.component
         {
           path: 'login',
           loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+        },
+        {
+          path: 'oauth',
+          loadChildren: () => import('./oauth/oauth.module').then(m => m.OauthModule),
         },
         {
           path: '',

@@ -26,8 +26,7 @@ public class SpotifyConnection implements Serializable, Persistable<String> {
     @Column(name = "spotify_uri", nullable = false)
     private String spotifyURI;
 
-    @NotNull
-    @Column(name = "refresh_token", nullable = false)
+    @Column(name = "refresh_token")
     private String refreshToken;
 
     @NotNull

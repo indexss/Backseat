@@ -1,5 +1,7 @@
 .history/*
+src/main/resources/config/application-dev.yml
 
+/src/main/resources/config/application-dev.yml
 ######################
 # Project Specific
 ######################

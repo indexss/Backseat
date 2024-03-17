@@ -32,9 +32,6 @@ public class Track implements Serializable, Persistable<String> {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description")
-    private String description;
-
     @NotNull
     @Column(name = "release_date", nullable = false)
     private LocalDate releaseDate;
@@ -111,19 +108,6 @@ public class Track implements Serializable, Persistable<String> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public Track description(String description) {
-        this.setDescription(description);
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public LocalDate getReleaseDate() {
@@ -318,7 +302,6 @@ public class Track implements Serializable, Persistable<String> {
         return "Track{" +
             "spotifyURI=" + getSpotifyURI() +
             ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
             ", releaseDate='" + getReleaseDate() + "'" +
             ", rating=" + getRating() +
             "}";

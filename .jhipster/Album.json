@@ -24,10 +24,6 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "description",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "releaseDate",
       "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
@@ -35,6 +31,11 @@
     {
       "fieldName": "rating",
       "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "imageURL",
+      "fieldType": "String",
       "fieldValidateRules": ["required"]
     }
   ],

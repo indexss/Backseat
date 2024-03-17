@@ -21,7 +21,6 @@ describe('Track Form Service', () => {
           expect.objectContaining({
             spotifyURI: expect.any(Object),
             name: expect.any(Object),
-            description: expect.any(Object),
             releaseDate: expect.any(Object),
             rating: expect.any(Object),
             artists: expect.any(Object),
@@ -39,7 +38,6 @@ describe('Track Form Service', () => {
           expect.objectContaining({
             spotifyURI: expect.any(Object),
             name: expect.any(Object),
-            description: expect.any(Object),
             releaseDate: expect.any(Object),
             rating: expect.any(Object),
             artists: expect.any(Object),

@@ -1,0 +1,15 @@
+Host *
+    StrictHostKeyChecking no
+
+Host teamproject2023-proxy
+    Hostname ec2-13-42-77-144.eu-west-2.compute.amazonaws.com
+    User team31
+    IdentityFile ~/.ssh/tpvm
+    IdentitiesOnly yes
+
+Host teamproject2023-team31
+    Hostname 172.31.47.97
+    User ubuntu
+    IdentityFile ~/.ssh/tpvm
+    IdentitiesOnly yes
+    ProxyJump teamproject2023-proxy

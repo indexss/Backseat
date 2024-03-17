@@ -1,6 +1,7 @@
 package team.bham.service.impl;
 
 import java.util.Optional;
+import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -8,10 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.bham.domain.Profile;
+import team.bham.domain.User;
 import team.bham.repository.ProfileRepository;
 import team.bham.service.ProfileService;
 import team.bham.service.dto.ProfileDTO;
 import team.bham.service.mapper.ProfileMapper;
+import team.bham.web.rest.vm.ManagedUserVM;
 
 /**
  * Service Implementation for managing {@link Profile}.
@@ -19,6 +22,9 @@ import team.bham.service.mapper.ProfileMapper;
 @Service
 @Transactional
 public class ProfileServiceImpl implements ProfileService {
+
+    @Resource
+    private ProfileRepository profileRepository1;
 
     private final Logger log = LoggerFactory.getLogger(ProfileServiceImpl.class);
 
@@ -29,6 +35,15 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileServiceImpl(ProfileRepository profileRepository, ProfileMapper profileMapper) {
         this.profileRepository = profileRepository;
         this.profileMapper = profileMapper;
+    }
+
+    @Override
+    public void createWhenRegister(User user) {
+        Profile profile = new Profile();
+        profile.setUsername(user.getLogin());
+        profile.setSpotifyURI(user.getLogin());
+        profile.setUser(user);
+        profileRepository1.save(profile);
     }
 
     @Override

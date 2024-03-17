@@ -22,13 +22,14 @@ public class AlbumDTO implements Serializable {
     @NotNull
     private Integer totalTracks;
 
-    private String description;
-
     @NotNull
     private LocalDate releaseDate;
 
     @NotNull
     private Double rating;
+
+    @NotNull
+    private String imageURL;
 
     private Set<ArtistDTO> artists = new HashSet<>();
 
@@ -60,14 +61,6 @@ public class AlbumDTO implements Serializable {
         this.totalTracks = totalTracks;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
@@ -82,6 +75,14 @@ public class AlbumDTO implements Serializable {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public Set<ArtistDTO> getArtists() {
@@ -136,9 +137,9 @@ public class AlbumDTO implements Serializable {
             "spotifyURI='" + getSpotifyURI() + "'" +
             ", name='" + getName() + "'" +
             ", totalTracks=" + getTotalTracks() +
-            ", description='" + getDescription() + "'" +
             ", releaseDate='" + getReleaseDate() + "'" +
             ", rating=" + getRating() +
+            ", imageURL='" + getImageURL() + "'" +
             ", artists=" + getArtists() +
             ", folderEntries=" + getFolderEntries() +
             ", wantToListenListEntries=" + getWantToListenListEntries() +

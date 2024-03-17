@@ -36,9 +36,6 @@ public class Album implements Serializable, Persistable<String> {
     @Column(name = "total_tracks", nullable = false)
     private Integer totalTracks;
 
-    @Column(name = "description")
-    private String description;
-
     @NotNull
     @Column(name = "release_date", nullable = false)
     private LocalDate releaseDate;
@@ -46,6 +43,10 @@ public class Album implements Serializable, Persistable<String> {
     @NotNull
     @Column(name = "rating", nullable = false)
     private Double rating;
+
+    @NotNull
+    @Column(name = "image_url", nullable = false)
+    private String imageURL;
 
     @Transient
     private boolean isPersisted;
@@ -131,19 +132,6 @@ public class Album implements Serializable, Persistable<String> {
         this.totalTracks = totalTracks;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
-
-    public Album description(String description) {
-        this.setDescription(description);
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public LocalDate getReleaseDate() {
         return this.releaseDate;
     }
@@ -168,6 +156,19 @@ public class Album implements Serializable, Persistable<String> {
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    public String getImageURL() {
+        return this.imageURL;
+    }
+
+    public Album imageURL(String imageURL) {
+        this.setImageURL(imageURL);
+        return this;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override
@@ -355,9 +356,9 @@ public class Album implements Serializable, Persistable<String> {
             "spotifyURI=" + getSpotifyURI() +
             ", name='" + getName() + "'" +
             ", totalTracks=" + getTotalTracks() +
-            ", description='" + getDescription() + "'" +
             ", releaseDate='" + getReleaseDate() + "'" +
             ", rating=" + getRating() +
+            ", imageURL='" + getImageURL() + "'" +
             "}";
     }
 }

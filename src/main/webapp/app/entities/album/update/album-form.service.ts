@@ -20,9 +20,9 @@ type AlbumFormGroupContent = {
   spotifyURI: FormControl<IAlbum['spotifyURI'] | NewAlbum['spotifyURI']>;
   name: FormControl<IAlbum['name']>;
   totalTracks: FormControl<IAlbum['totalTracks']>;
-  description: FormControl<IAlbum['description']>;
   releaseDate: FormControl<IAlbum['releaseDate']>;
   rating: FormControl<IAlbum['rating']>;
+  imageURL: FormControl<IAlbum['imageURL']>;
   artists: FormControl<IAlbum['artists']>;
   folderEntries: FormControl<IAlbum['folderEntries']>;
   wantToListenListEntries: FormControl<IAlbum['wantToListenListEntries']>;
@@ -51,11 +51,13 @@ export class AlbumFormService {
       totalTracks: new FormControl(albumRawValue.totalTracks, {
         validators: [Validators.required],
       }),
-      description: new FormControl(albumRawValue.description),
       releaseDate: new FormControl(albumRawValue.releaseDate, {
         validators: [Validators.required],
       }),
       rating: new FormControl(albumRawValue.rating, {
+        validators: [Validators.required],
+      }),
+      imageURL: new FormControl(albumRawValue.imageURL, {
         validators: [Validators.required],
       }),
       artists: new FormControl(albumRawValue.artists ?? []),

@@ -50,12 +50,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="description">
-            <div class="d-flex">
-              <span>Description</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="releaseDate">
             <div class="d-flex">
               <span>Release Date</span>
@@ -65,6 +59,12 @@
           <th scope="col" jhiSortBy="rating">
             <div class="d-flex">
               <span>Rating</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="imageURL">
+            <div class="d-flex">
+              <span>Image URL</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -78,9 +78,9 @@
           </td>
           <td>{{ album.name }}</td>
           <td>{{ album.totalTracks }}</td>
-          <td>{{ album.description }}</td>
           <td>{{ album.releaseDate | formatMediumDate }}</td>
           <td>{{ album.rating }}</td>
+          <td>{{ album.imageURL }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

@@ -1,0 +1,27 @@
+h2 {
+  color: rgb(68, 120, 72);
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
+strong {
+  // color: rgb(59, 101, 62);
+  font-size: 1.2em;
+  font-weight: 1000;
+}
+
+.table-text {
+  font-size: 1.2em;
+  font-weight: 900;
+}
+
+.green {
+  color: rgb(68, 120, 72);
+}
+
+a {
+  //去除超链接特效
+  text-decoration: none;
+  //去除超链接颜色
+  color: inherit;
+}

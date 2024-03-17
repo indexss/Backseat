@@ -27,11 +27,15 @@ import { NavbarNewComponent } from './layouts/navbar-new/navbar-new.component';
 import { DiscoverComponent } from './discover/discover.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
+import { RatingComponent } from './rating/rating.component';
+import { FormsModule } from '@angular/forms';
+import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 import { ListViewComponent } from './want-to-listen/list-view/list-view.component';
 
 @NgModule({
   imports: [
+    FormsModule,
     BrowserModule,
     SharedModule,
     HomeModule,
@@ -58,6 +62,8 @@ import { ListViewComponent } from './want-to-listen/list-view/list-view.componen
     DiscoverComponent,
     LeaderboardComponent,
     SearchComponent,
+    RatingComponent,
+    RatingNotFoundComponent,
     WantToListenComponent,
     ListViewComponent,
   ],

@@ -1,11 +1,11 @@
-spotify_uri;name;total_tracks;description;release_date;rating
-0b0b095f-5612-4bfa-97e5-ec855b96754a;mint South;20527;interactive;2024-03-01;70427
-34f57835-cf71-4944-9cff-57dcb3e3bf45;redefine;50560;quantify mint monitor;2024-02-29;58537
-fd2a6edc-6e45-4233-8aa4-96c01d984d3e;Union;79420;Shoes Administrator Assurance;2024-03-01;9388
-54d16abd-86fa-45c4-a786-fe7edbc3902e;Future;79013;Tuvalu;2024-02-29;93851
-cafb7f92-2b49-4640-a11d-a49431ac33af;Avon;47599;services infrastructure Pataca;2024-03-01;37127
-846b392e-bb05-45fa-9c56-6a1f977110d5;Practical Computer;62899;distributed parse Frozen;2024-03-01;42349
-348a197a-dd7b-4575-b236-3f8ea0b343e0;panel Buckinghamshire;98928;aggregate;2024-03-01;86012
-2640b74c-27da-4289-8739-8fbfc0ca0d26;Granite digital Handcrafted;89438;Practical bleeding-edge;2024-02-29;28303
-7819e095-c11a-4836-a6da-c6fa8b43e504;Pants 1080p back-end;64307;Orchestrator invoice Small;2024-03-01;66285
-e864fdc1-bd38-47dd-8684-048d337eb2a6;programming orange;25104;Metrics Wooden;2024-02-29;6802
+spotify_uri;name;total_tracks;release_date;rating;image_url
+0b0b095f-5612-4bfa-97e5-ec855b96754a;mint South;20527;2024-03-01;35231;Global orange
+57835cf7-1944-41cf-b57d-cb3e3bf4546f;Cambridgeshire New;18939;2024-03-01;72828;Shoes Accountability withdrawal
+dc6e4523-30aa-4496-801d-984d3e37e3ce;invoice;77109;2024-02-29;43209;Assurance archive strategy
+6abd86fa-5c42-4786-be7e-dbc3902e2e37;incremental Factors wireless;71729;2024-03-01;96956;Keyboard logistical
+40e11da4-9431-4ac3-baf4-7157b6ec478b;Saudi Kansas;71126;2024-03-01;61829;International
+055fa5c5-66a1-4f97-b110-d5716d21faf5;indigo primary;93244;2024-03-01;36555;ROI Buckinghamshire
+97add7b5-75f2-4363-b8ea-0b343e09b247;invoice aggregate invoice;40586;2024-03-01;5566;Bedfordshire Table deposit
+947398fb-fc0c-4a0d-a6e2-8bc330a9f3ea;technologies;44969;2024-03-01;94943;Overpass
+9e095c11-a836-466d-ac6f-a8b43e504b25;1080p back-end invoice;61969;2024-02-29;66169;partnerships Berkshire Global
+4fdc1bd3-87dd-4c68-8048-d337eb2a68de;orange Phased Associate;71160;2024-03-01;66987;Senior Illinois

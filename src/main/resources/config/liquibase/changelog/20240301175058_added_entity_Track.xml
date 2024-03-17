@@ -17,9 +17,6 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="description" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="release_date" type="date">
                 <constraints nullable="false" />
             </column>
@@ -87,7 +84,6 @@
                   usePreparedStatements="true">
             <column name="spotify_uri" type="string"/>
             <column name="name" type="string"/>
-            <column name="description" type="string"/>
             <column name="release_date" type="date"/>
             <column name="rating" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
