@@ -1,8 +1,25 @@
-<a class="list-group-item list-group-item-action active" aria-current="false" (mouseover)="focus()">
-  <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">List group item heading</h5>
-    <small>3 days ago</small>
+<div class="list-group">
+  <div
+    class="list-group-item list-group-item-action align-self-center align-items-center"
+    id="{{ item.id }}"
+    (click)="expand($event)"
+    (mouseover)="focus($event)"
+    *ngFor="let item of itemList"
+  >
+    <div class="container row align-self-center">
+      <h5 class="col-1">{{ item.id }}</h5>
+      <span class="logo-img col-1"></span>
+      <div class="col-4">
+        <a class="h4 green">{{ item.trackName }}</a>
+        <h5 class="green">{{ item.album }}</h5>
+      </div>
+      <div class="col-2">
+        <h5>{{ item.artist }}</h5>
+        <h5>{{ item.releaseDate | date: 'mediumDate' }}</h5>
+      </div>
+      <h5 class="col-2">{{ item.rating | number: '1.0-2' }}</h5>
+      <h5 class="col-2">{{ item.reviews | number: '':'en' }}</h5>
+      <a class="col-1" [hidden]="!item.isFocus"><span>DEL</span></a>
+    </div>
   </div>
-  <p class="mb-1">Some placeholder content in a paragraph.</p>
-  <small>And some small print.</small>
-</a>
+</div>

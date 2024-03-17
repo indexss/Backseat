@@ -1,4 +1,4 @@
-<div class="container-fluid align-items-start align-content-center align-self-center">
+<div class="container align-items-start align-content-center align-self-center">
   <div class="row align-self-center">
     <h2 class="col-lg-4">Want-To-Listen List</h2>
     <button class="col-auto btn" style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: white">
@@ -13,18 +13,15 @@
   <table class="table" style="margin-bottom: 0">
     <thead style="color: #447848">
       <tr>
-        <td>#</td>
-        <td>Title</td>
-        <td>Artist</td>
-        <td>Rating</td>
-        <td>Reviews</td>
+        <td class="col-2">#</td>
+        <td class="col-4">Title</td>
+        <td class="col-2">Artist</td>
+        <td class="col-2">Rating</td>
+        <td class="col-2">Reviews</td>
+        <td class="col-1"></td>
       </tr>
     </thead>
   </table>
-
   <!--  Table contain define, using list group from bootstrap-->
-  <div class="list-group">
-    <jhi-list-item></jhi-list-item>
-    <jhi-list-item></jhi-list-item>
-  </div>
+  <jhi-list-view> </jhi-list-view>
 </div>
