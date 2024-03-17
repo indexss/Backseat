@@ -9,6 +9,7 @@ import { DeviceService } from 'app/mobile/device.service';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 interface Record {
   id: number;
@@ -38,6 +39,7 @@ export class LeaderboardComponent implements OnInit {
 
   faFilter = faFilter;
   faSquarePlus = faSquarePlus;
+  faArrowUp = faArrowUp;
 
   submitForm(): void {
     // console.log('submitForm1');
