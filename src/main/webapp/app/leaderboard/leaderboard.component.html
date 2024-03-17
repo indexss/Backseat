@@ -169,6 +169,7 @@
         <th *ngIf="ismobile && isAlbum" scope="col" class="text-center align-middle table-text green anta-regular"></th>
         <th *ngIf="ismobile" scope="col" class="text-center align-middle table-text green anta-regular">Reviews</th>
         <th scope="col" class="text-center align-middle table-text green anta-regular">Rating</th>
+        <th scope="col" class="text-center align-middle table-text green anta-regular">Add</th>
       </tr>
     </thead>
     <tbody>
@@ -190,6 +191,12 @@
         <td class="text-center align-middle row-album" *ngIf="ismobile">{{ record.album }}</td>
         <td class="text-center align-middle row-reviews" *ngIf="ismobile">{{ record.reviews }}</td>
         <td class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
+        <td class="text-center align-middle row-rating">
+          <a [routerLink]="['/', record.trackURI]">
+            <!-- <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> -->
+            <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>

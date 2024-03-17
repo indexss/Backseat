@@ -8,6 +8,7 @@ import { FetchTrackLeaderboardService } from './fetch-track-leaderboard.service'
 import { DeviceService } from 'app/mobile/device.service';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
 interface Record {
   id: number;
@@ -36,6 +37,7 @@ export class LeaderboardComponent implements OnInit {
   isCollapsed = true;
 
   faFilter = faFilter;
+  faSquarePlus = faSquarePlus;
 
   submitForm(): void {
     // console.log('submitForm1');
