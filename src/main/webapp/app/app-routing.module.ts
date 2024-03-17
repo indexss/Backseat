@@ -13,6 +13,7 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
 import { RatingComponent } from './rating/rating.component';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
+import {ProfileComponent} from "./profile/profile.component";
 
 @NgModule({
   imports: [
@@ -41,6 +42,15 @@ import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-fo
             authorities: [],
           },
         },
+
+        {
+          path: 'profile',
+          component: ProfileComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
 
         // {
         //   path: 'rating',
