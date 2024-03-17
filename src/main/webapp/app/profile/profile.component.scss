@@ -1,0 +1,3 @@
+div.border-sep > div.col:not(:first-of-type) {
+  border-left: 1px solid grey;
+}
