@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'jhi-list-item',
-  templateUrl: './list-item.component.html',
-  styleUrls: ['./list-item.component.scss'],
+  templateUrl: './list-view.component.html',
+  styleUrls: ['./list-view.component.scss'],
 })
-export class ListItemComponent implements OnInit {
+export class ListViewComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
