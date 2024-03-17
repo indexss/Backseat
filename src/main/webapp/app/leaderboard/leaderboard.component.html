@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
@@ -52,7 +51,7 @@
       [attr.aria-expanded]="!isCollapsed"
       aria-controls="collapseExample"
     >
-      <i class="fa-filter"></i>&nbsp;&nbsp;&nbsp;&nbsp;Set Filter
+      <fa-icon [icon]="faFilter"></fa-icon>&nbsp;&nbsp;&nbsp;&nbsp;Set Filter
     </button>
   </p>
   <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">

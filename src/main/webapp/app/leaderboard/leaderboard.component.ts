@@ -7,6 +7,7 @@ import { endWith, map, startWith } from 'rxjs/operators';
 import { FetchTrackLeaderboardService } from './fetch-track-leaderboard.service';
 import { DeviceService } from 'app/mobile/device.service';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 interface Record {
   id: number;
@@ -33,6 +34,8 @@ export class LeaderboardComponent implements OnInit {
   recordList: Record[] = [];
   ismobile: boolean = false;
   isCollapsed = true;
+
+  faFilter = faFilter;
 
   submitForm(): void {
     // console.log('submitForm1');
