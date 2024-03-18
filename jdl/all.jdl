@@ -1,7 +1,6 @@
 entity Track {
     @Id spotifyURI String required
     name String required
-    description String
     releaseDate LocalDate required
     rating Double required
 }
@@ -10,9 +9,9 @@ entity Album {
     @Id spotifyURI String required
     name String required
     totalTracks Integer required
-    description String
     releaseDate LocalDate required
     rating Double required
+    imageURL String required
 }
 
 entity Review {
