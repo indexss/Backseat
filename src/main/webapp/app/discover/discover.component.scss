@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Open Sans, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+nav {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  bottom: 0;
+  width: 200px;
+  background-color: #036;
+  transform: translate3d(-200px, 0, 0);
+  transition: transform 0.4s ease;
+}
+.active-nav nav {
+  transform: translate3d(0, 0, 0);
+}
+nav ul {
+  list-style: none;
+  margin-top: 100px;
+}
+nav ul li a {
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  color: #fff;
+  padding: 10px 0;
+}
+
+.nav-toggle-btn {
+  display: block;
+  position: absolute;
+  left: 200px;
+  width: 40px;
+  height: 40px;
+  background-color: #666;
+}
+
+.content {
+  padding-top: 300px;
+  height: 2000px;
+  background-color: #ccf;
+  text-align: center;
+  transition: transform 0.4s ease;
+}
+.active-nav .content {
+  transform: translate3d(200px, 0, 0);
+}
+
+@import 'http://designmodo.github.io/Flat-UI/dist/css/flat-ui.min.css';
+@import 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
+@import 'https://daneden.github.io/animate.css/animate.min.css';

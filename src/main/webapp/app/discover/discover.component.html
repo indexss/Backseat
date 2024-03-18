@@ -1,1 +1,94 @@
-<p>discover works!</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Both</title>
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <!--Navbar-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!-- Navbar khatam-->
+  </head>
+
+  <body>
+    <!--Navigation bar-->
+
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="navbar-inner">
+        <!--Container class div-->
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+              <img src="logo.jpg" alt="" />
+            </a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="mainNavBar">
+            <ul class="nav navbar-nav navbar-left">
+              <li><a href="#"> </a></li>
+              <!-- TO leave some space after logo-->
+
+              <li class="active"><a href="#">Home </a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Functionalities <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Insurances</a></li>
+                  <li class="nav-divider"></li>
+                  <li><a href="#">Loans</a></li>
+                  <li class="nav-divider"></li>
+                  <li><a href="#">Card Privilages</a></li>
+                </ul>
+              </li>
+
+              <li><a href="#">Join Us</a></li>
+              <li><a href="#">About Us</a></li>
+            </ul>
+
+            <!-- Right hand side navbar -->
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="customerLogin.php">Customer</a></li>
+              ||
+              <li><a href="employeeLogin.php">Employee</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!--Navbar End-->
+
+    <!-- Sidebar nav -->
+    <nav>
+      <a href="#" class="nav-toggle-btn"></a>
+
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Sidebar Ends -->
+
+    <div class="content">
+      <h1>This is content</h1>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript">
+      (function () {
+        var bodyEl = $('body'),
+          navToggleBtn = bodyEl.find('.nav-toggle-btn');
+
+        navToggleBtn.on('click', function (e) {
+          bodyEl.toggleClass('active-nav');
+          e.preventDefault();
+        });
+      })();
+    </script>
+  </body>
+</html>
