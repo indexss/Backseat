@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-auto">
-        <img [src]="imageUrl" style="width: 300px; margin: 5px; border-radius: 10%" class="me-3" />
+        <img [src]="imageURL" style="width: 300px; margin: 5px; border-radius: 10%" class="me-3" />
       </div>
       <div class="col-auto d-flex flex-column position-relative">
         <h2 style="color: rgb(68, 120, 72); font-size: 70px">{{ folderName | slice: 0:20 }}</h2>
@@ -15,21 +15,21 @@
     <thead class="thead-dark">
       <tr>
         <th scope="col" class="text-center align-middle table-text green">#</th>
-        <th scope="col" class="table-text green">SpotifyURI</th>
-        <th scope="col" class="text-center align-middle table-text green">addTime</th>
+        <th scope="col" class="text-center align-middle table-text green">Name</th>
+        <th scope="col" class="text-center align-middle table-text green">AddTime</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let folderEntry of folderEntryList; let i = index">
-        <th scope="row" class="text-center">i</th>
+        <th scope="row" class="text-center">{{ i + 1 }}</th>
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/rating', folderEntry.spotifyURI]">
-              <img [src]="imageUrl" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />
+              <img [src]="entryInfoList[i].imageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />
             </a>
             <div class="flex-grow-1">
               <a [routerLink]="['/rating', folderEntry.spotifyURI]" class="text-left d-block">
-                <strong>{{ folderEntry.spotifyURI }}</strong>
+                <strong>{{ entryInfoList[i].entryName }}</strong>
               </a>
             </div>
           </div>
@@ -40,6 +40,6 @@
   </table>
 
   <div class="d-flex justify-content-between p-2">
-    <ngb-pagination [collectionSize]="10" [(page)]="page" [pageSize]="pageSize"> </ngb-pagination>
+    <ngb-pagination [collectionSize]="1" [(page)]="page" [pageSize]="pageSize"> </ngb-pagination>
   </div>
 </div>

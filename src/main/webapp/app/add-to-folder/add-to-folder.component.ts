@@ -51,6 +51,7 @@ export class AddToFolderComponent implements OnInit {
 
     this.addToFolderService.getUserFolder().subscribe(data => {
       this.folderList = data.data.folder;
+      console.log(this.folderList);
     });
   }
 
@@ -77,7 +78,7 @@ export class AddToFolderComponent implements OnInit {
           return;
         } else {
           this.showAlert = false;
-          this.addToFolderService.addFolder(this.folderName, this.imageURL).subscribe(data => {});
+          this.addToFolderService.addFolder(this.folderName).subscribe(data => {});
           this.folderName = '';
         }
       }

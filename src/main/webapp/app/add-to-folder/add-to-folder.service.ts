@@ -8,13 +8,11 @@ import { Observable } from 'rxjs';
 export class AddToFolderService {
   constructor(private http: HttpClient) {}
 
-  addFolder(folderName: string, imageURL: string): Observable<any> {
+  addFolder(folderName: string): Observable<any> {
     const url = 'api/folder/addfolder';
     const body = {
       folderName: folderName,
-      imageURL: imageURL,
     };
-
     return this.http.post(url, body);
   }
 

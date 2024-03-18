@@ -7,6 +7,7 @@ public class FetchFolderDTO {
     private long folderId;
 
     private String folderName;
+
     private String imageURL;
 
     public FetchFolderDTO() {}
@@ -15,6 +16,14 @@ public class FetchFolderDTO {
         this.id = id;
         this.folderId = folderId;
         this.folderName = folderName;
+        this.imageURL = imageURL;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
 
@@ -40,13 +49,5 @@ public class FetchFolderDTO {
 
     public void setFolderName(String folderName) {
         this.folderName = folderName;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
     }
 }
