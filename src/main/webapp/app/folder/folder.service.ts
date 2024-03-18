@@ -11,12 +11,4 @@ export class FolderService {
   getFolderEntry(id: number): Observable<any> {
     return this.http.get(`api/folder/fetchfolderentry?id=${id}`);
   }
-
-  getNameImage(spotifyURI: string): Observable<any> {
-    const url = 'api/folder/getnameimage';
-    const body = {
-      spotifyURI: spotifyURI,
-    };
-    return this.http.post(url, body);
-  }
 }

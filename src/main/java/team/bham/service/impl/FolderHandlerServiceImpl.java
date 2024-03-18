@@ -3,14 +3,12 @@ package team.bham.service.impl;
 import java.time.Instant;
 import java.util.*;
 import javax.annotation.Resource;
-import javax.persistence.Column;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.bham.domain.*;
 import team.bham.repository.*;
 import team.bham.service.FolderHandlerService;
 import team.bham.service.dto.EntryDTO;
-import team.bham.service.dto.EntryInfoDTO;
 import team.bham.service.dto.FetchFolderDTO;
 import team.bham.service.dto.FetchFolderEntryDTO;
 
@@ -114,11 +112,5 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
         folder.setId(folderId);
         folderEntry.setFolder(folder);
         folderEntryRepository.save(folderEntry);
-    }
-
-    @Override
-    public List<EntryInfoDTO> getEntryInfo(String spotifyURI) {
-        EntryInfoDTO entryInfoDTO = new EntryInfoDTO();
-        return null;
     }
 }

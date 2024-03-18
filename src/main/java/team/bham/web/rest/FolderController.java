@@ -51,19 +51,6 @@ public class FolderController {
         return resp;
     }
 
-    @PostMapping("/getnameimage")
-    public ResponseUtils getNameImage(String spotifyURI) {
-        ResponseUtils resp = null;
-        try {
-            List<EntryInfoDTO> entryInfoDTOS = folderHandlerService.getEntryInfo(spotifyURI);
-            resp = new ResponseUtils();
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
-        }
-        return resp;
-    }
-
     @GetMapping("/fetchfolders")
     public ResponseUtils fetchFolder() {
         ResponseUtils resp = null;
