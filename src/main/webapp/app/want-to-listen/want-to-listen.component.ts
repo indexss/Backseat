@@ -15,4 +15,9 @@ export class WantToListenComponent implements OnInit {
   protected readonly faPlay = faPlay;
   protected readonly faPlayCircle = faPlayCircle;
   protected readonly sampleWithFullData = sampleWithFullData;
+
+  goPlaylist(): void {
+    //go to spotify with user own want-to-listen list
+    console.log('go to spotify');
+  }
 }

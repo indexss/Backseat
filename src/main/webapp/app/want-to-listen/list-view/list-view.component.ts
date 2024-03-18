@@ -10,6 +10,7 @@ interface listItem {
   reviews: number;
   rating: number;
   trackURI: string;
+  addTime?: Date;
   imgURL?: string;
   releaseDate?: Date;
   isFocus?: boolean;
