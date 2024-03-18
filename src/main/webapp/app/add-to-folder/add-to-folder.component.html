@@ -28,7 +28,7 @@
         <td class="text-center">{{ record.reviews }}</td>
         <td class="text-center">{{ record.rating | number: '1.0-2' }}</td>
         <td class="text-center">
-          <button class="add-button" (click)="openModal(record.id, content)">Add</button>
+          <button class="add-button" (click)="openModal(record.trackURI, content)">Add</button>
         </td>
       </tr>
     </tbody>
@@ -81,7 +81,7 @@
   </div>
   <div class="modal-body">
     <ul class="list-group">
-      <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.id)">
+      <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.folderId)">
         {{ folder.folderName }}
       </li>
     </ul>

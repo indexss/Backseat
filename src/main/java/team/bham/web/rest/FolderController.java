@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import team.bham.service.FolderHandlerService;
+import team.bham.service.dto.AddEntryToFolderDTO;
 import team.bham.service.dto.AddFolderDTO;
 import team.bham.service.dto.FetchFolderDTO;
 import team.bham.service.dto.FetchFolderEntryDTO;
@@ -22,7 +23,6 @@ public class FolderController {
     @PostMapping("/addfolder")
     public ResponseUtils generateData(@RequestBody AddFolderDTO addFolderDTO) {
         ResponseUtils resp = null;
-        System.out.println("Received folder: " + addFolderDTO);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = null;
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
@@ -33,6 +33,19 @@ public class FolderController {
         }
         try {
             folderHandlerService.generateFolder(addFolderDTO.getFolderName(), addFolderDTO.getImgURL(), userId);
+            resp = new ResponseUtils();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
+    @PostMapping("/addentrytofolder")
+    public ResponseUtils addEntryToFolder(@RequestBody AddEntryToFolderDTO addEntryToFolderDTO) {
+        ResponseUtils resp = null;
+        try {
+            folderHandlerService.addEntryToFolder(addEntryToFolderDTO.getSpotifyURI(), addEntryToFolderDTO.getFolderId());
             resp = new ResponseUtils();
         } catch (Exception e) {
             e.printStackTrace();

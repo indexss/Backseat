@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FetchTrackLeaderboardService } from '../leaderboard/fetch-track-leaderboard.service';
 import { FolderService } from './folder.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -26,23 +25,14 @@ interface FolderEntry {
 export class FolderComponent implements OnInit {
   page = 1;
   pageSize = 10;
-  recordList: Record[] = [];
   imageUrl: string = 'https://i.scdn.co/image/ab67616d00001e02904445d70d04eb24d6bb79ac';
   folderName: string = '';
   id!: any;
   folderEntryList: FolderEntry[] = [];
 
-  constructor(
-    private fetchTrackLeaderboardService: FetchTrackLeaderboardService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private folderService: FolderService
-  ) {}
+  constructor(private route: ActivatedRoute, private folderService: FolderService) {}
 
   ngOnInit(): void {
-    this.fetchTrackLeaderboardService.getTrackLeaderboard().subscribe(data => {
-      this.recordList = data.data.leaderboard;
-    });
     this.route.params.subscribe(params => {
       this.id = params['id'];
       this.folderService.getFolderEntry(this.id).subscribe(data => {

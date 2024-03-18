@@ -10,4 +10,6 @@ public interface FolderHandlerService {
     public List<FetchFolderDTO> fetchFolder();
 
     public FetchFolderEntryDTO fetchFolderEntry(Long folderId);
+
+    public void addEntryToFolder(String spotifyURI, Long folderId);
 }

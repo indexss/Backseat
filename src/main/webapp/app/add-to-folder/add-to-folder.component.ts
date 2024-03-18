@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FetchTrackLeaderboardService } from '../leaderboard/fetch-track-leaderboard.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AddToFolderService } from './add-to-folder.service';
@@ -31,7 +31,7 @@ interface Folder {
 export class AddToFolderComponent implements OnInit {
   recordList: Record[] = [];
   folderList: Folder[] = [];
-  recordId!: number;
+  spotifyURI!: string;
   modalRef!: NgbModalRef;
   folderName!: string;
   imageURL: string = 'https://i.scdn.co/image/ab67616d00001e02904445d70d04eb24d6bb79ac';
@@ -41,8 +41,7 @@ export class AddToFolderComponent implements OnInit {
     private fetchTrackLeaderboardService: FetchTrackLeaderboardService,
     private modalService: NgbModal,
     private addToFolderService: AddToFolderService,
-    private accountService: AccountService,
-    private cdr: ChangeDetectorRef
+    private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
@@ -55,13 +54,18 @@ export class AddToFolderComponent implements OnInit {
     });
   }
 
-  openModal(recordId: number, content: TemplateRef<any>) {
-    this.recordId = recordId;
+  openModal(spotifyURI: string, content: TemplateRef<any>) {
+    this.spotifyURI = spotifyURI;
     this.modalRef = this.modalService.open(content, { centered: true });
   }
 
   addToFolder(folderId: number) {
-    console.log(`Adding song with ID ${this.recordId} to playlist with ID ${folderId}`);
+    console.log(`Adding song with ID ${this.spotifyURI} to playlist with ID ${folderId}`);
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.addToFolderService.addEntryFolder(this.spotifyURI, folderId).subscribe(data => {});
+      }
+    });
     this.modalRef.close();
   }
 

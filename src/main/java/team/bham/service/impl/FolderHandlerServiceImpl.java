@@ -1,5 +1,6 @@
 package team.bham.service.impl;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,5 +61,16 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
         Set<FolderEntry> folderEntryList = folderEntryRepository.findByFolderId(folderId);
         fetchFolderEntryDTO.setFolderEntries(folderEntryList);
         return fetchFolderEntryDTO;
+    }
+
+    @Override
+    public void addEntryToFolder(String spotifyURI, Long folderId) {
+        FolderEntry folderEntry = new FolderEntry();
+        folderEntry.setAddTime(Instant.now());
+        folderEntry.setSpotifyURI(spotifyURI);
+        Folder folder = new Folder();
+        folder.setId(folderId);
+        folderEntry.setFolder(folder);
+        folderEntryRepository.save(folderEntry);
     }
 }

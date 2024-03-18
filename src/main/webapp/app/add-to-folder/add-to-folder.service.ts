@@ -21,4 +21,13 @@ export class AddToFolderService {
   getUserFolder(): Observable<any> {
     return this.http.get('api/folder/fetchfolders');
   }
+
+  addEntryFolder(spotifyURI: string, folderId: number): Observable<any> {
+    const url = 'api/folder/addentrytofolder';
+    const body = {
+      spotifyURI: spotifyURI,
+      folderId: folderId,
+    };
+    return this.http.post(url, body);
+  }
 }
