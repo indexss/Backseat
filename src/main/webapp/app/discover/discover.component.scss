@@ -1,0 +1,35 @@
+h2 {
+  color: rgb(68, 120, 72);
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
+.scrolling-wrapper-flexbox {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+
+  .card {
+    flex: 0 0 auto;
+    margin-right: 20px;
+  }
+}
+
+.card {
+  border: 5px solid darkgreen;
+  width: 200px;
+  height: 200px;
+  background: rgb(68, 120, 72);
+}
+
+.albums-tracks {
+  height: 230px;
+  margin-bottom: 50px;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+/*to be implemented*/
+/*.card .scroll-button :hover{
+  background-color: limegreen;
+  border-color: darkolivegreen;
+}*/
