@@ -1,15 +1,17 @@
 <div class="list-group">
   <div
     class="list-group-item list-group-item-action align-self-center align-items-center"
-    id="{{ item.id }}"
+    [attr.data-id]="item.id"
     (click)="expand($event)"
-    (mouseover)="focus($event)"
+    (mouseover)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
     *ngFor="let item of itemList"
   >
     <div class="container row align-self-center">
       <h5 class="col-1">{{ item.id }}</h5>
-      <span class="logo-img col-1"></span>
-      <div class="col-4">
+
+      <div class="col-3 text-start">
+        <span class="logo-img col-1"></span>
         <a class="h4 green">{{ item.trackName }}</a>
         <h5 class="green">{{ item.album }}</h5>
       </div>
@@ -17,9 +19,11 @@
         <h5>{{ item.artist }}</h5>
         <h5>{{ item.releaseDate | date: 'mediumDate' }}</h5>
       </div>
-      <h5 class="col-2">{{ item.rating | number: '1.0-2' }}</h5>
-      <h5 class="col-2">{{ item.reviews | number: '':'en' }}</h5>
-      <a class="col-1" [hidden]="!item.isFocus"><span>DEL</span></a>
+      <h5 class="col-2 text-center">{{ item.rating | number: '1.0-2' }}</h5>
+      <h5 class="col-2 text-right">{{ item.reviews | number: '':'en' }}</h5>
+      <a class="col-1 text-right" *ngIf="showDeleteIcon" (click)="deleteItem(item.id); $event.stopPropagation()"
+        ><fa-icon [icon]="faTrash" class="trash-icon"></fa-icon
+      ></a>
     </div>
   </div>
 </div>
