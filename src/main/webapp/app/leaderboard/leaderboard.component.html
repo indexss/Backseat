@@ -1,54 +1,209 @@
-<div class="container">
-  <h2>LEADERBOARD</h2>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
 
-  <form>
-    <div class="row mb-3 align-items-center">
-      <div class="col-sm-2">
-        <input id="table-filtering-search" class="form-control" type="text" placeholder="Not completed yet." />
+<div class="container" [class.dark-mode]="darkMode">
+  <div class="row mb-3">
+    <div class="col d-flex justify-content-end align-items-center">
+      <!-- <h2 class="animated-element flex-grow-1">LEADERBOARD</h2> -->
+      <div class="col d-flex justify-content-end align-items-center">
+        <h2 *ngIf="ismobile" class="animated-element flex-grow-1"><span class="big-l">L</span>EADERBOARD</h2>
+        <h2 *ngIf="!ismobile" class="animated-element flex-grow-1 mobile-h2"><span class="big-l">L</span>EADERBOARD</h2>
       </div>
-      <div class="col-sm-5">
-        <a style="font-size: large; color: rgb(68, 120, 72)">By Rating</a>
-        <!-- 添加你的链接 -->
+      <!-- <form class="form-inline" (ngSubmit)="submitForm()" #searchForm="ngForm">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-bottom-0 pe-0">
+            <i class="fas fa-search"></i>
+          </span>
+          <input
+            *ngIf="ismobile"
+            id="table-filtering-search"
+            class="form-control form-control-underline"
+            name="searchbar1"
+            type="text"
+            placeholder="Track / Albumst"
+            [(ngModel)]="filter.textInput"
+            (keyup.enter)="searchForm.ngSubmit.emit()"
+          />
+          <input
+            *ngIf="!ismobile"
+            id="table-filtering-search"
+            class="form-control form-control-underline-mobile"
+            name="searchbar2"
+            type="text"
+            placeholder="Search"
+            [(ngModel)]="filter.textInput"
+            (keyup.enter)="searchForm.ngSubmit.emit()"
+          />
+        </div>
+      </form> -->
+    </div>
+  </div>
+  <button id="back-to-top" class="btn btn-primary" style="position: fixed; bottom: 20px; right: 20px" (click)="scrollToTop()">
+    <!-- <i class="fas fa-arrow-up"></i> -->
+    <fa-icon [icon]="faArrowUp"></fa-icon>
+  </button>
+
+  <p>
+    <button
+      type="button"
+      class="btn btn-outline-primary animated-element"
+      (click)="collapse.toggle()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+    >
+      <fa-icon [icon]="faFilter"></fa-icon>&nbsp;&nbsp;&nbsp;&nbsp;Set Filter
+    </button>
+  </p>
+  <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+    <div class="card">
+      <div class="card-body">
+        <h4>Filter Setting</h4>
+        <div class="container mt-5">
+          <form>
+            <!-- Category -->
+            <div class="mb-3">
+              <label class="form-label"><h5>Category</h5></label>
+              <div class="d-flex">
+                <div class="form-check me-2">
+                  <input class="form-check-input" type="radio" name="category" id="track" value="track" [(ngModel)]="filter.category" />
+                  <label class="form-check-label" for="track">Track</label>
+                </div>
+                <div class="form-check me-2">
+                  <input class="form-check-input" type="radio" name="category" id="album" value="album" [(ngModel)]="filter.category" />
+                  <label class="form-check-label" for="album">Album</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Order By -->
+            <div class="mb-3">
+              <label class="form-label"><h5>Order By</h5></label>
+              <div class="d-flex">
+                <div class="form-check me-2">
+                  <input class="form-check-input" type="radio" name="orderBy" id="rating" value="rating" [(ngModel)]="filter.orderBy" />
+                  <label class="form-check-label" for="rating">Rating</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="orderBy" id="review" value="review" [(ngModel)]="filter.orderBy" />
+                  <label class="form-check-label" for="review">Review</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Time Pickers for Start Time and End Time -->
+            <div class="mb-3">
+              <label class="form-label"><h5>Release Date</h5></label>
+              <div class="d-flex">
+                <div class="me-3">
+                  <label for="startDate" class="form-label">Start Date</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="startDate"
+                    name="startDate"
+                    [(ngModel)]="filter.startTime"
+                    #startPicker
+                    (change)="endPicker.min = startPicker.value"
+                  />
+                </div>
+                <div>
+                  <label for="endDate" class="form-label">End Date</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="endDate"
+                    name="endDate"
+                    [(ngModel)]="filter.endTime"
+                    #endPicker
+                    (change)="startPicker.max = endPicker.value"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Order -->
+            <div class="mb-3">
+              <label class="form-label"><h5>Order</h5></label>
+              <div class="d-flex">
+                <div class="form-check me-2">
+                  <input class="form-check-input" type="radio" name="order" id="desc" value="desc" [(ngModel)]="filter.order" />
+                  <label class="form-check-label" for="desc">Reverse (High to Low)</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="order" id="asc" value="asc" [(ngModel)]="filter.order" />
+                  <label class="form-check-label" for="asc">Ascending (Low to High)</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Text Input -->
+            <div class="mb-3">
+              <label for="textInput" class="form-label"><h5>Track Name / Album Name</h5></label>
+              <div>
+                <input
+                  type="text"
+                  class="form-control-underline filter-search"
+                  id="textInput"
+                  name="textInput"
+                  [(ngModel)]="filter.textInput"
+                />
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+            <button type="button" class="btn btn-primary" (click)="submitForm()">Submit</button>
+            <button type="button" class="btn btn-outline-*" (click)="clear()">Clear</button>
+          </form>
+        </div>
       </div>
     </div>
-  </form>
+  </div>
 
   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col" class="text-center align-middle table-text green">#</th>
-        <th scope="col" class="table-text green">Track</th>
-        <th scope="col" class="text-center align-middle table-text green">Album</th>
-        <th scope="col" class="text-center align-middle table-text green">Reviews</th>
-        <th scope="col" class="text-center align-middle table-text green">Rating</th>
+        <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
+        <th scope="col" class="table-text green anta-regular">Track</th>
+        <th *ngIf="ismobile && !isAlbum" scope="col" class="text-center align-middle table-text green anta-regular">Album</th>
+        <th *ngIf="ismobile && isAlbum" scope="col" class="text-center align-middle table-text green anta-regular"></th>
+        <th *ngIf="ismobile" scope="col" class="text-center align-middle table-text green anta-regular">Reviews</th>
+        <th scope="col" class="text-center align-middle table-text green anta-regular">Rating</th>
+        <th scope="col" class="text-center align-middle table-text green anta-regular" *ngIf="ismobile">Add</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let record of recordList">
-        <th scope="row" class="text-center align-middle">{{ record.id }}</th>
+      <tr *ngFor="let record of recordList; let i = index" [ngClass]="{ 'new-record-animation': record.newItem }" class="record-animation">
+        <th scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/rating', record.trackURI]"
-              ><img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3"
+              ><img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"
             /></a>
             <div class="flex-grow-1">
-              <!-- Use flex-grow-1 to ensure the div takes up the available space -->
               <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
-                <!-- Use text-left to align the text to the left -->
                 <strong>{{ record.trackName }}</strong>
                 <p>{{ record.artist }}</p>
               </a>
             </div>
           </div>
         </td>
-        <td class="text-center align-middle">{{ record.album }}</td>
-        <td class="text-center align-middle">{{ record.reviews }}</td>
-        <td class="text-center align-middle">{{ record.rating | number: '1.0-2' }}</td>
+        <td class="text-center align-middle row-album" *ngIf="ismobile">{{ record.album }}</td>
+        <td class="text-center align-middle row-reviews" *ngIf="ismobile">{{ record.reviews }}</td>
+        <td class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
+        <td class="text-center align-middle row-rating" *ngIf="ismobile">
+          <a [routerLink]="['/', record.trackURI]">
+            <!-- <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> -->
+            <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-between p-2">
-    <ngb-pagination [collectionSize]="10" [(page)]="page" [pageSize]="pageSize"> </ngb-pagination>
+  <div class="text-primary justify-content-center">
+    <span>No more data!</span><span> Can't find the song you want?</span
+    ><span><a class="add" routerLink="/search"> Add from spotify!</a></span>
   </div>
 </div>

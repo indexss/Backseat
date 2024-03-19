@@ -7,6 +7,8 @@ import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from 'app/login/login.service';
 import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCompass } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-navbar',
@@ -14,6 +16,7 @@ import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+  faCompass = faCompass;
   inProduction?: boolean;
   isNavbarCollapsed = true;
   openAPIEnabled?: boolean;
