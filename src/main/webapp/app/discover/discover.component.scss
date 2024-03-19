@@ -57,11 +57,11 @@ div.recently-reviewed {
   -webkit-overflow-scrolling: touch;
 }
 
-.recently-reviewed-list::-webkit-scrollbar {
+.recently-reviewed::-webkit-scrollbar {
   background-color: darkseagreen;
 }
 
-.recently-reviewed-list::-webkit-scrollbar-thumb {
+.recently-reviewed::-webkit-scrollbar-thumb {
   background-color: seagreen;
 }
 
