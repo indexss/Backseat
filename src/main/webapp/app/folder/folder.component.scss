@@ -5,7 +5,6 @@ h2 {
 }
 
 strong {
-  // color: rgb(59, 101, 62);
   font-size: 1.2em;
   font-weight: 1000;
 }
@@ -19,18 +18,15 @@ strong {
   color: rgb(68, 120, 72);
 }
 
-.rename-button {
-  position: absolute;
-  right: -80px;
-  bottom: -30px;
+.btn-olive {
   width: 100px;
   height: 40px;
   border-radius: 20px;
-  background-color: rgb(68, 120, 72);
+  background-color: #1e7e34;
   border: none;
   color: white;
   transition: background-color 0.3s;
   &:hover {
-    background-color: #4caf50;
+    background-color: #218838;
   }
 }

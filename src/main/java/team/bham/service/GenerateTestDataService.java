@@ -11,4 +11,6 @@ package team.bham.service;
 
 public interface GenerateTestDataService {
     public void generateTestDate();
+
+    public void generateMusic();
 }

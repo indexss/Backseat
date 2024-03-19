@@ -143,4 +143,29 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         demoUserProfile.setSpotifyURI("spotify:user:narotuwi");
         profileRepository.save(demoUserProfile);
     }
+
+    @Override
+    public void generateMusic() {
+        Artist artist1 = new Artist();
+        artist1.setSpotifyURI("spotify:artist:2elBjNSdBE2Y3f0j1mjrql");
+        artist1.setName("周杰伦");
+
+        Album album1 = new Album();
+        album1.setSpotifyURI("spotify:album:7eoWv4CgghZ0gvWjjdye98");
+        album1.setName("不能说的秘密电影原声带");
+        album1.setTotalTracks(25);
+        album1.setReleaseDate(LocalDate.of(2017, 5, 26));
+        album1.setRating(5d);
+        album1.setImageURL("https://i.scdn.co/image/ab67616d00001e023c4d0dbbc1022845a9a6ecd4");
+        album1.setArtists(new HashSet<>(List.of(artist1)));
+        albumRepository.save(album1);
+
+        Track track1 = new Track();
+        track1.setSpotifyURI("spotify:track:77jIEebt4z9WzaI6LsntDG");
+        track1.setName("不能说的秘密");
+        track1.setReleaseDate(LocalDate.of(2007, 5, 29));
+        track1.setRating(5d);
+        track1.setAlbum(album1);
+        trackRepository.save(track1);
+    }
 }
