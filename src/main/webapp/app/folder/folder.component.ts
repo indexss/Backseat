@@ -2,17 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FolderService } from './folder.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-interface Record {
-  id: number;
-  trackName: string;
-  album: string;
-  reviews: number;
-  rating: number;
-  artist: string;
-  trackURI: string;
-  imgURL: string;
-}
-
 interface EntryInfo {
   entryName: string;
   imageURL: string;
@@ -30,7 +19,7 @@ interface FolderEntry {
 export class FolderComponent implements OnInit {
   page = 1;
   pageSize = 10;
-  imageURL: string = 'https://i.scdn.co/image/ab67616d00001e02904445d70d04eb24d6bb79ac';
+  imageURL!: string;
   folderName: string = '';
   id!: any;
   folderEntryList: FolderEntry[] = [];
@@ -43,6 +32,7 @@ export class FolderComponent implements OnInit {
       this.id = params['id'];
       this.folderService.getFolderEntry(this.id).subscribe(data => {
         this.folderName = data.data.folderEntry.folderName;
+        this.imageURL = data.data.folderEntry.imageURL;
         this.entryInfoList = data.data.folderEntry.entryList;
         const folderEntryDTO = data.data.folderEntry.folderEntries;
         for (let i = 0; i < folderEntryDTO.length; i++) {

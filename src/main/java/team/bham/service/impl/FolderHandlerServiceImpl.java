@@ -80,6 +80,14 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
         Optional<Folder> optionalfolder = folderRepository.findById(folderId);
         Folder folder = optionalfolder.get();
         fetchFolderEntryDTO.setFolderName(folder.getName());
+        byte[] image = folder.getImage();
+        String imageContentType = folder.getImageContentType();
+        if (image == null || imageContentType == null) {
+            fetchFolderEntryDTO.setImageURL("https://i.scdn.co/image/ab67616d00001e02904445d70d04eb24d6bb79ac");
+        } else {
+            String imageURL = createImageURL(image, imageContentType);
+            fetchFolderEntryDTO.setImageURL(imageURL);
+        }
         Set<FolderEntry> folderEntries = folderEntryRepository.findByFolderId(folderId);
         List<FolderEntry> folderEntryList = new ArrayList<>(folderEntries);
         List<EntryDTO> entryDTOS = new ArrayList<>();
