@@ -1,9 +1,3 @@
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
 p,
 h2 {
   color: rgb(68, 120, 72);
@@ -11,11 +5,12 @@ h2 {
   font-weight: 700;
 }
 
-.albums-tracks {
+div.recently-reviewed {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
   padding: 10px;
+  position: relative;
 
   .record-card {
     flex: 0 0 auto;
@@ -31,12 +26,13 @@ h2 {
   //height: 300px;
   padding: 20px;
   font-size: 10px;
-  text-wrap: revert;
+  overflow-wrap: break-word;
 }
 
 .image {
   grid-column: 1 / span 3;
   grid-row: 1 / span 4;
+  border-radius: 25px;
 }
 
 .rating {
@@ -54,11 +50,19 @@ h2 {
   grid-row: 3 / span 2;
 }
 
-.albums-tracks {
+.recently-reviewed {
   height: 350px;
   margin-bottom: 40px;
   width: 100%;
   -webkit-overflow-scrolling: touch;
+}
+
+.recently-reviewed-list::-webkit-scrollbar {
+  background-color: darkseagreen;
+}
+
+.recently-reviewed-list::-webkit-scrollbar-thumb {
+  background-color: seagreen;
 }
 
 .display-folders {

@@ -1,6 +1,7 @@
-<div class="container">
-  <h2>RECENTLY REVIEWED</h2>
-  <!--
+<body>
+  <div class="container-fluid">
+    <h2>RECENTLY REVIEWED</h2>
+    <!--
   <div class="albums-tracks">
     <div class="record-card">
       <div *ngFor="let record of recordList">
@@ -20,116 +21,134 @@
   </div>
 -->
 
-  <div class="albums-tracks">
-    <div class="record-card">
-      <div class="image">
-        <a routerLink="/rating/spotify:track:1q9l6c8bAzqWcvO3DM6FsR">
-          <img
-            src="https://i.scdn.co/image/ab67616d0000b273ab41b12bbc0f61ebdfb2dfaf"
-            alt="Cover art for the album Ta Dah by Scissor Sisters"
-            width="300"
-            height="300"
-          />
-        </a>
+    <div class="recently-reviewed">
+      <button class="left scrollbutton" onclick="leftScroll()">&lt;</button>
+      <div class="recently-reviewed-list">
+        <div class="record-card">
+          <div class="image">
+            <a routerLink="/rating/spotify:track:1q9l6c8bAzqWcvO3DM6FsR">
+              <img
+                src="https://i.scdn.co/image/ab67616d0000b273ab41b12bbc0f61ebdfb2dfaf"
+                alt="Cover art for the album Ta Dah by Scissor Sisters"
+                width="300"
+                height="300"
+              />
+            </a>
+          </div>
+          <div class="rating">
+            <p>
+              <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              4.3
+            </p>
+          </div>
+          <div class="artist"><p>Scissor Sisters</p></div>
+          <div class="recordName"><p>I Don't Feel Like Dancing</p></div>
+        </div>
+        <div class="record-card">
+          <div class="image">
+            <a routerLink="/rating/spotify:track:7oB0QBEnGRIJjvlDc8YnM6">
+              <img
+                src="https://i.scdn.co/image/ab67616d0000b2736b5fddcee4e4163eb9d34fea"
+                alt="Cover art for George Gershwin's Rhapsody in Blue"
+                width="300"
+                height="300"
+              />
+            </a>
+          </div>
+          <div class="rating">
+            <p>
+              <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              3.7
+            </p>
+          </div>
+          <div class="artist"><p>George Gershwin</p></div>
+          <div class="recordName"><p>Rhapsody in Blue</p></div>
+        </div>
+        <div class="record-card">
+          <div class="image">
+            <a routerLink="/rating/spotify:track:1a44N64DKPb37IyZBpunWm">
+              <img
+                src="https://i.scdn.co/image/ab67616d00001e0252f430cc0841fd970088ba1b"
+                alt="Cover art for Charles Mingus' Tensions"
+                width="300"
+                height="300"
+              />
+            </a>
+          </div>
+          <div class="rating">
+            <p>
+              <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              4.2
+            </p>
+          </div>
+          <div class="artist"><p>Charles Mingus</p></div>
+          <div class="recordName"><p>Tensions</p></div>
+        </div>
+        <div class="record-card">
+          <div class="image">
+            <a routerLink="/rating/spotify:track:0uvagCBJC0ClsR11W10T0Y">
+              <img
+                src="https://i.scdn.co/image/ab67616d00001e021b0de2abcdc89c8dc76c917e"
+                alt="Cover art for Tom Odell's Black Friday"
+                width="300"
+                height="300"
+              />
+            </a>
+          </div>
+          <div class="rating">
+            <p>
+              <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              3.4
+            </p>
+          </div>
+          <div class="artist"><p>Tom Odell</p></div>
+          <div class="recordName"><p>Black Friday</p></div>
+        </div>
+        <div class="record-card">
+          <div class="image">
+            <a routerLink="/rating/spotify:track:4klPQOLiUPgwZ3YIWgGJrK">
+              <img
+                src="https://i.scdn.co/image/ab67616d00001e024ccb64f022a53d3e8ec84a20"
+                alt="Cover art for Jamiroquai's King for a Day"
+                width="300"
+                height="300"
+              />
+            </a>
+          </div>
+          <div class="rating">
+            <p>
+              <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              4.5
+            </p>
+          </div>
+          <div class="artist"><p>Jamiroquai</p></div>
+          <div class="recordName"><p>King for a Day</p></div>
+        </div>
+        <button class="right scrollbutton" onclick="rightScroll()">&gt;</button>
       </div>
-      <div class="rating">
-        <p>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          4.3
-        </p>
-      </div>
-      <div class="artist"><p>Scissor Sisters</p></div>
-      <div class="recordName"><p>I Don't Feel Like Dancing</p></div>
     </div>
-    <div class="record-card">
-      <div class="image">
-        <a routerLink="/rating/spotify:track:7oB0QBEnGRIJjvlDc8YnM6">
-          <img
-            src="https://i.scdn.co/image/ab67616d0000b2736b5fddcee4e4163eb9d34fea"
-            alt="Cover art for George Gershwin's Rhapsody in Blue"
-            width="300"
-            height="300"
-          />
-        </a>
-      </div>
-      <div class="rating">
-        <p>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          3.7
-        </p>
-      </div>
-      <div class="artist"><p>George Gershwin</p></div>
-      <div class="recordName"><p>Rhapsody in Blue</p></div>
-    </div>
-    <div class="record-card">
-      <div class="image">
-        <a routerLink="/rating/spotify:track:1a44N64DKPb37IyZBpunWm">
-          <img
-            src="https://i.scdn.co/image/ab67616d00001e0252f430cc0841fd970088ba1b"
-            alt="Cover art for Charles Mingus' Tensions"
-            width="300"
-            height="300"
-          />
-        </a>
-      </div>
-      <div class="rating">
-        <p>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          4.2
-        </p>
-      </div>
-      <div class="artist"><p>Charles Mingus</p></div>
-      <div class="recordName"><p>Tensions</p></div>
-    </div>
-    <div class="record-card">
-      <div class="image">
-        <a routerLink="/rating/spotify:track:0uvagCBJC0ClsR11W10T0Y">
-          <img
-            src="https://i.scdn.co/image/ab67616d00001e021b0de2abcdc89c8dc76c917e"
-            alt="Cover art for Tom Odell's Black Friday"
-            width="300"
-            height="300"
-          />
-        </a>
-      </div>
-      <div class="rating">
-        <p>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          3.4
-        </p>
-      </div>
-      <div class="artist"><p>Tom Odell</p></div>
-      <div class="recordName"><p>Black Friday</p></div>
-    </div>
-    <div class="record-card">
-      <div class="image">
-        <a routerLink="/rating/spotify:track:4klPQOLiUPgwZ3YIWgGJrK">
-          <img
-            src="https://i.scdn.co/image/ab67616d00001e024ccb64f022a53d3e8ec84a20"
-            alt="Cover art for Jamiroquai's King for a Day"
-            width="300"
-            height="300"
-          />
-        </a>
-      </div>
-      <div class="rating">
-        <p>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          4.5
-        </p>
-      </div>
-      <div class="artist"><p>Jamiroquai</p></div>
-      <div class="recordName"><p>King for a Day</p></div>
+
+    <h2>EXPLORE FOLDERS</h2>
+
+    <div class="display-folders">
+      <ul>
+        <li>Folder 1</li>
+        <li>Folder 2</li>
+        <li>Folder 3</li>
+      </ul>
     </div>
   </div>
 
-  <h2>EXPLORE FOLDERS</h2>
+  <script>
+    function leftScroll() {
+      debugger;
+      const left = document.querySelector('.card-game__cards-list');
+      left.scrollBy(-400, 0);
+    }
 
-  <div class="display-folders">
-    <ul>
-      <li>Folder 1</li>
-      <li>Folder 2</li>
-      <li>Folder 3</li>
-    </ul>
-  </div>
-</div>
+    function rightScroll() {
+      const right = document.querySelector('.card-game__cards-list');
+      right.scrollBy(400, 0);
+    }
+  </script>
+</body>
