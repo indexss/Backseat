@@ -2,7 +2,7 @@
 @import '~bootstrap/scss/functions';
 @import '~bootswatch/dist/flatly/variables';
 @import '~bootstrap/scss/variables';
-@import url('https://fonts.googleapis.com/css?family=Anta+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Anta&display=swap');
 
 /* ==============================================================
 Bootstrap tweaks
@@ -15,6 +15,10 @@ h3,
 h4 {
   font-weight: 300;
   font-family: 'Anta', sans-serif;
+}
+
+h2 {
+  color: rgb(68, 120, 72);
 }
 
 a:hover {
