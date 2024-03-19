@@ -4,30 +4,71 @@ h2 {
   font-weight: 700;
 }
 
-.scrolling-wrapper-flexbox {
+.albums-tracks {
   display: flex;
+  gap: 10px;
   flex-wrap: nowrap;
   overflow-x: auto;
+  padding: 10px;
 
-  .card {
+  .record-card {
     flex: 0 0 auto;
-    margin-right: 20px;
+    margin-right: 5px;
   }
 }
 
-.card {
-  border: 5px solid darkgreen;
-  width: 200px;
-  height: 200px;
-  background: rgb(68, 120, 72);
+.record-card {
+  display: grid;
+  text-align: left;
+  //width: 400px;
+  //height: 300px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.image {
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 4;
+}
+
+.rating {
+  grid-column: 4 / span 2;
+  grid-row: 1;
+}
+
+.artist {
+  grid-column: 4 / span 2;
+  grid-row: 2;
+}
+
+.recordName {
+  grid-column: 4 / span 2;
+  grid-row: 3 / span 2;
 }
 
 .albums-tracks {
-  height: 230px;
-  margin-bottom: 50px;
+  height: 330px;
+  margin-bottom: 20px;
   width: 100%;
   -webkit-overflow-scrolling: touch;
 }
+
+.display-folders {
+  ul {
+    list-style: none;
+    text-align: left;
+  }
+  li {
+    display: inline-block;
+    text-align: center;
+    margin-right: 50px; /* add spacing between items */
+    border: 5px solid darkgreen;
+    width: 250px;
+    height: 250px;
+    background: rgb(68, 120, 72);
+  }
+}
+
 /*to be implemented*/
 /*.card .scroll-button :hover{
   background-color: limegreen;

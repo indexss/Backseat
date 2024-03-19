@@ -2,6 +2,25 @@
   <h2>RECENTLY REVIEWED</h2>
 
   <div class="albums-tracks">
+    <div class="record-card">
+      <div *ngFor="let record of recordList">
+        <div class="d-flex align-items-center">
+          <a [routerLink]="['/rating', record.trackURI]">
+            <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
+          </a>
+          <div class="flex-grow-1">
+            <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block"> </a>
+          </div>
+        </div>
+        <div class="text-center align-middle">{{ record.rating | number: '1.0-2' }}</div>
+        <div class="text-center align-middle">{{ record.artist }}</div>
+        <div class="text-center align-middle">{{ record.trackName }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!--
+  <div class="albums-tracks">
     <div class="card"><h3>Album</h3></div>
     <div class="card"><h3>Album</h3></div>
     <div class="card"><h3>Track</h3></div>
@@ -22,6 +41,14 @@
     <div class="card"><h3>Album</h3></div>
     <div class="card"><h3>Album</h3></div>
   </div>
+-->
+  <h2>EXPLORE FOLDERS</h2>
 
-  <h2>Explore Folders</h2>
+  <div class="display-folders">
+    <ul>
+      <li>Folder 1</li>
+      <li>Folder 2</li>
+      <li>Folder 3</li>
+    </ul>
+  </div>
 </div>
