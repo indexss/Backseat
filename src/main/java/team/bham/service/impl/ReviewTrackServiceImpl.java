@@ -76,7 +76,14 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             reviewTrackDTO.setArtistName(artistNameBuilder.toString());
             //        reviewTrackDTO.setArtistName(track.getArtists().toString());
             //        reviewTrackDTO.setReviewList(track.getReviews());
+            System.out.println("SpotifyID");
+            System.out.println("---------------------------------------");
+            System.out.println(trackSpotifyId);
             Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(reviewList);
             ArrayList<Review> reviews = new ArrayList<>(reviewList);
             double sum = 0;
             for (int i = 0; i < reviews.size(); i++) {

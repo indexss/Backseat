@@ -110,7 +110,8 @@ export class RatingComponent implements OnInit {
       // For condition of Album request
       else {
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
-          // console.log(data);
+          console.log(data);
+          console.log('=======================');
 
           // this.checkExistService.checkExist(this.id).subscribe(data => {
           //   console.log('data: ');
@@ -120,7 +121,7 @@ export class RatingComponent implements OnInit {
           //   }
           // });
 
-          this.trackName = data.data.review.trackName;
+          // this.trackName = data.data.review.trackName;
           this.albumName = data.data.review.albumName;
           this.artistName = data.data.review.artistName;
           this.releaseDate = data.data.review.releaseDate;
@@ -129,27 +130,45 @@ export class RatingComponent implements OnInit {
           this.imgURL = data.data.review.imgURL;
           this.totalTracks = data.data.review.totalTracks;
           this.avgRatingList = data.data.review.avgRatingList;
+          // this.reviewList = data.data.review.reviewList;
+          // this.trackList = data.data.review.tracks;
 
+          console.log('--------------------------------------------------------');
+          console.log('trackList数据源：', data.data.review.tracks);
+          console.log('albumName: ', this.albumName);
+          console.log('artistName: ', this.artistName);
+          console.log('releaseDate: ', this.releaseDate);
+          console.log('description: ', this.description);
+          console.log('avgRating: ', this.avgRating);
+          console.log('imgURL: ', this.imgURL);
+          console.log('totalTracks: ', this.totalTracks);
+          console.log('avgRatingList: ', this.avgRatingList);
+          console.log('reviewList: ', this.reviewList);
+          console.log('trackList: ', this.trackList);
+          console.log('--------------------------------------------------------');
           // console.log(this.avgRating);
           // 这个方法绝大概率有问题，观察一下后续album 能否正常加载
-          const trackList = data.data.review.getTracks();
-          for (let i = 0; i < trackList.length; i++) {
+          console.log('trackList源', data.data.review.tracks);
+          const trackLList = data.data.review.tracks;
+          for (let i = 0; i < trackLList.length; i++) {
             const track: Track = {
-              trackName: trackList[i].getName,
-              artistName: trackList[i].getArtist().toString(),
-              releaseDate: trackList[i].releaseDate,
-              rating: trackList[i].track.getRating(),
+              trackName: trackLList[i].name,
+              artistName: this.artistName,
+              releaseDate: trackLList[i].releaseDate,
+              rating: trackLList[i].rating,
             };
             this.trackList.push(track);
           }
-
+          console.log('-------------------------------------------tracklist');
+          console.log(this.trackList);
+          console.log(data.data.review.reviewList);
           // for (let j = 0; j < data.data.review.getTracks().length; j++){
           //这里返回的不是ReivewDTO而是单纯的review
           // const reviewDTO = data.data.review.getTracks()[j].getReview();
           const reviewDTO = data.data.review.reviewList;
           for (let i = 0; i < reviewDTO.length; i++) {
             const review: Review = {
-              reviewTrackName: data.data.review.getTrack().getName(),
+              reviewTrackName: reviewDTO[i].track.name,
               userSporifyURI: reviewDTO[i].profile.userSporifyURI,
               username: reviewDTO[i].profile.username,
               // userProfileImage: reviewDTO[i].profile.profileImage,
@@ -158,10 +177,11 @@ export class RatingComponent implements OnInit {
               reviewDate: reviewDTO[i].date,
               rating: reviewDTO[i].rating,
             };
-            this.allReviewList.push(review);
+            this.reviewList.push(review);
           }
+          console.log(this.reviewList);
           // }
-          this.allReviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
+          // this.allReviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
         });
       }
     });

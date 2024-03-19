@@ -41,7 +41,9 @@ public interface TrackRepository extends TrackRepositoryWithBagRelationships, Jp
     @Query("select t from Track t order by t.rating DESC, size(t.reviews) DESC, t.name ASC")
     Page<Track> fetchTrackByRatingPagination(Pageable pageable);
 
-    List<Track> findByAlbum(Album album);
+    //    @Query("select t from Track t WHERE t.albumspotifyURI = :albumURI")
+    @Query("select t from Track t WHERE t.album.spotifyURI = :albumURI")
+    List<Track> findByAlbum(@Param("albumURI") String albumURI);
 
     // orderKey = rating / size(reviews), order = asc / desc, between startTime and endTime,  search = text, could order by rating or size of the reviews;
 

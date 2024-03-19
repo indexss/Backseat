@@ -136,6 +136,10 @@ public class ReviewAlbumDTO implements Serializable {
         return trackList;
     }
 
+    public void pushTrackList(Set<Track> newTracks) {
+        this.trackList.addAll(newTracks);
+    }
+
     public void pushAvgRating(double averageRating) {
         this.avgRatingList.add(averageRating);
     }
