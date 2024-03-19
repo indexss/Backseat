@@ -98,7 +98,6 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
             }
         }
         fetchFolderEntryDTO.setEntryList(entryDTOS);
-        System.out.println("------------------" + fetchFolderEntryDTO.getEntryList().get(0));
         fetchFolderEntryDTO.setFolderEntries(folderEntries);
         return fetchFolderEntryDTO;
     }

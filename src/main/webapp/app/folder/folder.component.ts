@@ -43,7 +43,6 @@ export class FolderComponent implements OnInit {
       this.id = params['id'];
       this.folderService.getFolderEntry(this.id).subscribe(data => {
         this.folderName = data.data.folderEntry.folderName;
-
         this.entryInfoList = data.data.folderEntry.entryList;
         const folderEntryDTO = data.data.folderEntry.folderEntries;
         for (let i = 0; i < folderEntryDTO.length; i++) {
@@ -58,7 +57,7 @@ export class FolderComponent implements OnInit {
   }
 
   openDialog() {
-    const newName = prompt('Enter the new playlist name (max 18 characters):', this.folderName);
+    const newName = prompt('Enter the new name below (max 18 characters):', this.folderName);
     if (newName !== null) {
       this.folderName = newName.substring(0, 18);
     }

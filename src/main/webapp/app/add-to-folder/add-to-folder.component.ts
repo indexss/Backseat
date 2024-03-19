@@ -34,7 +34,6 @@ export class AddToFolderComponent implements OnInit {
   spotifyURI!: string;
   modalRef!: NgbModalRef;
   folderName!: string;
-  imageURL: string = 'https://i.scdn.co/image/ab67616d00001e02904445d70d04eb24d6bb79ac';
   account!: Account;
   showAlert: boolean = false;
   constructor(
@@ -51,7 +50,6 @@ export class AddToFolderComponent implements OnInit {
 
     this.addToFolderService.getUserFolder().subscribe(data => {
       this.folderList = data.data.folder;
-      console.log(this.folderList);
     });
   }
 
