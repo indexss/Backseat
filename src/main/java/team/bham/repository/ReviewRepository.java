@@ -15,4 +15,5 @@ import team.bham.domain.Review;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Set<Review> findByTrackSpotifyURI(String spotifyURI);
     Set<Review> findByAlbum(Album album);
+    Set<Review> findByAlbumSpotifyURI(String spotifyURI);
 }

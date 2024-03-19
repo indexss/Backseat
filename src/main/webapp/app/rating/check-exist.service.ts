@@ -8,6 +8,6 @@ import { Observable } from 'rxjs';
 export class CheckExistService {
   constructor(private http: HttpClient) {}
   checkExist(id: number): Observable<any> {
-    return this.http.get(`api/check?id=${id}`);
+    return this.http.get(`api/rating/check?id=${id}`);
   }
 }

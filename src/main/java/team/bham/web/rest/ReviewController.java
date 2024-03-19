@@ -5,8 +5,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import team.bham.service.ReviewAlbumService;
 import team.bham.service.ReviewTrackSevice;
 import team.bham.service.dto.AddReviewDTO;
+import team.bham.service.dto.ReviewAlbumDTO;
 import team.bham.service.dto.ReviewTrackDTO;
 import team.bham.utils.ResponseUtils;
 
@@ -20,18 +22,26 @@ import team.bham.utils.ResponseUtils;
  */
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/rating")
 public class ReviewController {
 
     @Resource
     private ReviewTrackSevice reviewTrackSevice;
 
+    @Resource
+    private ReviewAlbumService reviewAlbumService;
+
     @GetMapping("/reivews")
     public ResponseUtils fetchReviews(String id) {
         ResponseUtils resp = null;
         try {
-            ReviewTrackDTO reviewTrackDTO = reviewTrackSevice.fetchReviewAndTrackInfo(id);
-            resp = new ResponseUtils().put("review", reviewTrackDTO);
+            if (id.startsWith("spotify:track:")) {
+                ReviewTrackDTO reviewTrackDTO = reviewTrackSevice.fetchReviewAndTrackInfo(id);
+                resp = new ResponseUtils().put("review", reviewTrackDTO);
+            } else {
+                ReviewAlbumDTO reviewAlbumDTO = reviewAlbumService.fetchReviewAndAlbumInfo(id);
+                resp = new ResponseUtils().put("review", reviewAlbumDTO);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
@@ -81,6 +91,18 @@ public class ReviewController {
     public ResponseUtils checkExist(String id) {
         ResponseUtils resp = null;
         Boolean checkedExist = reviewTrackSevice.checkExist(id);
+        if (checkedExist) {
+            resp = new ResponseUtils().put("exist", "true");
+        } else {
+            resp = new ResponseUtils().put("exist", "false");
+        }
+        return resp;
+    }
+
+    @GetMapping("/checkAlbum")
+    public ResponseUtils checkExistAlbum(String id) {
+        ResponseUtils resp = null;
+        Boolean checkedExist = reviewAlbumService.checkExistAlbum(id);
         if (checkedExist) {
             resp = new ResponseUtils().put("exist", "true");
         } else {

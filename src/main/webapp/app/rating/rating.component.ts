@@ -7,8 +7,9 @@ import { DatePipe } from '@angular/common';
 import { Account } from 'app/core/auth/account.model';
 import { AddReviewService } from './add-review.service';
 import { CheckExistService } from './check-exist.service';
+import { CheckExistAlbumService } from './check-exist-album.service';
 import { Router } from '@angular/router';
-
+import { Track } from './track.interface';
 @Component({
   selector: 'jhi-rating',
   templateUrl: './rating.component.html',
@@ -17,6 +18,7 @@ import { Router } from '@angular/router';
 export class RatingComponent implements OnInit {
   trackName!: string;
   albumName!: string;
+  albumNames!: string[];
   artistName!: string;
   releaseDate!: string;
   description!: string;
@@ -28,7 +30,12 @@ export class RatingComponent implements OnInit {
   comment!: string;
   rating = 0;
   id!: any;
+  isTrack?: boolean;
   showCommentAlert: boolean = false;
+  totalTracks!: number;
+  allReviewList: Review[] = [];
+  trackList: Track[] = [];
+  avgRatingList: number[] = [];
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
 
   constructor(
@@ -52,48 +59,111 @@ export class RatingComponent implements OnInit {
       // console.log("next is id:");
       // console.log(params['id']);
       this.id = params['id'];
-      // this.router.navigate(['/rating-not-found']);
-      this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
-        // console.log(data);
+      this.checkTrackOrAlbum(this.id);
+      if (this.isTrack) {
+        // this.router.navigate(['/rating-not-found']);
+        this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+          // console.log(data);
 
-        this.checkExistService.checkExist(this.id).subscribe(data => {
-          console.log('data: ');
-          console.log(data);
-          if (data.data.exist === 'false') {
-            this.router.navigate(['/rating-not-found']);
+          this.checkExistService.checkExist(this.id).subscribe(data => {
+            console.log('data: ');
+            console.log(data);
+            if (data.data.exist === 'false') {
+              this.router.navigate(['/rating-not-found']);
+            }
+          });
+
+          this.trackName = data.data.review.trackName;
+          this.albumName = data.data.review.albumName;
+          this.artistName = data.data.review.artistName;
+          this.releaseDate = data.data.review.releaseDate;
+          this.description = data.data.review.description;
+          this.avgRating = data.data.review.avgRating;
+          this.imgURL = data.data.review.imgURL;
+
+          // console.log(this.avgRating);
+          const reviewDTO = data.data.review.reviewList;
+          for (let i = 0; i < reviewDTO.length; i++) {
+            const review: Review = {
+              reviewTrackName: data.data.review.trackName,
+              userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+              username: reviewDTO[i].profile.username,
+              // userProfileImage: reviewDTO[i].profile.profileImage,
+              userProfileImage: './../../content/images/common_avatar.png',
+              reviewContent: reviewDTO[i].content,
+              reviewDate: reviewDTO[i].date,
+              rating: reviewDTO[i].rating,
+            };
+            this.reviewList.push(review);
           }
+          this.reviewList = this.reviewList.reverse();
+
+          // console.log(this.trackName);
+          // console.log(this.albumName);
+          // console.log(this.artistName);
+          // console.log(this.releaseDate);
+          // console.log(this.description);
         });
+      }
+      // For condition of album request
+      // For condition of Album request
+      // For condition of Album request
+      else {
+        this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+          // console.log(data);
 
-        this.trackName = data.data.review.trackName;
-        this.albumName = data.data.review.albumName;
-        this.artistName = data.data.review.artistName;
-        this.releaseDate = data.data.review.releaseDate;
-        this.description = data.data.review.description;
-        this.avgRating = data.data.review.avgRating;
-        this.imgURL = data.data.review.imgURL;
+          // this.checkExistService.checkExist(this.id).subscribe(data => {
+          //   console.log('data: ');
+          //   console.log(data);
+          //   if (data.data.exist === 'false') {
+          //     this.router.navigate(['/rating-not-found']);
+          //   }
+          // });
 
-        // console.log(this.avgRating);
-        const reviewDTO = data.data.review.reviewList;
-        for (let i = 0; i < reviewDTO.length; i++) {
-          const review: Review = {
-            userSporifyURI: reviewDTO[i].profile.userSporifyURI,
-            username: reviewDTO[i].profile.username,
-            // userProfileImage: reviewDTO[i].profile.profileImage,
-            userProfileImage: './../../content/images/common_avatar.png',
-            reviewContent: reviewDTO[i].content,
-            reviewDate: reviewDTO[i].date,
-            rating: reviewDTO[i].rating,
-          };
-          this.reviewList.push(review);
-        }
-        this.reviewList = this.reviewList.reverse();
+          this.trackName = data.data.review.trackName;
+          this.albumName = data.data.review.albumName;
+          this.artistName = data.data.review.artistName;
+          this.releaseDate = data.data.review.releaseDate;
+          this.description = data.data.review.description;
+          this.avgRating = data.data.review.avgRating;
+          this.imgURL = data.data.review.imgURL;
+          this.totalTracks = data.data.review.totalTracks;
+          this.avgRatingList = data.data.review.avgRatingList;
 
-        // console.log(this.trackName);
-        // console.log(this.albumName);
-        // console.log(this.artistName);
-        // console.log(this.releaseDate);
-        // console.log(this.description);
-      });
+          // console.log(this.avgRating);
+          // 这个方法绝大概率有问题，观察一下后续album 能否正常加载
+          const trackList = data.data.review.getTracks();
+          for (let i = 0; i < trackList.length; i++) {
+            const track: Track = {
+              trackName: trackList[i].getName,
+              artistName: trackList[i].getArtist().toString(),
+              releaseDate: trackList[i].releaseDate,
+              rating: trackList[i].track.getRating(),
+            };
+            this.trackList.push(track);
+          }
+
+          // for (let j = 0; j < data.data.review.getTracks().length; j++){
+          //这里返回的不是ReivewDTO而是单纯的review
+          // const reviewDTO = data.data.review.getTracks()[j].getReview();
+          const reviewDTO = data.data.review.reviewList;
+          for (let i = 0; i < reviewDTO.length; i++) {
+            const review: Review = {
+              reviewTrackName: data.data.review.getTrack().getName(),
+              userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+              username: reviewDTO[i].profile.username,
+              // userProfileImage: reviewDTO[i].profile.profileImage,
+              userProfileImage: './../../content/images/common_avatar.png',
+              reviewContent: reviewDTO[i].content,
+              reviewDate: reviewDTO[i].date,
+              rating: reviewDTO[i].rating,
+            };
+            this.allReviewList.push(review);
+          }
+          // }
+          this.allReviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
+        });
+      }
     });
   }
 
@@ -135,8 +205,10 @@ export class RatingComponent implements OnInit {
               const reviewDTO = data.data.review.reviewList;
               for (let i = 0; i < reviewDTO.length; i++) {
                 const review: Review = {
+                  reviewTrackName: data.data.review.trackName,
                   userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                   username: reviewDTO[i].profile.username,
+                  // userProfileImage: reviewDTO[i].profile.profileImage,
                   userProfileImage: './../../content/images/common_avatar.png',
                   reviewContent: reviewDTO[i].content,
                   reviewDate: reviewDTO[i].date,
@@ -155,5 +227,14 @@ export class RatingComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  checkTrackOrAlbum(id: string): void {
+    if (id.includes('track')) {
+      this.isTrack = true; // 如果是 track，设置 isTrack 为 true
+    } else if (id.includes('album')) {
+      this.isTrack = false;
+      // 如果是 album，设置 isTrack 为 false
+    }
   }
 }
