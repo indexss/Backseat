@@ -96,12 +96,34 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
             Optional<Track> trackOptional = trackRepository.findById(spotifyURI);
             if (trackOptional.isPresent()) {
                 Track track = trackOptional.get();
-                EntryDTO entryDTO = new EntryDTO(track.getName(), track.getAlbum().getImageURL());
+                Set<Artist> artists = track.getArtists();
+                List<Artist> artistList = new ArrayList<>(artists);
+                StringBuilder artistNameBuilder = new StringBuilder();
+                for (int j = 0; j < artistList.size(); j++) {
+                    if (j == artistList.size() - 1) {
+                        artistNameBuilder.append(artistList.get(j).getName());
+                    } else {
+                        artistNameBuilder.append(artistList.get(j).getName());
+                        artistNameBuilder.append(", ");
+                    }
+                }
+                EntryDTO entryDTO = new EntryDTO(track.getName(), artistNameBuilder.toString(), track.getAlbum().getImageURL());
                 entryDTOS.add(entryDTO);
             } else {
                 Optional<Album> albumOptional = albumRepository.findById(spotifyURI);
                 Album album = albumOptional.get();
-                EntryDTO entryDTO = new EntryDTO(album.getName(), album.getImageURL());
+                Set<Artist> artists = album.getArtists();
+                List<Artist> artistList = new ArrayList<>(artists);
+                StringBuilder artistNameBuilder = new StringBuilder();
+                for (int j = 0; j < artistList.size(); j++) {
+                    if (j == artistList.size() - 1) {
+                        artistNameBuilder.append(artistList.get(j).getName());
+                    } else {
+                        artistNameBuilder.append(artistList.get(j).getName());
+                        artistNameBuilder.append(", ");
+                    }
+                }
+                EntryDTO entryDTO = new EntryDTO(album.getName(), artistNameBuilder.toString(), album.getImageURL());
                 entryDTOS.add(entryDTO);
             }
         }

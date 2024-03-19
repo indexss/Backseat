@@ -36,7 +36,12 @@
 
   <form>
     <div class="form-group">
-      <textarea class="form-control" [(ngModel)]="folderName" name="folderName" placeholder="Enter the name of your folder"></textarea>
+      <textarea
+        class="form-control"
+        [(ngModel)]="folderName"
+        name="folderName"
+        placeholder="Enter the name of your folder (max 18 characters)"
+      ></textarea>
     </div>
     <br />
     <div class="form-group">

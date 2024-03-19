@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 interface EntryInfo {
   entryName: string;
   imageURL: string;
+  artist: string;
 }
 
 interface FolderEntry {
@@ -51,5 +52,17 @@ export class FolderComponent implements OnInit {
     if (newName !== null) {
       this.folderName = newName.substring(0, 18);
     }
+  }
+  getSpotifyLink(spotifyURI: string): string {
+    let spotifyLink: string = '';
+    if (spotifyURI.startsWith('spotify:track:')) {
+      spotifyLink = spotifyURI.replace('spotify:track:', 'https://open.spotify.com/track/');
+    } else if (spotifyURI.startsWith('spotify:album:')) {
+      spotifyLink = spotifyURI.replace('spotify:album:', 'https://open.spotify.com/album/');
+    } else {
+      // 如果不是 track 或 album 类型的 Spotify URI，可以在这里添加其他处理逻辑
+      console.error('Unsupported Spotify URI type:', spotifyURI);
+    }
+    return spotifyLink;
   }
 }

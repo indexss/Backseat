@@ -3,10 +3,13 @@ package team.bham.service.dto;
 public class EntryDTO {
 
     private String entryName;
+
+    private String artist;
     private String imageURL;
 
-    public EntryDTO(String entryName, String imageURL) {
+    public EntryDTO(String entryName, String artist, String imageURL) {
         this.entryName = entryName;
+        this.artist = artist;
         this.imageURL = imageURL;
     }
 
@@ -26,6 +29,14 @@ public class EntryDTO {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 
     @Override
