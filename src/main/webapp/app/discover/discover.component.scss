@@ -1,3 +1,10 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+p,
 h2 {
   color: rgb(68, 120, 72);
   font-size: 2.5em;
@@ -6,7 +13,6 @@ h2 {
 
 .albums-tracks {
   display: flex;
-  gap: 10px;
   flex-wrap: nowrap;
   overflow-x: auto;
   padding: 10px;
@@ -20,10 +26,12 @@ h2 {
 .record-card {
   display: grid;
   text-align: left;
+  gap: 15px;
   //width: 400px;
   //height: 300px;
-  padding: 10px;
-  font-size: 20px;
+  padding: 20px;
+  font-size: 10px;
+  text-wrap: revert;
 }
 
 .image {
@@ -47,8 +55,8 @@ h2 {
 }
 
 .albums-tracks {
-  height: 330px;
-  margin-bottom: 20px;
+  height: 350px;
+  margin-bottom: 40px;
   width: 100%;
   -webkit-overflow-scrolling: touch;
 }
@@ -56,15 +64,15 @@ h2 {
 .display-folders {
   ul {
     list-style: none;
-    text-align: left;
+    text-align: center;
   }
   li {
     display: inline-block;
     text-align: center;
     margin-right: 50px; /* add spacing between items */
     border: 5px solid darkgreen;
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     background: rgb(68, 120, 72);
   }
 }

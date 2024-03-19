@@ -5,6 +5,8 @@ import { GetMusicService } from './getMusicService';
 interface Record {
   id: number;
   trackName: string;
+  album: string;
+  reviews: number;
   rating: number;
   artist: string;
   trackURI: string;
@@ -23,7 +25,7 @@ interface Review {
 
 //need to implement getting a record based on date in Review
 export class DiscoverComponent implements OnInit {
-  trackURI = 'asd';
+  trackURI = 'erg';
   trackLink = '/rating/'.concat(this.trackURI);
   recordList: Record[] = [];
   constructor(private getMusicService: GetMusicService) {}
