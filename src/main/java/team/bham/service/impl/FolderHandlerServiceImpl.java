@@ -35,10 +35,14 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
     public void generateFolder(String folderName, String username) {
         Folder folder = new Folder();
         folder.setName(folderName);
-        Optional<Profile> optionalProfile = profileRepository.findByUserLogin(username);
-        Profile profile = optionalProfile.get();
-        folder.setProfile(profile);
-        folderRepository.save(folder);
+        try {
+            Optional<Profile> optionalProfile = profileRepository.findByUserLogin(username);
+            Profile profile = optionalProfile.get();
+            folder.setProfile(profile);
+            folderRepository.save(folder);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -58,7 +62,6 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
                 String imageURL = createImageURL(image, imageContentType);
                 dto.setImageURL(imageURL);
             }
-
             fetchFolderDTOS.add(dto);
         }
         return fetchFolderDTOS;
@@ -67,10 +70,8 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
     public String createImageURL(byte[] image, String imageContentType) {
         // 将字节数组编码为Base64字符串
         String imageDataString = Base64.getEncoder().encodeToString(image);
-
         // 构建数据URI
         String imageURL = "data:" + imageContentType + ";base64," + imageDataString;
-
         return imageURL;
     }
 

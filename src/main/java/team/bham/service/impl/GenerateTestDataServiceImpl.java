@@ -149,6 +149,7 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         Artist artist1 = new Artist();
         artist1.setSpotifyURI("spotify:artist:2elBjNSdBE2Y3f0j1mjrql");
         artist1.setName("周杰伦");
+        artistRepository.save(artist1);
 
         Album album1 = new Album();
         album1.setSpotifyURI("spotify:album:7eoWv4CgghZ0gvWjjdye98");

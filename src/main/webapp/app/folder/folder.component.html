@@ -6,7 +6,7 @@
       </div>
       <div class="col-auto d-flex flex-column position-relative">
         <h2 style="color: rgb(68, 120, 72); font-size: 70px">{{ folderName | slice: 0:20 }}</h2>
-        <!--        <button class="rename-button mt-auto position-absolute" (click)="openDialog()">Rename</button>-->
+        <!--        <button class="rename-button mt-auto position-absolute" (click)="nameChange()">Rename</button>-->
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@
           <strong style="color: #666666">{{ entryInfoList[i].artist }}</strong>
         </td>
         <td class="text-center align-middle">
-          <a [href]="getSpotifyLink(folderEntry.spotifyURI)" target="_blank" class="btn btn-olive">
+          <a [href]="getSpotifyLink(folderEntry.spotifyURI)" target="_blank" class="btn btn-green">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
               <path
                 d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"
