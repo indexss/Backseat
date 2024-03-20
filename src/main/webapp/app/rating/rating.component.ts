@@ -36,6 +36,9 @@ export class RatingComponent implements OnInit {
   allReviewList: Review[] = [];
   trackList: Track[] = [];
   avgRatingList: number[] = [];
+  selectedSpotifyURI!: string;
+  selectedTrack!: any;
+  showAlertTrack: boolean = false;
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
 
   constructor(
@@ -152,6 +155,7 @@ export class RatingComponent implements OnInit {
           const trackLList = data.data.review.tracks;
           for (let i = 0; i < trackLList.length; i++) {
             const track: Track = {
+              spotifyURI: trackLList[i].spotifyURI,
               trackName: trackLList[i].name,
               artistName: this.artistName,
               releaseDate: trackLList[i].releaseDate,
@@ -187,6 +191,9 @@ export class RatingComponent implements OnInit {
     });
   }
 
+  onTrackSelected(spotifyURI: string): void {
+    this.selectedTrack = this.trackList.find(track => track.spotifyURI === spotifyURI);
+  }
   submitReview(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
@@ -202,44 +209,78 @@ export class RatingComponent implements OnInit {
           this.showAlert = true;
           return;
         } else {
-          this.showAlert = false;
-          // console.log('rating:');
-          // console.log(this.rating);
-          // console.log('comment:');
-          // console.log(this.comment);
-          // console.log('id:');
-          // console.log(this.id);
-
-          this.addReviewService.submitReview(this.rating, this.comment, this.id).subscribe(data => {
-            // console.log(data);
-          });
-
-          this.comment = ' ';
-          this.rating = 0;
-
-          setTimeout(() => {
-            this.reviewList = [];
-            this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+          if (this.isTrack) {
+            this.showAlert = false;
+            this.addReviewService.submitReview(this.rating, this.comment, this.id).subscribe(data => {
               // console.log(data);
-              this.avgRating = data.data.review.avgRating;
-              const reviewDTO = data.data.review.reviewList;
-              for (let i = 0; i < reviewDTO.length; i++) {
-                const review: Review = {
-                  reviewTrackName: data.data.review.trackName,
-                  userSporifyURI: reviewDTO[i].profile.userSporifyURI,
-                  username: reviewDTO[i].profile.username,
-                  // userProfileImage: reviewDTO[i].profile.profileImage,
-                  userProfileImage: './../../content/images/common_avatar.png',
-                  reviewContent: reviewDTO[i].content,
-                  reviewDate: reviewDTO[i].date,
-                  rating: reviewDTO[i].rating,
-                };
-                this.reviewList.push(review);
-              }
-              this.reviewList = this.reviewList.reverse();
-              this.changeDetectorRef.detectChanges();
             });
-          }, 300);
+
+            this.comment = ' ';
+            this.rating = 0;
+
+            setTimeout(() => {
+              this.reviewList = [];
+              this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+                // console.log(data);
+                this.avgRating = data.data.review.avgRating;
+                const reviewDTO = data.data.review.reviewList;
+                for (let i = 0; i < reviewDTO.length; i++) {
+                  const review: Review = {
+                    reviewTrackName: data.data.review.trackName,
+                    userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+                    username: reviewDTO[i].profile.username,
+                    // userProfileImage: reviewDTO[i].profile.profileImage,
+                    userProfileImage: './../../content/images/common_avatar.png',
+                    reviewContent: reviewDTO[i].content,
+                    reviewDate: reviewDTO[i].date,
+                    rating: reviewDTO[i].rating,
+                  };
+                  this.reviewList.push(review);
+                }
+                this.reviewList = this.reviewList.reverse();
+                this.changeDetectorRef.detectChanges();
+              });
+            }, 300);
+          } else {
+            this.showAlert = false;
+            //did not select track for Album
+            if (!this.selectedSpotifyURI) {
+              this.showAlertTrack = true;
+            } else {
+              this.showAlertTrack = false;
+              this.addReviewService.submitReview(this.rating, this.comment, this.selectedSpotifyURI).subscribe(data => {
+                // console.log(data);
+              });
+
+              this.comment = ' ';
+              this.rating = 0;
+
+              setTimeout(() => {
+                this.reviewList = [];
+                this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+                  // console.log(data);
+                  this.avgRating = data.data.review.avgRating;
+                  const reviewDTO = data.data.review.reviewList;
+                  for (let i = 0; i < reviewDTO.length; i++) {
+                    const review: Review = {
+                      reviewTrackName: reviewDTO[i].track.name,
+                      userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+                      username: reviewDTO[i].profile.username,
+                      // userProfileImage: reviewDTO[i].profile.profileImage,
+                      userProfileImage: './../../content/images/common_avatar.png',
+                      reviewContent: reviewDTO[i].content,
+                      reviewDate: reviewDTO[i].date,
+                      rating: reviewDTO[i].rating,
+                    };
+                    this.reviewList.push(review);
+                  }
+                  console.log('+++++++', this.reviewList, '+++++');
+                  this.reviewList = this.reviewList.reverse();
+                  this.changeDetectorRef.detectChanges();
+                });
+              }, 300);
+            }
+          }
         }
 
         // console.log('submit review');

@@ -1,4 +1,4 @@
-<!--<div class="container">-->
+<!--<div *ngIf="isTrack" class="container">-->
 <!--  <div class="row">-->
 <!--    <div class="col-12 col-md d-flex align-items-start">-->
 <!--      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />-->
@@ -109,7 +109,13 @@
 <!--                <a class="text-black" href="#">{{ review.username }}</a>-->
 <!--              </h6>-->
 <!--              <p class="text-gray">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>-->
-<!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
+<!--&lt;!&ndash;              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>&ndash;&gt;-->
+<!--              <ngb-rating [max]="5" [(rate)]="rating">-->
+<!--                <ng-template #t let-fill="fill">-->
+<!--                  <span class="star" [class.filled]="fill === 100" [style.color]="fill === 100 ? '#4CAF50' : '#ccc'" style="font-size: 2em;">&#9733;</span>-->
+<!--                </ng-template>-->
+<!--              </ngb-rating>-->
+
 <!--            </div>-->
 <!--            <div class="reviews-members-body">-->
 <!--              <p>-->
@@ -127,16 +133,138 @@
 <!--</div>-->
 
 <!--//这里开始是Album-->
-<div class="container">
+<!--<div *ngIf="!isTrack"  class="container">-->
+<!--  <div class="row">-->
+<!--    <div class="col-12 col-md d-flex align-items-start">-->
+<!--      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />-->
+<!--      <div>-->
+<!--        &lt;!&ndash;        <span class="title d-block">{{ trackName }}</span>&ndash;&gt;-->
+<!--        <span class="album d-block">Album Name:   {{ albumName }}</span>-->
+<!--        <span class="artist d-block">Artist Name:   {{ artistName }}</span>-->
+<!--        <span class="rdate d-block">Release Date:   {{ releaseDate }}</span>-->
+<!--        <span class="rdate d-block">Total Tracks:   {{ totalTracks }}</span>-->
+<!--        &lt;!&ndash; <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> &ndash;&gt;-->
+<!--        <span class="avgrating d-block">average rating:   {{ avgRating | number: '1.2-2' }}</span>-->
+<!--        <br />-->
+<!--        <span class="description d-block">Description:    {{ description }}</span>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <br />-->
+
+<!--  <ngb-alert [dismissible]="false" *ngIf="showAlert">-->
+<!--    <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.-->
+<!--  </ngb-alert>-->
+<!--  &lt;!&ndash; <ngb-alert [dismissible]="false" *ngIf="showAlert">-->
+<!--	<strong>Warning!</strong> Comments cannot be empty!-->
+<!--  </ngb-alert> &ndash;&gt;-->
+
+<!--  <div class="row">-->
+<!--    <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">-->
+<!--      <h5 class="mb-4">Leave Review</h5>-->
+<!--      <form>-->
+<!--        &lt;!&ndash; Warning message for track selection &ndash;&gt;-->
+<!--        <ngb-alert [dismissible]="false" *ngIf="showAlertTrack">-->
+<!--          <strong>Warning!</strong> You have to choose one track to review.-->
+<!--        </ngb-alert>-->
+<!--        <label for="track-select">Choose a Track:</label>-->
+<!--        <select id="track-select" [(ngModel)]="selectedSpotifyURI" (ngModelChange)="onTrackSelected($event)" name="track">-->
+<!--          <option *ngFor="let track of trackList" [value]="track.spotifyURI">-->
+<!--            {{ track.trackName }} -&#45;&#45;{{ track.artistName }}-->
+<!--          </option>-->
+<!--        </select>-->
+<!--      </form>-->
+<!--        &lt;!&ndash; Warning message for track selection &ndash;&gt;-->
+
+<!--      &lt;!&ndash; <p class="mb-2">Rate the Place</p> &ndash;&gt;-->
+<!--      &lt;!&ndash; <ngb-rating [(rate)]="rating" /> &ndash;&gt;-->
+<!--      <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>-->
+<!--      <form>-->
+<!--        <div class="form-group">-->
+<!--          <label>Your Comment</label>-->
+<!--          <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>-->
+<!--        </div>-->
+<!--        <br />-->
+<!--        <div class="form-group">-->
+<!--          <button (click)="submitReview()" class="btn btn-primary btn-sm" type="button">Submit Comment</button>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div>-->
+<!--    <table class="track-table">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th>Track Name</th>-->
+<!--        <th>Artist Name</th>-->
+<!--        <th>Release Date</th>-->
+<!--        <th>avgRating</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let track of trackList">-->
+<!--        &lt;!&ndash; Assuming you have album cover images &ndash;&gt;-->
+<!--        <td class="album-cover-cell">-->
+<!--          <img [src]="imgURL" alt="Album Cover">-->
+<!--          {{ track.trackName }}-->
+<!--        </td>-->
+<!--        <td>{{ track.artistName }}</td>-->
+<!--        <td>{{ track.releaseDate }}</td>-->
+<!--        <td>{{ track.rating }}</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
+
+<!--  <br />-->
+
+<!--  <div class="row">-->
+<!--    &lt;!&ndash; <h2>Reviews</h2> &ndash;&gt;-->
+<!--    <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">-->
+<!--      &lt;!&ndash; <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> &ndash;&gt;-->
+<!--      <h3 class="mb-1">All Ratings and Reviews</h3>-->
+
+<!--      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">-->
+<!--        <div class="media">-->
+<!--          <a href="#">-->
+<!--            <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill" />-->
+<!--          </a>-->
+<!--          <div class="media-body">-->
+<!--            <div class="reviews-members-header">-->
+<!--              <h6 class="mb-1">-->
+<!--                <a class="text-black" href="#">{{ review.username }}</a>-->
+<!--              </h6>-->
+<!--              <p> {{review.reviewTrackName}} -&#45;&#45; {{artistName}}</p>-->
+<!--              <p class="text-gray">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>-->
+<!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
+<!--            </div>-->
+<!--            <div class="reviews-members-body">-->
+<!--              <p>-->
+<!--                {{ review.reviewContent }}-->
+<!--              </p>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--        </div>-->
+<!--        <hr />-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> &ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div *ngIf="isTrack" class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
       <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+
       <div>
-        <!--        <span class="title d-block">{{ trackName }}</span>-->
+        <span class="title d-block">{{ trackName }}</span>
         <span class="album d-block">{{ albumName }}</span>
         <span class="artist d-block">{{ artistName }}</span>
         <span class="rdate d-block">{{ releaseDate }}</span>
-        <span class="rdate d-block">{{ totalTracks }}</span>
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
         <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
         <br />
@@ -172,21 +300,122 @@
     </div>
   </div>
 
-  <!--展示 Album里的Track-->
+  <br />
+
+  <div class="row">
+    <!-- <h2>Reviews</h2> -->
+    <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
+      <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
+      <h3 class="mb-1">All Ratings and Reviews</h3>
+
+      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
+        <div class="media">
+          <a href="#">
+            <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill" />
+          </a>
+          <div class="media-body">
+            <div class="reviews-members-header">
+              <h6 class="mb-1">
+                <a class="text-black" href="#">{{ review.username }}</a>
+              </h6>
+              <p class="text-gray">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
+              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
+            </div>
+            <div class="reviews-members-body">
+              <p>
+                {{ review.reviewContent }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
+
+      <!-- <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> -->
+    </div>
+  </div>
+</div>
+
+<!--//这里开始是Album-->
+<div *ngIf="!isTrack" class="container">
+  <div class="row">
+    <div class="col-12 col-md d-flex align-items-start">
+      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      <div>
+        <!--        <span class="title d-block">{{ trackName }}</span>-->
+        <span class="album d-block">Album Name: {{ albumName }}</span>
+        <span class="artist d-block">Artist Name: {{ artistName }}</span>
+        <span class="rdate d-block">Release Date: {{ releaseDate }}</span>
+        <span class="rdate d-block">Total Tracks: {{ totalTracks }}</span>
+        <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
+        <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
+        <br />
+        <span class="description d-block">Description: {{ description }}</span>
+      </div>
+    </div>
+  </div>
+  <br />
+
+  <ngb-alert [dismissible]="false" *ngIf="showAlert">
+    <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
+  </ngb-alert>
+  <!-- <ngb-alert [dismissible]="false" *ngIf="showAlert">
+	<strong>Warning!</strong> Comments cannot be empty!
+  </ngb-alert> -->
+
+  <div class="row">
+    <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
+      <h5 class="mb-4">Leave Review</h5>
+      <form>
+        <!-- Warning message for track selection -->
+        <ngb-alert [dismissible]="false" *ngIf="showAlertTrack">
+          <strong>Warning!</strong> You have to choose one track to review.
+        </ngb-alert>
+        <label for="track-select">Choose a Track:</label>
+        <select id="track-select" [(ngModel)]="selectedSpotifyURI" (ngModelChange)="onTrackSelected($event)" name="track">
+          <option *ngFor="let track of trackList" [value]="track.spotifyURI">{{ track.trackName }} ---{{ track.artistName }}</option>
+        </select>
+      </form>
+      <!-- Warning message for track selection -->
+
+      <!-- <p class="mb-2">Rate the Place</p> -->
+      <!-- <ngb-rating [(rate)]="rating" /> -->
+      <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>
+      <form>
+        <div class="form-group">
+          <label>Your Comment</label>
+          <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>
+        </div>
+        <br />
+        <div class="form-group">
+          <button (click)="submitReview()" class="btn btn-primary btn-sm" type="button">Submit Comment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div>
-    <table>
-      <tr>
-        <td>Track Name</td>
-        <td>Artist Name</td>
-        <td>Release Date</td>
-        <td>Rating</td>
-      </tr>
-      <tr *ngFor="let track of trackList">
-        <td>{{ track.trackName }}</td>
-        <td>{{ track.artistName }}</td>
-        <td>{{ track.releaseDate }}</td>
-        <td>{{ track.rating }}</td>
-      </tr>
+    <table class="track-table">
+      <thead>
+        <tr>
+          <th>Track Name</th>
+          <th>Artist Name</th>
+          <th>Release Date</th>
+          <th>avgRating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let track of trackList">
+          <!-- Assuming you have album cover images -->
+          <td class="album-cover-cell">
+            <img [src]="imgURL" alt="Album Cover" />
+            {{ track.trackName }}
+          </td>
+          <td>{{ track.artistName }}</td>
+          <td>{{ track.releaseDate }}</td>
+          <td>{{ track.rating }}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 
@@ -208,13 +437,9 @@
               <h6 class="mb-1">
                 <a class="text-black" href="#">{{ review.username }}</a>
               </h6>
-              <!--             这里加了TrackName给每个Track！！！ -->
-              <!--              -->
-              <!--              -->
-              <!--              -->
-              <!--              -->
-              <p class="text-gray">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
               <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
+              <p class="review-track-artist-right">Track: {{ review.reviewTrackName }} --- {{ artistName }}</p>
+              <p class="review-track-artist-right">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
             </div>
             <div class="reviews-members-body">
               <p>
