@@ -1,8 +1,16 @@
 div.border-sep > div.col {
   padding: 1rem;
 
-  &:not(:first-of-type) {
-    border-left: 1px solid lightgrey;
+  @media (min-width: 768px) {
+    &:not(:first-of-type) {
+      border-left: 1px solid lightgrey;
+    }
+  }
+  @media (max-width: 767px) {
+    &:first-of-type {
+      margin-top: 20px;
+    }
+    border-top: 1px solid lightgrey;
   }
 }
 

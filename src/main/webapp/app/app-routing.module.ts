@@ -43,14 +43,6 @@ import {ProfileComponent} from "./profile/profile.component";
           },
         },
 
-        {
-          path: 'profile',
-          component: ProfileComponent,
-          data: {
-            authorities: [],
-          },
-        },
-
 
         // {
         //   path: 'rating',
@@ -95,6 +87,10 @@ import {ProfileComponent} from "./profile/profile.component";
         {
           path: 'oauth',
           loadChildren: () => import('./oauth/oauth.module').then(m => m.OauthModule),
+        },
+        {
+          path: 'profile',
+          loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
         },
         {
           path: '',
