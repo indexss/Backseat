@@ -12,7 +12,6 @@ export class WantToListenComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  protected readonly faPlay = faPlay;
   protected readonly faPlayCircle = faPlayCircle;
   protected readonly sampleWithFullData = sampleWithFullData;
 

@@ -30,7 +30,6 @@ public class WantToListenListServiceImpl implements WantToListenListService {
 
     @Override
     public List<WantToListenListEntry> fetchAllWantToListenList() {
-        System.out.println("******************out*******************\n" + wantListRepository.findAllWantList());
         return wantListRepository.findAllWantList();
     }
 
