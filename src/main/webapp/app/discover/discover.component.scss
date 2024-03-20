@@ -67,10 +67,10 @@ h2 {
 
 .display-folders {
   display: flex;
-  align-content: center;
+  -webkit-align-items: center;
   flex-wrap: nowrap;
   overflow-x: auto;
-  padding: 5px;
+  padding: 10px;
   position: relative;
 
   .folder-card {
@@ -94,14 +94,14 @@ h2 {
 .folderName {
   grid-column: 1 / 3;
   grid-row: 2;
-  font-size: 10px;
+  font-size: 20px;
   color: seagreen;
 }
 
 .creatorName {
   grid-column: 1 / 3;
   grid-row: 3;
-  font-size: 7px;
+  font-size: 15px;
   color: darkseagreen;
 }
 
