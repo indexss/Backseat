@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Open Sans, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+:root {
+  //this will hopefully make sure the sidebar doesn't overlap with the nav bar but it currently doesn't work
+  --navHeight: 0rem;
+}
+.sidebar {
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  z-index: 1000;
+  background-color: #036;
+}
+
+.sidebar ul {
+  list-style: none;
+  margin-top: 100px;
+}
+.sidebar ul li a {
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  color: #fff;
+  padding: 10px 0;
+}
