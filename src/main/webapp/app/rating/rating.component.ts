@@ -95,17 +95,19 @@ export class RatingComponent implements OnInit {
               userProfileImage: './../../content/images/common_avatar.png',
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
-              rating: parseFloat(reviewDTO[i].rating.toFixed(2)),
+              rating: reviewDTO[i].rating,
             };
             this.reviewList.push(review);
           }
           this.reviewList = this.reviewList.reverse();
 
-          // console.log(this.trackName);
-          // console.log(this.albumName);
-          // console.log(this.artistName);
-          // console.log(this.releaseDate);
-          // console.log(this.description);
+          console.log(this.trackName);
+          console.log(this.albumName);
+          console.log(this.artistName);
+          console.log(this.releaseDate);
+          console.log(data.data.review.artistName);
+          console.log(data.data.review);
+          console.log(this.description);
         });
       }
       // For condition of album request
@@ -179,7 +181,7 @@ export class RatingComponent implements OnInit {
               userProfileImage: './../../content/images/common_avatar.png',
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
-              rating: parseFloat(reviewDTO[i].rating.toFixed(2)),
+              rating: reviewDTO[i].rating,
               // rating: reviewDTO[i].rating,
             };
             this.reviewList.push(review);
@@ -234,7 +236,7 @@ export class RatingComponent implements OnInit {
                     userProfileImage: './../../content/images/common_avatar.png',
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
-                    rating: parseFloat(reviewDTO[i].rating.toFixed(2)),
+                    rating: reviewDTO[i].rating,
                   };
                   this.reviewList.push(review);
                 }
@@ -271,7 +273,7 @@ export class RatingComponent implements OnInit {
                       userProfileImage: './../../content/images/common_avatar.png',
                       reviewContent: reviewDTO[i].content,
                       reviewDate: reviewDTO[i].date,
-                      rating: parseFloat(reviewDTO[i].rating.toFixed(2)),
+                      rating: reviewDTO[i].rating,
                     };
                     this.reviewList.push(review);
                   }

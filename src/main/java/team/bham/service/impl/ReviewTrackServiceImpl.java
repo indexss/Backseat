@@ -63,7 +63,7 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             reviewTrackDTO.setAlbumName(track.getAlbum().getName());
             reviewTrackDTO.setImgURL(track.getAlbum().getImageURL());
             StringBuilder artistNameBuilder = new StringBuilder();
-            Set<Artist> artists = track.getArtists();
+            Set<Artist> artists = track.getAlbum().getArtists();
             List<Artist> artistList = new ArrayList<>(artists);
             for (int i = 0; i < artistList.size(); i++) {
                 if (i == artistList.size() - 1) {
@@ -83,7 +83,13 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(reviewList);
+            System.out.println(artistNameBuilder.toString());
+            System.out.println(artists);
+            System.out.println(artistList);
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
             ArrayList<Review> reviews = new ArrayList<>(reviewList);
             double sum = 0;
             for (int i = 0; i < reviews.size(); i++) {
