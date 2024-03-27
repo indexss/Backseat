@@ -311,6 +311,10 @@ export class RatingComponent implements OnInit {
 
   redirectToAlbum(spotifyURI: string): void {
     this.isTrack = false;
+    this.trackName = '';
+    this.releaseDate = '';
+    this.avgRating = 0.0;
+    this.artistName = '';
     // 导航到 /rating/{spotifyURI}
     console.log(spotifyURI);
     this.router.navigate(['/rating', spotifyURI]);
