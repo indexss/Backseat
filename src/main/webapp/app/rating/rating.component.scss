@@ -37,6 +37,7 @@
 .artist {
   vertical-align: top;
   margin-left: 20px;
+  padding-bottom: 5px;
   // font-weight: bold;
   font-size: 1.3em;
 }
@@ -44,15 +45,23 @@
 .rdate {
   vertical-align: top;
   margin-left: 20px;
+  padding-bottom: 5px;
   // font-weight: bold;
   font-size: 1.2em;
 }
 
 .album {
   vertical-align: top;
+  margin-left: 9px;
+  // font-weight: bold;
+  font-size: 1.2em;
+}
+
+.album-t {
+  vertical-align: top;
   margin-left: 20px;
   // font-weight: bold;
-  font-size: 1.3em;
+  font-size: 2em;
 }
 
 .description {
@@ -330,4 +339,6 @@ ngb-rating {
 
 .no-underline {
   text-decoration: none;
+  font-size: 1em;
+  vertical-align: middle;
 }
