@@ -8,18 +8,23 @@ body {
   overflow-x: hidden;
 }
 
-:root {
-  //this will hopefully make sure the sidebar doesn't overlap with the nav bar but it currently doesn't work
-  --navHeight: 0rem;
-}
-.sidebar {
-  position: fixed;
-  top: 60px;
-  bottom: 0;
-  z-index: 1000;
-  background-color: #036;
+h1 {
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+  font-family: 'Anta', sans-serif;
 }
 
+.sidebar {
+  top: 4.5rem;
+  position: fixed;
+  bottom: 0;
+  border: 2.5px solid black;
+  box-sizing: border-box;
+  background-color: #2a3e2c;
+  padding: 10px;
+  padding-top: 30px;
+}
 .sidebar ul {
   list-style: none;
   margin-top: 100px;
