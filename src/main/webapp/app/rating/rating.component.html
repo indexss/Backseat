@@ -5,7 +5,11 @@
 
       <div>
         <span class="title d-block">{{ trackName }}</span>
-        <span class="album d-block">Album: {{ albumName }}</span>
+        <span class="album d-block"
+          >Album: <a class="btn btn-link no-underline" (click)="redirectToAlbum(albumURI)">{{ albumName }}</a></span
+        >
+        <!--        <a class=" no-underline" (click)="redirectToAlbum(albumURIforTrack)">{{ albumName }}</a>-->
+
         <span class="artist d-block">Artist: {{ artistName }}</span>
         <span class="rdate d-block">Release Date: {{ releaseDate }}</span>
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
@@ -52,29 +56,6 @@
     <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
       <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
       <h3 class="mb-1">All Ratings and Reviews</h3>
-
-      <!--      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4 ">-->
-      <!--        <div class="media">-->
-      <!--          <a href="#">-->
-      <!--            <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill" />-->
-      <!--          </a>-->
-      <!--          <div class="media-body">-->
-      <!--            <div class="reviews-members-header">-->
-      <!--              <h6 class="mb-1">-->
-      <!--                <a class="text-black" href="#">{{ review.username }}</a>-->
-      <!--              </h6>-->
-      <!--              <p class="text-gray">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>-->
-      <!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
-      <!--            </div>-->
-      <!--            <div class="reviews-members-body">-->
-      <!--              <p>-->
-      <!--                {{ review.reviewContent }}-->
-      <!--              </p>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--        <hr />-->
-      <!--      </div>-->
       <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
         <div class="media">
           <div class="column-4">
@@ -192,7 +173,7 @@
           <!-- Assuming you have album cover images -->
           <td class="album-cover-cell">
             <img [src]="imgURL" alt="Album Cover" />
-            {{ track.trackName }}
+            <a class="btn btn-link no-underline" (click)="redirectToTrack(track.spotifyURI)">{{ track.trackName }}</a>
           </td>
           <td>{{ track.artistName }}</td>
           <td>{{ track.releaseDate }}</td>

@@ -192,12 +192,4 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
         Optional<Album> optionalAlbum = albumRepository.findById(albumId);
         return optionalAlbum.isPresent();
     }
-
-    public Set<String> getTrackNames(Set<Track> tracks) {
-        // 使用 Java 8 Stream API 将每个 track 的名称转换为一个 Set<String>
-        return tracks
-            .stream()
-            .map(Track::getName) // Track::getName 是方法引用，它调用每个 track 的 getName 方法
-            .collect(Collectors.toSet()); // 将结果收集到 Set 中
-    }
 }

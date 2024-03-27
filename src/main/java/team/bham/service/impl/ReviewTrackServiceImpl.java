@@ -62,6 +62,12 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             //        reviewTrackDTO.setAlbumName(optionalAlbum.get().getName());
             reviewTrackDTO.setAlbumName(track.getAlbum().getName());
             reviewTrackDTO.setImgURL(track.getAlbum().getImageURL());
+            reviewTrackDTO.setAlbumURI(track.getAlbum().getSpotifyURI());
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(reviewTrackDTO.getAlbumURI());
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
             StringBuilder artistNameBuilder = new StringBuilder();
             Set<Artist> artists = track.getAlbum().getArtists();
             List<Artist> artistList = new ArrayList<>(artists);
@@ -77,19 +83,11 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             //        reviewTrackDTO.setArtistName(track.getArtists().toString());
             //        reviewTrackDTO.setReviewList(track.getReviews());
             System.out.println("SpotifyID");
-            System.out.println("---------------------------------------");
             System.out.println(trackSpotifyId);
             Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             System.out.println(artistNameBuilder.toString());
             System.out.println(artists);
             System.out.println(artistList);
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-            System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
             ArrayList<Review> reviews = new ArrayList<>(reviewList);
             double sum = 0;
             for (int i = 0; i < reviews.size(); i++) {

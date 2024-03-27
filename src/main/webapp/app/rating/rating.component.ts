@@ -39,6 +39,7 @@ export class RatingComponent implements OnInit {
   selectedSpotifyURI!: string;
   selectedTrack!: any;
   showAlertTrack: boolean = false;
+  albumURI!: string;
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
 
   constructor(
@@ -83,7 +84,7 @@ export class RatingComponent implements OnInit {
           this.description = data.data.review.description;
           this.avgRating = data.data.review.avgRating;
           this.imgURL = data.data.review.imgURL;
-
+          this.albumURI = data.data.review.albumURI;
           // console.log(this.avgRating);
           const reviewDTO = data.data.review.reviewList;
           for (let i = 0; i < reviewDTO.length; i++) {
@@ -101,13 +102,13 @@ export class RatingComponent implements OnInit {
           }
           this.reviewList = this.reviewList.reverse();
 
-          console.log(this.trackName);
-          console.log(this.albumName);
-          console.log(this.artistName);
-          console.log(this.releaseDate);
-          console.log(data.data.review.artistName);
-          console.log(data.data.review);
-          console.log(this.description);
+          // console.log(this.trackName);
+          // console.log(this.albumName);
+          // console.log(this.artistName);
+          // console.log(this.releaseDate);
+          // console.log(data.data.review.artistName);
+          // console.log(data.data.review);
+          // console.log(this.description);
         });
       }
       // For condition of album request
@@ -306,5 +307,27 @@ export class RatingComponent implements OnInit {
       this.isTrack = false;
       // 如果是 album，设置 isTrack 为 false
     }
+  }
+
+  redirectToAlbum(spotifyURI: string): void {
+    this.isTrack = false;
+    // 导航到 /rating/{spotifyURI}
+    console.log(spotifyURI);
+    this.router.navigate(['/rating', spotifyURI]);
+  }
+
+  redirectToTrack(spotifyURI: string): void {
+    this.isTrack = true;
+
+    this.albumName = '';
+    this.artistName = '';
+    this.releaseDate = '';
+    this.description = '';
+    this.avgRating = 0.0;
+    this.imgURL = '';
+    this.totalTracks = 0;
+    this.avgRatingList = [];
+    // 导航到 /rating/{spotifyURI}
+    this.router.navigate(['/rating', spotifyURI]);
   }
 }
