@@ -95,7 +95,7 @@ export class RatingComponent implements OnInit {
               userProfileImage: './../../content/images/common_avatar.png',
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
-              rating: reviewDTO[i].rating,
+              rating: parseFloat(reviewDTO[i].rating.toFixed(2)),
             };
             this.reviewList.push(review);
           }
@@ -179,7 +179,8 @@ export class RatingComponent implements OnInit {
               userProfileImage: './../../content/images/common_avatar.png',
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
-              rating: reviewDTO[i].rating,
+              rating: parseFloat(reviewDTO[i].rating.toFixed(2)),
+              // rating: reviewDTO[i].rating,
             };
             this.reviewList.push(review);
           }
@@ -222,7 +223,7 @@ export class RatingComponent implements OnInit {
               this.reviewList = [];
               this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
                 // console.log(data);
-                this.avgRating = data.data.review.avgRating;
+                this.avgRating = parseFloat(data.data.review.avgRating.toFixed(2));
                 const reviewDTO = data.data.review.reviewList;
                 for (let i = 0; i < reviewDTO.length; i++) {
                   const review: Review = {
@@ -233,7 +234,7 @@ export class RatingComponent implements OnInit {
                     userProfileImage: './../../content/images/common_avatar.png',
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
-                    rating: reviewDTO[i].rating,
+                    rating: parseFloat(reviewDTO[i].rating.toFixed(2)),
                   };
                   this.reviewList.push(review);
                 }
@@ -270,7 +271,7 @@ export class RatingComponent implements OnInit {
                       userProfileImage: './../../content/images/common_avatar.png',
                       reviewContent: reviewDTO[i].content,
                       reviewDate: reviewDTO[i].date,
-                      rating: reviewDTO[i].rating,
+                      rating: parseFloat(reviewDTO[i].rating.toFixed(2)),
                     };
                     this.reviewList.push(review);
                   }
@@ -288,6 +289,12 @@ export class RatingComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  clearContent(): void {
+    this.comment = '';
+    this.rating = 0;
+    this.selectedSpotifyURI = '';
   }
 
   checkTrackOrAlbum(id: string): void {

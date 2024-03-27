@@ -4,6 +4,14 @@
   display: inline;
 }
 
+.rating-review-select-page {
+  padding-bottom: 1em;
+  padding-top: 2em;
+  padding-left: 0em;
+}
+
+.container {
+}
 @media (max-width: 768px) {
   .d-flex {
     flex-direction: column;
@@ -23,7 +31,7 @@
 
 .avgrating {
   margin-left: 20px;
-  font-size: 1em;
+  font-size: 1.2em;
 }
 
 .artist {
@@ -37,7 +45,7 @@
   vertical-align: top;
   margin-left: 20px;
   // font-weight: bold;
-  font-size: 1em;
+  font-size: 1.2em;
 }
 
 .album {
@@ -51,7 +59,7 @@
   vertical-align: top;
   margin-left: 20px;
   // font-weight: bold;
-  font-size: 0.9em;
+  font-size: 1.2em;
 }
 
 .total-like-user-main a {
@@ -283,7 +291,7 @@
 
 ngb-rating {
   .star {
-    font-size: 2em !important; /* Makes stars larger and forces style */
+    font-size: 5em !important; /* Makes stars larger and forces style */
     color: #ccc !important; /* Default color of stars */
   }
 
@@ -297,6 +305,25 @@ ngb-rating {
   font-size: 1.2em;
 }
 
-rating-rightest {
-  text-align: right;
+.rating-container {
+  color: black;
+  font-size: 18px;
+}
+
+.rating-container-span {
+  display: flex;
+  justify-content: flex-start;
+  color: gold;
+  font-size: 24px;
+}
+
+.rating-spans {
+  display: flex;
+  justify-content: flex-end;
+  color: gold;
+  font-size: 25px;
+}
+
+.reviews-members-header {
+  font-size: 18px;
 }

@@ -1,4 +1,4 @@
-<!--<div *ngIf="isTrack" class="container">-->
+<!--<div *ngIf="isTrack" class="container ">-->
 <!--  <div class="row">-->
 <!--    <div class="col-12 col-md d-flex align-items-start">-->
 <!--      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />-->
@@ -25,7 +25,7 @@
 <!--  </ngb-alert> &ndash;&gt;-->
 
 <!--  <div class="row">-->
-<!--    <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">-->
+<!--    <div class=" rounded   shadow-sm rating-review-select-page">-->
 <!--      <h5 class="mb-4">Leave Review</h5>-->
 <!--      &lt;!&ndash; <p class="mb-2">Rate the Place</p> &ndash;&gt;-->
 <!--      &lt;!&ndash; <ngb-rating [(rate)]="rating" /> &ndash;&gt;-->
@@ -51,54 +51,7 @@
 <!--      &lt;!&ndash; <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> &ndash;&gt;-->
 <!--      <h3 class="mb-1">All Ratings and Reviews</h3>-->
 
-<!--      &lt;!&ndash; <div class="reviews-members pt-4 pb-4">-->
-<!--        <div class="media">-->
-<!--          <a href="#"-->
-<!--            ><img alt="Generic placeholder image" src="http://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-pill"-->
-<!--          /></a>-->
-<!--          <div class="media-body">-->
-<!--            <div class="reviews-members-header">-->
-<!--              <h6 class="mb-1"><a class="text-black" href="#">Singh Osahan</a></h6>-->
-<!--              <p class="text-gray">Tue, 20 Mar 2020</p>-->
-<!--              <ngb-rating [rate]="4" [max]="5" [readonly]="true"></ngb-rating>-->
-<!--            </div>-->
-<!--            <div class="reviews-members-body">-->
-<!--              <p>-->
-<!--                Eason Chan's "Hold On A Sec" brilliantly captures the essence of contemporary life's hustle and the internal turmoil it-->
-<!--                breeds. With his masterful vocal expression, Chan delves into themes of anxiety, pursuit, and self-reflection, making the-->
-<!--                song not just a musical piece but a mirror to the listener's soul. The fusion of traditional Chinese sounds with modern pop-->
-<!--                elements gives the track a unique flavor, highlighting Chan's innovative approach to music.-->
-<!--              </p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div> &ndash;&gt;-->
-
-<!--      &lt;!&ndash; <hr />-->
-
-<!--      <div class="reviews-members pt-4 pb-4">-->
-<!--        <div class="media">-->
-<!--          <a href="#"-->
-<!--            ><img alt="Generic placeholder image" src="http://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-pill"-->
-<!--          /></a>-->
-<!--          <div class="media-body">-->
-<!--            <div class="reviews-members-header">-->
-<!--              <h6 class="mb-1"><a class="text-black" href="#">Singh Osahan</a></h6>-->
-<!--              <p class="text-gray">Tue, 20 Mar 2020</p>-->
-<!--              <ngb-rating [rate]="3" [max]="5" [readonly]="true"></ngb-rating>-->
-<!--            </div>-->
-<!--            <div class="reviews-members-body">-->
-<!--              <p>-->
-<!--                Eason Chan's "Hold On A Sec" brilliantly captures the essence of contemporary life's hustle and the internal turmoil it-->
-<!--                breeds. With his masterful vocal expression, Chan delves into themes of anxiety, pursuit, and self-reflection, making the-->
-<!--                song not just a musical piece but a mirror to the listener's soul. The fusion of traditional Chinese sounds with modern pop-->
-<!--                elements gives the track a unique flavor, highlighting Chan's innovative approach to music.-->
-<!--              </p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div> &ndash;&gt;-->
-<!--      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">-->
+<!--      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4 ">-->
 <!--        <div class="media">-->
 <!--          <a href="#">-->
 <!--            <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill" />-->
@@ -108,134 +61,6 @@
 <!--              <h6 class="mb-1">-->
 <!--                <a class="text-black" href="#">{{ review.username }}</a>-->
 <!--              </h6>-->
-<!--              <p class="text-gray">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>-->
-<!--&lt;!&ndash;              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>&ndash;&gt;-->
-<!--              <ngb-rating [max]="5" [(rate)]="rating">-->
-<!--                <ng-template #t let-fill="fill">-->
-<!--                  <span class="star" [class.filled]="fill === 100" [style.color]="fill === 100 ? '#4CAF50' : '#ccc'" style="font-size: 2em;">&#9733;</span>-->
-<!--                </ng-template>-->
-<!--              </ngb-rating>-->
-
-<!--            </div>-->
-<!--            <div class="reviews-members-body">-->
-<!--              <p>-->
-<!--                {{ review.reviewContent }}-->
-<!--              </p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <hr />-->
-<!--      </div>-->
-
-<!--      &lt;!&ndash; <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> &ndash;&gt;-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--//这里开始是Album-->
-<!--<div *ngIf="!isTrack"  class="container">-->
-<!--  <div class="row">-->
-<!--    <div class="col-12 col-md d-flex align-items-start">-->
-<!--      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />-->
-<!--      <div>-->
-<!--        &lt;!&ndash;        <span class="title d-block">{{ trackName }}</span>&ndash;&gt;-->
-<!--        <span class="album d-block">Album Name:   {{ albumName }}</span>-->
-<!--        <span class="artist d-block">Artist Name:   {{ artistName }}</span>-->
-<!--        <span class="rdate d-block">Release Date:   {{ releaseDate }}</span>-->
-<!--        <span class="rdate d-block">Total Tracks:   {{ totalTracks }}</span>-->
-<!--        &lt;!&ndash; <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> &ndash;&gt;-->
-<!--        <span class="avgrating d-block">average rating:   {{ avgRating | number: '1.2-2' }}</span>-->
-<!--        <br />-->
-<!--        <span class="description d-block">Description:    {{ description }}</span>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <br />-->
-
-<!--  <ngb-alert [dismissible]="false" *ngIf="showAlert">-->
-<!--    <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.-->
-<!--  </ngb-alert>-->
-<!--  &lt;!&ndash; <ngb-alert [dismissible]="false" *ngIf="showAlert">-->
-<!--	<strong>Warning!</strong> Comments cannot be empty!-->
-<!--  </ngb-alert> &ndash;&gt;-->
-
-<!--  <div class="row">-->
-<!--    <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">-->
-<!--      <h5 class="mb-4">Leave Review</h5>-->
-<!--      <form>-->
-<!--        &lt;!&ndash; Warning message for track selection &ndash;&gt;-->
-<!--        <ngb-alert [dismissible]="false" *ngIf="showAlertTrack">-->
-<!--          <strong>Warning!</strong> You have to choose one track to review.-->
-<!--        </ngb-alert>-->
-<!--        <label for="track-select">Choose a Track:</label>-->
-<!--        <select id="track-select" [(ngModel)]="selectedSpotifyURI" (ngModelChange)="onTrackSelected($event)" name="track">-->
-<!--          <option *ngFor="let track of trackList" [value]="track.spotifyURI">-->
-<!--            {{ track.trackName }} -&#45;&#45;{{ track.artistName }}-->
-<!--          </option>-->
-<!--        </select>-->
-<!--      </form>-->
-<!--        &lt;!&ndash; Warning message for track selection &ndash;&gt;-->
-
-<!--      &lt;!&ndash; <p class="mb-2">Rate the Place</p> &ndash;&gt;-->
-<!--      &lt;!&ndash; <ngb-rating [(rate)]="rating" /> &ndash;&gt;-->
-<!--      <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>-->
-<!--      <form>-->
-<!--        <div class="form-group">-->
-<!--          <label>Your Comment</label>-->
-<!--          <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>-->
-<!--        </div>-->
-<!--        <br />-->
-<!--        <div class="form-group">-->
-<!--          <button (click)="submitReview()" class="btn btn-primary btn-sm" type="button">Submit Comment</button>-->
-<!--        </div>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  <div>-->
-<!--    <table class="track-table">-->
-<!--      <thead>-->
-<!--      <tr>-->
-<!--        <th>Track Name</th>-->
-<!--        <th>Artist Name</th>-->
-<!--        <th>Release Date</th>-->
-<!--        <th>avgRating</th>-->
-<!--      </tr>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-<!--      <tr *ngFor="let track of trackList">-->
-<!--        &lt;!&ndash; Assuming you have album cover images &ndash;&gt;-->
-<!--        <td class="album-cover-cell">-->
-<!--          <img [src]="imgURL" alt="Album Cover">-->
-<!--          {{ track.trackName }}-->
-<!--        </td>-->
-<!--        <td>{{ track.artistName }}</td>-->
-<!--        <td>{{ track.releaseDate }}</td>-->
-<!--        <td>{{ track.rating }}</td>-->
-<!--      </tr>-->
-<!--      </tbody>-->
-<!--    </table>-->
-<!--  </div>-->
-
-<!--  <br />-->
-
-<!--  <div class="row">-->
-<!--    &lt;!&ndash; <h2>Reviews</h2> &ndash;&gt;-->
-<!--    <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">-->
-<!--      &lt;!&ndash; <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> &ndash;&gt;-->
-<!--      <h3 class="mb-1">All Ratings and Reviews</h3>-->
-
-<!--      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">-->
-<!--        <div class="media">-->
-<!--          <a href="#">-->
-<!--            <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill" />-->
-<!--          </a>-->
-<!--          <div class="media-body">-->
-<!--            <div class="reviews-members-header">-->
-<!--              <h6 class="mb-1">-->
-<!--                <a class="text-black" href="#">{{ review.username }}</a>-->
-<!--              </h6>-->
-<!--              <p> {{review.reviewTrackName}} -&#45;&#45; {{artistName}}</p>-->
 <!--              <p class="text-gray">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>-->
 <!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
 <!--            </div>-->
@@ -245,7 +70,6 @@
 <!--              </p>-->
 <!--            </div>-->
 <!--          </div>-->
-
 <!--        </div>-->
 <!--        <hr />-->
 <!--      </div>-->
@@ -254,87 +78,6 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</div>-->
-
-<div *ngIf="isTrack" class="container">
-  <div class="row">
-    <div class="col-12 col-md d-flex align-items-start">
-      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
-
-      <div>
-        <span class="title d-block">{{ trackName }}</span>
-        <span class="album d-block">{{ albumName }}</span>
-        <span class="artist d-block">{{ artistName }}</span>
-        <span class="rdate d-block">{{ releaseDate }}</span>
-        <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
-        <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
-        <br />
-        <span class="description d-block">{{ description }}</span>
-      </div>
-    </div>
-  </div>
-  <br />
-
-  <ngb-alert [dismissible]="false" *ngIf="showAlert">
-    <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
-  </ngb-alert>
-  <!-- <ngb-alert [dismissible]="false" *ngIf="showAlert">
-	<strong>Warning!</strong> Comments cannot be empty!
-  </ngb-alert> -->
-
-  <div class="row">
-    <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
-      <h5 class="mb-4">Leave Review</h5>
-      <!-- <p class="mb-2">Rate the Place</p> -->
-      <!-- <ngb-rating [(rate)]="rating" /> -->
-      <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>
-      <form>
-        <div class="form-group">
-          <label>Your Comment</label>
-          <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>
-        </div>
-        <br />
-        <div class="form-group">
-          <button (click)="submitReview()" class="btn btn-primary btn-sm" type="button">Submit Comment</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <br />
-
-  <div class="row">
-    <!-- <h2>Reviews</h2> -->
-    <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
-      <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
-      <h3 class="mb-1">All Ratings and Reviews</h3>
-
-      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
-        <div class="media">
-          <a href="#">
-            <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill" />
-          </a>
-          <div class="media-body">
-            <div class="reviews-members-header">
-              <h6 class="mb-1">
-                <a class="text-black" href="#">{{ review.username }}</a>
-              </h6>
-              <p class="text-gray">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
-              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
-            </div>
-            <div class="reviews-members-body">
-              <p>
-                {{ review.reviewContent }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <hr />
-      </div>
-
-      <!-- <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> -->
-    </div>
-  </div>
-</div>
 
 <!--//这里开始是Album-->
 <div *ngIf="!isTrack" class="container">
@@ -364,37 +107,48 @@
   </ngb-alert> -->
 
   <div class="row">
-    <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
-      <h5 class="mb-4">Leave Review</h5>
+    <!--    <div class="bg-dark-green rounded shadow-sm p-4 mb-5 rating-review-select-page ">-->
+    <div class="rounded shadow-sm rating-review-select-page">
+      <h5 class="mb-4"><Strong>Leave Review</Strong></h5>
       <form>
         <!-- Warning message for track selection -->
         <ngb-alert [dismissible]="false" *ngIf="showAlertTrack">
           <strong>Warning!</strong> You have to choose one track to review.
         </ngb-alert>
-        <label for="track-select">Choose a Track:</label>
-        <select id="track-select" [(ngModel)]="selectedSpotifyURI" (ngModelChange)="onTrackSelected($event)" name="track">
-          <option *ngFor="let track of trackList" [value]="track.spotifyURI">{{ track.trackName }} ---{{ track.artistName }}</option>
-        </select>
+        <div class="column-10 rating-container">
+          <label for="track-select"><Strong>Choose a Track:</Strong></label>
+          <br />
+          <select
+            id="track-select"
+            class="rounded-pill"
+            [(ngModel)]="selectedSpotifyURI"
+            (ngModelChange)="onTrackSelected($event)"
+            name="track"
+          >
+            <option *ngFor="let track of trackList" [value]="track.spotifyURI">{{ track.trackName }} ---{{ track.artistName }}</option>
+          </select>
+          <span class="rating-container-span">
+            <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>
+          </span>
+        </div>
       </form>
       <!-- Warning message for track selection -->
 
-      <!-- <p class="mb-2">Rate the Place</p> -->
-      <!-- <ngb-rating [(rate)]="rating" /> -->
-      <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>
       <form>
         <div class="form-group">
           <label>Your Comment</label>
           <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>
         </div>
         <br />
-        <div class="form-group">
-          <button (click)="submitReview()" class="btn btn-primary btn-sm" type="button">Submit Comment</button>
+        <div class="form-group text-end">
+          <button (click)="submitReview()" class="btn btn-primary" type="button">Submit</button>
+          <button (click)="clearContent()" class="btn btn-primary" type="button">Clear</button>
         </div>
       </form>
     </div>
   </div>
 
-  <div>
+  <div class="row">
     <table class="track-table">
       <thead>
         <tr>
@@ -429,22 +183,26 @@
 
       <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
         <div class="media">
-          <a href="#">
-            <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill" />
-          </a>
-          <div class="media-body">
-            <div class="reviews-members-header">
-              <h6 class="mb-1">
-                <a class="text-black" href="#">{{ review.username }}</a>
-              </h6>
+          <div class="column-4">
+            <a href="#" class="mb-4">
+              <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
+            </a>
+            <a class="text-black p-4" href="#">{{ review.username }}</a>
+            <p class="rating-spans">
               <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
-              <p class="review-track-artist-right">Track: {{ review.reviewTrackName }} --- {{ artistName }}</p>
-              <p class="review-track-artist-right">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
-            </div>
+            </p>
+          </div>
+          <div class="media-body">
             <div class="reviews-members-body">
-              <p>
+              <p class="lead my-lg-5 px-3 mt-5 mx-5">
                 {{ review.reviewContent }}
               </p>
+            </div>
+            <div class="reviews-members-header align-items-end">
+              <!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
+              <!--              <p class="review-track-artist-right">Track: {{ review.reviewTrackName }} -&#45;&#45; {{ artistName }}</p>-->
+              <p class="text-end fst-italic">Track: {{ review.reviewTrackName }} --- {{ artistName }}</p>
+              <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
             </div>
           </div>
         </div>
