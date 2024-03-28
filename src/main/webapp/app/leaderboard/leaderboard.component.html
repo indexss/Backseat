@@ -178,9 +178,9 @@
         <th scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
         <td>
           <div class="d-flex align-items-center">
-            <a [routerLink]="['/rating', record.trackURI]"
-              ><img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"
-            /></a>
+            <a [routerLink]="['/rating', record.trackURI]">
+              <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+            </a>
             <div class="flex-grow-1">
               <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
                 <strong>{{ record.trackName }}</strong>
