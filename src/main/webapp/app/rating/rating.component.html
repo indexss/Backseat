@@ -20,6 +20,10 @@
     </div>
   </div>
   <br />
+  <!-- 在 app.component.html 或其他组件模板中 -->
+  <div>
+    <button (click)="toggleTheme()">Toggle Dark Mode</button>
+  </div>
 
   <ngb-alert [dismissible]="false" *ngIf="showAlert">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.

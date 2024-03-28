@@ -7,9 +7,9 @@ import { DatePipe } from '@angular/common';
 import { Account } from 'app/core/auth/account.model';
 import { AddReviewService } from './add-review.service';
 import { CheckExistService } from './check-exist.service';
-import { CheckExistAlbumService } from './check-exist-album.service';
 import { Router } from '@angular/router';
 import { Track } from './track.interface';
+import { ThemeService } from './theme.service';
 @Component({
   selector: 'jhi-rating',
   templateUrl: './rating.component.html',
@@ -49,7 +49,8 @@ export class RatingComponent implements OnInit {
     private addReviewService: AddReviewService,
     private changeDetectorRef: ChangeDetectorRef,
     private checkExistService: CheckExistService,
-    private router: Router
+    private router: Router,
+    public themeService: ThemeService
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +65,7 @@ export class RatingComponent implements OnInit {
       // console.log(params['id']);
       this.id = params['id'];
       this.checkTrackOrAlbum(this.id);
+      this.themeService.loadTheme();
       if (this.isTrack) {
         // this.router.navigate(['/rating-not-found']);
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
@@ -111,6 +113,7 @@ export class RatingComponent implements OnInit {
           // console.log(this.description);
         });
       }
+
       // For condition of album request
       // For condition of Album request
       // For condition of Album request
@@ -333,5 +336,9 @@ export class RatingComponent implements OnInit {
     this.avgRatingList = [];
     // 导航到 /rating/{spotifyURI}
     this.router.navigate(['/rating', spotifyURI]);
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }
