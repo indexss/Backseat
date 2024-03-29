@@ -1,0 +1,30 @@
+h2 {
+  color: rgb(68, 120, 72);
+  font-size: 3.4em;
+  font-weight: 700;
+}
+
+.table-text {
+  font-size: 1.2em;
+  font-weight: 900;
+}
+
+.green {
+  color: rgb(68, 120, 72);
+}
+
+a {
+  //remove color for href
+  text-decoration: none;
+  color: inherit;
+}
+
+.img-normal {
+  transition: transform 0.5s ease;
+  border-radius: 7%;
+}
+
+.img-zoom:hover {
+  transform: scale(1.1);
+  z-index: 1000;
+}

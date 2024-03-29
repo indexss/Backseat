@@ -11,6 +11,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { DiscoverComponent } from './discover/discover.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SearchComponent } from './search/search.component';
+import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 import { RatingComponent } from './rating/rating.component';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 
@@ -37,6 +38,14 @@ import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-fo
         {
           path: 'discover',
           component: DiscoverComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
+        {
+          path: 'want-to-listen',
+          component: WantToListenComponent,
           data: {
             authorities: [],
           },
