@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FetchReviewInfoService } from './fetch-review-info.service';
 import { Review } from './review.interface';
@@ -14,6 +14,7 @@ import { ThemeService } from './theme.service';
   selector: 'jhi-rating',
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RatingComponent implements OnInit {
   trackName!: string;
@@ -40,8 +41,15 @@ export class RatingComponent implements OnInit {
   selectedTrack!: any;
   showAlertTrack: boolean = false;
   albumURI!: string;
+  showAlbumReviews: boolean = false;
+  buttonText: string = 'Click to View Album Review';
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
+  // 测试代码:
+  ReviewATrack: boolean = true;
+  currentPage: number = 1;
+  reviewsPerPage: number = 5;
 
+  // 测试代码
   constructor(
     private route: ActivatedRoute,
     private fetchReviewInfoService: FetchReviewInfoService,
@@ -103,7 +111,7 @@ export class RatingComponent implements OnInit {
             this.reviewList.push(review);
           }
           this.reviewList = this.reviewList.reverse();
-
+          this.changeDetectorRef.detectChanges();
           // console.log(this.trackName);
           // console.log(this.albumName);
           // console.log(this.artistName);
@@ -190,7 +198,9 @@ export class RatingComponent implements OnInit {
             };
             this.reviewList.push(review);
           }
+          this.reviewList = this.reviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
           console.log(this.reviewList);
+          this.changeDetectorRef.detectChanges();
           // }
           // this.allReviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
         });
@@ -341,4 +351,46 @@ export class RatingComponent implements OnInit {
   toggleTheme() {
     this.themeService.toggleTheme();
   }
+
+  toggleReviews() {
+    setTimeout(() => {
+      // 你的更新逻辑
+      this.showAlbumReviews = !this.showAlbumReviews;
+      if (this.showAlbumReviews) {
+        // 更新按钮文本
+        this.buttonText = 'Click to View Album Review';
+        this.changeDetectorRef.detectChanges();
+        // 这里可以添加显示评论的逻辑
+      } else {
+        // 重置按钮文本
+        this.buttonText = 'Click to View Track Review';
+        this.changeDetectorRef.detectChanges();
+        // 这里可以添加隐藏评论的逻辑
+      }
+    }, 3600000);
+  }
+
+  get paginatedReviews(): Review[] {
+    const startIndex = (this.currentPage - 1) * this.reviewsPerPage;
+    const endIndex = startIndex + this.reviewsPerPage;
+    return this.reviewList.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage * this.reviewsPerPage < this.reviewList.length) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  setPage(pageNo: number): void {
+    this.currentPage = pageNo;
+  }
+
+  protected readonly Math = Math;
 }
