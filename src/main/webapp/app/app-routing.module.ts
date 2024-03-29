@@ -14,7 +14,6 @@ import { SearchComponent } from './search/search.component';
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 import { RatingComponent } from './rating/rating.component';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
-import {ProfileComponent} from "./profile/profile.component";
 
 @NgModule({
   imports: [
@@ -95,10 +94,6 @@ import {ProfileComponent} from "./profile/profile.component";
         {
           path: 'oauth',
           loadChildren: () => import('./oauth/oauth.module').then(m => m.OauthModule),
-        },
-        {
-          path: 'profile',
-          loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
         },
         {
           path: '',
