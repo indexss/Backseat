@@ -296,5 +296,45 @@
 
   <div *ngIf="showAlbumReviews">
     <!-- Logic for displaying album reviews goes here -->
+    <div class="row">
+      <!-- <h2>Reviews</h2> -->
+      <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
+        <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
+        <h4 class="mb-1">Album Ratings and Reviews</h4>
+        <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">
+          <div class="media">
+            <div class="column-4">
+              <a href="#" class="mb-4">
+                <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
+              </a>
+              <a class="text-black p-4" href="#">{{ review.username }}</a>
+              <p class="rating-spans">
+                <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
+              </p>
+            </div>
+            <div class="media-body">
+              <p class="lead px-4 mt-2 mx-2">
+                {{ review.reviewContent }}
+              </p>
+              <div class="reviews-members-header align-items-end">
+                <!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
+                <!--              <p class="review-track-artist-right">Track: {{ review.reviewTrackName }} --- {{ artistName }}</p>-->
+                <p class="text-end fst-italic">Album: {{ review.reviewTrackName }} --- {{ artistName }}</p>
+                <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </div>
+        <ngb-pagination
+          [collectionSize]="reviewList.length"
+          [(page)]="currentPage"
+          [pageSize]="reviewsPerPage"
+          aria-label="Pagination"
+        ></ngb-pagination>
+
+        <!-- <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> -->
+      </div>
+    </div>
   </div>
 </div>

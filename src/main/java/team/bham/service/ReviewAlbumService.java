@@ -16,4 +16,6 @@ public interface ReviewAlbumService {
     public void addReview(int rating, String content, String albumId, String userId);
 
     public Boolean checkExistAlbum(String albumId);
+
+    public ReviewAlbumDTO fetchAlbumReviewAndAlbumInfo(String albumSpotifyId);
 }

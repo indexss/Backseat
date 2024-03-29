@@ -10,6 +10,8 @@ import { CheckExistService } from './check-exist.service';
 import { Router } from '@angular/router';
 import { Track } from './track.interface';
 import { ThemeService } from './theme.service';
+import { AlbumReviewService } from './album-review.service';
+
 @Component({
   selector: 'jhi-rating',
   templateUrl: './rating.component.html',
@@ -42,10 +44,8 @@ export class RatingComponent implements OnInit {
   showAlertTrack: boolean = false;
   albumURI!: string;
   showAlbumReviews: boolean = false;
-  buttonText: string = 'Click to View Album Review';
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
   // 测试代码:
-  ReviewATrack: boolean = true;
   currentPage: number = 1;
   reviewsPerPage: number = 5;
 
@@ -57,6 +57,7 @@ export class RatingComponent implements OnInit {
     private addReviewService: AddReviewService,
     private changeDetectorRef: ChangeDetectorRef,
     private checkExistService: CheckExistService,
+    private albumReviewService: AlbumReviewService,
     private router: Router,
     public themeService: ThemeService
   ) {}
@@ -226,6 +227,7 @@ export class RatingComponent implements OnInit {
           this.showAlert = true;
           return;
         } else {
+          //this is about track page
           if (this.isTrack) {
             this.showAlert = false;
             this.addReviewService.submitReview(this.rating, this.comment, this.id).subscribe(data => {
@@ -258,20 +260,59 @@ export class RatingComponent implements OnInit {
                 this.changeDetectorRef.detectChanges();
               });
             }, 300);
-          } else {
+          }
+          //this is about album page
+          else {
             this.showAlert = false;
             //did not select track for Album
-            if (!this.selectedSpotifyURI) {
-              this.showAlertTrack = true;
-            } else {
+            if (this.showAlbumReviews) {
               this.showAlertTrack = false;
-              this.addReviewService.submitReview(this.rating, this.comment, this.selectedSpotifyURI).subscribe(data => {
-                // console.log(data);
-              });
-
-              this.comment = ' ';
-              this.rating = 0;
-
+              this.addReviewService.submitReview(this.rating, this.comment, this.id).subscribe(data => {});
+            } else {
+              if (!this.selectedSpotifyURI) {
+                this.showAlertTrack = true;
+              } else {
+                this.showAlertTrack = false;
+                this.addReviewService.submitReview(this.rating, this.comment, this.selectedSpotifyURI).subscribe(data => {});
+              }
+            }
+            this.comment = ' ';
+            this.rating = 0;
+            if (this.showAlbumReviews) {
+              setTimeout(() => {
+                this.reviewList = [];
+                this.fetchReviewInfoService.getAlbumReviewInfo(this.id).subscribe(data => {
+                  console.log(data);
+                  this.avgRating = data.data.review.avgRating;
+                  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                  console.log(data.data);
+                  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                  console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+                  console.log(data.data.review);
+                  console.log('ReviewListReviewListReviewListReviewListReviewListReviewListReviewListReviewList');
+                  console.log(data.data.review.reviewList);
+                  const reviewDTO = data.data.review.reviewList;
+                  for (let i = 0; i < reviewDTO.length; i++) {
+                    const review: Review = {
+                      reviewTrackName: reviewDTO[i].album.name,
+                      userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+                      username: reviewDTO[i].profile.username,
+                      // userProfileImage: reviewDTO[i].profile.profileImage,
+                      userProfileImage: './../../content/images/common_avatar.png',
+                      reviewContent: reviewDTO[i].content,
+                      reviewDate: reviewDTO[i].date,
+                      rating: reviewDTO[i].rating,
+                    };
+                    this.reviewList.push(review);
+                  }
+                  console.log('+++++++', this.reviewList, '+++++');
+                  this.reviewList = this.reviewList.reverse();
+                  this.changeDetectorRef.detectChanges();
+                });
+              }, 300);
+            } else {
               setTimeout(() => {
                 this.reviewList = [];
                 this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
@@ -353,21 +394,66 @@ export class RatingComponent implements OnInit {
   }
 
   toggleReviews() {
-    setTimeout(() => {
-      // 你的更新逻辑
-      this.showAlbumReviews = !this.showAlbumReviews;
-      if (this.showAlbumReviews) {
-        // 更新按钮文本
-        this.buttonText = 'Click to View Album Review';
-        this.changeDetectorRef.detectChanges();
-        // 这里可以添加显示评论的逻辑
-      } else {
-        // 重置按钮文本
-        this.buttonText = 'Click to View Track Review';
-        this.changeDetectorRef.detectChanges();
-        // 这里可以添加隐藏评论的逻辑
-      }
-    }, 3600000);
+    // 你的更新逻辑
+    this.showAlbumReviews = !this.showAlbumReviews;
+    this.changeDetectorRef.detectChanges();
+    this.reviewList = [];
+    if (this.showAlbumReviews) {
+      // 更新按钮文本
+      this.changeDetectorRef.detectChanges();
+      setTimeout(() => {
+        this.reviewList = [];
+        this.fetchReviewInfoService.getAlbumReviewInfo(this.id).subscribe(data => {
+          this.avgRating = data.data.review.avgRating;
+          const reviewDTO = data.data.review.reviewList;
+          for (let i = 0; i < reviewDTO.length; i++) {
+            const review: Review = {
+              reviewTrackName: reviewDTO[i].album.name,
+              userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+              username: reviewDTO[i].profile.username,
+              // userProfileImage: reviewDTO[i].profile.profileImage,
+              userProfileImage: './../../content/images/common_avatar.png',
+              reviewContent: reviewDTO[i].content,
+              reviewDate: reviewDTO[i].date,
+              rating: reviewDTO[i].rating,
+            };
+            this.reviewList.push(review);
+          }
+          console.log('+++++++', this.reviewList, '+++++');
+          this.reviewList = this.reviewList.reverse();
+          this.changeDetectorRef.detectChanges();
+        });
+      }, 300);
+
+      // 这里可以添加显示评论的逻辑
+    } else {
+      this.changeDetectorRef.detectChanges();
+      setTimeout(() => {
+        this.reviewList = [];
+        this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+          // console.log(data);
+          this.avgRating = data.data.review.avgRating;
+          const reviewDTO = data.data.review.reviewList;
+          for (let i = 0; i < reviewDTO.length; i++) {
+            const review: Review = {
+              reviewTrackName: reviewDTO[i].track.name,
+              userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+              username: reviewDTO[i].profile.username,
+              // userProfileImage: reviewDTO[i].profile.profileImage,
+              userProfileImage: './../../content/images/common_avatar.png',
+              reviewContent: reviewDTO[i].content,
+              reviewDate: reviewDTO[i].date,
+              rating: reviewDTO[i].rating,
+            };
+            this.reviewList.push(review);
+          }
+          console.log('+++++++', this.reviewList, '+++++');
+          this.reviewList = this.reviewList.reverse();
+          this.changeDetectorRef.detectChanges();
+        });
+      }, 300);
+      this.changeDetectorRef.detectChanges();
+    }
   }
 
   get paginatedReviews(): Review[] {

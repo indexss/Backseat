@@ -118,9 +118,6 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         Track track = optionalTrack.get();
         newReview.setTrack(track);
 
-        Album album = track.getAlbum();
-        newReview.setAlbum(album);
-
         reviewRepository.save(newReview);
 
         Set<Review> reviews = reviewRepository.findByTrackSpotifyURI(trackId);
