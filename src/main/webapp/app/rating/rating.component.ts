@@ -44,7 +44,11 @@ export class RatingComponent implements OnInit {
   showAlbumReviews: boolean = false;
   buttonText: string = 'Click to View Album Review';
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
+  // 测试代码
+  currentPage: number = 1;
+  reviewsPerPage: number = 5;
 
+  // 测试代码
   constructor(
     private route: ActivatedRoute,
     private fetchReviewInfoService: FetchReviewInfoService,
@@ -193,6 +197,7 @@ export class RatingComponent implements OnInit {
             };
             this.reviewList.push(review);
           }
+          this.reviewList = this.reviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
           console.log(this.reviewList);
           // }
           // this.allReviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
@@ -362,4 +367,28 @@ export class RatingComponent implements OnInit {
       }
     }, 3600000);
   }
+
+  get paginatedReviews(): Review[] {
+    const startIndex = (this.currentPage - 1) * this.reviewsPerPage;
+    const endIndex = startIndex + this.reviewsPerPage;
+    return this.reviewList.slice(startIndex, endIndex);
+  }
+
+  nextPage() {
+    if (this.currentPage * this.reviewsPerPage < this.reviewList.length) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  setPage(pageNo: number): void {
+    this.currentPage = pageNo;
+  }
+
+  protected readonly Math = Math;
 }
