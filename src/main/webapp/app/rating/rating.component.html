@@ -1,97 +1,97 @@
-<!--<div *ngIf="isTrack" class="container">-->
-<!--  <div class="row">-->
-<!--    <div class="col-12 col-md d-flex align-items-start">-->
-<!--      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />-->
+<div *ngIf="isTrack" class="container">
+  <div class="row">
+    <div class="col-12 col-md d-flex align-items-start">
+      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
 
-<!--      <div>-->
-<!--        <span class="title d-block">Track:{{ trackName }}</span>-->
-<!--        <span class="album d-block"-->
-<!--          ><a class="btn btn-link no-underline" (click)="redirectToAlbum(albumURI)">Album: {{ albumName }}</a></span-->
-<!--        >-->
-<!--        &lt;!&ndash;        <a class=" no-underline" (click)="redirectToAlbum(albumURIforTrack)">{{ albumName }}</a>&ndash;&gt;-->
+      <div>
+        <span class="title d-block">Track:{{ trackName }}</span>
+        <span class="album d-block"
+          ><a class="btn btn-link no-underline" (click)="redirectToAlbum(albumURI)">Album: {{ albumName }}</a></span
+        >
+        <!--        <a class=" no-underline" (click)="redirectToAlbum(albumURIforTrack)">{{ albumName }}</a>-->
 
-<!--        <span class="artist d-block">Artist: {{ artistName }}</span>-->
-<!--        <span class="rdate d-block">Release Date: {{ releaseDate }}</span>-->
-<!--        &lt;!&ndash; <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> &ndash;&gt;-->
-<!--        <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>-->
-<!--        <br />-->
-<!--        <span class="description d-block">Description:{{ description }}</span>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <br />-->
-<!--  &lt;!&ndash; 在 app.component.html 或其他组件模板中 &ndash;&gt;-->
-<!--  <div>-->
-<!--    <button (click)="toggleTheme()">Toggle Dark Mode</button>-->
-<!--  </div>-->
+        <span class="artist d-block">Artist: {{ artistName }}</span>
+        <span class="rdate d-block">Release Date: {{ releaseDate }}</span>
+        <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
+        <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
+        <br />
+        <span class="description d-block">Description:{{ description }}</span>
+      </div>
+    </div>
+  </div>
+  <br />
+  <!-- 在 app.component.html 或其他组件模板中 -->
+  <div>
+    <button (click)="toggleTheme()">Toggle Dark Mode</button>
+  </div>
 
-<!--  <ngb-alert [dismissible]="false" *ngIf="showAlert">-->
-<!--    <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.-->
-<!--  </ngb-alert>-->
-<!--  &lt;!&ndash; <ngb-alert [dismissible]="false" *ngIf="showAlert">-->
-<!--	<strong>Warning!</strong> Comments cannot be empty!-->
-<!--  </ngb-alert> &ndash;&gt;-->
+  <ngb-alert [dismissible]="false" *ngIf="showAlert">
+    <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
+  </ngb-alert>
+  <!-- <ngb-alert [dismissible]="false" *ngIf="showAlert">
+	<strong>Warning!</strong> Comments cannot be empty!
+  </ngb-alert> -->
 
-<!--  <div class="row">-->
-<!--    <div class="rounded shadow-sm rating-review-select-page">-->
-<!--      <h5 class="mb-4">Leave Review</h5>-->
-<!--      &lt;!&ndash; <p class="mb-2">Rate the Place</p> &ndash;&gt;-->
-<!--      &lt;!&ndash; <ngb-rating [(rate)]="rating" /> &ndash;&gt;-->
-<!--      <span class="rating-container-span">-->
-<!--        <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>-->
-<!--      </span>-->
-<!--      <form>-->
-<!--        <div class="form-group">-->
-<!--          <label>Your Comment</label>-->
-<!--          <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>-->
-<!--        </div>-->
-<!--        <br />-->
-<!--        <div class="form-group">-->
-<!--          <button (click)="submitReview()" class="btn btn-primary btn-sm" type="button">Submit Comment</button>-->
-<!--        </div>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--  </div>-->
+  <div class="row">
+    <div class="rounded shadow-sm rating-review-select-page">
+      <h5 class="mb-4">Leave Review</h5>
+      <!-- <p class="mb-2">Rate the Place</p> -->
+      <!-- <ngb-rating [(rate)]="rating" /> -->
+      <span class="rating-container-span">
+        <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>
+      </span>
+      <form>
+        <div class="form-group">
+          <label>Your Comment</label>
+          <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>
+        </div>
+        <br />
+        <div class="form-group">
+          <button (click)="submitReview()" class="btn btn-primary btn-sm" type="button">Submit Comment</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-<!--  <br />-->
+  <br />
 
-<!--  <div class="row">-->
-<!--    &lt;!&ndash; <h2>Reviews</h2> &ndash;&gt;-->
-<!--    <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">-->
-<!--      &lt;!&ndash; <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> &ndash;&gt;-->
-<!--      <h3 class="mb-1">All Ratings and Reviews</h3>-->
-<!--      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">-->
-<!--        <div class="media">-->
-<!--          <div class="column-4">-->
-<!--            <a href="#" class="mb-4">-->
-<!--              <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />-->
-<!--            </a>-->
-<!--            <a class="text-black p-4" href="#">{{ review.username }}</a>-->
-<!--            <p class="rating-spans">-->
-<!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
-<!--            </p>-->
-<!--          </div>-->
-<!--          <div class="media-body">-->
-<!--            <div class="reviews-members-body">-->
-<!--              <p class="lead my-lg-5 px-3 mt-5 mx-5">-->
-<!--                {{ review.reviewContent }}-->
-<!--              </p>-->
-<!--            </div>-->
-<!--            <div class="reviews-members-header align-items-end">-->
-<!--              &lt;!&ndash;              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>&ndash;&gt;-->
-<!--              &lt;!&ndash;              <p class="review-track-artist-right">Track: {{ review.reviewTrackName }} -&#45;&#45; {{ artistName }}</p>&ndash;&gt;-->
-<!--              <p class="text-end fst-italic">Track: {{ review.reviewTrackName }} -&#45;&#45; {{ artistName }}</p>-->
-<!--              <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <hr />-->
-<!--      </div>-->
+  <div class="row">
+    <!-- <h2>Reviews</h2> -->
+    <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
+      <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
+      <h3 class="mb-1">All Ratings and Reviews</h3>
+      <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
+        <div class="media">
+          <div class="column-4">
+            <a href="#" class="mb-4">
+              <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
+            </a>
+            <a class="text-black p-4" href="#">{{ review.username }}</a>
+            <p class="rating-spans">
+              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
+            </p>
+          </div>
+          <div class="media-body">
+            <div class="reviews-members-body">
+              <p class="lead my-lg-5 px-3 mt-5 mx-5">
+                {{ review.reviewContent }}
+              </p>
+            </div>
+            <div class="reviews-members-header align-items-end">
+              <!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
+              <!--              <p class="review-track-artist-right">Track: {{ review.reviewTrackName }} --- {{ artistName }}</p>-->
+              <p class="text-end fst-italic">Track: {{ review.reviewTrackName }} --- {{ artistName }}</p>
+              <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </div>
 
-<!--      &lt;!&ndash; <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> &ndash;&gt;-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
+      <!-- <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> -->
+    </div>
+  </div>
+</div>
 
 <!--//这里开始是Album-->
 <div *ngIf="!isTrack" class="container">
@@ -189,23 +189,6 @@
 
   <br />
   <!--  这里开始写 album review，做一个nav bar 可供选择，album还是 track in album-->
-  <!-- Checked switch -->
-  <!--  <div class="form-check form-switch justify-content-end">-->
-  <!--    <input-->
-  <!--      mdbCheckbox-->
-  <!--      class="form-check-input"-->
-  <!--      type="checkbox"-->
-  <!--      id="flexSwitchCheckChecked"-->
-  <!--      [checked]="true"-->
-  <!--    />-->
-  <!--    <label class="form-check-label" for="flexSwitchCheckChecked"-->
-  <!--    >Checked switch checkbox input</label-->
-  <!--    >-->
-  <!--  </div>-->
-  <!--    <div class="form-check form-switch ">-->
-  <!--      <input  class="form-check-input display:none" type="checkbox" id="flexSwitchCheckChecked" [(ngModel)]="showAlbumReviews" (change)="toggleReviews()" />-->
-  <!--      <label class="btn btn-success " [(ngModel)]="showAlbumReviews" (change)="toggleReviews()"for="flexSwitchCheckChecked">{{ showAlbumReviews ? 'Find Album Reviews' : 'Find Track Reviews' }}</label>-->
-  <!--    </div>-->
   <div class="form-check form-switch">
     <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
     <input class="form-check-input" style="display: none" type="checkbox" id="flexSwitchCheckChecked" [(ngModel)]="showAlbumReviews" />
@@ -216,46 +199,6 @@
     </label>
   </div>
 
-  <!--  测试代码-->
-  <!--  <div *ngIf="!showAlbumReviews">-->
-  <!--    <div class="row">-->
-  <!--      &lt;!&ndash; <h2>Reviews</h2> &ndash;&gt;-->
-  <!--      <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">-->
-  <!--        &lt;!&ndash; <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> &ndash;&gt;-->
-  <!--        <h4 class="mb-1">Track Ratings and Reviews</h4>-->
-
-  <!--        <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">-->
-  <!--          <div class="media">-->
-  <!--            <div class="column-4">-->
-  <!--              <a href="#" class="mb-4">-->
-  <!--                <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />-->
-  <!--              </a>-->
-  <!--              <a class="text-black p-4" href="#">{{ review.username }}</a>-->
-  <!--              <p class="rating-spans">-->
-  <!--                <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
-  <!--              </p>-->
-  <!--            </div>-->
-  <!--            <div class="media-body">-->
-  <!--              <div class="reviews-members-body">-->
-  <!--                <p class="lead my-lg-5 px-3 mt-5 mx-5">-->
-  <!--                  {{ review.reviewContent }}-->
-  <!--                </p>-->
-  <!--              </div>-->
-  <!--              <div class="reviews-members-header align-items-end">-->
-  <!--                &lt;!&ndash;              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>&ndash;&gt;-->
-  <!--                &lt;!&ndash;              <p class="review-track-artist-right">Track: {{ review.reviewTrackName }} -&#45;&#45; {{ artistName }}</p>&ndash;&gt;-->
-  <!--                <p class="text-end fst-italic">Track: {{ review.reviewTrackName }} -&#45;&#45; {{ artistName }}</p>-->
-  <!--                <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>-->
-  <!--              </div>-->
-  <!--            </div>-->
-  <!--          </div>-->
-  <!--          <hr />-->
-  <!--        </div>-->
-
-  <!--        &lt;!&ndash; <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> &ndash;&gt;-->
-  <!--      </div>-->
-  <!--    </div>-->
-  <!--  </div>-->
   <div *ngIf="!showAlbumReviews">
     <div class="row">
       <!-- <h2>Reviews</h2> -->

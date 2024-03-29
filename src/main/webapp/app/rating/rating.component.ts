@@ -110,7 +110,7 @@ export class RatingComponent implements OnInit {
             this.reviewList.push(review);
           }
           this.reviewList = this.reviewList.reverse();
-
+          this.changeDetectorRef.detectChanges();
           // console.log(this.trackName);
           // console.log(this.albumName);
           // console.log(this.artistName);
@@ -199,6 +199,7 @@ export class RatingComponent implements OnInit {
           }
           this.reviewList = this.reviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
           console.log(this.reviewList);
+          this.changeDetectorRef.detectChanges();
           // }
           // this.allReviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
         });
