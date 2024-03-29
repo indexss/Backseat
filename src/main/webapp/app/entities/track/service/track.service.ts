@@ -56,6 +56,10 @@ export class TrackService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
+  findBySpotifyURI(spotifyURI: string): Observable<EntityResponseType> {
+    const url = `${this.resourceUrl}/findBySpotifyURI/${encodeURIComponent(spotifyURI)}`;
+    return this.http.get<RestTrack>(url, { observe: 'response' }).pipe(map(res => this.convertResponseFromServer(res)));
+  }
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
