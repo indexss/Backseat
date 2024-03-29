@@ -342,3 +342,20 @@ ngb-rating {
   font-size: 1em;
   vertical-align: middle;
 }
+
+.ViewAlbumToggler {
+  font-size: 18px; /* 调整字体大小 */
+  color: darkgreen; /* 设置字体颜色为深绿色 */
+  display: inline-block; /* 如果需要，确保label正确显示 */
+  margin-left: 8px; /* 根据需要调整，为了和checkbox有适当的间距 */
+  padding-bottom: 10px;
+}
+/* 调整标签（label）的样式 */
+.form-check-label {
+  font-size: 18px; /* 字体大小 */
+  color: #006400; /* 深绿色 */
+}
+
+.form-check {
+  text-align: right;
+}

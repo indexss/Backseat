@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FetchReviewInfoService } from './fetch-review-info.service';
 import { Review } from './review.interface';
@@ -14,6 +14,7 @@ import { ThemeService } from './theme.service';
   selector: 'jhi-rating',
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RatingComponent implements OnInit {
   trackName!: string;
@@ -40,6 +41,8 @@ export class RatingComponent implements OnInit {
   selectedTrack!: any;
   showAlertTrack: boolean = false;
   albumURI!: string;
+  showAlbumReviews: boolean = false;
+  buttonText: string = 'Click to View Album Review';
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
 
   constructor(
@@ -340,5 +343,23 @@ export class RatingComponent implements OnInit {
 
   toggleTheme() {
     this.themeService.toggleTheme();
+  }
+
+  toggleReviews() {
+    setTimeout(() => {
+      // 你的更新逻辑
+      this.showAlbumReviews = !this.showAlbumReviews;
+      if (this.showAlbumReviews) {
+        // 更新按钮文本
+        this.buttonText = 'Click to View Album Review';
+        this.changeDetectorRef.detectChanges();
+        // 这里可以添加显示评论的逻辑
+      } else {
+        // 重置按钮文本
+        this.buttonText = 'Click to View Track Review';
+        this.changeDetectorRef.detectChanges();
+        // 这里可以添加隐藏评论的逻辑
+      }
+    }, 3600000);
   }
 }
