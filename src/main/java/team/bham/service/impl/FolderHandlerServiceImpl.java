@@ -138,12 +138,15 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
 
     @Override
     public void addEntryToFolder(String spotifyURI, Long folderId) {
-        FolderEntry folderEntry = new FolderEntry();
-        folderEntry.setAddTime(Instant.now());
-        folderEntry.setSpotifyURI(spotifyURI);
-        Folder folder = new Folder();
-        folder.setId(folderId);
-        folderEntry.setFolder(folder);
-        folderEntryRepository.save(folderEntry);
+        Optional<FolderEntry> optionalFolderEntry = folderEntryRepository.isExist(spotifyURI, folderId);
+        if (!optionalFolderEntry.isPresent()) {
+            FolderEntry folderEntry = new FolderEntry();
+            folderEntry.setAddTime(Instant.now());
+            folderEntry.setSpotifyURI(spotifyURI);
+            Folder folder = new Folder();
+            folder.setId(folderId);
+            folderEntry.setFolder(folder);
+            folderEntryRepository.save(folderEntry);
+        }
     }
 }
