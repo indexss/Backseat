@@ -52,6 +52,87 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
     private ProfileRepository profileRepository;
 
     @Override
+    public ReviewAlbumDTO fetchAlbumReviewAndAlbumInfo(String albumSpotifyId) {
+        ReviewAlbumDTO reviewAlbumDTO = new ReviewAlbumDTO();
+        Optional<Album> optionalAlbum = albumRepository.findById(albumSpotifyId);
+
+        try {
+            Album album = optionalAlbum.get();
+            List<Track> optionalTrackList = trackRepository.findByAlbum(albumSpotifyId);
+            reviewAlbumDTO.setAlbumName(album.getName());
+            reviewAlbumDTO.setReleaseDate(album.getReleaseDate());
+            reviewAlbumDTO.setDescription("");
+            Set<Review> reviewSet = new HashSet<>();
+            reviewAlbumDTO.setReviewList(reviewSet);
+            Set<Track> trackSet = new HashSet<>();
+            reviewAlbumDTO.setTrack(trackSet);
+            //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
+            trackSet.addAll(optionalTrackList);
+            reviewAlbumDTO.pushTrackList(trackSet);
+
+            System.out.println("-----------------------------");
+            System.out.println("-----------------------------");
+            System.out.println("-----------------------------");
+            System.out.println("-------optionalTrackList in ReviewAlbumServiceImpl-----------");
+            System.out.println(trackSet);
+            System.out.println("+++++++++++++++++++++++" + reviewAlbumDTO.getTracks());
+            //到这里为止成功返回了
+            reviewAlbumDTO.setImgURL(album.getImageURL());
+            reviewAlbumDTO.setTotalTracks(album.getTotalTracks());
+            StringBuilder artistNameBuilder = new StringBuilder();
+            Set<Artist> artists = album.getArtists();
+            List<Artist> artistList = new ArrayList<>(artists);
+            for (int i = 0; i < artistList.size(); i++) {
+                if (i == artistList.size() - 1) {
+                    artistNameBuilder.append(artistList.get(i).getName());
+                } else {
+                    artistNameBuilder.append(artistList.get(i).getName());
+                    artistNameBuilder.append(", ");
+                }
+            }
+            reviewAlbumDTO.setArtistName(artistNameBuilder.toString());
+
+            //        reviewTrackDTO.setArtistName(track.getArtists().toString());
+            //        reviewTrackDTO.setReviewList(track.getReviews());
+            Set<Track> trackList = reviewAlbumDTO.getTracks();
+            System.out.println(trackList + "==============================");
+            Set<Review> reviewList = reviewRepository.findByAlbum(album);
+            //成功到这为止是成功的
+            ArrayList<Review> reviews = new ArrayList<>(reviewList);
+            double sum = 0;
+            for (int i = 0; i < reviews.size(); i++) {
+                sum += reviews.get(i).getRating();
+            }
+            reviewAlbumDTO.pushAvgRating((sum * 1.0) / reviews.size());
+            reviewAlbumDTO.pushReviewList(reviewList);
+            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(reviewAlbumDTO.getReviewList());
+            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(reviewRepository.findByAlbum(album));
+            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+            //            Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
+            //            ArrayList<Review> reviews = new ArrayList<>(reviewList);
+            //            double sum = 0;
+            //            for (int i = 0; i < reviews.size(); i++) {
+            //                sum += reviews.get(i).getRating();
+            //            }
+            //            reviewTrackDTO.setAvgRating((sum * 1.0) / reviews.size());
+            //            reviewTrackDTO.setReviewList(reviewList);
+            System.out.println(reviewAlbumDTO.getReviewList());
+            reviewAlbumDTO.setAvgRating();
+        } catch (Exception e) {}
+        //TODO: Error handling
+
+        return reviewAlbumDTO;
+    }
+
+    @Override
     public ReviewAlbumDTO fetchReviewAndAlbumInfo(String albumSpotifyId) {
         ReviewAlbumDTO reviewAlbumDTO = new ReviewAlbumDTO();
         Optional<Album> optionalAlbum = albumRepository.findById(albumSpotifyId);
@@ -67,13 +148,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             Set<Track> trackSet = new HashSet<>();
             reviewAlbumDTO.setTrack(trackSet);
             //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
-            //        reviewTrackDTO.setAlbumName(optionalAlbum.get().getName());
-            /*
-                list of track in the album, the first edition is on clicking the
-                album, showing list of tracks in the album. So only the name.
-                later: I will try to add functionality: on clikcing redirect to the
-                specific track;
-             */
             trackSet.addAll(optionalTrackList);
             reviewAlbumDTO.pushTrackList(trackSet);
 
@@ -105,32 +179,16 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             System.out.println(trackList + "==============================");
             ArrayList<Track> tracks = new ArrayList<>(trackList);
             for (int j = 0; j < reviewAlbumDTO.getTracks().size(); j++) {
-                System.out.println("{{{{{{{{{{{{{{{{{{{{{{{{{");
-                System.out.println(tracks.get(j).getSpotifyURI());
-                System.out.println("TrackIdTrackIdTrackIdTrackIdTrackIdTrackIdTrackIdTrackIdTrackIdTrackIdTrackIdTrackId");
-                System.out.println(reviewRepository.findByTrackSpotifyURI(tracks.get(j).getSpotifyURI()));
-                System.out.println("ReviewReviewReviewReview");
                 Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(tracks.get(j).getSpotifyURI());
                 //成功到这为止是成功的
                 ArrayList<Review> reviews = new ArrayList<>(reviewList);
-                System.out.println("ArrayList Reviews");
-                System.out.println(reviews);
                 double sum = 0;
                 for (int i = 0; i < reviews.size(); i++) {
                     sum += reviews.get(i).getRating();
                 }
-                System.out.println("sum" + sum);
                 reviewAlbumDTO.pushAvgRating((sum * 1.0) / reviews.size());
-                System.out.println("--------------------------------------");
                 reviewAlbumDTO.pushReviewList(reviewList);
-                //ooops 这个方法出错咯
-                System.out.println("--------------------------------------");
-                System.out.println("ReviewAlbumDTO.getReviewList()" + reviewAlbumDTO.getReviewList());
-                System.out.println("Total Tracks:" + reviewAlbumDTO.getTotalTracks());
-                System.out.println("avgRating" + reviewAlbumDTO.getAvgRating());
             }
-            System.out.println("===============" + trackList + "==============================");
-
             //            Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
             //            ArrayList<Review> reviews = new ArrayList<>(reviewList);
             //            double sum = 0;
@@ -139,11 +197,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             //            }
             //            reviewTrackDTO.setAvgRating((sum * 1.0) / reviews.size());
             //            reviewTrackDTO.setReviewList(reviewList);
-
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-------reviewAlbumReviewList in ReviewAlbumServiceImpl-----------");
             System.out.println(reviewAlbumDTO.getReviewList());
             reviewAlbumDTO.setAvgRating();
         } catch (Exception e) {}
@@ -173,9 +226,28 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
         Album album = optionalAlbum.get();
         newReview.setAlbum(album);
 
+        Optional<Album> album_ = albumRepository.findById(albumId);
+        Album album__ = album_.get();
         reviewRepository.save(newReview);
-
-        Set<Review> reviews = reviewRepository.findByAlbumSpotifyURI(albumId);
+        Set<Review> reviews = reviewRepository.findByAlbum(album__);
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("1111111111111111111111111111111111111111111111");
+        System.out.println("in reviewAlbum Serviceimpl add review");
+        System.out.println("reviews:" + reviews);
+        System.out.println(albumId);
         List<Review> reviewList = new ArrayList<>(reviews);
         double sum = 0;
         double avgRating = 0;

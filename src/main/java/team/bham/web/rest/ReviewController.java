@@ -58,12 +58,26 @@ public class ReviewController {
         return resp;
     }
 
+    @GetMapping("/albumReivews")
+    public ResponseUtils fetchAlbumReviews(String id) {
+        ResponseUtils resp = null;
+        try {
+            ReviewAlbumDTO reviewAlbumDTO = reviewAlbumService.fetchAlbumReviewAndAlbumInfo(id);
+            resp = new ResponseUtils().put("review", reviewAlbumDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
     @PostMapping("/addreview")
     public ResponseUtils addReview(@RequestBody AddReviewDTO addReviewDTO) {
         ResponseUtils resp = null;
         System.out.println("Received review: " + addReviewDTO);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = null;
+        String spotifyURI = addReviewDTO.getId();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             userId = userDetails.getUsername();
@@ -76,9 +90,13 @@ public class ReviewController {
 
         //        System.out.println("888888888888888888888888: " + userId);
         try {
-            System.out.println(userId);
-            reviewTrackSevice.addReview(addReviewDTO.getRating(), addReviewDTO.getContent(), addReviewDTO.getId(), userId);
-
+            if (spotifyURI.startsWith("spotify:track:")) {
+                System.out.println(userId);
+                reviewTrackSevice.addReview(addReviewDTO.getRating(), addReviewDTO.getContent(), addReviewDTO.getId(), userId);
+            } else {
+                System.out.println(userId);
+                reviewAlbumService.addReview(addReviewDTO.getRating(), addReviewDTO.getContent(), addReviewDTO.getId(), userId);
+            }
             resp = new ResponseUtils();
         } catch (Exception e) {
             e.printStackTrace();
