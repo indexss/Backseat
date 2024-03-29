@@ -7,7 +7,7 @@ import team.bham.service.dto.FetchFolderEntryDTO;
 public interface FolderHandlerService {
     public void generateFolder(String folderName, String userId);
 
-    public List<FetchFolderDTO> fetchFolder();
+    public List<FetchFolderDTO> fetchFolder(String userId);
 
     public FetchFolderEntryDTO fetchFolderEntry(Long folderId);
 

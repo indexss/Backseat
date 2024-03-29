@@ -32,11 +32,11 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
     private AlbumRepository albumRepository;
 
     @Override
-    public void generateFolder(String folderName, String username) {
+    public void generateFolder(String folderName, String userName) {
         Folder folder = new Folder();
         folder.setName(folderName);
         try {
-            Optional<Profile> optionalProfile = profileRepository.findByUserLogin(username);
+            Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userName);
             Profile profile = optionalProfile.get();
             folder.setProfile(profile);
             folderRepository.save(folder);
@@ -46,9 +46,12 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
     }
 
     @Override
-    public List<FetchFolderDTO> fetchFolder() {
+    public List<FetchFolderDTO> fetchFolder(String userName) {
+        Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userName);
+        Profile profile = optionalProfile.get();
         ArrayList<FetchFolderDTO> fetchFolderDTOS = new ArrayList<>();
-        List<Folder> folders = folderRepository.findAll();
+        Set<Folder> folderSet = folderRepository.findByProfileId(profile.getId());
+        List<Folder> folders = new ArrayList<>(folderSet);
         for (int i = 0; i < folders.size(); i++) {
             FetchFolderDTO dto = new FetchFolderDTO();
             dto.setId(i + 1);

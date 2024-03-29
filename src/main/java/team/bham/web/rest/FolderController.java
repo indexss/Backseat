@@ -54,8 +54,16 @@ public class FolderController {
     @GetMapping("/fetchfolders")
     public ResponseUtils fetchFolder() {
         ResponseUtils resp = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userId = userDetails.getUsername();
+        } else if (authentication != null && authentication.getPrincipal() instanceof String) {
+            userId = (String) authentication.getPrincipal();
+        }
         try {
-            List<FetchFolderDTO> fetchFolderDTOS = folderHandlerService.fetchFolder();
+            List<FetchFolderDTO> fetchFolderDTOS = folderHandlerService.fetchFolder(userId);
             resp = new ResponseUtils().put("folder", fetchFolderDTOS);
         } catch (Exception e) {
             e.printStackTrace();
