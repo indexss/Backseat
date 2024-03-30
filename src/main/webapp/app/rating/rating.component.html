@@ -267,9 +267,6 @@
                 <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
               </a>
               <a class="text-black p-4" href="#">{{ review.username }}</a>
-              <button *ngIf="review.username === userName" class="btn btn-danger btn-sm" (click)="deleteReview(selectedSpotifyURI)">
-                Delete Review
-              </button>
               <p class="rating-spans">
                 <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
               </p>
@@ -285,6 +282,13 @@
                 <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
               </div>
             </div>
+            <button
+              *ngIf="review.username === userName"
+              class="btn-danger btn-sm deleteButton"
+              (click)="deleteReview(findSpotifyURIByTrackName(review.reviewTrackName))"
+            >
+              Delete Review
+            </button>
           </div>
           <hr />
         </div>

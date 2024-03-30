@@ -44,7 +44,7 @@ export class RatingComponent implements OnInit {
   selectedTrack!: any;
   showAlertTrack: boolean = false;
   albumURI!: string;
-  showAlbumReviews: boolean = false;
+  showAlbumReviews: boolean = true;
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
   // 测试代码:
   currentPage: number = 1;
@@ -131,45 +131,16 @@ export class RatingComponent implements OnInit {
       // For condition of Album request
       else {
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
-          console.log(data);
-          console.log('=======================');
-
-          // this.checkExistService.checkExist(this.id).subscribe(data => {
-          //   console.log('data: ');
-          //   console.log(data);
-          //   if (data.data.exist === 'false') {
-          //     this.router.navigate(['/rating-not-found']);
-          //   }
-          // });
-
           // this.trackName = data.data.review.trackName;
           this.albumName = data.data.review.albumName;
           this.artistName = data.data.review.artistName;
           this.releaseDate = data.data.review.releaseDate;
           this.description = data.data.review.description;
-          this.avgRating = data.data.review.avgRating;
           this.imgURL = data.data.review.imgURL;
           this.totalTracks = data.data.review.totalTracks;
           this.avgRatingList = data.data.review.avgRatingList;
-          // this.reviewList = data.data.review.reviewList;
-          // this.trackList = data.data.review.tracks;
+          this.avgRating = data.data.review.avgRating;
 
-          console.log('--------------------------------------------------------');
-          console.log('trackList数据源：', data.data.review.tracks);
-          console.log('albumName: ', this.albumName);
-          console.log('artistName: ', this.artistName);
-          console.log('releaseDate: ', this.releaseDate);
-          console.log('description: ', this.description);
-          console.log('avgRating: ', this.avgRating);
-          console.log('imgURL: ', this.imgURL);
-          console.log('totalTracks: ', this.totalTracks);
-          console.log('avgRatingList: ', this.avgRatingList);
-          console.log('reviewList: ', this.reviewList);
-          console.log('trackList: ', this.trackList);
-          console.log('--------------------------------------------------------');
-          // console.log(this.avgRating);
-          // 这个方法绝大概率有问题，观察一下后续album 能否正常加载
-          console.log('trackList源', data.data.review.tracks);
           const trackLList = data.data.review.tracks;
           for (let i = 0; i < trackLList.length; i++) {
             const track: Track = {
@@ -370,6 +341,7 @@ export class RatingComponent implements OnInit {
     // 导航到 /rating/{spotifyURI}
     console.log(spotifyURI);
     this.router.navigate(['/rating', spotifyURI]);
+    this.changeDetectorRef.detectChanges();
   }
 
   redirectToTrack(spotifyURI: string): void {
@@ -378,6 +350,7 @@ export class RatingComponent implements OnInit {
     this.resetData();
     // 导航到 /rating/{spotifyURI}
     this.router.navigate(['/rating', spotifyURI]);
+    this.changeDetectorRef.detectChanges();
   }
 
   resetData(): void {
@@ -504,36 +477,81 @@ export class RatingComponent implements OnInit {
                 this.reviewList.push(review);
               }
               console.log('+++++++', this.reviewList, '+++++');
-              this.reviewList = this.reviewList.reverse();
+              if (this.reviewList) {
+                this.reviewList = this.reviewList.reverse();
+              }
               this.changeDetectorRef.detectChanges();
             });
           }, 300);
         } else {
-          this.changeDetectorRef.detectChanges();
-          setTimeout(() => {
-            this.reviewList = [];
-            this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
-              // console.log(data);
-              this.avgRating = data.data.review.avgRating;
-              const reviewDTO = data.data.review.reviewList;
-              for (let i = 0; i < reviewDTO.length; i++) {
-                const review: Review = {
-                  reviewTrackName: reviewDTO[i].track.name,
-                  userSporifyURI: reviewDTO[i].profile.userSporifyURI,
-                  username: reviewDTO[i].profile.username,
-                  // userProfileImage: reviewDTO[i].profile.profileImage,
-                  userProfileImage: './../../content/images/common_avatar.png',
-                  reviewContent: reviewDTO[i].content,
-                  reviewDate: reviewDTO[i].date,
-                  rating: reviewDTO[i].rating,
-                };
-                this.reviewList.push(review);
-              }
-              console.log('+++++++', this.reviewList, '+++++');
-              this.reviewList = this.reviewList.reverse();
-              this.changeDetectorRef.detectChanges();
-            });
-          }, 300);
+          if (this.id.includes('album')) {
+            this.avgRatingList = [];
+            this.avgRating = 0.0;
+            this.trackList = [];
+            this.changeDetectorRef.detectChanges();
+            setTimeout(() => {
+              this.reviewList = [];
+              this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+                // console.log(data);
+                this.avgRatingList = data.data.review.avgRatingList;
+                this.avgRating = data.data.review.avgRating;
+
+                const trackLList = data.data.review.tracks;
+                for (let i = 0; i < trackLList.length; i++) {
+                  const track: Track = {
+                    spotifyURI: trackLList[i].spotifyURI,
+                    trackName: trackLList[i].name,
+                    artistName: this.artistName,
+                    releaseDate: trackLList[i].releaseDate,
+                    rating: trackLList[i].rating,
+                  };
+                  this.trackList.push(track);
+                }
+                const reviewDTO = data.data.review.reviewList;
+                for (let i = 0; i < reviewDTO.length; i++) {
+                  const review: Review = {
+                    reviewTrackName: reviewDTO[i].track.name,
+                    userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+                    username: reviewDTO[i].profile.username,
+                    // userProfileImage: reviewDTO[i].profile.profileImage,
+                    userProfileImage: './../../content/images/common_avatar.png',
+                    reviewContent: reviewDTO[i].content,
+                    reviewDate: reviewDTO[i].date,
+                    rating: reviewDTO[i].rating,
+                  };
+                  this.reviewList.push(review);
+                }
+                this.reviewList = this.reviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
+                console.log(this.reviewList);
+                this.changeDetectorRef.detectChanges();
+              });
+            }, 300);
+          } else {
+            this.changeDetectorRef.detectChanges();
+            this.avgRating = 0.0;
+            setTimeout(() => {
+              this.reviewList = [];
+              this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+                this.avgRating = data.data.review.avgRating;
+                const reviewDTO = data.data.review.reviewList;
+                for (let i = 0; i < reviewDTO.length; i++) {
+                  const review: Review = {
+                    reviewTrackName: data.data.review.trackName,
+                    userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+                    username: reviewDTO[i].profile.username,
+                    // userProfileImage: reviewDTO[i].profile.profileImage,
+                    userProfileImage: './../../content/images/common_avatar.png',
+                    reviewContent: reviewDTO[i].content,
+                    reviewDate: reviewDTO[i].date,
+                    rating: reviewDTO[i].rating,
+                  };
+                  this.reviewList.push(review);
+                }
+                this.reviewList = this.reviewList.reverse();
+                this.changeDetectorRef.detectChanges();
+              });
+            }, 300);
+          }
         }
         // this.changeDetectorRef.detectChanges();
       } else {
@@ -563,6 +581,13 @@ export class RatingComponent implements OnInit {
 
   setPage(pageNo: number): void {
     this.currentPage = pageNo;
+  }
+
+  findSpotifyURIByTrackName(trackName: string): string {
+    // 查找与提供的轨道名相匹配的轨道
+    const track = this.trackList.find(t => t.trackName === trackName);
+    // 如果找到了匹配的轨道，则返回其 Spotify URI，否则返回一个空字符串或其他默认值
+    return track ? track.spotifyURI : '';
   }
 
   protected readonly Math = Math;
