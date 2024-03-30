@@ -1,5 +1,6 @@
 package team.bham.repository;
 
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +16,7 @@ import team.bham.domain.FolderEntry;
 public interface FolderRepository extends JpaRepository<Folder, Long> {
     @Query("SELECT f from Folder f WHERE f.profile.id = :folderId")
     Set<Folder> findByProfileId(@Param("folderId") Long profileId);
+
+    @Query("select f from Folder f WHERE f.name = :folderName")
+    Optional<Folder> isFolderExist(@Param("folderName") String folderName);
 }

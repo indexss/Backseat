@@ -101,4 +101,6 @@ export class AddToFolderComponent implements OnInit {
       }
     });
   }
+
+  deleteFolder(folderId: number) {}
 }

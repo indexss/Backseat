@@ -64,4 +64,6 @@ export class FolderComponent implements OnInit {
     }
     return spotifyLink;
   }
+
+  deleteFolderEntry(spotifyURI: string) {}
 }
