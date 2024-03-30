@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
 import { FetchTrackLeaderboardService } from '../leaderboard/fetch-track-leaderboard.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AddToFolderService } from './add-to-folder.service';
@@ -36,11 +36,13 @@ export class AddToFolderComponent implements OnInit {
   folderName!: string;
   account!: Account;
   showAlert: boolean = false;
+  showModalFlag: boolean = false;
   constructor(
     private fetchTrackLeaderboardService: FetchTrackLeaderboardService,
     private modalService: NgbModal,
     private addToFolderService: AddToFolderService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -53,9 +55,18 @@ export class AddToFolderComponent implements OnInit {
     });
   }
 
-  openModal(spotifyURI: string, content: TemplateRef<any>) {
-    this.spotifyURI = spotifyURI;
-    this.modalRef = this.modalService.open(content, { centered: true });
+  openModal(spotifyURI: string, content: TemplateRef<any>): void;
+  openModal(content: TemplateRef<any>): void;
+
+  openModal(arg1: any, arg2?: any): void {
+    if (typeof arg1 === 'string') {
+      // 处理第一个重载的情况
+      this.spotifyURI = arg1;
+      this.modalRef = this.modalService.open(arg2, { centered: true });
+    } else {
+      // 处理第二个重载的情况
+      this.modalService.open(arg1, { centered: true });
+    }
   }
 
   addToFolder(folderId: number) {
@@ -77,7 +88,15 @@ export class AddToFolderComponent implements OnInit {
         } else {
           this.showAlert = false;
           this.addToFolderService.addFolder(this.folderName).subscribe(data => {});
+          this.modalService.dismissAll();
           this.folderName = '';
+          setTimeout(() => {
+            this.folderList = [];
+            this.addToFolderService.getUserFolder().subscribe(data => {
+              this.folderList = data.data.folder;
+              this.changeDetectorRef.detectChanges();
+            });
+          }, 300);
         }
       }
     });
