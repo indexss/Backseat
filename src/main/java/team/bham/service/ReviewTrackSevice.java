@@ -18,4 +18,6 @@ public interface ReviewTrackSevice {
     public void addReview(int rating, String content, String trackId, String userId);
 
     public Boolean checkExist(String trackId);
+
+    public void deleteReview(String trackId, String username);
 }

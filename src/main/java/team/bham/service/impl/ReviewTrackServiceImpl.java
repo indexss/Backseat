@@ -1,10 +1,7 @@
 package team.bham.service.impl;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import javax.annotation.Resource;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Service;
@@ -130,6 +127,45 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         avgRating = sum / reviewList.size();
         track.setRating(avgRating);
         trackRepository.save(track);
+    }
+
+    @Override
+    public void deleteReview(String trackId, String username) {
+        //        System.out.println("888888888888: " + trackId);
+        Optional<Profile> optionalProfile = profileRepository.findByUserLogin(username);
+        Profile profile = optionalProfile.get();
+
+        Optional<Track> optionalTrack = trackRepository.findById(trackId);
+        Track track = optionalTrack.get();
+        Set<Review> reviews = reviewRepository.findByTrackSpotifyURI(track.getSpotifyURI());
+
+        Iterator<Review> iterator = reviews.iterator();
+
+        while (iterator.hasNext()) {
+            Review review = iterator.next();
+            if (review.getProfile().equals(profile)) {
+                System.out.println(review);
+                System.out.println(
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting"
+                );
+                System.out.println(review);
+                iterator.remove();
+                // 如果你需要从数据库中也删除这个Review，确保调用repository的delete方法
+                reviewRepository.delete(review);
+            }
+            List<Review> reviewList = new ArrayList<>(reviews);
+            double sum = 0;
+            double avgRating = 0;
+            for (int i = 0; i < reviewList.size(); i++) {
+                sum += reviewList.get(i).getRating();
+            }
+            avgRating = sum / reviewList.size();
+            track.setRating(avgRating);
+            trackRepository.save(track);
+        }
     }
 
     @Override

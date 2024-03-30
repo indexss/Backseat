@@ -10,7 +10,8 @@ import { CheckExistService } from './check-exist.service';
 import { Router } from '@angular/router';
 import { Track } from './track.interface';
 import { ThemeService } from './theme.service';
-import { AlbumReviewService } from './album-review.service';
+import { DeleteReviewService } from './delete-review.service';
+import { FetchAccService } from './fetch-acc.service';
 
 @Component({
   selector: 'jhi-rating',
@@ -48,6 +49,7 @@ export class RatingComponent implements OnInit {
   // 测试代码:
   currentPage: number = 1;
   reviewsPerPage: number = 5;
+  userName!: string;
 
   // 测试代码
   constructor(
@@ -57,9 +59,10 @@ export class RatingComponent implements OnInit {
     private addReviewService: AddReviewService,
     private changeDetectorRef: ChangeDetectorRef,
     private checkExistService: CheckExistService,
-    private albumReviewService: AlbumReviewService,
+    private deleteReviewService: DeleteReviewService,
     private router: Router,
-    public themeService: ThemeService
+    private themeService: ThemeService,
+    private fetchAcc: FetchAccService
   ) {}
 
   ngOnInit(): void {
@@ -216,6 +219,11 @@ export class RatingComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         // this.submitReview();
+        this.fetchAcc.fetchAcc().subscribe(data => {
+          console.log(data.data);
+          this.userName = data.data.Acc.accountName;
+        });
+
         if (
           this.rating === 0 ||
           this.comment === undefined ||
@@ -394,66 +402,149 @@ export class RatingComponent implements OnInit {
   }
 
   toggleReviews() {
-    // 你的更新逻辑
-    this.showAlbumReviews = !this.showAlbumReviews;
-    this.changeDetectorRef.detectChanges();
-    this.reviewList = [];
-    if (this.showAlbumReviews) {
-      // 更新按钮文本
-      this.changeDetectorRef.detectChanges();
-      setTimeout(() => {
-        this.reviewList = [];
-        this.fetchReviewInfoService.getAlbumReviewInfo(this.id).subscribe(data => {
-          this.avgRating = data.data.review.avgRating;
-          const reviewDTO = data.data.review.reviewList;
-          for (let i = 0; i < reviewDTO.length; i++) {
-            const review: Review = {
-              reviewTrackName: reviewDTO[i].album.name,
-              userSporifyURI: reviewDTO[i].profile.userSporifyURI,
-              username: reviewDTO[i].profile.username,
-              // userProfileImage: reviewDTO[i].profile.profileImage,
-              userProfileImage: './../../content/images/common_avatar.png',
-              reviewContent: reviewDTO[i].content,
-              reviewDate: reviewDTO[i].date,
-              rating: reviewDTO[i].rating,
-            };
-            this.reviewList.push(review);
-          }
-          console.log('+++++++', this.reviewList, '+++++');
-          this.reviewList = this.reviewList.reverse();
-          this.changeDetectorRef.detectChanges();
+    this.accountService.identity().subscribe(account => {
+      // 你的更新逻辑
+      if (account) {
+        // this.submitReview();
+        this.fetchAcc.fetchAcc().subscribe(data => {
+          console.log(data.data);
+          this.userName = data.data.Acc.accountName;
         });
-      }, 300);
+      }
+      this.showAlbumReviews = !this.showAlbumReviews;
+      this.changeDetectorRef.detectChanges();
+      this.reviewList = [];
+      if (this.showAlbumReviews) {
+        // 更新按钮文本
+        this.changeDetectorRef.detectChanges();
+        setTimeout(() => {
+          this.reviewList = [];
+          this.fetchReviewInfoService.getAlbumReviewInfo(this.id).subscribe(data => {
+            this.avgRating = data.data.review.avgRating;
+            const reviewDTO = data.data.review.reviewList;
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+            console.log('data.data:' + data.data);
+            console.log('data.data.review' + data.data.reivew);
+            console.log('data.data.review.reviewList' + data.data.review.reviewList);
+            for (let i = 0; i < reviewDTO.length; i++) {
+              const review: Review = {
+                reviewTrackName: reviewDTO[i].album.name,
+                userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+                username: reviewDTO[i].profile.username,
+                // userProfileImage: reviewDTO[i].profile.profileImage,
+                userProfileImage: './../../content/images/common_avatar.png',
+                reviewContent: reviewDTO[i].content,
+                reviewDate: reviewDTO[i].date,
+                rating: reviewDTO[i].rating,
+              };
+              this.reviewList.push(review);
+            }
+            console.log('+++++++', this.reviewList, '+++++');
+            this.reviewList = this.reviewList.reverse();
+            this.changeDetectorRef.detectChanges();
+          });
+        }, 300);
 
-      // 这里可以添加显示评论的逻辑
-    } else {
-      this.changeDetectorRef.detectChanges();
-      setTimeout(() => {
-        this.reviewList = [];
-        this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
-          // console.log(data);
-          this.avgRating = data.data.review.avgRating;
-          const reviewDTO = data.data.review.reviewList;
-          for (let i = 0; i < reviewDTO.length; i++) {
-            const review: Review = {
-              reviewTrackName: reviewDTO[i].track.name,
-              userSporifyURI: reviewDTO[i].profile.userSporifyURI,
-              username: reviewDTO[i].profile.username,
-              // userProfileImage: reviewDTO[i].profile.profileImage,
-              userProfileImage: './../../content/images/common_avatar.png',
-              reviewContent: reviewDTO[i].content,
-              reviewDate: reviewDTO[i].date,
-              rating: reviewDTO[i].rating,
-            };
-            this.reviewList.push(review);
-          }
-          console.log('+++++++', this.reviewList, '+++++');
-          this.reviewList = this.reviewList.reverse();
+        // 这里可以添加显示评论的逻辑
+      } else {
+        this.changeDetectorRef.detectChanges();
+        setTimeout(() => {
+          this.reviewList = [];
+          this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+            // console.log(data);
+            this.avgRating = data.data.review.avgRating;
+            const reviewDTO = data.data.review.reviewList;
+            for (let i = 0; i < reviewDTO.length; i++) {
+              const review: Review = {
+                reviewTrackName: reviewDTO[i].track.name,
+                userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+                username: reviewDTO[i].profile.username,
+                // userProfileImage: reviewDTO[i].profile.profileImage,
+                userProfileImage: './../../content/images/common_avatar.png',
+                reviewContent: reviewDTO[i].content,
+                reviewDate: reviewDTO[i].date,
+                rating: reviewDTO[i].rating,
+              };
+              this.reviewList.push(review);
+            }
+            console.log('+++++++', this.reviewList, '+++++');
+            this.reviewList = this.reviewList.reverse();
+            this.changeDetectorRef.detectChanges();
+          });
+        }, 300);
+        this.changeDetectorRef.detectChanges();
+      }
+    });
+  }
+
+  deleteReview(reviewId: string): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        // User is logged in, proceed with delete
+        this.deleteReviewService.deleteReview(reviewId).subscribe(() => {});
+        // Handle post-delete logic, e.g., refreshing the list of reviews
+        this.changeDetectorRef.detectChanges();
+        if (reviewId.includes('album')) {
+          setTimeout(() => {
+            this.reviewList = [];
+            this.fetchReviewInfoService.getAlbumReviewInfo(this.id).subscribe(data => {
+              this.avgRating = data.data.review.avgRating;
+              const reviewDTO = data.data.review.reviewList;
+              console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+              console.log('data.data:' + data.data);
+              console.log('data.data.review' + data.data.reivew);
+              console.log('data.data.review.reviewList' + data.data.review.reviewList);
+              for (let i = 0; i < reviewDTO.length; i++) {
+                const review: Review = {
+                  reviewTrackName: reviewDTO[i].album.name,
+                  userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+                  username: reviewDTO[i].profile.username,
+                  // userProfileImage: reviewDTO[i].profile.profileImage,
+                  userProfileImage: './../../content/images/common_avatar.png',
+                  reviewContent: reviewDTO[i].content,
+                  reviewDate: reviewDTO[i].date,
+                  rating: reviewDTO[i].rating,
+                };
+                this.reviewList.push(review);
+              }
+              console.log('+++++++', this.reviewList, '+++++');
+              this.reviewList = this.reviewList.reverse();
+              this.changeDetectorRef.detectChanges();
+            });
+          }, 300);
+        } else {
           this.changeDetectorRef.detectChanges();
-        });
-      }, 300);
-      this.changeDetectorRef.detectChanges();
-    }
+          setTimeout(() => {
+            this.reviewList = [];
+            this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+              // console.log(data);
+              this.avgRating = data.data.review.avgRating;
+              const reviewDTO = data.data.review.reviewList;
+              for (let i = 0; i < reviewDTO.length; i++) {
+                const review: Review = {
+                  reviewTrackName: reviewDTO[i].track.name,
+                  userSporifyURI: reviewDTO[i].profile.userSporifyURI,
+                  username: reviewDTO[i].profile.username,
+                  // userProfileImage: reviewDTO[i].profile.profileImage,
+                  userProfileImage: './../../content/images/common_avatar.png',
+                  reviewContent: reviewDTO[i].content,
+                  reviewDate: reviewDTO[i].date,
+                  rating: reviewDTO[i].rating,
+                };
+                this.reviewList.push(review);
+              }
+              console.log('+++++++', this.reviewList, '+++++');
+              this.reviewList = this.reviewList.reverse();
+              this.changeDetectorRef.detectChanges();
+            });
+          }, 300);
+        }
+        // this.changeDetectorRef.detectChanges();
+      } else {
+        // Redirect to login or show an error message
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   get paginatedReviews(): Review[] {

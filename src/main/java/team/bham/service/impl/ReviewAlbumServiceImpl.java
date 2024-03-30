@@ -1,11 +1,7 @@
 package team.bham.service.impl;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
@@ -230,23 +226,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
         Album album__ = album_.get();
         reviewRepository.save(newReview);
         Set<Review> reviews = reviewRepository.findByAlbum(album__);
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("1111111111111111111111111111111111111111111111");
-        System.out.println("in reviewAlbum Serviceimpl add review");
-        System.out.println("reviews:" + reviews);
         System.out.println(albumId);
         List<Review> reviewList = new ArrayList<>(reviews);
         double sum = 0;
@@ -257,6 +236,46 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
         avgRating = sum / reviewList.size();
         album.setRating(avgRating);
         albumRepository.save(album);
+    }
+
+    @Override
+    public void deleteReview(String albumId, String username) {
+        //        System.out.println("888888888888: " + trackId);
+        Optional<Profile> optionalProfile = profileRepository.findByUserLogin(username);
+        Profile profile = optionalProfile.get();
+
+        Optional<Album> optionalAlbum = albumRepository.findById(albumId);
+        Album album = optionalAlbum.get();
+        Set<Review> reviews = reviewRepository.findByAlbum(album);
+
+        Iterator<Review> iterator = reviews.iterator();
+
+        while (iterator.hasNext()) {
+            Review review = iterator.next();
+            if (review.getProfile().equals(profile)) {
+                System.out.println(review);
+                System.out.println(
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting"
+                );
+                System.out.println(review);
+                iterator.remove();
+                // 如果你需要从数据库中也删除这个Review，确保调用repository的delete方法
+                reviewRepository.delete(review);
+            }
+            System.out.println(albumId);
+            List<Review> reviewList = new ArrayList<>(reviews);
+            double sum = 0;
+            double avgRating = 0;
+            for (int i = 0; i < reviewList.size(); i++) {
+                sum += reviewList.get(i).getRating();
+            }
+            avgRating = sum / reviewList.size();
+            album.setRating(avgRating);
+            albumRepository.save(album);
+        }
     }
 
     @Override

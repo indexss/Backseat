@@ -18,4 +18,6 @@ public interface ReviewAlbumService {
     public Boolean checkExistAlbum(String albumId);
 
     public ReviewAlbumDTO fetchAlbumReviewAndAlbumInfo(String albumSpotifyId);
+
+    public void deleteReview(String albumId, String username);
 }
