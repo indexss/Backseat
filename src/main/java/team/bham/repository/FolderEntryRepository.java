@@ -18,7 +18,4 @@ public interface FolderEntryRepository extends JpaRepository<FolderEntry, Long> 
 
     @Query("select f from FolderEntry f WHERE f.spotifyURI = :spotifyURI and f.folder.id = :folderId")
     Optional<FolderEntry> isExist(@Param("spotifyURI") String spotifyURI, @Param("folderId") Long folderId);
-    //    @Query("delete from FolderEntry f WHERE f.spotifyURI = :spotifyURI and f.folder.id = :folderId")
-    //    void deleteFolderEntryBy(@Param("spotifyURI") String spotifyURI, @Param("folderId") Long folderId);
-
 }

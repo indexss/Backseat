@@ -33,18 +33,14 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
 
     @Override
     public void generateFolder(String folderName, String userName) {
-        Optional<Folder> optionalFolder = folderRepository.isFolderExist(folderName);
+        Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userName);
+        Profile profile = optionalProfile.get();
+        Optional<Folder> optionalFolder = folderRepository.isFolderExist(folderName, profile.getId());
         if (!optionalFolder.isPresent()) {
             Folder folder = new Folder();
             folder.setName(folderName);
-            try {
-                Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userName);
-                Profile profile = optionalProfile.get();
-                folder.setProfile(profile);
-                folderRepository.save(folder);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            folder.setProfile(profile);
+            folderRepository.save(folder);
         }
     }
 

@@ -32,6 +32,7 @@ import { FormsModule } from '@angular/forms';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 import { FolderComponent } from './folder/folder.component';
 import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
+import { LeaderboardFolderComponent } from './leaderboard-folder/leaderboard-folder.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
     RatingNotFoundComponent,
     FolderComponent,
     AddToFolderComponent,
+    LeaderboardFolderComponent,
   ],
   bootstrap: [MainComponent],
 })

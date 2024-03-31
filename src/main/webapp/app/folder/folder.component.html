@@ -26,16 +26,29 @@
         <th scope="row" class="text-center">{{ i + 1 }}</th>
         <td>
           <div class="d-flex align-items-center">
-            <a [routerLink]="['/rating', folderEntry.spotifyURI]">
+            <a [routerLink]="[]">
               <img [src]="entryInfoList[i].imageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />
             </a>
             <div class="flex-grow-1">
-              <a [routerLink]="['/rating', folderEntry.spotifyURI]" class="text-left d-block">
+              <a [routerLink]="[]" class="text-left d-block">
                 <strong>{{ entryInfoList[i].entryName }}</strong>
               </a>
             </div>
           </div>
         </td>
+        <!--        <td>-->
+        <!--          <div class="d-flex align-items-center">-->
+        <!--            <a [routerLink]="['/rating', folderEntry.spotifyURI]">-->
+        <!--              <img [src]="entryInfoList[i].imageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />-->
+        <!--            </a>-->
+        <!--            <div class="flex-grow-1">-->
+        <!--              <a [routerLink]="['/rating', folderEntry.spotifyURI]" class="text-left d-block">-->
+        <!--                <strong>{{ entryInfoList[i].entryName }}</strong>-->
+        <!--              </a>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </td>-->
+
         <td class="text-center align-middle">
           <strong style="color: #666666">{{ entryInfoList[i].artist }}</strong>
         </td>
@@ -63,8 +76,4 @@
       </tr>
     </tbody>
   </table>
-
-  <div class="d-flex justify-content-between p-2">
-    <ngb-pagination [collectionSize]="1" [(page)]="page" [pageSize]="pageSize"> </ngb-pagination>
-  </div>
 </div>

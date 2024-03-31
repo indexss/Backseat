@@ -17,6 +17,6 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     @Query("SELECT f from Folder f WHERE f.profile.id = :folderId")
     Set<Folder> findByProfileId(@Param("folderId") Long profileId);
 
-    @Query("select f from Folder f WHERE f.name = :folderName")
-    Optional<Folder> isFolderExist(@Param("folderName") String folderName);
+    @Query("select f from Folder f WHERE f.name = :folderName and f.profile.id = :profileId")
+    Optional<Folder> isFolderExist(@Param("folderName") String folderName, @Param("profileId") Long profileId);
 }
