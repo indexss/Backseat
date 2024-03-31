@@ -47,13 +47,10 @@ export class RatingComponent implements OnInit {
   showAlbumReviews: boolean = true;
   showAlertReview: boolean = false;
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
-  // 测试代码:
   currentPage: number = 1;
   reviewsPerPage: number = 5;
   userName!: string;
   albumReviewList: Review[] = [];
-
-  // 测试代码
   constructor(
     private route: ActivatedRoute,
     private fetchReviewInfoService: FetchReviewInfoService,
@@ -68,12 +65,6 @@ export class RatingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.accountService.identity().subscribe(account => {
-    //   this.account = account!;
-    // });
-    // console.log("account:");
-    // console.log(this.account);
-
     this.route.params.subscribe(params => {
       // console.log("next is id:");
       // console.log(params['id']);
@@ -86,8 +77,6 @@ export class RatingComponent implements OnInit {
           // console.log(data);
 
           this.checkExistService.checkExist(this.id).subscribe(data => {
-            console.log('data: ');
-            console.log(data);
             if (data.data.exist === 'false') {
               this.router.navigate(['/rating-not-found']);
             }
@@ -121,8 +110,6 @@ export class RatingComponent implements OnInit {
         });
       }
 
-      // For condition of album request
-      // For condition of Album request
       // For condition of Album request
       else {
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
@@ -147,10 +134,6 @@ export class RatingComponent implements OnInit {
             };
             this.trackList.push(track);
           }
-          console.log('-------------------------------------------tracklist');
-          console.log(this.trackList);
-          console.log(data.data.review.reviewList);
-          // for (let j = 0; j < data.data.review.getTracks().length; j++){
           //这里返回的不是ReivewDTO而是单纯的review
           // const reviewDTO = data.data.review.getTracks()[j].getReview();
           const reviewDTO = data.data.review.reviewList;
@@ -169,7 +152,6 @@ export class RatingComponent implements OnInit {
             this.reviewList.push(review);
           }
           this.reviewList = this.reviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
-          console.log(this.reviewList);
 
           this.fetchReviewInfoService.getAlbumReviewInfo(this.id).subscribe(data => {
             this.avgRating = data.data.review.avgRating;
@@ -191,12 +173,6 @@ export class RatingComponent implements OnInit {
             this.changeDetectorRef.detectChanges();
           });
           this.changeDetectorRef.detectChanges();
-          console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-          console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-          console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-          console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-          console.log(this.albumReviewList);
-
           // }
           // this.allReviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
         });
@@ -227,7 +203,6 @@ export class RatingComponent implements OnInit {
             this.comment === null ||
             this.comment.trim().length === 0
           ) {
-            // alert("Please rate the track before submitting your review");
             this.showAlert = true;
             return;
           } else {
@@ -238,15 +213,12 @@ export class RatingComponent implements OnInit {
                   this.showAlertReview = true;
                 }
               }
-              //this.showAlbumReviews = false
               if (this.showAlertReview) {
                 return;
               } else {
                 this.showAlert = false;
                 this.showAlertReview = false;
-                this.addReviewService.submitReview(this.rating, this.comment, this.id).subscribe(data => {
-                  // console.log(data);
-                });
+                this.addReviewService.submitReview(this.rating, this.comment, this.id).subscribe(data => {});
 
                 this.comment = ' ';
                 this.rating = 0;
@@ -254,7 +226,6 @@ export class RatingComponent implements OnInit {
                 setTimeout(() => {
                   this.reviewList = [];
                   this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
-                    // console.log(data);
                     this.avgRating = data.data.review.avgRating;
                     const reviewDTO = data.data.review.reviewList;
                     for (let i = 0; i < reviewDTO.length; i++) {
@@ -299,7 +270,6 @@ export class RatingComponent implements OnInit {
                   setTimeout(() => {
                     this.reviewList = [];
                     this.fetchReviewInfoService.getAlbumReviewInfo(this.id).subscribe(data => {
-                      console.log(data);
                       this.avgRating = data.data.review.avgRating;
                       const reviewDTO = data.data.review.reviewList;
                       for (let i = 0; i < reviewDTO.length; i++) {
@@ -344,7 +314,6 @@ export class RatingComponent implements OnInit {
                     setTimeout(() => {
                       this.reviewList = [];
                       this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
-                        // console.log(data);
                         this.avgRating = data.data.review.avgRating;
                         const reviewDTO = data.data.review.reviewList;
                         for (let i = 0; i < reviewDTO.length; i++) {
@@ -360,7 +329,6 @@ export class RatingComponent implements OnInit {
                           };
                           this.reviewList.push(review);
                         }
-                        console.log('+++++++', this.reviewList, '+++++');
                         this.reviewList = this.reviewList.reverse();
                         this.changeDetectorRef.detectChanges();
                       });
@@ -398,7 +366,6 @@ export class RatingComponent implements OnInit {
 
     this.resetData();
     // 导航到 /rating/{spotifyURI}
-    console.log(spotifyURI);
     this.router.navigate(['/rating', spotifyURI]);
     this.changeDetectorRef.detectChanges();
   }
@@ -435,7 +402,6 @@ export class RatingComponent implements OnInit {
       if (account) {
         // this.submitReview();
         this.fetchAcc.fetchAcc().subscribe(data => {
-          console.log(data.data);
           this.userName = data.data.Acc.accountName;
         });
       }
@@ -514,10 +480,6 @@ export class RatingComponent implements OnInit {
             this.fetchReviewInfoService.getAlbumReviewInfo(this.id).subscribe(data => {
               this.avgRating = data.data.review.avgRating;
               const reviewDTO = data.data.review.reviewList;
-              console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-              console.log('data.data:' + data.data);
-              console.log('data.data.review' + data.data.reivew);
-              console.log('data.data.review.reviewList' + data.data.review.reviewList);
               for (let i = 0; i < reviewDTO.length; i++) {
                 const review: Review = {
                   reviewTrackName: reviewDTO[i].album.name,
@@ -576,7 +538,6 @@ export class RatingComponent implements OnInit {
                   this.reviewList.push(review);
                 }
                 this.reviewList = this.reviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
-                console.log(this.reviewList);
                 this.changeDetectorRef.detectChanges();
               });
             }, 300);

@@ -25,36 +25,10 @@
     <button (click)="toggleTheme()">Toggle Dark Mode</button>
   </div>
 
-  <ngb-alert [dismissible]="false" *ngIf="showAlert">
+  <ngb-alert [dismissible]="true" *ngIf="showAlert" (close)="this.showAlert = false">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>
-  <!-- <ngb-alert [dismissible]="false" *ngIf="showAlert">
-	<strong>Warning!</strong> Comments cannot be empty!
-  </ngb-alert> -->
 
-  <!--  <div class="row">-->
-  <!--    <div class="rounded shadow-sm rating-review-select-page">-->
-  <!--      <h5 class="mb-4">Leave Review</h5>-->
-  <!--      &lt;!&ndash; <p class="mb-2">Rate the Place</p> &ndash;&gt;-->
-  <!--      &lt;!&ndash; <ngb-rating [(rate)]="rating" /> &ndash;&gt;-->
-  <!--      <span class="rating-container-span">-->
-  <!--        <ngb-rating [max]="5" [(rate)]="rating"></ngb-rating>-->
-  <!--      </span>-->
-  <!--      <ngb-alert [dismissible]="true" *ngIf="showAlertReview" (close) = "showAlertReview = false">-->
-  <!--        <strong>Warning!</strong> You can only review and rate once!-->
-  <!--      </ngb-alert>-->
-  <!--      <form>-->
-  <!--        <div class="form-group">-->
-  <!--          <label>Your Comment</label>-->
-  <!--          <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>-->
-  <!--        </div>-->
-  <!--        <br />-->
-  <!--        <div class="form-group">-->
-  <!--          <button (click)="submitReview()" class="btn btn-primary btn-sm" type="button">Submit Comment</button>-->
-  <!--        </div>-->
-  <!--      </form>-->
-  <!--    </div>-->
-  <!--  </div>-->
   <div class="rounded shadow-sm rating-review-select-page">
     <h5 class="mb-4"><Strong>Leave a Review </Strong></h5>
     <form>
