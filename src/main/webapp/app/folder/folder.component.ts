@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FolderService } from './folder.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AccountService } from '../core/auth/account.service';
 
 interface EntryInfo {
   entryName: string;
@@ -26,7 +27,12 @@ export class FolderComponent implements OnInit {
   folderEntryList: FolderEntry[] = [];
   entryInfoList: EntryInfo[] = [];
 
-  constructor(private route: ActivatedRoute, private folderService: FolderService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private folderService: FolderService,
+    private accountService: AccountService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -65,5 +71,29 @@ export class FolderComponent implements OnInit {
     return spotifyLink;
   }
 
-  deleteFolderEntry(spotifyURI: string) {}
+  deleteFolderEntry(spotifyURI: string) {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.folderService.deleteFolderEntry(spotifyURI, this.id).subscribe(data => {});
+        setTimeout(() => {
+          this.folderEntryList = [];
+          this.folderService.getFolderEntry(this.id).subscribe(data => {
+            this.folderName = data.data.folderEntry.folderName;
+            this.imageURL = data.data.folderEntry.imageURL;
+            this.entryInfoList = data.data.folderEntry.entryList;
+            const folderEntryDTO = data.data.folderEntry.folderEntries;
+            for (let i = 0; i < folderEntryDTO.length; i++) {
+              const folderEntry: FolderEntry = {
+                spotifyURI: folderEntryDTO[i].spotifyURI,
+                addTime: folderEntryDTO[i].addTime,
+              };
+              this.folderEntryList.push(folderEntry);
+            }
+          });
+        }, 300);
+      } else {
+        this.router.navigate(['/login']);
+      }
+    });
+  }
 }

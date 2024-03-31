@@ -1,16 +1,16 @@
 package team.bham.service.dto;
 
-public class AddEntryToFolderDTO {
+public class AddDeleteEntryDTO {
 
     private String spotifyURI;
     private Long folderId;
 
-    public AddEntryToFolderDTO(String spotifyURI, Long folderId) {
+    public AddDeleteEntryDTO(String spotifyURI, Long folderId) {
         this.spotifyURI = spotifyURI;
         this.folderId = folderId;
     }
 
-    public AddEntryToFolderDTO() {}
+    public AddDeleteEntryDTO() {}
 
     public String getSpotifyURI() {
         return spotifyURI;

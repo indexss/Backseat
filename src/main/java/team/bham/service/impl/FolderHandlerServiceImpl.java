@@ -49,6 +49,20 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
     }
 
     @Override
+    public void deleteFolder(Long folderId) {
+        Optional<Folder> optionalFolder = folderRepository.findById(folderId);
+        Folder folder = optionalFolder.get();
+        folderRepository.delete(folder);
+    }
+
+    @Override
+    public void deleteFolderEntry(String spotifyURI, Long folderId) {
+        Optional<FolderEntry> optionalFolderEntry = folderEntryRepository.isExist(spotifyURI, folderId);
+        FolderEntry folder = optionalFolderEntry.get();
+        folderEntryRepository.delete(folder);
+    }
+
+    @Override
     public List<FetchFolderDTO> fetchFolder(String userName) {
         Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userName);
         Profile profile = optionalProfile.get();

@@ -4,6 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AddToFolderService } from './add-to-folder.service';
 import { AccountService } from '../core/auth/account.service';
 import { Account } from '../core/auth/account.model';
+import { Router } from '@angular/router';
 
 interface Record {
   id: number;
@@ -42,7 +43,8 @@ export class AddToFolderComponent implements OnInit {
     private modalService: NgbModal,
     private addToFolderService: AddToFolderService,
     private accountService: AccountService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -98,9 +100,27 @@ export class AddToFolderComponent implements OnInit {
             });
           }, 300);
         }
+      } else {
+        this.modalService.dismissAll();
+        this.router.navigate(['/login']);
       }
     });
   }
 
-  deleteFolder(folderId: number) {}
+  deleteFolder(folderId: number) {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.addToFolderService.deleteFolder(folderId).subscribe(data => {});
+        setTimeout(() => {
+          this.folderList = [];
+          this.addToFolderService.getUserFolder().subscribe(data => {
+            this.folderList = data.data.folder;
+            this.changeDetectorRef.detectChanges();
+          });
+        }, 300);
+      } else {
+        this.router.navigate(['/login']);
+      }
+    });
+  }
 }

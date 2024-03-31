@@ -38,11 +38,37 @@ public class FolderController {
         return resp;
     }
 
-    @PostMapping("/addentrytofolder")
-    public ResponseUtils addEntryToFolder(@RequestBody AddEntryToFolderDTO addEntryToFolderDTO) {
+    @PostMapping("/deletefolder")
+    public ResponseUtils deleteFolder(@RequestBody DeleteFolderDTO deleteFolderDTO) {
         ResponseUtils resp = null;
         try {
-            folderHandlerService.addEntryToFolder(addEntryToFolderDTO.getSpotifyURI(), addEntryToFolderDTO.getFolderId());
+            folderHandlerService.deleteFolder(deleteFolderDTO.getFolderId());
+            resp = new ResponseUtils();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
+    @PostMapping("/deletefolderentry")
+    public ResponseUtils deleteFolderEntry(@RequestBody AddDeleteEntryDTO addDeleteEntryDTO) {
+        ResponseUtils resp = null;
+        try {
+            folderHandlerService.deleteFolderEntry(addDeleteEntryDTO.getSpotifyURI(), addDeleteEntryDTO.getFolderId());
+            resp = new ResponseUtils();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
+    @PostMapping("/addentrytofolder")
+    public ResponseUtils addEntryToFolder(@RequestBody AddDeleteEntryDTO addDeleteEntryDTO) {
+        ResponseUtils resp = null;
+        try {
+            folderHandlerService.addEntryToFolder(addDeleteEntryDTO.getSpotifyURI(), addDeleteEntryDTO.getFolderId());
             resp = new ResponseUtils();
         } catch (Exception e) {
             e.printStackTrace();

@@ -16,6 +16,13 @@ export class AddToFolderService {
     return this.http.post(url, body);
   }
 
+  deleteFolder(folderId: number): Observable<any> {
+    const url = 'api/folder/deletefolder';
+    const body = {
+      folderId: folderId,
+    };
+    return this.http.post(url, body);
+  }
   getUserFolder(): Observable<any> {
     return this.http.get('api/folder/fetchfolders');
   }
