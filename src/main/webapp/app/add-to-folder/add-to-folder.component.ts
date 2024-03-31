@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit, TemplateRef } from '@angular/core';
-import { FetchTrackLeaderboardService } from '../leaderboard/fetch-track-leaderboard.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AddToFolderService } from './add-to-folder.service';
 import { AccountService } from '../core/auth/account.service';
@@ -72,7 +71,7 @@ export class AddToFolderComponent implements OnInit {
   }
 
   addToFolder(folderId: number) {
-    console.log(`Adding song with ID ${this.spotifyURI} to playlist with ID ${folderId}`);
+    console.log(`Adding song with ID ${this.spotifyURI} to folder with ID ${folderId}`);
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.addToFolderService.addEntryFolder(this.spotifyURI, folderId).subscribe(data => {});
