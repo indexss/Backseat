@@ -1,5 +1,27 @@
-<body>
+<!DOCTYPE html>
+<body lang="eng">
   <div class="container-fluid">
+    <h1>RECENTLY REVIEWED</h1>
+    <!--
+  <div class="albums-tracks">
+    <div class="record-card">
+      <div *ngFor="let record of recordList">
+        <div class="d-flex align-items-center">
+          <a [routerLink]="['/rating', record.trackURI]">
+            <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
+          </a>
+          <div class="flex-grow-1">
+            <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block"> </a>
+          </div>
+        </div>
+        <div class="text-center align-middle">{{ record.rating | number: '1.0-2' }}</div>
+        <div class="text-center align-middle">{{ record.artist }}</div>
+        <div class="text-center align-middle">{{ record.trackName }}</div>
+      </div>
+    </div>
+  </div>
+-->
+
     <div class="recently-reviewed">
       <div class="record-card">
         <div class="image">
@@ -14,10 +36,10 @@
           </a>
         </div>
         <div class="rating">
-          <div class="para">
+          <p>
             <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
             4.3
-          </div>
+          </p>
         </div>
         <div class="artist"><p>Scissor Sisters</p></div>
         <div class="recordName"><p>I Don't Feel Like Dancing</p></div>
@@ -35,10 +57,10 @@
           </a>
         </div>
         <div class="rating">
-          <div class="para">
+          <p>
             <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
             3.7
-          </div>
+          </p>
         </div>
         <div class="artist"><p>George Gershwin</p></div>
         <div class="recordName"><p>Rhapsody in Blue</p></div>
@@ -56,10 +78,10 @@
           </a>
         </div>
         <div class="rating">
-          <div class="para">
+          <p>
             <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
             4.2
-          </div>
+          </p>
         </div>
         <div class="artist"><p>Charles Mingus</p></div>
         <div class="recordName"><p>Tensions</p></div>
@@ -77,10 +99,10 @@
           </a>
         </div>
         <div class="rating">
-          <div class="para">
+          <p>
             <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
             3.4
-          </div>
+          </p>
         </div>
         <div class="artist"><p>Tom Odell</p></div>
         <div class="recordName"><p>Black Friday</p></div>
@@ -98,10 +120,10 @@
           </a>
         </div>
         <div class="rating">
-          <div class="para">
+          <p>
             <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
             4.5
-          </div>
+          </p>
         </div>
         <div class="artist"><p>Jamiroquai</p></div>
         <div class="recordName"><p>King for a Day</p></div>
