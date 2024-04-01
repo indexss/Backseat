@@ -434,7 +434,8 @@ export class RatingComponent implements OnInit {
             this.albumReviewList = this.albumReviewList.reverse();
             this.changeDetectorRef.detectChanges();
           });
-        }, 300);
+        }, 100);
+        this.changeDetectorRef.detectChanges();
 
         // 这里可以添加显示评论的逻辑
       } else {
@@ -461,10 +462,11 @@ export class RatingComponent implements OnInit {
             this.reviewList = this.reviewList.reverse();
             this.changeDetectorRef.detectChanges();
           });
-        }, 300);
+        }, 100);
         this.changeDetectorRef.detectChanges();
       }
     });
+    this.changeDetectorRef.detectChanges();
   }
 
   deleteReview(reviewId: string): void {
@@ -496,9 +498,9 @@ export class RatingComponent implements OnInit {
               if (this.albumReviewList) {
                 this.albumReviewList = this.albumReviewList.reverse();
               }
-              this.changeDetectorRef.detectChanges();
             });
-          }, 300);
+          }, 100);
+          this.changeDetectorRef.detectChanges();
         } else {
           if (this.id.includes('album')) {
             this.avgRatingList = [];
@@ -540,7 +542,8 @@ export class RatingComponent implements OnInit {
                 this.reviewList = this.reviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
                 this.changeDetectorRef.detectChanges();
               });
-            }, 300);
+            }, 100);
+            this.changeDetectorRef.detectChanges();
           } else {
             this.changeDetectorRef.detectChanges();
             this.avgRating = 0.0;
@@ -565,7 +568,8 @@ export class RatingComponent implements OnInit {
                 this.reviewList = this.reviewList.reverse();
                 this.changeDetectorRef.detectChanges();
               });
-            }, 300);
+            }, 100);
+            this.changeDetectorRef.detectChanges();
           }
         }
         // this.changeDetectorRef.detectChanges();

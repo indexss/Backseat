@@ -161,10 +161,10 @@
       <h5 class="mb-4"><Strong>Leave a Review </Strong></h5>
       <div class="form-check form-switch">
         <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
-        <input class="form-check-input" style="display: none" type="checkbox" id="checkAlbumOrTrack" [(ngModel)]="showAlbumReviews" />
+        <input class="form-check-input" style="display: none" type="checkbox" id="aaa" [(ngModel)]="showAlbumReviews" />
 
         <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
-        <label class="btn btn-success" (click)="toggleReviews()" for="checkAlbumOrTrack">
+        <label class="btn btn-success" (click)="toggleReviews()" for="aaa">
           {{ showAlbumReviews ? 'Click to Review Track' : 'Click to Review Album' }}
         </label>
       </div>
@@ -258,19 +258,19 @@
 
   <br />
   <!--  这里开始写 album review，做一个nav bar 可供选择，album还是 track in album-->
-  <div class="form-check form-switch">
-    <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
-    <input class="form-check-input" style="display: none" type="checkbox" id="flexSwitchCheckChecked" [(ngModel)]="showAlbumReviews" />
-
-    <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
-    <label class="btn btn-success" (click)="toggleReviews()" for="flexSwitchCheckChecked">
-      {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
-    </label>
-  </div>
   <!--View track reviews!!-->
   <!--View track reviews!!-->
   <!--View track reviews!!-->
   <div *ngIf="!showAlbumReviews">
+    <div class="form-check form-switch">
+      <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
+      <input class="form-check-input" style="display: none" type="checkbox" id="ccc" [(ngModel)]="showAlbumReviews" />
+
+      <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
+      <label class="btn btn-success" (click)="toggleReviews()" for="ccc">
+        {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
+      </label>
+    </div>
     <div class="row">
       <!-- <h2>Reviews</h2> -->
       <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
@@ -322,6 +322,15 @@
 
   <!--View album reviews!!-->
   <div *ngIf="showAlbumReviews">
+    <div class="form-check form-switch">
+      <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
+      <input class="form-check-input" style="display: none" type="checkbox" id="abc" [(ngModel)]="showAlbumReviews" />
+
+      <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
+      <label class="btn btn-success" (click)="toggleReviews()" for="abc">
+        {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
+      </label>
+    </div>
     <!-- Logic for displaying album reviews goes here -->
     <div class="row">
       <!-- <h2>Reviews</h2> -->
