@@ -9,6 +9,6 @@ export class FetchReviewInfoService {
   constructor(private http: HttpClient) {}
 
   getReviewInfo(id: number): Observable<any> {
-    return this.http.get(`api/reivews?id=${id}`);
+    return this.http.get(`api/reviews?id=${id}`);
   }
 }

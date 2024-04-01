@@ -1,18 +1,18 @@
 <div class="row">
   <div class="col-md-3">
-    <span class="hipster img-fluid rounded"></span>
+    <span class="logo img-fluid rounded"></span>
   </div>
 
   <div class="col-md-9">
-    <h1 class="display-4"><span>Welcome, Java Hipster!</span> (Teamproject)</h1>
+    <h1 class="display-4"><span>Backseat Music</span></h1>
 
-    <p class="lead">This is your homepage</p>
+    <p class="lead">Your next music curation journey</p>
 
     <div [ngSwitch]="account !== null">
       <div class="alert alert-success" *ngSwitchCase="true">
         <span id="home-logged-message" *ngIf="account">You are logged in as user "{{ account.login }}".</span>
       </div>
-
+      <!--
       <div class="alert alert-warning" *ngSwitchCase="false">
         <span>If you want to </span>
         <a class="alert-link" (click)="login()">sign in</a
@@ -21,13 +21,22 @@
           password="user").</span
         >
       </div>
+-->
+      <div class="col-md-9">
+        <span>Not sure where to start? Head on over to the </span><span class="discover-link" routerLink="/discover">Discover Page</span>
+      </div>
+
+      <div class="alert alert-warning" *ngSwitchCase="false">
+        <a class="alert-link" (click)="login()">Sign in here</a>
+        <span> if you already have an account</span>
+      </div>
 
       <div class="alert alert-warning" *ngSwitchCase="false">
         <span>You don't have an account yet?</span>&nbsp;
         <a class="alert-link" routerLink="account/register">Register a new account</a>
       </div>
     </div>
-
+    <!--
     <p>If you have any question on JHipster:</p>
 
     <ul>
@@ -50,5 +59,6 @@
       <span>If you like JHipster, don't forget to give us a star on</span>
       <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">GitHub</a>!
     </p>
+    -->
   </div>
 </div>
