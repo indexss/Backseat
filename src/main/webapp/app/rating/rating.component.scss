@@ -1,3 +1,35 @@
+// 默认的亮色模式变量
+:root {
+  --background-color: #fff;
+  --text-color: #000;
+  --border-color: #ddd;
+  --header-bg-color: #f5f5f5;
+  --star-color-default: #ccc;
+  --star-color-filled: #4caf50;
+  // 其他颜色变量...
+}
+
+// 深色模式变量
+[data-theme='dark'] {
+  --background-color: #333;
+  --text-color: #fff;
+  --border-color: #444;
+  --header-bg-color: #222;
+  --star-color-default: #666;
+  --star-color-filled: #cddc39;
+  // 其他颜色变量...
+}
+
+$custom-green: #4caf50;
+.abcde {
+  color: $custom-green;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
 .cover {
   width: 15em;
   height: 15em;
@@ -8,8 +40,13 @@
   padding-bottom: 1em;
   padding-top: 2em;
   padding-left: 0em;
+  color: $custom-green;
 }
 
+.YourComment {
+  color: $custom-green;
+  font-size: 20px;
+}
 @media (max-width: 768px) {
   .d-flex {
     flex-direction: column;
@@ -73,6 +110,7 @@
   display: inline-block;
   margin: 0 -17px 0 0;
 }
+
 .total-like {
   border: 1px solid;
   border-radius: 50px;
@@ -83,8 +121,10 @@
   padding: 0 13px;
   vertical-align: top;
 }
+
 .restaurant-detailed-ratings-and-reviews hr {
   margin: 0 -24px;
+  background-color: var(--div-background-light);
 }
 
 .text-black {
@@ -97,12 +137,9 @@
   height: 82px;
   object-fit: cover;
 }
+
 .rounded-pill {
   border-radius: 50rem !important;
-}
-
-.restaurant-detailed-ratings-and-reviews hr {
-  margin: 0 -24px;
 }
 
 .track-table {
@@ -110,6 +147,8 @@
   text-align: left;
   border-collapse: collapse; // Ensures there's no space between table cells
   box-shadow: 0 2px 3px #ccc; // Gives a slight shadow to the table for depth
+  background-color: var(--header-bg-color);
+  color: var(--text-color);
 
   th {
     font-size: 0.9em;
@@ -202,6 +241,7 @@ ngb-rating {
   margin-left: 8px; /* 根据需要调整，为了和checkbox有适当的间距 */
   padding-bottom: 10px;
 }
+
 /* 调整标签（label）的样式 */
 .form-check-label {
   font-size: 18px; /* 字体大小 */
@@ -211,9 +251,27 @@ ngb-rating {
 .form-check {
   text-align: right;
 }
+
 .deleteButton {
   text-align: right;
 }
+
+.theme-toggler {
+  // 创建圆形按钮
+  width: 70px;
+  height: 40px;
+  cursor: pointer;
+  //background-color: black; // 按钮颜色，可以根据需要调整
+  color: white; // 文字颜色
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: bold; // 调整字体大小以适应按钮
+  text-align: right;
+}
+
 //.total-like-user {
 //  border: 2px solid #fff;
 //  height: 34px;

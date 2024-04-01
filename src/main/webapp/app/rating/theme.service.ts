@@ -14,6 +14,7 @@ export class ThemeService {
   }
 
   toggleTheme() {
+    console.log('Toggling theme...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     if (this.isDarkMode()) {
       document.body.setAttribute('data-theme', 'light');
       localStorage.setItem(this.themeKey, 'light');

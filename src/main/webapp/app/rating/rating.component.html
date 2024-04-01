@@ -1,3 +1,5 @@
+<button class="theme-toggler btn btn-success" (click)="toggleTheme()">nig/lig</button>
+
 <div *ngIf="isTrack" class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
@@ -21,16 +23,13 @@
   </div>
   <br />
   <!-- 在 app.component.html 或其他组件模板中 -->
-  <div>
-    <button (click)="toggleTheme()">Toggle Dark Mode</button>
-  </div>
 
   <ngb-alert [dismissible]="true" *ngIf="showAlert" (close)="this.showAlert = false">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>
 
   <div class="rounded shadow-sm rating-review-select-page">
-    <h5 class="mb-4"><Strong>Leave a Review </Strong></h5>
+    <h3 class="mb-4"><Strong>Leave a Review </Strong></h3>
     <form>
       <!-- Warning message for track selection -->
       <ngb-alert [dismissible]="false" *ngIf="showAlertTrack">
@@ -48,7 +47,7 @@
     <!-- Warning message for track selection -->
     <form>
       <div class="form-group">
-        <label>Your Comment</label>
+        <label class="YourComment">Your Comment</label>
         <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>
       </div>
       <br />
@@ -103,6 +102,7 @@
 </div>
 
 <!--//这里开始是Album-->
+
 <div *ngIf="!isTrack" class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">

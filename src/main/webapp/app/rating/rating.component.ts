@@ -394,6 +394,7 @@ export class RatingComponent implements OnInit {
   }
   toggleTheme() {
     this.themeService.toggleTheme();
+    this.changeDetectorRef.detectChanges();
   }
 
   toggleReviews() {
