@@ -33,6 +33,8 @@ import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-fo
 import { FolderComponent } from './folder/folder.component';
 import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
 import { LeaderboardFolderComponent } from './leaderboard-folder/leaderboard-folder.component';
+import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
+import { ListViewComponent } from './want-to-listen/list-view/list-view.component';
 
 @NgModule({
   imports: [
@@ -68,6 +70,8 @@ import { LeaderboardFolderComponent } from './leaderboard-folder/leaderboard-fol
     FolderComponent,
     AddToFolderComponent,
     LeaderboardFolderComponent,
+    WantToListenComponent,
+    ListViewComponent,
   ],
   bootstrap: [MainComponent],
 })

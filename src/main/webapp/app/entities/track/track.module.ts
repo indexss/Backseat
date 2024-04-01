@@ -9,5 +9,6 @@ import { TrackRoutingModule } from './route/track-routing.module';
 @NgModule({
   imports: [SharedModule, TrackRoutingModule],
   declarations: [TrackComponent, TrackDetailComponent, TrackUpdateComponent, TrackDeleteDialogComponent],
+  exports: [TrackDetailComponent],
 })
 export class TrackModule {}

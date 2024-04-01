@@ -1,5 +1,6 @@
 package team.bham.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -28,4 +29,44 @@ public interface AlbumRepository extends AlbumRepositoryWithBagRelationships, Jp
     default Page<Album> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    @Query(
+        "select a from Album a where a.releaseDate > :startTime and a.releaseDate <= :endTime and (a.name like %:text%) order by a.rating DESC, size(a.reviews) DESC, a.name ASC"
+    )
+    Page<Album> fetchAlbumLBWithFilterRatingDESC(
+        @Param("startTime") LocalDate startTime,
+        @Param("endTime") LocalDate endTime,
+        @Param("text") String text,
+        Pageable pageable
+    );
+
+    @Query(
+        "select a from Album a where a.releaseDate > :startTime and a.releaseDate <= :endTime and (a.name like %:text%) order by a.rating ASC, size(a.reviews) DESC, a.name ASC"
+    )
+    Page<Album> fetchAlbumLBWithFilterRatingASC(
+        @Param("startTime") LocalDate startTime,
+        @Param("endTime") LocalDate endTime,
+        @Param("text") String text,
+        Pageable pageable
+    );
+
+    @Query(
+        "select a from Album a where a.releaseDate > :startTime and a.releaseDate <= :endTime and (a.name like %:text%) order by size(a.reviews) DESC, a.rating DESC, a.name ASC"
+    )
+    Page<Album> fetchAlbumLBWithFilterReviewsDESC(
+        @Param("startTime") LocalDate startTime,
+        @Param("endTime") LocalDate endTime,
+        @Param("text") String text,
+        Pageable pageable
+    );
+
+    @Query(
+        "select a from Album a where a.releaseDate > :startTime and a.releaseDate <= :endTime and (a.name like %:text%) order by size(a.reviews) ASC, a.rating DESC, a.name ASC"
+    )
+    Page<Album> fetchAlbumLBWithFilterReviewsASC(
+        @Param("startTime") LocalDate startTime,
+        @Param("endTime") LocalDate endTime,
+        @Param("text") String text,
+        Pageable pageable
+    );
 }
