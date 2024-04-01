@@ -14,7 +14,7 @@ import { SearchComponent } from './search/search.component';
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 import { RatingComponent } from './rating/rating.component';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
-import {ProfileComponent} from "./profile/profile.component";
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   imports: [

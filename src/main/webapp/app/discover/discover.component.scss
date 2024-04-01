@@ -1,11 +1,88 @@
-p,
+.sidebar {
+  position: relative;
+  float: right;
+  right: 0;
+  width: 25%;
+  height: 0;
+  padding-bottom: 40%;
+  margin: 0%;
+  padding-top: 1%;
+  border: 3px solid black;
+  background-color: rgb(73, 120, 80);
+  text-align: center;
+  border-radius: 10px; ////
+}
+
+.head2 {
+  color: white;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+
+.tracks {
+  display: grid;
+  gap: 10px;
+  font-size: 20px;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.image1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.description1 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.image2 {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.description2 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.image3 {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.description3 {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.image3 {
+  grid-column: 1;
+  grid-row: 4;
+}
+
+.description3 {
+  grid-column: 2;
+  grid-row: 4;
+}
+
+.para {
+  color: rgb(68, 120, 72);
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
 h1,
 h2 {
   color: rgb(68, 120, 72);
   font-size: 2.5em;
   font-weight: 700;
 }
-
+.container-fluid {
+  width: 75%;
+  float: left;
+}
 .recently-reviewed {
   display: flex;
   flex-wrap: nowrap;
