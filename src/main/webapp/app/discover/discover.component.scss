@@ -1,0 +1,112 @@
+p,
+h1,
+h2 {
+  color: rgb(68, 120, 72);
+  font-size: 2.5em;
+  font-weight: 700;
+}
+
+.recently-reviewed {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 10px;
+  position: relative;
+
+  .record-card {
+    flex: 0 0 auto;
+    margin-right: 5px;
+  }
+}
+
+.record-card {
+  display: grid;
+  text-align: left;
+  gap: 15px;
+  //width: 400px;
+  //height: 300px;
+  padding: 20px;
+  font-size: 10px;
+  overflow-wrap: break-word;
+}
+
+.image {
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 4;
+}
+
+.rating {
+  grid-column: 4 / span 2;
+  grid-row: 1;
+}
+
+.artist {
+  grid-column: 4 / span 2;
+  grid-row: 2;
+}
+
+.recordName {
+  grid-column: 4 / span 2;
+  grid-row: 3 / span 2;
+}
+
+.recently-reviewed {
+  height: 350px;
+  margin-bottom: 40px;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.recently-reviewed::-webkit-scrollbar {
+  background-color: darkseagreen;
+}
+
+.recently-reviewed::-webkit-scrollbar-thumb {
+  background-color: seagreen;
+}
+
+.display-folders {
+  display: flex;
+  -webkit-align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 10px;
+  position: relative;
+
+  .folder-card {
+    flex: 0 0 auto;
+    margin-right: 5px;
+    display: grid;
+    grid-template-columns: 300px;
+    grid-template-rows: 300px 25px 25px;
+    text-align: center;
+    gap: 15px;
+    padding: 10px;
+    overflow-wrap: break-word;
+  }
+}
+
+.coverImg {
+  grid-column: 1 / 3;
+  grid-row: 1;
+}
+
+.folderName {
+  grid-column: 1 / 3;
+  grid-row: 2;
+  font-size: 20px;
+  color: seagreen;
+}
+
+.creatorName {
+  grid-column: 1 / 3;
+  grid-row: 3;
+  font-size: 15px;
+  color: darkseagreen;
+}
+
+/*to be implemented*/
+/*.card .scroll-button :hover{
+  background-color: limegreen;
+  border-color: darkolivegreen;
+}*/
