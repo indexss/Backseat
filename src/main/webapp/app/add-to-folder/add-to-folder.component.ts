@@ -71,7 +71,7 @@ export class AddToFolderComponent implements OnInit {
   }
 
   addToFolder(folderId: number) {
-    console.log(`Adding song with ID ${this.spotifyURI} to folder with ID ${folderId}`);
+    console.log(`Adding trackURI: ${this.spotifyURI} to folderId: ${folderId}`);
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.addToFolderService.addEntryFolder(this.spotifyURI, folderId).subscribe(data => {});
@@ -83,7 +83,7 @@ export class AddToFolderComponent implements OnInit {
   addFolder() {
     this.accountService.identity().subscribe(account => {
       if (account) {
-        if (this.folderName === undefined || this.folderName === '' || this.folderName === null || this.folderName.trim().length === 0) {
+        if (!this.folderName || this.folderName.trim().length === 0) {
           this.showAlert = true;
           return;
         } else {

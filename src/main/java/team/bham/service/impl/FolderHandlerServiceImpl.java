@@ -48,14 +48,15 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
     public void deleteFolder(Long folderId) {
         Optional<Folder> optionalFolder = folderRepository.findById(folderId);
         Folder folder = optionalFolder.get();
+        folderEntryRepository.deleteByFolderId(folderId);
         folderRepository.delete(folder);
     }
 
     @Override
     public void deleteFolderEntry(String spotifyURI, Long folderId) {
         Optional<FolderEntry> optionalFolderEntry = folderEntryRepository.isExist(spotifyURI, folderId);
-        FolderEntry folder = optionalFolderEntry.get();
-        folderEntryRepository.delete(folder);
+        FolderEntry folderEntry = optionalFolderEntry.get();
+        folderEntryRepository.delete(folderEntry);
     }
 
     @Override

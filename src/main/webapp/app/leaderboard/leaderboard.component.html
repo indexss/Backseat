@@ -193,10 +193,14 @@
         <td class="text-center align-middle row-reviews" *ngIf="ismobile">{{ record.reviews }}</td>
         <td class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
         <td class="text-center align-middle row-rating" *ngIf="ismobile">
-          <a [routerLink]="['/', record.trackURI]">
+          <a (click)="openModal(record.trackURI, content)">
             <!-- <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> -->
             <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>
           </a>
+          <!--          <a [routerLink]="['/', record.trackURI]" (click)="openModal(record.trackURI, content)">-->
+          <!--            &lt;!&ndash; <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> &ndash;&gt;-->
+          <!--            <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>-->
+          <!--          </a>-->
         </td>
       </tr>
     </tbody>
@@ -207,3 +211,22 @@
     ><span><a class="add" routerLink="/search"> Add from spotify!</a></span>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Select Folder</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group">
+      <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.folderId)">
+        <div class="d-flex align-items-center">
+          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" />
+          <span>{{ folder.folderName }}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</ng-template>
