@@ -20,9 +20,10 @@
   // 其他颜色变量...
 }
 
-$custom-green: #4caf50;
+$custom-green: rgb(68, 120, 72);
 .abcde {
   color: $custom-green;
+  font-size: 20px;
 }
 
 body {

@@ -64,7 +64,7 @@
     <!-- <h2>Reviews</h2> -->
     <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
       <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
-      <h3 class="mb-1">All Ratings and Reviews</h3>
+      <h3 class="mb-1 abcde">All Ratings and Reviews</h3>
       <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
         <div class="media">
           <div class="column-4">
@@ -158,7 +158,7 @@
   <div class="row" *ngIf="!showAlbumReviews">
     <!--    <div class="bg-dark-green rounded shadow-sm p-4 mb-5 rating-review-select-page ">-->
     <div class="rounded shadow-sm rating-review-select-page">
-      <h5 class="mb-4"><Strong>Leave a Review </Strong></h5>
+      <h3 class="mb-4"><Strong>Leave a Review </Strong></h3>
       <div class="form-check form-switch">
         <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
         <input class="form-check-input" style="display: none" type="checkbox" id="aaa" [(ngModel)]="showAlbumReviews" />
@@ -177,8 +177,8 @@
         <ngb-alert [dismissible]="true" *ngIf="showAlertReview" (close)="this.showAlertReview = false">
           <strong>Warning!</strong> You can only review and rate once!
         </ngb-alert>
-        <div class="column-10 rating-container">
-          <label for="track-select"><Strong>Choose a Track:</Strong></label>
+        <div class="column-10 rating-container abcde">
+          <label for="track-select" class="abcde"><Strong>Choose a Track:</Strong></label>
           <br />
           <select
             id="track-select"
@@ -198,7 +198,7 @@
 
       <form>
         <div class="form-group">
-          <label>Your Comment</label>
+          <label class="YourComment">Your Comment</label>
           <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>
         </div>
         <br />
@@ -216,7 +216,7 @@
   <div class="row" *ngIf="showAlbumReviews">
     <!--    <div class="bg-dark-green rounded shadow-sm p-4 mb-5 rating-review-select-page ">-->
     <div class="rounded shadow-sm rating-review-select-page">
-      <h5 class="mb-4"><Strong>Leave a Review For the Album </Strong></h5>
+      <h3 class="mb-4"><Strong>Leave a Review For the Album </Strong></h3>
 
       <div class="form-check form-switch">
         <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
@@ -244,7 +244,7 @@
 
       <form>
         <div class="form-group">
-          <label>Your Comment</label>
+          <label class="YourComment">Your Comment</label>
           <textarea class="form-control" [(ngModel)]="comment" name="comment"></textarea>
         </div>
         <br />
