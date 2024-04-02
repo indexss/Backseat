@@ -8,7 +8,7 @@ body {
   overflow-x: hidden;
 }
 
-h1 {
+.head1 {
   color: white;
   font-size: 2rem;
   text-align: center;
@@ -17,7 +17,7 @@ h1 {
 
 .sidebar {
   top: 4.5rem;
-  position: fixed;
+  position: relative;
   bottom: 0;
   border: 2.5px solid black;
   box-sizing: border-box;
@@ -37,6 +37,7 @@ h1 {
   padding: 10px 0;
 }
 
+/*
 .sidebar {
   position: relative;
   float: right;
@@ -105,7 +106,7 @@ h1 {
   grid-column: 2;
   grid-row: 4;
 }
-
+*/
 .para {
   color: rgb(68, 120, 72);
   font-size: 2.5em;
