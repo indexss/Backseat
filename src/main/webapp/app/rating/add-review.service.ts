@@ -9,7 +9,7 @@ export class AddReviewService {
   constructor(private http: HttpClient) {}
 
   submitReview(rating: number, content: string, id: string): Observable<any> {
-    const url = 'api/addreview';
+    const url = 'api/rating/addreview';
     const body = {
       rating: rating,
       content: content,

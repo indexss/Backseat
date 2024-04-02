@@ -5,4 +5,5 @@ export interface Review {
   reviewContent: string;
   reviewDate: string;
   rating: number;
+  reviewTrackName: string;
 }

@@ -1,10 +1,7 @@
 package team.bham.service.impl;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import javax.annotation.Resource;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Service;
@@ -62,8 +59,14 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             //        reviewTrackDTO.setAlbumName(optionalAlbum.get().getName());
             reviewTrackDTO.setAlbumName(track.getAlbum().getName());
             reviewTrackDTO.setImgURL(track.getAlbum().getImageURL());
+            reviewTrackDTO.setAlbumURI(track.getAlbum().getSpotifyURI());
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(reviewTrackDTO.getAlbumURI());
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
             StringBuilder artistNameBuilder = new StringBuilder();
-            Set<Artist> artists = track.getArtists();
+            Set<Artist> artists = track.getAlbum().getArtists();
             List<Artist> artistList = new ArrayList<>(artists);
             for (int i = 0; i < artistList.size(); i++) {
                 if (i == artistList.size() - 1) {
@@ -76,7 +79,12 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             reviewTrackDTO.setArtistName(artistNameBuilder.toString());
             //        reviewTrackDTO.setArtistName(track.getArtists().toString());
             //        reviewTrackDTO.setReviewList(track.getReviews());
+            System.out.println("SpotifyID");
+            System.out.println(trackSpotifyId);
             Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
+            System.out.println(artistNameBuilder.toString());
+            System.out.println(artists);
+            System.out.println(artistList);
             ArrayList<Review> reviews = new ArrayList<>(reviewList);
             double sum = 0;
             for (int i = 0; i < reviews.size(); i++) {
@@ -107,9 +115,6 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         Track track = optionalTrack.get();
         newReview.setTrack(track);
 
-        Album album = track.getAlbum();
-        newReview.setAlbum(album);
-
         reviewRepository.save(newReview);
 
         Set<Review> reviews = reviewRepository.findByTrackSpotifyURI(trackId);
@@ -122,6 +127,45 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         avgRating = sum / reviewList.size();
         track.setRating(avgRating);
         trackRepository.save(track);
+    }
+
+    @Override
+    public void deleteReview(String trackId, String username) {
+        //        System.out.println("888888888888: " + trackId);
+        Optional<Profile> optionalProfile = profileRepository.findByUserLogin(username);
+        Profile profile = optionalProfile.get();
+
+        Optional<Track> optionalTrack = trackRepository.findById(trackId);
+        Track track = optionalTrack.get();
+        Set<Review> reviews = reviewRepository.findByTrackSpotifyURI(track.getSpotifyURI());
+
+        Iterator<Review> iterator = reviews.iterator();
+
+        while (iterator.hasNext()) {
+            Review review = iterator.next();
+            if (review.getProfile().equals(profile)) {
+                System.out.println(review);
+                System.out.println(
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting"
+                );
+                System.out.println(review);
+                iterator.remove();
+                // 如果你需要从数据库中也删除这个Review，确保调用repository的delete方法
+                reviewRepository.delete(review);
+            }
+            List<Review> reviewList = new ArrayList<>(reviews);
+            double sum = 0;
+            double avgRating = 0;
+            for (int i = 0; i < reviewList.size(); i++) {
+                sum += reviewList.get(i).getRating();
+            }
+            avgRating = sum / reviewList.size();
+            track.setRating(avgRating);
+            trackRepository.save(track);
+        }
     }
 
     @Override

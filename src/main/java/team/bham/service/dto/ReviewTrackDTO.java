@@ -23,6 +23,8 @@ public class ReviewTrackDTO implements Serializable {
     private LocalDate releaseDate;
     private String description;
 
+    private String albumURI;
+
     public String getImgURL() {
         return imgURL;
     }
@@ -47,6 +49,7 @@ public class ReviewTrackDTO implements Serializable {
     public ReviewTrackDTO() {}
 
     public ReviewTrackDTO(
+        String albumURI,
         String trackName,
         String albumName,
         String artistName,
@@ -64,6 +67,7 @@ public class ReviewTrackDTO implements Serializable {
         this.imgURL = imgURL;
         this.reviewList = reviewList;
         this.avgRating = avgRating;
+        this.albumURI = albumURI;
     }
 
     public String getTrackName() {
@@ -112,5 +116,13 @@ public class ReviewTrackDTO implements Serializable {
 
     public void setReviewList(Set<Review> reviewList) {
         this.reviewList = reviewList;
+    }
+
+    public void setAlbumURI(String albumURI) {
+        this.albumURI = albumURI;
+    }
+
+    public String getAlbumURI() {
+        return this.albumURI;
     }
 }

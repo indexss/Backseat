@@ -9,6 +9,7 @@ import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCompass } from '@fortawesome/free-solid-svg-icons';
+import { faPhotoFilm, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-navbar',
@@ -64,6 +65,9 @@ export class NavbarComponent implements OnInit {
   toggleNavbar(): void {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
+
+  protected readonly faPhotoFilm = faPhotoFilm;
+  protected readonly faSquareXmark = faSquareXmark;
 }
 
 //这个导航栏在哪个文件里面引用了呢？
