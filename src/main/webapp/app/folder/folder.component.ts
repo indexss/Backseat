@@ -12,6 +12,7 @@ interface EntryInfo {
 interface FolderEntry {
   spotifyURI: string;
   addTime: string;
+  hovered: boolean;
 }
 @Component({
   selector: 'jhi-folder',
@@ -46,6 +47,7 @@ export class FolderComponent implements OnInit {
           const folderEntry: FolderEntry = {
             spotifyURI: folderEntryDTO[i].spotifyURI,
             addTime: folderEntryDTO[i].addTime,
+            hovered: false,
           };
           this.folderEntryList.push(folderEntry);
         }
@@ -66,7 +68,7 @@ export class FolderComponent implements OnInit {
     } else if (spotifyURI.startsWith('spotify:album:')) {
       spotifyLink = spotifyURI.replace('spotify:album:', 'https://open.spotify.com/album/');
     } else {
-      console.error('Unsupported Spotify URI type:', spotifyURI);
+      console.error('Unsupported SpotifyURI: ', spotifyURI);
     }
     return spotifyLink;
   }
@@ -86,6 +88,7 @@ export class FolderComponent implements OnInit {
               const folderEntry: FolderEntry = {
                 spotifyURI: folderEntryDTO[i].spotifyURI,
                 addTime: folderEntryDTO[i].addTime,
+                hovered: false,
               };
               this.folderEntryList.push(folderEntry);
             }

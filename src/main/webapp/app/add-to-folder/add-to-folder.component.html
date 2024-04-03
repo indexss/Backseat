@@ -87,7 +87,7 @@
       <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.folderId)">
         <div class="d-flex align-items-center">
           <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" />
-          <span>{{ folder.folderName }}</span>
+          <strong style="color: darkslategray">{{ folder.folderName }}</strong>
         </div>
       </li>
     </ul>
@@ -103,7 +103,7 @@
   </div>
   <div class="modal-body">
     <div class="form-group">
-      <input class="form-control" [(ngModel)]="folderName" name="folderName" placeholder="Folder name (max 18 characters)" />
+      <input class="form-control" [(ngModel)]="folderName" name="folderName" placeholder="Folder Name (Max 18 characters)" />
     </div>
     <ngb-alert [dismissible]="false" *ngIf="showAlert" class="alert alert-danger">
       <strong>Warning!</strong> The input can not be empty!

@@ -22,8 +22,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let folderEntry of folderEntryList; let i = index">
-        <th scope="row" class="text-center">{{ i + 1 }}</th>
+      <tr
+        *ngFor="let folderEntry of folderEntryList; let i = index"
+        (mouseenter)="folderEntry.hovered = true"
+        (mouseleave)="folderEntry.hovered = false"
+      >
+        <th scope="row" class="text-center align-middle" style="color: #666666">{{ i + 1 }}</th>
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="[]">
@@ -32,6 +36,7 @@
             <div class="flex-grow-1">
               <a [routerLink]="[]" class="text-left d-block">
                 <strong>{{ entryInfoList[i].entryName }}</strong>
+                <div *ngIf="folderEntry.hovered">Entry Date: {{ folderEntry.addTime | slice: 0:10 }}</div>
               </a>
             </div>
           </div>
