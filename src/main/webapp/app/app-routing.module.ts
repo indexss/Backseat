@@ -16,6 +16,7 @@ import { RatingComponent } from './rating/rating.component';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 import { FolderComponent } from './folder/folder.component';
 import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   imports: [
@@ -112,6 +113,10 @@ import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
         {
           path: 'oauth',
           loadChildren: () => import('./oauth/oauth.module').then(m => m.OauthModule),
+        },
+        {
+          path: 'profile',
+          loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
         },
         {
           path: '',

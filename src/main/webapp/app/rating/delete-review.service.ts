@@ -5,15 +5,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class AddReviewService {
+export class DeleteReviewService {
   constructor(private http: HttpClient) {}
 
-  submitReview(rating: number, content: string, id: string): Observable<any> {
-    const url = 'api/rating/addreview';
+  deleteReview(id: string): Observable<any> {
+    const url = 'api/rating/deleteReview';
     const body = {
-      rating: rating,
-      content: content,
       id: id,
+      content: '',
+      rating: 0,
     };
     return this.http.post(url, body);
   }
