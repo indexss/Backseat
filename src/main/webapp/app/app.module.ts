@@ -32,6 +32,7 @@ import { FormsModule } from '@angular/forms';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 import { ListViewComponent } from './want-to-listen/list-view/list-view.component';
+import { AddNewWantToListenItemComponent } from './want-to-listen/add-new-want-to-listen-item/add-new-want-to-listen-item.component';
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { ListViewComponent } from './want-to-listen/list-view/list-view.componen
     RatingNotFoundComponent,
     WantToListenComponent,
     ListViewComponent,
+    AddNewWantToListenItemComponent,
   ],
   bootstrap: [MainComponent],
 })
