@@ -45,8 +45,8 @@
       class=""
       [attr.data-id]="item.id"
       (click)="expand()"
-      (mouseover)="onMouseOver()"
-      (mouseleave)="onMouseLeave()"
+      (mouseover)="item.isFocus = setFocusOn()"
+      (mouseleave)="item.isFocus = setFocusOff()"
       *ngFor="let item of wantToListenList"
     >
       <td class="col-1 text-center">
@@ -75,8 +75,8 @@
       <td class="col-1 text-center">
         <h5>{{ item.reviewsCount | number: '':'en' }}</h5>
       </td>
-      <td class="col-1 text-center" *ngIf="showDeleteIcon" (click)="deleteItem(item.id); $event.stopPropagation()">
-        <fa-icon [icon]="faTrash" class="trash-icon"></fa-icon>
+      <td class="col-1 text-center">
+        <fa-icon [icon]="faTrash" *ngIf="item.isFocus" (click)="deleteItem(item.id)" class="trash-icon"></fa-icon>
       </td>
     </tr>
   </tbody>

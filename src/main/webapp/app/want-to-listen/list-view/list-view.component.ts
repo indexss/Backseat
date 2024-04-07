@@ -19,6 +19,7 @@ interface testList {
   addTime: Date;
   releaseTime: Date;
   imgURL?: string; //Album Cover image
+  isFocus?: boolean;
 }
 
 @Component({
@@ -41,6 +42,7 @@ export class ListViewComponent implements OnInit {
       addTime: new Date('2024-02-12'),
       releaseTime: new Date('2017-05-26'),
       imgURL: 'https://i.scdn.co/image/ab67616d00001e027359994525d219f64872d3b1',
+      isFocus: false,
     },
     {
       id: 1,
@@ -53,6 +55,7 @@ export class ListViewComponent implements OnInit {
       addTime: new Date('2024-02-22'),
       releaseTime: new Date('2001-10-29'),
       imgURL: 'https://i.scdn.co/image/ab67616d0000b273463de2351439f6532ff0dfbd',
+      isFocus: false,
     },
     {
       id: 2,
@@ -65,6 +68,7 @@ export class ListViewComponent implements OnInit {
       addTime: new Date('2024-02-01'),
       releaseTime: new Date('2001-10-29'),
       imgURL: 'https://i.scdn.co/image/ab67616d0000b273463de2351439f6532ff0dfbd',
+      isFocus: false,
     },
     {
       id: 3,
@@ -77,6 +81,7 @@ export class ListViewComponent implements OnInit {
       addTime: new Date('2024-03-02'),
       releaseTime: new Date('2013-11-25'),
       imgURL: 'https://i.scdn.co/image/ab67616d00001e022f76b797c382bedcafdf45e1',
+      isFocus: false,
       // },{
       //   id: 4,
       //   itemName: 'Millennium Mother',
@@ -130,13 +135,14 @@ export class ListViewComponent implements OnInit {
   //   });
   // }
 
-  onMouseOver(): void {
-    // this.showDeleteIcon = true;
+  setFocusOn(): boolean {
+    return true;
   }
 
-  onMouseLeave(): void {
-    // this.showDeleteIcon = false;
+  setFocusOff(): boolean {
+    return false;
   }
+
   deleteItem(id: number): void {
     const confirmDeletion = confirm('Are you sure you want to delete this item?');
     if (confirmDeletion) {

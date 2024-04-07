@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { faPlayCircle, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -11,7 +11,11 @@ export class AddNewWantToListenItemComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  addNewItem(): void {}
+  @Input() itemURI!: string;
+
+  protected addNewItem(itemURI: string): void {
+    console.log('adding ' + itemURI);
+  }
 
   protected readonly faPlusSquare = faPlusSquare;
 }
