@@ -5,9 +5,10 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class CheckExistService {
+export class FetchAccService {
   constructor(private http: HttpClient) {}
-  checkExist(id: number): Observable<any> {
-    return this.http.get(`api/rating/check?id=${id}`);
+
+  fetchAcc(): Observable<any> {
+    return this.http.get(`api/rating/acc`);
   }
 }
