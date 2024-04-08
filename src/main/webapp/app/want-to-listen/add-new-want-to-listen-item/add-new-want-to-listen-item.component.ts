@@ -21,7 +21,7 @@ export class AddNewWantToListenItemComponent implements OnInit {
       userID: this.userID,
     };
     // sending http request
-    // this.http.post("api/want-to-listen-list/post", body)
+    this.http.post('api/want-to-listen-list/post', body);
     console.log('Adding item: ' + this.itemURI + 'to User: ' + this.userID);
     console.log(body);
   }

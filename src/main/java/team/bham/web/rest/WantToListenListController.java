@@ -3,6 +3,7 @@ package team.bham.web.rest;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class WantToListenListController {
     @Resource
     private WantToListenListService wantListService;
 
+    @Resource
     private WantToListenListEntryService entryService;
 
     @GetMapping("/all")
@@ -56,17 +58,14 @@ public class WantToListenListController {
     }
 
     @GetMapping("/post")
-    public ResponseUtils addWantToListenListEntry(@RequestParam String spotifyURI, @RequestParam String userID) {
+    public ResponseUtils addWantToListenListEntry(@RequestBody WantToListenListEntryDTO entryDTO) {
         System.out.println("**********************Get api want-to-listen/post request*************************");
-        System.out.println("spotifyURI: " + spotifyURI);
-        System.out.println("userID: " + userID);
+        System.out.println("spotifyURI: " + entryDTO.getSpotifyURI());
+        System.out.println("userID: " + entryDTO.getUserID());
         System.out.println("**********************************************************************************");
         ResponseUtils resp;
 
-        WantToListenListEntryDTO entryDTO = new WantToListenListEntryDTO();
         Instant now = Instant.now();
-        entryDTO.setSpotifyURI(spotifyURI);
-        entryDTO.setUserID(userID);
         entryDTO.setAddTime(now);
         try {
             entryService.save(entryDTO);
