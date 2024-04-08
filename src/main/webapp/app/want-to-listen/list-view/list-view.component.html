@@ -76,7 +76,14 @@
         <h5>{{ item.reviewsCount | number: '':'en' }}</h5>
       </td>
       <td class="col-1 text-center">
-        <fa-icon [icon]="faTrash" *ngIf="item.isFocus" (click)="deleteItem(item.id)" class="trash-icon"></fa-icon>
+        <button class="col-auto btn" style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: rgba(0, 0, 0, 0)">
+          <fa-icon
+            [icon]="faTrash"
+            *ngIf="item.isFocus"
+            (click)="deleteItem(item.id)"
+            style="font-size: 2em; margin: 0; padding: 0; color: #447848"
+          ></fa-icon>
+        </button>
       </td>
     </tr>
   </tbody>
