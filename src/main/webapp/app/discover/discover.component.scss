@@ -4,7 +4,7 @@
 }
 
 body {
-  font-family: Open Sans, Arial, sans-serif;
+  font-family: 'Anta', sans-serif;
   overflow-x: hidden;
 }
 
@@ -12,18 +12,22 @@ body {
   color: white;
   font-size: 2rem;
   text-align: center;
-  font-family: 'Anta', sans-serif;
+  //font-family: 'Anta', sans-serif;
 }
 
+p {
+  color: white;
+}
 .sidebar {
-  top: 4.5rem;
-  position: relative;
+  z-index: auto;
+  top: 0;
+  position: fixed;
   bottom: 0;
   border: 2.5px solid black;
   box-sizing: border-box;
   background-color: #2a3e2c;
   padding: 10px;
-  padding-top: 30px;
+  padding-top: 5rem;
 }
 .sidebar ul {
   list-style: none;

@@ -36,6 +36,7 @@ Navbar
   width: 1.75em;
 }
 .navbar {
+  z-index: 10000;
   padding: 0.2rem 1rem;
   // background-color: #ff0101;
   .dropdown-item.active,
