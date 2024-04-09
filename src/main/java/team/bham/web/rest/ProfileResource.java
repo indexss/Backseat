@@ -16,9 +16,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import team.bham.domain.Profile;
+import team.bham.domain.User;
 import team.bham.repository.ProfileRepository;
 import team.bham.service.ProfileService;
+import team.bham.service.UserService;
 import team.bham.service.dto.ProfileDTO;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -43,9 +47,12 @@ public class ProfileResource {
 
     private final ProfileRepository profileRepository;
 
-    public ProfileResource(ProfileService profileService, ProfileRepository profileRepository) {
+    private final UserService userService;
+
+    public ProfileResource(ProfileService profileService, ProfileRepository profileRepository, UserService userService) {
         this.profileService = profileService;
         this.profileRepository = profileRepository;
+        this.userService = userService;
     }
 
     /**
@@ -163,6 +170,18 @@ public class ProfileResource {
         log.debug("REST request to get Profile : {}", id);
         Optional<ProfileDTO> profileDTO = profileService.findOne(id);
         return ResponseUtil.wrapOrNotFound(profileDTO);
+    }
+
+    @GetMapping("/profiles/mine")
+    public Profile getMyProfile() {
+        log.debug("REST request to get own Profile");
+        Optional<User> u = userService.getUserWithAuthorities();
+        if (u.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        Optional<Profile> prof = profileRepository.findByUserLogin(u.get().getLogin());
+        return prof.get();
+
     }
 
     /**
