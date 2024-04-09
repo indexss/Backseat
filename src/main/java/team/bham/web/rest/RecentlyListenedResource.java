@@ -1,6 +1,9 @@
 package team.bham.web.rest;
 
 import java.io.IOException;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import team.bham.config.ApplicationProperties;
 import team.bham.service.SpotifyConnectionService;
@@ -22,10 +25,10 @@ public class RecentlyListenedResource {
         this.appProps = appProps;
     }
 
-    @GetMapping("/track")
-    public TrackResponse getTrack() throws IOException, InterruptedException, SpotifyException {
+    @GetMapping("/recent")
+    public TrackResponse[] getTrack() throws IOException, InterruptedException, SpotifyException {
         SpotifyAPI client = new SpotifyAPI(new SpotifyCredential(appProps, spotifyConnectionService, "spotify:user:josiemp169"));
-        TrackResponse resp = client.getTrack("4QVB1ZS4a15oz6md6YiSZV");
+        TrackResponse resp[] = { client.getTrack("7FAFkQQZFeNwOFzTrSDFIh"), client.getTrack("7FAFkQQZFeNwOFzTrSDFIh") };
         return resp;
     }
 }

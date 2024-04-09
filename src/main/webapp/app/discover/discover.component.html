@@ -179,11 +179,9 @@
 
   <div class="sidebar" style="width: 25%; right: 0">
     <div class="head1">Recently Listened</div>
-    <div class="head1">Track:</div>
-    <div *ngIf="Test.length > 0">
-      <h2>Track Information:</h2>
-      <div *ngFor="let tester of Test">
-        <p>Name: {{ tester }}</p>
+    <div *ngIf="Track.length > 0">
+      <div *ngFor="let track of Track">
+        <p>Name: {{ track.name }}</p>
       </div>
     </div>
   </div>

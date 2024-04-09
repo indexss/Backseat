@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import dayjs from 'dayjs/esm';
 import { GetMusicService } from './getMusicService';
-import { getRecentlyListenedTracks } from './getRecentlyListenedTracks';
+import { getRecentlyListenedService } from './getRecentlyListenedService';
 import { testService } from './test.service';
 
 interface Record {
@@ -43,9 +43,6 @@ interface TrackResponse {
     id: string;
   }[];
 }
-interface Tester {
-  name: string;
-}
 @Component({
   selector: 'jhi-discover',
   templateUrl: './discover.component.html',
@@ -61,7 +58,7 @@ export class DiscoverComponent implements OnInit {
   Test: String[] = [];
   constructor(
     private getMusicService: GetMusicService,
-    private recentlyListenedTracksService: getRecentlyListenedTracks,
+    private recentlyListenedTracksService: getRecentlyListenedService,
     private testing: testService
   ) {}
 
@@ -79,30 +76,19 @@ export class DiscoverComponent implements OnInit {
       // Handle errors here
       console.error(error);
     });
-    this.recentlyListenedTracksService.getTrack().subscribe(
-      data => {
-          console.log('data: ');
-          console.log(data);
-          this.Track.push();
-    },
-    error => {
-      // Handle errors here
-      console.error(error);
-    }
-    );
-    */
-    this.testing.getTest().subscribe({
-      next: (data: String) => {
-        // Handle the data received from the HTTP request
+*/
+
+    this.recentlyListenedTracksService.getTrack().subscribe({
+      next: (data: TrackResponse[]) => {
         console.log('Response:', data);
-        this.Test.push(data);
+        this.Track = data;
+
+        console.log(this.Track[0], '#######################################################');
       },
       error: error => {
-        // Handle errors if the HTTP request fails
         console.error('Error:', error);
       },
       complete: () => {
-        // Optional: Handle completion of the observable stream
         console.log('Request completed');
       },
     });
