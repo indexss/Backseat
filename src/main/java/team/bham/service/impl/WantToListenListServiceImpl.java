@@ -35,6 +35,7 @@ public class WantToListenListServiceImpl implements WantToListenListService {
 
     @Override
     public List<WantToListenListEntry> fetchUserWantToListenList(@Param("User ID") String userID) {
+        //re-organized list before return value TODO
         return wantListRepository.findAllByUserIDOrderByAddTimeAsc(userID);
     }
 }

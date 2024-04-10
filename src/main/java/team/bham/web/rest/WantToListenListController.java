@@ -36,26 +36,7 @@ public class WantToListenListController {
         return resp;
     }
 
-    @GetMapping("/test")
-    public ResponseUtils fetchTestList() {
-        ResponseUtils resp;
-        try {
-            String json =
-                "[{" +
-                "\"id\": 0," +
-                "\"spotifyURI\": \"String\"," +
-                "\"userID\": \"String\"," +
-                "\"addTime\": \"2024-03-19T21:20:39.402Z\"" +
-                "}]";
-            resp = new ResponseUtils().put("test", json);
-        } catch (Exception e) {
-            System.out.println("Testing Error");
-            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
-        }
-        return resp;
-    }
-
-    @GetMapping("/post")
+    @PostMapping("/post")
     public ResponseUtils addWantToListenListEntry(@RequestBody WantToListenListEntryDTO entryDTO) {
         System.out.println("**********************Get api want-to-listen/post request*************************");
         System.out.println("spotifyURI: " + entryDTO.getSpotifyURI());
@@ -67,6 +48,19 @@ public class WantToListenListController {
         try {
             entryService.save(entryDTO);
             resp = new ResponseUtils().put("Adding Complete", entryDTO.getAddTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
+    @GetMapping("/user")
+    public ResponseUtils fetchEntriesByUser(@RequestParam String userID) {
+        ResponseUtils resp;
+        try {
+            //new service to be testing!!
+            resp = new ResponseUtils().put(userID, wantListService.fetchUserWantToListenList(userID));
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
