@@ -29,16 +29,9 @@ p {
   padding: 10px;
   padding-top: 5rem;
 }
-.sidebar ul {
-  list-style: none;
-  margin-top: 100px;
-}
-.sidebar ul li a {
-  text-decoration: none;
-  display: block;
-  text-align: center;
-  color: #fff;
-  padding: 10px 0;
+
+.text-decoration-none {
+  text-decoration: none !important;
 }
 
 /*

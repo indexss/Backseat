@@ -16,6 +16,7 @@ import team.bham.spotify.responses.TrackResponse;
 @RequestMapping("/api/discover")
 public class RecentlyListenedResource {
 
+    private final Logger log = LoggerFactory.getLogger(RecentlyListenedResource.class);
     private final ApplicationProperties appProps;
     private final SpotifyConnectionService spotifyConnectionService;
 
@@ -28,7 +29,9 @@ public class RecentlyListenedResource {
     @GetMapping("/recent")
     public TrackResponse[] getTrack() throws IOException, InterruptedException, SpotifyException {
         SpotifyAPI client = new SpotifyAPI(new SpotifyCredential(appProps, spotifyConnectionService, "spotify:user:josiemp169"));
-        TrackResponse resp[] = { client.getTrack("7FAFkQQZFeNwOFzTrSDFIh"), client.getTrack("7FAFkQQZFeNwOFzTrSDFIh") };
+        TrackResponse resp[] = { client.getTrack("7FAFkQQZFeNwOFzTrSDFIh"), client.getTrack("1PJu7IPmGJZx5fAQeL4trB") };
+        //TrackResponse resp[] = client.getRecentTracks();
+
         return resp;
     }
 }

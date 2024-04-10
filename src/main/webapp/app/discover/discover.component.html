@@ -181,7 +181,15 @@
     <div class="head1">Recently Listened</div>
     <div *ngIf="Track.length > 0">
       <div *ngFor="let track of Track">
-        <p>Name: {{ track.name }}</p>
+        <div class="d-flex align-items-center">
+          <a [routerLink]="['/rating', track.uri]">
+            <img [src]="track.album.images[0].url" style="width: 100px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
+          </a>
+          <div class="flex-grow-1">
+            <a [routerLink]="['/rating', track.uri]" class="text-decoration-none text-left d-block">{{ track.name }}</a>
+            <div class="text-muted">{{ track.artists[0].name }}</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
