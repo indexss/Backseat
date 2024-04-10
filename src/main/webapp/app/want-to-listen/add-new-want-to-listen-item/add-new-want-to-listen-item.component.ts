@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { faPlayCircle, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import { HttpClient } from '@angular/common/http';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-add-new-want-to-listen-item',
@@ -19,9 +20,10 @@ export class AddNewWantToListenItemComponent implements OnInit {
     const body = {
       spotifyURI: this.itemURI,
       userID: this.userID,
+      now: dayjs().format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
     };
     // sending http request
-    this.http.post('api/want-to-listen-list/post', body);
+    this.http.post('api/want-to-listen-list', body);
     console.log('Adding item: ' + this.itemURI + 'to User: ' + this.userID);
     console.log(body);
   }

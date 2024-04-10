@@ -5,10 +5,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import javax.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 import team.bham.domain.WantToListenListEntry;
 import team.bham.service.WantToListenListEntryService;
 import team.bham.service.WantToListenListService;
@@ -62,14 +60,13 @@ public class WantToListenListController {
         System.out.println("**********************Get api want-to-listen/post request*************************");
         System.out.println("spotifyURI: " + entryDTO.getSpotifyURI());
         System.out.println("userID: " + entryDTO.getUserID());
+        System.out.println("Add Time: " + entryDTO.getAddTime());
         System.out.println("**********************************************************************************");
         ResponseUtils resp;
 
-        Instant now = Instant.now();
-        entryDTO.setAddTime(now);
         try {
             entryService.save(entryDTO);
-            resp = new ResponseUtils().put("Adding Complete", now.toString());
+            resp = new ResponseUtils().put("Adding Complete", entryDTO.getAddTime());
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
