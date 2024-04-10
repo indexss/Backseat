@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import dayjs from 'dayjs/esm';
 import { Observable } from 'rxjs';
+import { RestWantToListenListEntry } from '../entities/want-to-listen-list-entry/service/want-to-listen-list-entry.service';
 
 interface listItem {
   spotifyURI: string;
@@ -23,10 +24,10 @@ export class WantToListenService {
     };
 
     console.log(body);
-    this.http.post('/api/want-to-listen-list/post', body);
+    this.http.post<RestWantToListenListEntry>('api/want-to-listen-list-entries', body, { observe: 'response' });
   }
 
   getAllEntries(): Observable<any> {
-    return this.http.get('/api/want-to-listen-list/all');
+    return this.http.get('api/want-to-listen-list/all');
   }
 }
