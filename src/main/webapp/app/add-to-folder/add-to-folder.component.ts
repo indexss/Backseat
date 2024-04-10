@@ -59,14 +59,12 @@ export class AddToFolderComponent implements OnInit {
   openModal(spotifyURI: string, content: TemplateRef<any>): void;
   openModal(content: TemplateRef<any>): void;
 
-  openModal(arg1: any, arg2?: any): void {
-    if (typeof arg1 === 'string') {
-      // 处理第一个重载的情况
-      this.spotifyURI = arg1;
-      this.modalRef = this.modalService.open(arg2, { centered: true });
+  openModal(a: any, b?: any): void {
+    if (typeof a === 'string') {
+      this.spotifyURI = a;
+      this.modalRef = this.modalService.open(b, { centered: true });
     } else {
-      // 处理第二个重载的情况
-      this.modalService.open(arg1, { centered: true });
+      this.modalService.open(a, { centered: true });
     }
   }
 

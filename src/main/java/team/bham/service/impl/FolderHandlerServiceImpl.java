@@ -85,9 +85,7 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
     }
 
     public String createImageURL(byte[] image, String imageContentType) {
-        // 将字节数组编码为Base64字符串
         String imageDataString = Base64.getEncoder().encodeToString(image);
-        // 构建数据URI
         String imageURL = "data:" + imageContentType + ";base64," + imageDataString;
         return imageURL;
     }

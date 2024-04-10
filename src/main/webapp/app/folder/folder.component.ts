@@ -55,12 +55,6 @@ export class FolderComponent implements OnInit {
     });
   }
 
-  // nameChange() {
-  //   const newName = prompt('Enter the new name below (max 18 characters):', this.folderName);
-  //   if (newName !== null) {
-  //     this.folderName = newName.substring(0, 18);
-  //   }
-  // }
   getSpotifyLink(spotifyURI: string): string {
     let spotifyLink: string = '';
     if (spotifyURI.startsWith('spotify:track:')) {

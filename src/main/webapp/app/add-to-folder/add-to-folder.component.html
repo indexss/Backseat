@@ -45,7 +45,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let folder of folderList">
-        <th scope="row" class="text-center">{{ folder.id }}</th>
+        <th scope="row" class="text-center align-middle">{{ folder.id }}</th>
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/folderPage', folder.folderId]">
