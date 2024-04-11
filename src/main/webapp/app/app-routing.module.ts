@@ -14,6 +14,8 @@ import { SearchComponent } from './search/search.component';
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 import { RatingComponent } from './rating/rating.component';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
+import { FolderComponent } from './folder/folder.component';
+import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
 import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
@@ -31,6 +33,22 @@ import { ProfileComponent } from './profile/profile.component';
         {
           path: 'leaderboard',
           component: LeaderboardComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
+        {
+          path: 'folderPage/:id',
+          component: FolderComponent,
+          data: {
+            authorities: [],
+          },
+        },
+
+        {
+          path: 'addToFolder',
+          component: AddToFolderComponent,
           data: {
             authorities: [],
           },

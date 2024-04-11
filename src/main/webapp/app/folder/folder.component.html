@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-auto">
+        <img [src]="imageURL" style="width: 300px; height: 300px; margin: 5px; border-radius: 10%" class="me-3" />
+      </div>
+      <div class="col-auto d-flex flex-column position-relative">
+        <h2>{{ folderName | slice: 0:18 }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-hover mt-5">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="text-center align-middle table-text green">#</th>
+        <th scope="col" class="text-center align-middle table-text green">Name</th>
+        <th scope="col" class="text-center align-middle table-text green">Artist</th>
+        <th scope="col" class="text-center align-middle table-text green">Listen</th>
+        <th scope="col" class="text-center align-middle table-text green">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let folderEntry of folderEntryList; let i = index"
+        (mouseenter)="folderEntry.hovered = true"
+        (mouseleave)="folderEntry.hovered = false"
+      >
+        <th scope="row" class="text-center align-middle" style="color: #666666">{{ i + 1 }}</th>
+        <td>
+          <div class="d-flex align-items-center">
+            <a [routerLink]="['/rating', folderEntry.spotifyURI]">
+              <img [src]="entryInfoList[i].imageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />
+            </a>
+            <div class="flex-grow-1">
+              <a [routerLink]="['/rating', folderEntry.spotifyURI]" class="text-left d-block">
+                <strong>{{ entryInfoList[i].entryName }}</strong>
+                <div *ngIf="folderEntry.hovered">Entry Date: {{ folderEntry.addTime | slice: 0:10 }}</div>
+              </a>
+            </div>
+          </div>
+        </td>
+
+        <td class="text-center align-middle">
+          <strong style="color: #666666">{{ entryInfoList[i].artist }}</strong>
+        </td>
+        <td class="text-center align-middle">
+          <a [href]="getSpotifyLink(folderEntry.spotifyURI)" target="_blank" class="btn btn-green">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
+              <path
+                d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"
+              />
+            </svg>
+          </a>
+        </td>
+        <td class="text-center align-middle">
+          <button class="btn btn-gray" (click)="deleteFolderEntry(folderEntry.spotifyURI)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
+              />
+              <path
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
+              />
+            </svg>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
