@@ -35,4 +35,17 @@ public class GenerateDataController {
         }
         return resp;
     }
+
+    @GetMapping("/generatemusic")
+    public ResponseUtils generateMusic() {
+        ResponseUtils resp = null;
+        try {
+            generateTestDataService.generateMusic();
+            resp = new ResponseUtils();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
 }
