@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AccountService} from "../../core/auth/account.service";
 import {Router} from "@angular/router";
+import {Account} from "../../core/auth/account.model";
 
 @Component({
   selector: 'jhi-redirector',
@@ -12,7 +13,7 @@ export class RedirectorComponent implements OnInit {
   constructor(private accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
-    this.accountService.identity().subscribe((acc) => {
+    this.accountService.identity().subscribe((acc: Account | null) => {
       if (acc == null) {
         // Not logged in - not sure where this is supposed to be going so redirect to home
         this.router.navigateByUrl("/");
