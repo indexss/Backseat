@@ -36,12 +36,15 @@ import { LeaderboardFolderComponent } from './leaderboard-folder/leaderboard-fol
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 import { ListViewComponent } from './want-to-listen/list-view/list-view.component';
 
+//For search bar I(Finn) import ng2 search filter
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 @NgModule({
   imports: [
     FormsModule,
     BrowserModule,
     SharedModule,
     HomeModule,
+    Ng2SearchPipeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     AppRoutingModule,
     // Set this to true to enable service worker (PWA)

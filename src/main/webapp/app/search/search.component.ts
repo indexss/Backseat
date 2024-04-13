@@ -24,4 +24,8 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     console.log('ksdj1');
   }
+
+  get filteredHeroes() {
+    return this.searchText ? this.heroes.filter(hero => hero.name.toLowerCase().includes(this.searchText.toLowerCase())) : this.heroes;
+  }
 }
