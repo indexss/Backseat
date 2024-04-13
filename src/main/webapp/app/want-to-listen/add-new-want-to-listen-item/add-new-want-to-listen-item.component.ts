@@ -27,7 +27,7 @@ export class AddNewWantToListenItemComponent implements OnInit {
     };
 
     console.log(this.wtlEntryService.create(newEntry));
-    // this.service.addNewItem(this.itemURI, this.userID);
+    this.service.addNewItem(this.itemURI, this.userID).subscribe().unsubscribe();
     console.log('Adding item: ' + this.itemURI + 'to User: ' + this.userID);
   }
 

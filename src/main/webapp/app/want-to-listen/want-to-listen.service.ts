@@ -2,29 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import dayjs from 'dayjs/esm';
 import { Observable } from 'rxjs';
-import { RestWantToListenListEntry } from '../entities/want-to-listen-list-entry/service/want-to-listen-list-entry.service';
+import { Dayjs } from 'dayjs';
 
 interface listItem {
   spotifyURI: string;
   userID: string;
-  addTime: string;
+  addTime: Dayjs;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class WantToListenService {
-  constructor(private http: HttpClient) {}
+  constructor(protected http: HttpClient) {}
 
-  addNewItem(itemURI: string, userID: string): void {
+  addNewItem(itemURI: string, userID: string): Observable<any> {
     const body: listItem = {
       spotifyURI: itemURI,
       userID: userID,
-      addTime: dayjs().format('YYYY-MM-DDTHH:mm:ss.SSSZ'),
+      addTime: dayjs(),
     };
-
     console.log(body);
-    this.http.post<RestWantToListenListEntry>('api/want-to-listen-list-entries', body, { observe: 'response' });
+    return this.http.post('api/want-to-listen-list-entries', body);
   }
 
   getAllEntries(): Observable<any> {
