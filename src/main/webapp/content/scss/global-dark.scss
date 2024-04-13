@@ -1,0 +1,18 @@
+@import 'bootstrap-variables';
+@import '~bootstrap/scss/functions';
+@import '~bootswatch/dist/flatly/variables';
+@import '~bootstrap/scss/variables';
+@import url('https://fonts.googleapis.com/css?family=Anta&display=swap');
+
+/* ==============================================================
+Bootstrap tweaks
+===============================================================*/
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+span {
+  background-color: #ff0000;
+}
