@@ -1,1 +1,23 @@
-<p>search works!</p>
+<div class="container">
+  <div class="row">
+    <div class="search-hero">
+      <input type="text" name="search" [(ngModel)]="searchText" placeholder="Search by hero, id or country" />
+    </div>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Hero Name</th>
+        <th>Country</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let hero of heroes | filter: searchText">
+        <td>{{ hero.id }}</td>
+        <td>{{ hero.name }}</td>
+        <td>{{ hero.country }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
