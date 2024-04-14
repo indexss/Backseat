@@ -13,6 +13,11 @@ import { ThemeService } from './theme.service';
 import { DeleteReviewService } from './delete-review.service';
 import { FetchAccService } from './fetch-acc.service';
 
+// I am so sorry for fetch review becomes a big chaos in my code
+// That's majorly because the redirect happens a lot in my page which my result rating page
+// unable to load resource
+// And there are lots of user input that may change the data in the page
+
 @Component({
   selector: 'jhi-rating',
   templateUrl: './rating.component.html',

@@ -1,23 +1,45 @@
 <div class="container">
   <div class="row">
     <div class="search-hero">
-      <input type="text" name="search" [(ngModel)]="searchText" placeholder="Search by hero, id or country" />
+      <input type="text" name="search" [(ngModel)]="searchText" placeholder="Search  Track" />
     </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
+          <th scope="col" class="table-text green anta-regular">Track</th>
+          <th *ngIf="!isAlbum" scope="col" class="text-center align-middle table-text green anta-regular">Album</th>
+          <th *ngIf="isAlbum" scope="col" class="text-center align-middle table-text green anta-regular"></th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Reviews</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Rating</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Add</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let record of filteredRecords | filter: searchText"
+          [ngClass]="{ 'new-record-animation': record.newItem }"
+          class="record-animation"
+        >
+          <th scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
+          <td>
+            <div class="d-flex align-items-center">
+              <a [routerLink]="['/rating', record.trackURI]">
+                <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+              </a>
+              <div class="flex-grow-1">
+                <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
+                  <strong>{{ record.trackName }}</strong>
+                  <p>{{ record.artist }}</p>
+                </a>
+              </div>
+            </div>
+          </td>
+          <td class="text-center align-middle row-album">{{ record.album }}</td>
+          <td class="text-center align-middle row-reviews">{{ record.reviews }}</td>
+          <td class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Hero Name</th>
-        <th>Country</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let hero of filteredHeroes | filter: searchText">
-        <td>{{ hero.id }}</td>
-        <td>{{ hero.name }}</td>
-        <td>{{ hero.country }}</td>
-      </tr>
-    </tbody>
-  </table>
 </div>
