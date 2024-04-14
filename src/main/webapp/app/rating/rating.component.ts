@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FetchReviewInfoService } from './fetch-review-info.service';
 import { Review } from './review.interface';
@@ -12,12 +12,20 @@ import { Track } from './track.interface';
 import { ThemeService } from './theme.service';
 import { DeleteReviewService } from './delete-review.service';
 import { FetchAccService } from './fetch-acc.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
 
 // I am so sorry for fetch review becomes a big chaos in my code
 // That's majorly because the redirect happens a lot in my page which my result rating page
 // unable to load resource
 // And there are lots of user input that may change the data in the page
-
+interface Folder {
+  id: number;
+  folderId: number;
+  folderName: string;
+  imageURL: string;
+}
 @Component({
   selector: 'jhi-rating',
   templateUrl: './rating.component.html',
@@ -56,6 +64,12 @@ export class RatingComponent implements OnInit {
   reviewsPerPage: number = 5;
   userName!: string;
   albumReviewList: Review[] = [];
+  //folder part
+  spotifyURI!: string;
+  modalRef!: NgbModalRef;
+  folderList: Folder[] = [];
+  faSquarePlus = faSquarePlus;
+
   constructor(
     private route: ActivatedRoute,
     private fetchReviewInfoService: FetchReviewInfoService,
@@ -66,10 +80,19 @@ export class RatingComponent implements OnInit {
     private deleteReviewService: DeleteReviewService,
     private router: Router,
     private themeService: ThemeService,
-    private fetchAcc: FetchAccService
+    private fetchAcc: FetchAccService,
+    private modalService: NgbModal,
+    private addToFolderService: AddToFolderService
   ) {}
 
   ngOnInit(): void {
+    this.addToFolderService.getUserFolder().subscribe(data => {
+      this.folderList = data.data.folder;
+    });
+    console.log('!!!!!!!!!!!!!!!!!!');
+    console.log('folder list:');
+    console.log(this.folderList);
+
     this.route.params.subscribe(params => {
       // console.log("next is id:");
       // console.log(params['id']);
@@ -185,6 +208,43 @@ export class RatingComponent implements OnInit {
     });
   }
 
+  // From  Willis Shi
+  openModal(spotifyURI: string, content: TemplateRef<any>): void;
+  openModal(content: TemplateRef<any>): void;
+
+  openModal(arg1: any, arg2?: any): void {
+    if (typeof arg1 === 'string') {
+      // 处理第一个重载的情况
+      this.spotifyURI = arg1;
+      console.log('folderlist');
+      this.modalRef = this.modalService.open(arg2, { centered: true });
+    } else {
+      // 处理第二个重载的情况
+      this.modalService.open(arg1, { centered: true });
+    }
+  }
+
+  addToFolder(folderId: number) {
+    console.log(`Adding trackURI: ${this.spotifyURI} to folderId: ${folderId}`);
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.addToFolderService.addEntryFolder(this.spotifyURI, folderId).subscribe(data => {});
+      }
+    });
+    this.modalRef.close();
+  }
+
+  getSpotifyLink(spotifyURI: string): string {
+    let spotifyLink: string = '';
+    if (spotifyURI.startsWith('spotify:track:')) {
+      spotifyLink = spotifyURI.replace('spotify:track:', 'https://open.spotify.com/track/');
+    } else if (spotifyURI.startsWith('spotify:album:')) {
+      spotifyLink = spotifyURI.replace('spotify:album:', 'https://open.spotify.com/album/');
+    } else {
+      console.error('Unsupported SpotifyURI: ', spotifyURI);
+    }
+    return spotifyLink;
+  }
   onTrackSelected(spotifyURI: string): void {
     this.selectedTrack = this.trackList.find(track => track.spotifyURI === spotifyURI);
   }
