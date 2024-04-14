@@ -29,4 +29,8 @@ export class WantToListenService {
   getAllEntries(): Observable<any> {
     return this.http.get('api/want-to-listen-list/all');
   }
+
+  getUserEntries(userID: string): Observable<any> {
+    return this.http.get(`api/want-to-listen-list/user?${userID}`);
+  }
 }

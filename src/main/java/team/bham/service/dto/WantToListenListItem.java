@@ -1,7 +1,6 @@
 package team.bham.service.dto;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import org.springframework.data.repository.query.Param;
 import team.bham.domain.Artist;
@@ -14,7 +13,7 @@ public class WantToListenListItem {
     private String itemUri;
     private String addTime;
     private String albumName;
-    private List<artist> artistList;
+    private String artists;
     private int reviewsCount;
     private double rating;
     private String releaseDate;
@@ -52,11 +51,8 @@ public class WantToListenListItem {
         this.itemName = itemName;
     }
 
-    public void setArtistList(Set<Artist> artistList) {
-        this.artistList = new ArrayList<>();
-        for (Artist artist : artistList) {
-            this.artistList.add(new artist(artist.getName(), artist.getSpotifyURI()));
-        }
+    public void setArtists(String artists) {
+        this.artists = artists;
     }
 
     public void setAlbumName(@Param("Album name **IF APPLY**") String albumName) {
@@ -83,8 +79,8 @@ public class WantToListenListItem {
         return addTime;
     }
 
-    public String getArtistList() {
-        return artistList.toString();
+    public String getArtists() {
+        return artists;
     }
 
     public int getReviewsCount() {
