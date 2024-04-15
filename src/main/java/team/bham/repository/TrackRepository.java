@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import team.bham.domain.Album;
 import team.bham.domain.Track;
 
 /**
@@ -86,4 +85,8 @@ public interface TrackRepository extends TrackRepositoryWithBagRelationships, Jp
         @Param("text") String text,
         Pageable pageable
     );
+
+    /*TODO*/
+    @Query("select t from Track t where t.name == :name")
+    Track fetchTrackbyRecentReview(@Param("name") Track name);
 }
