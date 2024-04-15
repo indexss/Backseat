@@ -22,6 +22,15 @@ interface Record {
   imgURL: string;
   newItem?: boolean;
 }
+interface Album {
+  id: number;
+  albumName: string;
+  reviews: number;
+  rating: number;
+  artist: string;
+  albumURI: string;
+  imgURI: string;
+}
 interface Folder {
   id: number;
   folderId: number;
@@ -44,6 +53,7 @@ export class SearchComponent implements OnInit {
   selectedTrack: Record | null = null;
   showSuggestions = false;
   folderList: Folder[] = [];
+  albumList: Album[] = [];
 
   constructor(
     private fetchTrackService: FetchTrackService,
@@ -61,6 +71,8 @@ export class SearchComponent implements OnInit {
     this.fetchTrackService.getTrack().subscribe(
       data => {
         // Assuming data.data.leaderboard is the correct path to your records
+        // I am so sorry here : data.data.leaderboard means recordList from Search Controller
+        // Time is not enough  I do not want to change in case of emerging any bug
         const newData: Record[] = data.data.leaderboard.map((item: any) => ({
           id: item.id,
           trackName: item.trackName,
@@ -73,6 +85,19 @@ export class SearchComponent implements OnInit {
           newItem: true, // Assuming you want to set newItem to true for the animation
         }));
         this.recordList = newData;
+        const newAlbumData: Album[] = data.data.album.map((item: any) => ({
+          id: item.id,
+          AlbumName: item.album,
+          reviews: item.reviews,
+          rating: item.rating,
+          artist: item.artist,
+          albumURI: item.albumURI,
+          imgURL: item.imgURL,
+          newItem: true, // Assuming you want to set newItem to true for the animation
+        }));
+        this.albumList = newAlbumData;
+        console.log('data.data.album', data.data.album);
+        console.log('albumList', this.albumList);
       },
       error => {
         // Handle any errors here
