@@ -72,6 +72,10 @@ export class ProfileComponent implements OnInit {
       },
       error: (err) => {
         // TODO(txp271): handle this!
+        if (err.status == 404) {
+          this.router.navigate(["/404"]);
+          return;
+        }
         alert(JSON.stringify(err));
         this.router.navigate([]);
       },
