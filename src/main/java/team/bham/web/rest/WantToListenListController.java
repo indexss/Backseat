@@ -38,7 +38,7 @@ public class WantToListenListController {
         try {
             //new service to be testing!! TODO: GET api testing: 1. check 'artists'  2. check 'addTime'   3. check 'releaseDate'
             List<WantToListenListItem> itemList = wantListService.fetchUserWantToListenList(userID);
-            resp = new ResponseUtils().put(userID, itemList);
+            resp = new ResponseUtils().put("entryList", itemList);
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());

@@ -110,7 +110,18 @@ export class ListViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.getAllEntries();
+    this.accService.identity().subscribe(acc => {
+      if (acc) {
+        // check if user has logged in, if yes, then get
+        this.service.getUserEntries(acc.login).subscribe(res => {
+          console.log(res);
+          this.testList = res.data.entryList;
+        });
+      } else {
+        console.log('No login');
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   setFocusOn(): boolean {
@@ -125,17 +136,6 @@ export class ListViewComponent implements OnInit {
 
   expand(): void {
     //On mouse click
-  }
-
-  getCurrentUserID(): string {
-    this.accService.identity().subscribe(account => {
-      //Get current user login info and ID
-      if (account == null) {
-        // TODO: If no login, should be redirected to login page
-        console.log('No account login');
-      }
-    });
-    return '';
   }
 
   protected readonly format = format;
