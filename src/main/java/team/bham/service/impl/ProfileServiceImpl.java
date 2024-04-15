@@ -41,7 +41,7 @@ public class ProfileServiceImpl implements ProfileService {
     public void createWhenRegister(User user) {
         Profile profile = new Profile();
         profile.setUsername(user.getLogin());
-        profile.setSpotifyURI(user.getLogin());
+        profile.setSpotifyURI("undefined");
         profile.setUser(user);
         profileRepository1.save(profile);
     }

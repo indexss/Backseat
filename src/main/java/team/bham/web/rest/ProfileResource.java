@@ -204,25 +204,31 @@ public class ProfileResource {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         Profile prof = profOpt.get();
-        UserProfileResponse up = new SpotifyAPI(
-            new SpotifyCredential(
-                this.appProps,
-                this.spotConnServ,
-                SpotifyCredential.SYSTEM
-        )).getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
 
-        int maxImageDims = 0;
-        String maxURL = "https://avatars.platform.tdpain.net/" + login;
-        for (ImageResponse im: up.images) {
-            if (im.width > maxImageDims) {
-                maxImageDims = im.width;
-                maxURL = im.url;
+        String profilePhotoURL = "https://avatars.platform.tdpain.net/" + login;
+
+        if (!"undefined".equals(prof.getSpotifyURI())) {
+
+            System.err.println("cheez: ".concat(prof.getSpotifyURI()));
+            UserProfileResponse up = new SpotifyAPI(
+                new SpotifyCredential(
+                    this.appProps,
+                    this.spotConnServ,
+                    SpotifyCredential.SYSTEM
+                )).getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
+
+            int maxImageDims = 0;
+            for (ImageResponse im : up.images) {
+                if (im.width > maxImageDims) {
+                    maxImageDims = im.width;
+                    profilePhotoURL = im.url;
+                }
             }
         }
 
         HttpHeaders headers = new HttpHeaders();
         // for some reason the response HAS to be JSON so lmao
-        return new ResponseEntity<>("\""+maxURL+"\"", headers, HttpStatus.OK);
+        return new ResponseEntity<>("\""+profilePhotoURL+"\"", headers, HttpStatus.OK);
     }
 
     @GetMapping("/profiles/mine")
