@@ -66,7 +66,7 @@ public class SpotifyCredential implements AccessTokenProvider {
             HttpRequest
                 .newBuilder()
                 .uri(URI.create("https://accounts.spotify.com/api/token"))
-                .POST(HttpRequest.BodyPublishers.ofString(Util.createUrlEncodedString(params)))
+                .POST(HttpRequest.BodyPublishers.ofString(SpotifyUtil.createUrlEncodedString(params)))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header(
                     "Authorization",
@@ -78,16 +78,16 @@ public class SpotifyCredential implements AccessTokenProvider {
 
         if (resp.statusCode() != 200) {
             // TODO(txp271): what does this look like when we have a 401 or 403 or for whatever reason the refresh token is bad?
-            AuthenticationErrorResponse err = Util.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
+            AuthenticationErrorResponse err = SpotifyUtil.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
             throw new SpotifyException("unable to refresh Spotify access token", err.error);
         }
 
         SpotifyConnectionDTO newDto;
 
         if (isSystem()) {
-            newDto = Util.unmarshalJson(resp.body(), ClientCredentialsResponse.class).asSpotifyConnectionDTO();
+            newDto = SpotifyUtil.unmarshalJson(resp.body(), ClientCredentialsResponse.class).asSpotifyConnectionDTO();
         } else {
-            newDto = Util.unmarshalJson(resp.body(), AccessTokenResponse.class).asSpotifyConnectionDTO(this.uri);
+            newDto = SpotifyUtil.unmarshalJson(resp.body(), AccessTokenResponse.class).asSpotifyConnectionDTO(this.uri);
         }
 
         spotifyConnectionService.update(newDto);

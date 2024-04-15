@@ -1,6 +1,5 @@
 package team.bham.spotify;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -41,11 +40,22 @@ public class SpotifyAPI {
         HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri("/me")).build());
 
         if (resp.statusCode() != 200) {
-            APIErrorResponse res = Util.unmarshalJson(resp.body(), APIErrorResponse.class);
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
             throw res.toException();
         }
 
-        return Util.unmarshalJson(resp.body(), UserProfileResponse.class);
+        return SpotifyUtil.unmarshalJson(resp.body(), UserProfileResponse.class);
+    }
+
+    public UserProfileResponse getUser(String id) throws IOException, SpotifyException, InterruptedException {
+        String pathString = "/users/".concat(id);
+        HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri(pathString)).build());
+        System.err.printf("%d %s\n", resp.statusCode(), resp.body());
+        if (resp.statusCode() != 200) {
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
+            throw res.toException();
+        }
+        return SpotifyUtil.unmarshalJson(resp.body(), UserProfileResponse.class);
     }
 
     public TrackResponse getTrack(String id) throws IOException, SpotifyException, InterruptedException {
@@ -58,7 +68,7 @@ public class SpotifyAPI {
         if (market != null) {
             HashMap<String, String> params = new HashMap<>();
             params.put("market", market);
-            pathString = pathString.concat("?" + Util.createUrlEncodedString(params));
+            pathString = pathString.concat("?" + SpotifyUtil.createUrlEncodedString(params));
         }
 
         HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri(pathString)).build());
@@ -66,10 +76,10 @@ public class SpotifyAPI {
         System.err.println(resp.body());
 
         if (resp.statusCode() != 200) {
-            APIErrorResponse res = Util.unmarshalJson(resp.body(), APIErrorResponse.class);
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
             throw res.toException();
         }
 
-        return Util.unmarshalJson(resp.body(), TrackResponse.class);
+        return SpotifyUtil.unmarshalJson(resp.body(), TrackResponse.class);
     }
 }

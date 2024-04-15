@@ -1,6 +1,7 @@
 package team.bham.web.rest;
 
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -14,7 +15,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import team.bham.config.ApplicationProperties;
+import team.bham.domain.Profile;
+import team.bham.domain.SpotifyConnection;
+import team.bham.domain.User;
+import team.bham.repository.ProfileRepository;
+import team.bham.repository.SpotifyConnectionRepository;
+import team.bham.repository.UserRepository;
 import team.bham.service.SpotifyConnectionService;
+import team.bham.service.UserService;
+import team.bham.service.dto.SpotifyConnectionDTO;
 import team.bham.spotify.SpotifyAPI;
 import team.bham.spotify.SpotifyException;
 import team.bham.spotify.SpotifyOauth;
@@ -28,12 +37,27 @@ public class SpotifyOauthResource {
 
     private final Logger log = LoggerFactory.getLogger(SpotifyOauthResource.class);
     private final SpotifyConnectionService spotifyConnectionService;
+    private final SpotifyConnectionRepository spotifyConnectionRepository;
 
     @Autowired
     private ApplicationProperties appProps;
 
-    public SpotifyOauthResource(SpotifyConnectionService spotifyConnectionService) {
+    private UserService userService;
+    private UserRepository userRepository;
+    private ProfileRepository profileRepository;
+
+    public SpotifyOauthResource(
+        SpotifyConnectionService spotifyConnectionService,
+        SpotifyConnectionRepository spotifyConnectionRepository,
+        UserService userService,
+        UserRepository userRepository,
+        ProfileRepository profileRepository
+    ) {
         this.spotifyConnectionService = spotifyConnectionService;
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.profileRepository = profileRepository;
+        this.spotifyConnectionRepository = spotifyConnectionRepository;
     }
 
     @GetMapping("/get-url")
@@ -72,9 +96,15 @@ public class SpotifyOauthResource {
         }
 
         // Store result
-        this.spotifyConnectionService.update(accessToken.asSpotifyConnectionDTO(userProfile.uri));
-
-        // TODO(txp271): link this SpotifyConnection to Profile
+        SpotifyConnectionDTO conn = this.spotifyConnectionService.update(accessToken.asSpotifyConnectionDTO(userProfile.uri));
+        Optional<User> u = userService.getUserWithAuthorities();
+        if (u.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        Profile prof = profileRepository.findByUserLogin(u.get().getLogin()).get();
+        prof.setSpotifyURI(conn.getSpotifyURI());
+        prof.setSpotifyConnection(new SpotifyConnection().spotifyURI(conn.getSpotifyURI()));
+        profileRepository.save(prof);
 
         StoreResultResponse resp = new StoreResultResponse();
         resp.displayName = userProfile.displayName;

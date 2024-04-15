@@ -10,10 +10,14 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import team.bham.domain.User;
 import team.bham.repository.FollowRepository;
 import team.bham.service.FollowService;
+import team.bham.service.UserService;
 import team.bham.service.dto.FollowDTO;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -36,10 +40,12 @@ public class FollowResource {
     private final FollowService followService;
 
     private final FollowRepository followRepository;
+    private final UserService userService;
 
-    public FollowResource(FollowService followService, FollowRepository followRepository) {
+    public FollowResource(FollowService followService, FollowRepository followRepository, UserService userService) {
         this.followService = followService;
         this.followRepository = followRepository;
+        this.userService = userService;
     }
 
     /**
@@ -143,6 +149,31 @@ public class FollowResource {
         return followService.findAll();
     }
 
+    private Optional<FollowDTO> findFollowBetweenLogins(String source, String target) {
+        for (FollowDTO f : followService.findAll()) {
+            if (f.getSourceUserID().equals(source) && f.getTargetUserID().equals(target)) {
+                return Optional.of(f);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @GetMapping("/follows/check/{opposingUserLogin}")
+    public ResponseEntity<Boolean> doesFollowUser(@PathVariable String opposingUserLogin) {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
+        if (fo.isPresent()) {
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.OK);
+    }
+
     /**
      * {@code GET  /follows/:id} : get the "id" follow.
      *
@@ -170,5 +201,38 @@ public class FollowResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/follows/follow/{opposingUserLogin}")
+    public ResponseEntity<String> followUser(@PathVariable String opposingUserLogin) {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
+        if (fo.isEmpty()) {
+            FollowDTO fdto = new FollowDTO();
+            fdto.setSourceUserID(u.getLogin());
+            fdto.setTargetUserID(opposingUserLogin);
+            followService.save(fdto);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/follows/unfollow/{opposingUserLogin}")
+    public ResponseEntity<String> unfollowUser(@PathVariable String opposingUserLogin) {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
+        fo.ifPresent(followDTO -> followService.delete(followDTO.getId()));
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
