@@ -20,7 +20,7 @@
         </div>
 
         <div class="d-flex flex-column align-items-end">
-          <a class="btn btn-primary mb-2 redirectButton" (click)="openModal(id, testContent)">Want-to-listen</a>
+          <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
           <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
         </div>
       </div>
@@ -28,7 +28,9 @@
   </div>
   <br />
   <!-- 在 app.component.html 或其他组件模板中 -->
-
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListen" (close)="this.showAlert = false">
+    <strong>Add to Want-to-listen-list successfully!</strong>
+  </ngb-alert>
   <ngb-alert [dismissible]="true" *ngIf="showAlert" (close)="this.showAlert = false">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>
@@ -126,14 +128,16 @@
         </div>
 
         <div class="d-flex flex-column align-items-end">
-          <a class="btn btn-primary mb-2 redirectButton" (click)="openModal(id, testContent)">Want-to-listen</a>
+          <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
           <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
         </div>
       </div>
     </div>
   </div>
   <br />
-
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListen" (close)="this.showAlert = false">
+    <strong>Add to Want-to-listen-list successfully!</strong>
+  </ngb-alert>
   <ngb-alert [dismissible]="true" *ngIf="showAlert" (close)="this.showAlert = false">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>

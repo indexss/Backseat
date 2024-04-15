@@ -15,7 +15,7 @@ import { FetchAccService } from './fetch-acc.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
-
+import { WantToListenService } from '../want-to-listen/want-to-listen.service';
 // I am so sorry for fetch review becomes a big chaos in my code
 // That's majorly because the redirect happens a lot in my page which my result rating page
 // unable to load resource
@@ -69,6 +69,7 @@ export class RatingComponent implements OnInit {
   modalRef!: NgbModalRef;
   folderList: Folder[] = [];
   faSquarePlus = faSquarePlus;
+  showAddWantListen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -82,7 +83,8 @@ export class RatingComponent implements OnInit {
     private themeService: ThemeService,
     private fetchAcc: FetchAccService,
     private modalService: NgbModal,
-    private addToFolderService: AddToFolderService
+    private addToFolderService: AddToFolderService,
+    private wantToListenService: WantToListenService
   ) {}
 
   ngOnInit(): void {
@@ -222,6 +224,19 @@ export class RatingComponent implements OnInit {
       // 处理第二个重载的情况
       this.modalService.open(arg1, { centered: true });
     }
+  }
+
+  addToWantToListen(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.fetchAcc.fetchAcc().subscribe(data => {
+          this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName);
+        });
+        this.showAddWantListen = true;
+      } else {
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   addToFolder(folderId: number) {
