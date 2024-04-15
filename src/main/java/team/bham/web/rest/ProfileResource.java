@@ -208,8 +208,6 @@ public class ProfileResource {
         String profilePhotoURL = "https://avatars.platform.tdpain.net/" + login;
 
         if (!"undefined".equals(prof.getSpotifyURI())) {
-
-            System.err.println("cheez: ".concat(prof.getSpotifyURI()));
             UserProfileResponse up = new SpotifyAPI(
                 new SpotifyCredential(
                     this.appProps,
