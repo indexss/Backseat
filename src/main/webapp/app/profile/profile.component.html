@@ -8,11 +8,12 @@
     <div>
       <h1>{{ profile?.username }}</h1>
 
-      <div class="d-flex gap-5 fw-bold">
-        <span>40 reviews</span>
-        <span>68 lists</span>
-        <span>13 friends</span>
-      </div>
+          <!-- We'll pretend this isn't here for the time being -->
+<!--      <div class="d-flex gap-5 fw-bold">-->
+<!--        <span>40 reviews</span>-->
+<!--        <span>68 lists</span>-->
+<!--        <span>13 friends</span>-->
+<!--      </div>-->
 
       <p>Joined {{ getCreationDate() }}</p>
 
@@ -70,7 +71,7 @@
       </div>
     </div>
     <div class="col">
-      <div class="d-flex justify-content-center gap-2 pb-4"><h2 class="fs-4">Lists</h2><a [routerLink]="['/lists']"><h2 *ngIf="isSelf" class="fs-4">+</h2></a></div> <!-- TODO(txp271): proper link to list creation -->
+      <div class="d-flex justify-content-center gap-2 pb-4"><h2 class="fs-4">Lists</h2><a [routerLink]="['/addToFolder']"><h2 *ngIf="isSelf" class="fs-4">+</h2></a></div> <!-- TODO(txp271): proper link to list creation -->
 
       <div id="lists">
         <div class="d-flex gap-3 align-items-center">
