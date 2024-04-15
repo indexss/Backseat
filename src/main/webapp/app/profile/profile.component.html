@@ -23,8 +23,10 @@
         <!-- TODO(txp271): more cohesive colour scheme on this button? -->
       </a>
 
-      <!-- TODO(txp271): implement add friend button -->
-      <button *ngIf="!isSelf" class="btn btn-primary">Add friend</button>
+      <!-- TODO(txp271): implement these buttons -->
+      <button *ngIf="!isSelf && !isFollowing" class="btn btn-primary">Add friend</button>
+      <button *ngIf="!isSelf && isFollowing" class="btn btn-danger">Remove friend</button>
+
     </div>
   </div>
 

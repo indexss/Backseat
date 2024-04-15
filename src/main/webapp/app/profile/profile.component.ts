@@ -8,6 +8,7 @@ import {HttpClient} from "@angular/common/http";
 import {ApplicationConfigService} from "../core/config/application-config.service";
 import {IUser} from "../entities/user/user.model";
 import {ISpotifyConnection} from "../entities/spotify-connection/spotify-connection.model";
+import {FollowService} from "../entities/follow/service/follow.service";
 
 interface ModUser {
   id: number;
@@ -36,6 +37,7 @@ export class ProfileComponent implements OnInit {
   private readonly login: string | null;
   protected profile: ModProfile | null = null;
   protected profilePhotoURL: string | null = null;
+  protected isFollowing: boolean | null = null;
 
   constructor(
     private router: Router,
@@ -43,6 +45,7 @@ export class ProfileComponent implements OnInit {
     private accountService: AccountService,
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
+    private followService: FollowService,
   ) {
     this.isSelf = false;
     this.login = this.route.snapshot.paramMap.get("id");
@@ -64,11 +67,11 @@ export class ProfileComponent implements OnInit {
         this.profile = res;
         this.http.get<string>(this.applicationConfigService.getEndpointFor("/api/profiles/byLogin/" + this.login + "/profilePhoto")).subscribe({
           next: (v) => {
-            console.debug(v);
+            console.debug("Profile photo URL: ", v);
             this.profilePhotoURL = v;
           }
         });
-        console.log(res);
+        console.debug("Profile: ", res);
       },
       error: (err) => {
         // TODO(txp271): handle this!
@@ -80,6 +83,18 @@ export class ProfileComponent implements OnInit {
         this.router.navigate([]);
       },
     });
+
+    if (!this.isSelf) {
+      this.http.get<boolean>(this.applicationConfigService.getEndpointFor("/api/follows/check/" + this.login)).subscribe({
+        next: (v) => {
+          console.debug("Follows?", v);
+          this.isFollowing = v;
+        },
+        error: (err) => {
+          alert("Failed to get follow status: " + JSON.stringify(err));
+        },
+      });
+    }
   }
 
   getSpotifyID(): string {

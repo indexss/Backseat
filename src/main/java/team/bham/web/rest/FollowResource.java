@@ -10,10 +10,14 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import team.bham.domain.User;
 import team.bham.repository.FollowRepository;
 import team.bham.service.FollowService;
+import team.bham.service.UserService;
 import team.bham.service.dto.FollowDTO;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -36,10 +40,12 @@ public class FollowResource {
     private final FollowService followService;
 
     private final FollowRepository followRepository;
+    private final UserService userService;
 
-    public FollowResource(FollowService followService, FollowRepository followRepository) {
+    public FollowResource(FollowService followService, FollowRepository followRepository, UserService userService) {
         this.followService = followService;
         this.followRepository = followRepository;
+        this.userService = userService;
     }
 
     /**
@@ -141,6 +147,23 @@ public class FollowResource {
     public List<FollowDTO> getAllFollows() {
         log.debug("REST request to get all Follows");
         return followService.findAll();
+    }
+
+    @GetMapping("/follows/check/{opposingUserLogin}")
+    public ResponseEntity<Boolean> doesFollowUser(@PathVariable String opposingUserLogin) {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        for (FollowDTO f: followService.findAll()) {
+            if (f.getSourceUserID().equals(u.getLogin()) && f.getTargetUserID().equals(opposingUserLogin)) {
+                return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.OK);
     }
 
     /**
