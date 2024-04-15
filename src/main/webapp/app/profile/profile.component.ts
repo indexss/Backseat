@@ -32,8 +32,6 @@ interface ModProfile {
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  constructor() {}
-
   protected isSelf: boolean;
   private readonly login: string | null;
   protected profile: ModProfile | null = null;
