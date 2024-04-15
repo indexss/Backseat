@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import dayjs from 'dayjs/esm';
 import { Observable } from 'rxjs';
 import { Dayjs } from 'dayjs';
+import { ItemList } from './item-list.interface';
+import { User } from '../entities/user/user.model';
+import { AccountService } from '../core/auth/account.service';
 
 interface listItem {
   spotifyURI: string;
@@ -14,7 +17,7 @@ interface listItem {
   providedIn: 'root',
 })
 export class WantToListenService {
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient, private accService: AccountService) {}
 
   addNewItem(itemURI: string, userID: string): Observable<any> {
     const body: listItem = {
