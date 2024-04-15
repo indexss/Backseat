@@ -15,6 +15,9 @@ public class UserProfileResponse {
     @JsonProperty("uri")
     public String uri;
 
+    @JsonProperty("images")
+    public ImageResponse[] images;
+
     @Override
     public String toString() {
         return "UserProfileResponse{" + "displayName='" + displayName + '\'' + ", id='" + id + '\'' + ", uri='" + uri + '\'' + '}';

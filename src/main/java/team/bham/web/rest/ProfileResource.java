@@ -1,12 +1,17 @@
 package team.bham.web.rest;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import io.micrometer.core.ipc.http.HttpSender;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,11 +20,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import team.bham.config.ApplicationProperties;
+import team.bham.domain.Profile;
+import team.bham.domain.User;
 import team.bham.repository.ProfileRepository;
 import team.bham.service.ProfileService;
+import team.bham.service.SpotifyConnectionService;
+import team.bham.service.UserService;
 import team.bham.service.dto.ProfileDTO;
+import team.bham.spotify.SpotifyAPI;
+import team.bham.spotify.SpotifyCredential;
+import team.bham.spotify.SpotifyException;
+import team.bham.spotify.SpotifyUtil;
+import team.bham.spotify.responses.ImageResponse;
+import team.bham.spotify.responses.UserProfileResponse;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -43,9 +61,17 @@ public class ProfileResource {
 
     private final ProfileRepository profileRepository;
 
-    public ProfileResource(ProfileService profileService, ProfileRepository profileRepository) {
+    private final UserService userService;
+
+    private final ApplicationProperties appProps;
+    private final SpotifyConnectionService spotConnServ;
+
+    public ProfileResource(ProfileService profileService, ProfileRepository profileRepository, UserService userService, ApplicationProperties appProps, SpotifyConnectionService spotConnServ) {
         this.profileService = profileService;
         this.profileRepository = profileRepository;
+        this.userService = userService;
+        this.appProps = appProps;
+        this.spotConnServ = spotConnServ;
     }
 
     /**
@@ -163,6 +189,52 @@ public class ProfileResource {
         log.debug("REST request to get Profile : {}", id);
         Optional<ProfileDTO> profileDTO = profileService.findOne(id);
         return ResponseUtil.wrapOrNotFound(profileDTO);
+    }
+
+    @GetMapping("/profiles/byLogin/{login}")
+    public ResponseEntity<Profile> getProfileByLogin(@PathVariable String login) {
+        log.debug("REST request to get Profile by login: {}", login);
+        return ResponseUtil.wrapOrNotFound(profileRepository.findByUserLogin(login));
+    }
+
+    @GetMapping("/profiles/byLogin/{login}/profilePhoto")
+    public ResponseEntity<String> getProfilePhotoByLogin(@PathVariable String login) throws SpotifyException, IOException, InterruptedException {
+        Optional<Profile> profOpt = profileRepository.findByUserLogin(login);
+        if (profOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        Profile prof = profOpt.get();
+        UserProfileResponse up = new SpotifyAPI(
+            new SpotifyCredential(
+                this.appProps,
+                this.spotConnServ,
+                SpotifyCredential.SYSTEM
+        )).getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
+
+        int maxImageDims = 0;
+        String maxURL = "https://avatars.platform.tdpain.net/" + login;
+        for (ImageResponse im: up.images) {
+            if (im.width > maxImageDims) {
+                maxImageDims = im.width;
+                maxURL = im.url;
+            }
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        // for some reason the response HAS to be JSON so lmao
+        return new ResponseEntity<>("\""+maxURL+"\"", headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/profiles/mine")
+    public Profile getMyProfile() {
+        log.debug("REST request to get own Profile");
+        Optional<User> u = userService.getUserWithAuthorities();
+        if (u.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        Optional<Profile> prof = profileRepository.findByUserLogin(u.get().getLogin());
+        return prof.get();
+
     }
 
     /**
