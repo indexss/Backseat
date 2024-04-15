@@ -75,10 +75,10 @@
   </table>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #content let-modal class="popwindow">
   <div class="modal-header">
     <h4 class="modal-title">Select Folder</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+    <button type="button" class="close" (click)="modal.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>

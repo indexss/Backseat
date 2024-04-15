@@ -12,6 +12,7 @@ import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from '../core/auth/account.service';
 import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
+import { NavbarComponent } from '../layouts/navbar/navbar.component';
 
 interface Record {
   id: number;

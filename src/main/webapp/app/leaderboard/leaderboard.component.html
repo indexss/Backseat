@@ -175,7 +175,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let record of recordList; let i = index" [ngClass]="{ 'new-record-animation': record.newItem }" class="record-animation">
-        <th scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
+        <th scope="row" class="text-center align-middle row-id allrow">{{ record.id }}</th>
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/rating', record.trackURI]">

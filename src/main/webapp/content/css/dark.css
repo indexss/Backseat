@@ -9,10 +9,141 @@ Bootstrap tweaks
 ===============================================================*/
 
 body {
-  background-color: #000000;
+  background-color: #2c2c2c;
+}
+
+.allratings {
+  background-color: #2c2c2c !important;
+}
+
+* {
+  color: #e0e0e0;
+}
+
+.row-id,
+.row-album,
+.row-reviews,
+.row-rating {
+  color: #ffffff !important;
+}
+
+.row-id {
   color: #ffffff;
 }
 
-span {
-  background-color: #ff0000;
+.navbar,
+.card,
+.btn {
+  background-color: #2c2c2c;
+  color: #ffffff;
+}
+.table {
+  border-color: #343a40;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.form-control,
+.form-control-underline {
+  background-color: #333;
+  color: #e0e0e0;
+  border-color: #444;
+}
+
+.btn-outline-primary {
+  border-color: #6c757d;
+  color: #adb5bd;
+}
+
+.btn-primary {
+  background-color: rgb(68, 120, 72);
+  border-color: rgb(68, 120, 72);
+}
+
+.nav-link,
+.fa-search,
+.fas.fa-arrow-up,
+a {
+  color: #e0e0e0;
+}
+
+a.add {
+  color: rgb(68, 120, 72);
+}
+
+/* a hover */
+a:hover {
+  color: rgb(68, 120, 72);
+}
+
+.form-check-input {
+  background-color: #2c2c2c;
+  border-color: #6c757d;
+}
+
+.row-id {
+  color: #e0e0e0;
+}
+
+.row-album {
+  color: #e0e0e0;
+}
+
+.row-reviews {
+  color: #e0e0e0;
+}
+
+.row-rating {
+  color: #e0e0e0;
+}
+
+.folderName,
+.creatorName,
+.userurl,
+th {
+  color: #e0e0e0 !important;
+}
+
+.popwindow,
+.modal-header,
+.modal-body,
+.modal-footer {
+  background-color: #2c2c2c !important;
+}
+
+h2 {
+  color: #e0e0e0 !important;
+}
+
+h4 {
+  color: #e0e0e0 !important;
+}
+
+h5 {
+  color: #e0e0e0 !important;
+}
+h1 {
+  color: #e0e0e0 !important;
+}
+h3 {
+  color: #e0e0e0 !important;
+}
+
+.anta-regular .trackurlinrating {
+  color: #e0e0e0;
+}
+
+.footerurl,
+.albumurl {
+  color: rgb(68, 120, 72) !important;
+}
+
+.restaurant-detailed-ratings-and-reviews {
+  background-color: #2c2c2c !important;
+}
+
+.tracksalbum {
+  background-color: #434343 !important;
 }

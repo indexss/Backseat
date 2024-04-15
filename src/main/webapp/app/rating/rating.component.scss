@@ -20,7 +20,7 @@
   // 其他颜色变量...
 }
 
-$custom-green: #4caf50;
+$custom-green: rgb(68, 120, 72);
 .abcde {
   color: $custom-green;
 }
@@ -212,14 +212,14 @@ ngb-rating {
 .rating-container-span {
   display: flex;
   justify-content: flex-end;
-  color: gold;
+  color: rgb(245, 209, 6);
   font-size: 24px;
 }
 
 .rating-spans {
   display: flex;
   justify-content: flex-end;
-  color: gold;
+  color: rgb(245, 209, 6);
   font-size: 25px;
 }
 
@@ -229,7 +229,7 @@ ngb-rating {
 }
 
 .no-underline {
-  text-decoration: none;
+  // text-decoration: none;
   font-size: 1em;
   vertical-align: middle;
 }
