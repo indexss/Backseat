@@ -7,8 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-class Util {
-
+public class SpotifyUtil {
     protected static String createUrlEncodedString(HashMap<String, String> params) {
         return params
             .keySet()
@@ -31,5 +30,10 @@ class Util {
 
     protected static <T> T unmarshalJson(String data, Class<T> cl) throws JsonProcessingException {
         return new ObjectMapper().readValue(data, cl);
+    }
+
+    public static String getIdFromUri(String uri) {
+        String[] sp = uri.split(":");
+        return sp[sp.length - 1];
     }
 }
