@@ -75,7 +75,7 @@ a.add {
 
 /* a hover */
 a:hover {
-  color: rgb(68, 120, 72);
+  color: rgb(68, 120, 72) !important;
 }
 
 .form-check-input {
