@@ -20,9 +20,16 @@
           </div>
         </div>
         <p>Album:</p>
+        <div *ngFor="let album of filteredAlbums; let j = index">
+          <div *ngIf="j < 5" class="autocomplete-item">
+            <img class="cover img-thumbnail me-3" [src]="album.imgURL" alt="cover" />
+            <a (click)="redirectToTrack(album.albumURI)" style="text-decoration: none">{{ album.albumName }} - {{ album.artist }}</a>
+          </div>
+        </div>
       </div>
     </div>
 
+    <p class="displayText">Tracks</p>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -37,12 +44,15 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let record of filteredRecords | filter: searchText"
+          *ngFor="let record of filteredRecords | filter: searchText; let i = index"
           [ngClass]="{ 'new-record-animation': record.newItem }"
           class="record-animation"
         >
-          <th scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
-          <td>
+          <!--          // You can show Whole page in the track if you want , just delete ngIf = "i < 10"-->
+          <!--           </br>-->
+          <!--          -->
+          <th *ngIf="i < 10" scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
+          <td *ngIf="i < 10">
             <div class="d-flex align-items-center">
               <a [routerLink]="['/rating', record.trackURI]">
                 <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
@@ -55,11 +65,63 @@
               </div>
             </div>
           </td>
-          <td class="text-center align-middle row-album">{{ record.album }}</td>
-          <td class="text-center align-middle row-reviews">{{ record.reviews }}</td>
-          <td class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
-          <td class="text-center align-middle row-rating">
+          <td *ngIf="i < 10" class="text-center align-middle row-album">{{ record.album }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-reviews">{{ record.reviews }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">
             <a (click)="openModal(record.trackURI, content)">
+              <!-- <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> -->
+              <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>
+            </a>
+            <!--          <a [routerLink]="['/', record.trackURI]" (click)="openModal(record.trackURI, content)">-->
+            <!--            &lt;!&ndash; <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> &ndash;&gt;-->
+            <!--            <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>-->
+            <!--          </a>-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="displayText">Albums</p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
+          <th scope="col" class="table-text green anta-regular">Album</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular"></th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Reviews</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Rating</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Add</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let album of filteredAlbums | filter: searchText; let i = index"
+          [ngClass]="{ 'new-record-animation': album.newItem }"
+          class="record-animation"
+        >
+          <!--          // You can show Whole page in the track if you want , just delete ngIf = "i < 10"-->
+          <!--           </br>-->
+          <!--          -->
+          <th *ngIf="i < 10" scope="row" class="text-center align-middle row-id">{{ album.id }}</th>
+          <td *ngIf="i < 10">
+            <div class="d-flex align-items-center">
+              <a [routerLink]="['/rating', album.trackURI]">
+                <img [src]="album.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+              </a>
+              <div class="flex-grow-1">
+                <a [routerLink]="['/rating', album.albumURI]" class="text-left d-block">
+                  <strong>{{ album.albumName }}</strong>
+                  <p>{{ album.artist }}</p>
+                </a>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="i < 10" class="text-center align-middle row-album">{{ album.albumName }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-reviews">{{ album.reviews }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">{{ album.rating | number: '1.0-2' }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">
+            <a (click)="openModal(album.albumURI, content)">
               <!-- <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> -->
               <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>
             </a>

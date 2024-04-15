@@ -29,7 +29,7 @@ interface Album {
   rating: number;
   artist: string;
   albumURI: string;
-  imgURI: string;
+  imgURL: string;
 }
 interface Folder {
   id: number;
@@ -87,11 +87,11 @@ export class SearchComponent implements OnInit {
         this.recordList = newData;
         const newAlbumData: Album[] = data.data.album.map((item: any) => ({
           id: item.id,
-          AlbumName: item.album,
+          albumName: item.trackName,
           reviews: item.reviews,
           rating: item.rating,
           artist: item.artist,
-          albumURI: item.albumURI,
+          albumURI: item.trackURI,
           imgURL: item.imgURL,
           newItem: true, // Assuming you want to set newItem to true for the animation
         }));
@@ -165,9 +165,19 @@ export class SearchComponent implements OnInit {
   }
   //filter any track contain some string
   get filteredRecords() {
-    return this.searchText
-      ? this.recordList.filter(record => record.trackName.toLowerCase().includes(this.searchText.toLowerCase()))
-      : this.recordList;
+    if (this.searchText) {
+      return this.recordList.filter(record => record.trackName.toLowerCase().includes(this.searchText.toLowerCase()));
+    } else {
+      return this.recordList;
+    }
+  }
+
+  get filteredAlbums() {
+    if (this.searchText) {
+      return this.albumList.filter(album => album.albumName.toLowerCase().includes(this.searchText.toLowerCase()));
+    } else {
+      return this.albumList;
+    }
   }
   onRecordSelected(recordURI: string): void {
     const selected = this.filteredRecordList.find(record => record.trackURI === recordURI);
