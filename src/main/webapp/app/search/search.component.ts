@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, HostListener, OnInit, TemplateRef } from '@angular/core';
 import { FetchTrackService } from './fetch-track.service';
 
 import { DeviceService } from 'app/mobile/device.service';
@@ -7,6 +7,7 @@ import { faFilter, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from '../core/auth/account.service';
 import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
+import { Router } from '@angular/router';
 
 // basically most of the code is from leaderboard which is tons of work from Larry Shi
 
@@ -32,19 +33,12 @@ export class SearchComponent implements OnInit {
   isAlbum = false;
   spotifyURI!: string;
   modalRef!: NgbModalRef;
-  heroes = [
-    { id: 11, name: 'Mr. Nice', country: 'India' },
-    { id: 12, name: 'Narco', country: 'USA' },
-    { id: 13, name: 'Bombasto', country: 'UK' },
-    { id: 14, name: 'Celeritas', country: 'Canada' },
-    { id: 15, name: 'Magenta', country: 'Russia' },
-    { id: 16, name: 'RubberMan', country: 'China' },
-    { id: 17, name: 'Dynama', country: 'Germany' },
-    { id: 18, name: 'Dr IQ', country: 'Hong Kong' },
-    { id: 19, name: 'Magma', country: 'South Africa' },
-    { id: 20, name: 'Tornado', country: 'Sri Lanka' },
-  ];
-  constructor(private fetchTrackService: FetchTrackService, private modalService: NgbModal) {}
+  filteredRecordList: Record[] = [];
+  selectedSpotifyURI!: string;
+  selectedTrack: Record | null = null;
+  showSuggestions = false;
+
+  constructor(private fetchTrackService: FetchTrackService, private modalService: NgbModal, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchTrackService.getTrack().subscribe(
@@ -83,10 +77,44 @@ export class SearchComponent implements OnInit {
       this.modalService.open(arg1, { centered: true });
     }
   }
+
+  //click anywhere else, search result disappear
+  onSearchInput(focused: boolean): void {
+    this.showSuggestions = focused || this.searchText.length > 0;
+  }
+
+  @HostListener('document:click', ['$event']) onDocumentClick(event: Event): void {
+    // Check if the click is outside the search-hero element
+    if (!document.querySelector('.search-hero')!.contains(event.target as Node)) {
+      this.showSuggestions = false; // Hide the autocomplete suggestions
+    }
+  }
+
+  redirectToAlbum(spotifyURI: string): void {
+    // 导航到 /rating/{spotifyURI}
+    this.router.navigate(['/rating', spotifyURI]);
+  }
+
+  redirectToTrack(spotifyURI: string): void {
+    // 导航到 /rating/{spotifyURI}
+    this.router.navigate(['/rating', spotifyURI]);
+  }
+  //filter any track contain some string
   get filteredRecords() {
     return this.searchText
       ? this.recordList.filter(record => record.trackName.toLowerCase().includes(this.searchText.toLowerCase()))
       : this.recordList;
+  }
+  onRecordSelected(recordURI: string): void {
+    const selected = this.filteredRecordList.find(record => record.trackURI === recordURI);
+
+    // Handle the situation where the record is not found
+    if (selected) {
+      this.selectedTrack = selected;
+    } else {
+      // If the record is not found, you might want to clear the selected track or handle it appropriately
+      this.selectedTrack = null; // or however you wish to handle this case
+    }
   }
 
   protected readonly faSquarePlus = faSquarePlus;
