@@ -22,6 +22,9 @@
         <span class="ps-2 fs-6 me-auto">{{ profile?.username }} on Spotify</span>
         <!-- TODO(txp271): more cohesive colour scheme on this button? -->
       </a>
+
+      <!-- TODO(txp271): implement add friend button -->
+      <button *ngIf="!isSelf" class="btn btn-primary">Add friend</button>
     </div>
   </div>
 
