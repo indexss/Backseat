@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, TemplateRef } from '@angular/core';
 import { FetchTrackService } from './fetch-track.service';
-
+import { Account } from 'app/core/auth/account.model';
 import { DeviceService } from 'app/mobile/device.service';
 import { NgbCollapseModule, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { faFilter, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
@@ -22,6 +22,12 @@ interface Record {
   imgURL: string;
   newItem?: boolean;
 }
+interface Folder {
+  id: number;
+  folderId: number;
+  folderName: string;
+  imageURL: string;
+}
 @Component({
   selector: 'jhi-search',
   templateUrl: './search.component.html',
@@ -37,10 +43,21 @@ export class SearchComponent implements OnInit {
   selectedSpotifyURI!: string;
   selectedTrack: Record | null = null;
   showSuggestions = false;
+  folderList: Folder[] = [];
 
-  constructor(private fetchTrackService: FetchTrackService, private modalService: NgbModal, private router: Router) {}
+  constructor(
+    private fetchTrackService: FetchTrackService,
+    private modalService: NgbModal,
+    private router: Router,
+    private addToFolderService: AddToFolderService,
+    private accountService: AccountService
+  ) {}
 
   ngOnInit(): void {
+    this.addToFolderService.getUserFolder().subscribe(data => {
+      this.folderList = data.data.folder;
+    });
+
     this.fetchTrackService.getTrack().subscribe(
       data => {
         // Assuming data.data.leaderboard is the correct path to your records
@@ -76,6 +93,28 @@ export class SearchComponent implements OnInit {
       // 处理第二个重载的情况
       this.modalService.open(arg1, { centered: true });
     }
+  }
+
+  addToFolder(folderId: number) {
+    console.log(`Adding trackURI: ${this.spotifyURI} to folderId: ${folderId}`);
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.addToFolderService.addEntryFolder(this.spotifyURI, folderId).subscribe(data => {});
+      }
+    });
+    this.modalRef.close();
+  }
+
+  getSpotifyLink(spotifyURI: string): string {
+    let spotifyLink: string = '';
+    if (spotifyURI.startsWith('spotify:track:')) {
+      spotifyLink = spotifyURI.replace('spotify:track:', 'https://open.spotify.com/track/');
+    } else if (spotifyURI.startsWith('spotify:album:')) {
+      spotifyLink = spotifyURI.replace('spotify:album:', 'https://open.spotify.com/album/');
+    } else {
+      console.error('Unsupported SpotifyURI: ', spotifyURI);
+    }
+    return spotifyLink;
   }
 
   //click anywhere else, search result disappear
