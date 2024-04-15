@@ -1,7 +1,6 @@
 <div class="container">
   <div class="row">
     <div class="search-hero">
-      <!--      <input type="text" name="search" [(ngModel)]="searchText" placeholder="Search  Track" />-->
       <input
         type="text"
         name="search"
@@ -11,13 +10,7 @@
         (focus)="onSearchInput(true)"
         (blur)="onSearchInput(false)"
       />
-      <!--      <div *ngIf="searchText" class="autocomplete-dropdown-container">-->
-      <!--        <div *ngFor="let track of filteredRecords; let i = index">-->
-      <!--          <div *ngIf="i < 5" class="autocomplete-item">-->
-      <!--            {{ track.trackName }} - {{ track.artist }}-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
+
       <div *ngIf="searchText && showSuggestions" class="autocomplete-dropdown-container">
         <p>Track:</p>
         <div *ngFor="let track of filteredRecords; let i = index">
@@ -28,66 +21,45 @@
         </div>
         <p>Album:</p>
       </div>
-
-      <!--      <div *ngIf="searchText && showSuggestions" class="autocomplete-dropdown-container">-->
-
-      <!--      <form>-->
-      <!--        &lt;!&ndash; Warning message for track selection &ndash;&gt;-->
-      <!--        <div>-->
-      <!--          <select-->
-      <!--            [(ngModel)]="selectedSpotifyURI"-->
-      <!--            (ngModelChange)="onRecordSelected($event)"-->
-      <!--            name="track"-->
-      <!--          >-->
-      <!--            <option class="leaveReview" *ngFor="let track of filteredRecords; let i = index" [value]="track.trackURI">-->
-      <!--              <div *ngIf="i < 5" class="autocomplete-item">-->
-      <!--              {{ track.trackName }} -&#45;&#45;{{ track.artist }}-->
-      <!--              </div>-->
-      <!--            </option>-->
-      <!--          </select>-->
-      <!--        </div>-->
-      <!--      </form>-->
-      <!--      </div>-->
-      <!--    </div>-->
-
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
-            <th scope="col" class="table-text green anta-regular">Track</th>
-            <th *ngIf="!isAlbum" scope="col" class="text-center align-middle table-text green anta-regular">Album</th>
-            <th *ngIf="isAlbum" scope="col" class="text-center align-middle table-text green anta-regular"></th>
-            <th scope="col" class="text-center align-middle table-text green anta-regular">Reviews</th>
-            <th scope="col" class="text-center align-middle table-text green anta-regular">Rating</th>
-            <th scope="col" class="text-center align-middle table-text green anta-regular">Add</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let record of filteredRecords | filter: searchText"
-            [ngClass]="{ 'new-record-animation': record.newItem }"
-            class="record-animation"
-          >
-            <th scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
-            <td>
-              <div class="d-flex align-items-center">
-                <a [routerLink]="['/rating', record.trackURI]">
-                  <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
-                </a>
-                <div class="flex-grow-1">
-                  <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
-                    <strong>{{ record.trackName }}</strong>
-                    <p>{{ record.artist }}</p>
-                  </a>
-                </div>
-              </div>
-            </td>
-            <td class="text-center align-middle row-album">{{ record.album }}</td>
-            <td class="text-center align-middle row-reviews">{{ record.reviews }}</td>
-            <td class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
+          <th scope="col" class="table-text green anta-regular">Track</th>
+          <th *ngIf="!isAlbum" scope="col" class="text-center align-middle table-text green anta-regular">Album</th>
+          <th *ngIf="isAlbum" scope="col" class="text-center align-middle table-text green anta-regular"></th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Reviews</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Rating</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Add</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let record of filteredRecords | filter: searchText"
+          [ngClass]="{ 'new-record-animation': record.newItem }"
+          class="record-animation"
+        >
+          <th scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
+          <td>
+            <div class="d-flex align-items-center">
+              <a [routerLink]="['/rating', record.trackURI]">
+                <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+              </a>
+              <div class="flex-grow-1">
+                <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
+                  <strong>{{ record.trackName }}</strong>
+                  <p>{{ record.artist }}</p>
+                </a>
+              </div>
+            </div>
+          </td>
+          <td class="text-center align-middle row-album">{{ record.album }}</td>
+          <td class="text-center align-middle row-reviews">{{ record.reviews }}</td>
+          <td class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
