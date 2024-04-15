@@ -116,4 +116,22 @@ export class ProfileComponent implements OnInit {
       day: 'numeric',
     });
   }
+
+  toggleFollowing() {
+    if (this.isSelf || this.profile?.username == undefined) {
+      return;
+    }
+
+    this.http.post(
+      this.applicationConfigService.getEndpointFor("/api/follows/" + (this.isFollowing ? "un" : "") + "follow/" + this.profile.username),
+      null,
+    ).subscribe({
+      next: () => {
+        this.isFollowing = !this.isFollowing;
+      },
+      error: (err) => {
+        alert("Failed to (un)follow: " + JSON.stringify(err));
+      },
+    });
+  }
 }

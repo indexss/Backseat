@@ -24,8 +24,8 @@
       </a>
 
       <!-- TODO(txp271): implement these buttons -->
-      <button *ngIf="!isSelf && !isFollowing" class="btn btn-primary">Add friend</button>
-      <button *ngIf="!isSelf && isFollowing" class="btn btn-danger">Remove friend</button>
+      <button *ngIf="!isSelf && !isFollowing" (click)="toggleFollowing()" class="btn btn-primary">Add friend</button>
+      <button *ngIf="!isSelf && isFollowing" (click)="toggleFollowing()" class="btn btn-danger">Remove friend</button>
 
     </div>
   </div>

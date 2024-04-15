@@ -149,6 +149,15 @@ public class FollowResource {
         return followService.findAll();
     }
 
+    private Optional<FollowDTO> findFollowBetweenLogins(String source, String target) {
+        for (FollowDTO f: followService.findAll()) {
+            if (f.getSourceUserID().equals(source) && f.getTargetUserID().equals(target)) {
+                return Optional.of(f);
+            }
+        }
+        return Optional.empty();
+    }
+
     @GetMapping("/follows/check/{opposingUserLogin}")
     public ResponseEntity<Boolean> doesFollowUser(@PathVariable String opposingUserLogin) {
         Optional<User> ou = userService.getUserWithAuthorities();
@@ -157,10 +166,9 @@ public class FollowResource {
         }
         User u = ou.get();
 
-        for (FollowDTO f: followService.findAll()) {
-            if (f.getSourceUserID().equals(u.getLogin()) && f.getTargetUserID().equals(opposingUserLogin)) {
-                return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
-            }
+        Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
+        if (fo.isPresent()) {
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(Boolean.FALSE, HttpStatus.OK);
@@ -193,5 +201,38 @@ public class FollowResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/follows/follow/{opposingUserLogin}")
+    public ResponseEntity<String> followUser(@PathVariable String opposingUserLogin) {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
+        if (fo.isEmpty()) {
+            FollowDTO fdto = new FollowDTO();
+            fdto.setSourceUserID(u.getLogin());
+            fdto.setTargetUserID(opposingUserLogin);
+            followService.save(fdto);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/follows/unfollow/{opposingUserLogin}")
+    public ResponseEntity<String> unfollowUser(@PathVariable String opposingUserLogin) {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
+        fo.ifPresent(followDTO -> followService.delete(followDTO.getId()));
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
