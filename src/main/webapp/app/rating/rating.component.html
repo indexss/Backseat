@@ -1,4 +1,4 @@
-<button class="theme-toggler btn btn-success" (click)="toggleTheme()">nig/lig</button>
+<!-- <button class="theme-toggler btn btn-success" (click)="toggleTheme()">nig/lig</button> -->
 
 <div *ngIf="isTrack" class="container">
   <div class="row">
@@ -6,9 +6,9 @@
       <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
 
       <div>
-        <span class="title d-block">Track:{{ trackName }}</span>
+        <span class="title d-block">Track:&nbsp;&nbsp;{{ trackName }}</span>
         <span class="album d-block"
-          ><a class="btn btn-link no-underline" (click)="redirectToAlbum(albumURI)">Album: {{ albumName }}</a></span
+          ><a class="btn btn-link no-underline albumurl" (click)="redirectToAlbum(albumURI)">Album: {{ albumName }}</a></span
         >
         <!--        <a class=" no-underline" (click)="redirectToAlbum(albumURIforTrack)">{{ albumName }}</a>-->
 
@@ -17,7 +17,7 @@
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
         <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
         <br />
-        <span class="description d-block">Description:{{ description }}</span>
+        <!-- <span class="description d-block">Description:{{ description }}</span> -->
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@
             <a href="#" class="mb-4">
               <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
             </a>
-            <a class="text-black p-4" href="#">{{ review.username }}</a>
+            <a class="p-4 userurl" href="#">{{ review.username }}</a>
             <p class="rating-spans">
               <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
             </p>
@@ -129,13 +129,13 @@
 	<strong>Warning!</strong> Comments cannot be empty!
   </ngb-alert> -->
   <div class="row">
-    <table class="track-table">
+    <table class="track-table table">
       <thead>
         <tr>
-          <th>Track Name</th>
-          <th>Artist Name</th>
-          <th>Release Date</th>
-          <th>avgRating</th>
+          <th class="track-table tracksalbum">Track Name</th>
+          <th class="track-table tracksalbum">Artist Name</th>
+          <th class="track-table tracksalbum">Release Date</th>
+          <th class="track-table tracksalbum">avgRating</th>
         </tr>
       </thead>
       <tbody>
@@ -143,7 +143,7 @@
           <!-- Assuming you have album cover images -->
           <td class="album-cover-cell">
             <img [src]="imgURL" alt="Album Cover" />
-            <a class="btn btn-link no-underline" (click)="redirectToTrack(track.spotifyURI)">{{ track.trackName }}</a>
+            <a class="btn btn-link no-underline trackurlinrating" (click)="redirectToTrack(track.spotifyURI)">{{ track.trackName }}</a>
           </td>
           <td>{{ track.artistName }}</td>
           <td>{{ track.releaseDate }}</td>
@@ -164,7 +164,7 @@
         <input class="form-check-input" style="display: none" type="checkbox" id="aaa" [(ngModel)]="showAlbumReviews" />
 
         <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
-        <label class="btn btn-success" (click)="toggleReviews()" for="aaa">
+        <label class="btn btn-primary" (click)="toggleReviews()" for="aaa">
           {{ showAlbumReviews ? 'Click to Review Track' : 'Click to Review Album' }}
         </label>
       </div>
@@ -223,7 +223,7 @@
         <input class="form-check-input" style="display: none" type="checkbox" id="checkAlbumOrTrack" [(ngModel)]="showAlbumReviews" />
 
         <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
-        <label class="btn btn-success" (click)="toggleReviews()" for="checkAlbumOrTrack">
+        <label class="btn btn-primary" (click)="toggleReviews()" for="checkAlbumOrTrack">
           {{ showAlbumReviews ? 'Click to Review Track' : 'Click to Review Album' }}
         </label>
       </div>
@@ -267,7 +267,7 @@
       <input class="form-check-input" style="display: none" type="checkbox" id="ccc" [(ngModel)]="showAlbumReviews" />
 
       <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
-      <label class="btn btn-success" (click)="toggleReviews()" for="ccc">
+      <label class="btn btn-primary" (click)="toggleReviews()" for="ccc">
         {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
       </label>
     </div>
@@ -282,7 +282,7 @@
               <a href="#" class="mb-4">
                 <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
               </a>
-              <a class="text-black p-4" href="#">{{ review.username }}</a>
+              <a class="userurl p-4" href="#">{{ review.username }}</a>
               <p class="rating-spans">
                 <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
               </p>
@@ -327,7 +327,7 @@
       <input class="form-check-input" style="display: none" type="checkbox" id="abc" [(ngModel)]="showAlbumReviews" />
 
       <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
-      <label class="btn btn-success" (click)="toggleReviews()" for="abc">
+      <label class="btn btn-primary" (click)="toggleReviews()" for="abc">
         {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
       </label>
     </div>
@@ -343,7 +343,7 @@
               <a href="#" class="mb-4">
                 <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
               </a>
-              <a class="text-black p-4" href="#">{{ review.username }}</a>
+              <a class="userurl p-4" href="#">{{ review.username }}</a>
               <p class="rating-spans">
                 <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
               </p>
@@ -370,6 +370,7 @@
           [(page)]="currentPage"
           [pageSize]="reviewsPerPage"
           aria-label="Pagination"
+          class="pagenation"
         ></ngb-pagination>
 
         <!-- <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> -->

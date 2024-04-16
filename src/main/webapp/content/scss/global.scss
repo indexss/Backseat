@@ -213,4 +213,21 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
     }
   }
 }
+
+.footerurl,
+.albumurl,
+.userurl,
+.trackurlinrating {
+  color: rgb(68, 120, 72);
+}
+
+a {
+  color: rgb(68, 120, 72);
+}
+
+.userurl {
+  font-size: 1.3em;
+  //no underline
+  text-decoration: none;
+}
 /* jhipster-needle-scss-add-main JHipster will add new css style */

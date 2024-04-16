@@ -7,7 +7,7 @@
     <div class="col d-flex justify-content-end align-items-center">
       <!-- <h2 class="animated-element flex-grow-1">LEADERBOARD</h2> -->
       <div class="col d-flex justify-content-end align-items-center">
-        <h2 *ngIf="ismobile" class="animated-element flex-grow-1"><span class="big-l">L</span>EADERBOARD</h2>
+        <h2 *ngIf="ismobile" class="animated-element flex-grow-1 kill"><span class="big-l">L</span>EADERBOARD</h2>
         <h2 *ngIf="!ismobile" class="animated-element flex-grow-1 mobile-h2"><span class="big-l">L</span>EADERBOARD</h2>
       </div>
       <!-- <form class="form-inline" (ngSubmit)="submitForm()" #searchForm="ngForm">
@@ -175,7 +175,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let record of recordList; let i = index" [ngClass]="{ 'new-record-animation': record.newItem }" class="record-animation">
-        <th scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
+        <th scope="row" class="text-center align-middle row-id allrow">{{ record.id }}</th>
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/rating', record.trackURI]">

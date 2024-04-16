@@ -12,6 +12,7 @@ import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from '../core/auth/account.service';
 import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
+import { NavbarComponent } from '../layouts/navbar/navbar.component';
 
 interface Record {
   id: number;
@@ -136,11 +137,9 @@ export class LeaderboardComponent implements OnInit {
 
   openModal(arg1: any, arg2?: any): void {
     if (typeof arg1 === 'string') {
-      // 处理第一个重载的情况
       this.spotifyURI = arg1;
       this.modalRef = this.modalService.open(arg2, { centered: true });
     } else {
-      // 处理第二个重载的情况
       this.modalService.open(arg1, { centered: true });
     }
   }
@@ -199,7 +198,6 @@ export class LeaderboardComponent implements OnInit {
   }
 
   clear() {
-    //刷新网页
     window.location.reload();
   }
 
@@ -208,14 +206,14 @@ export class LeaderboardComponent implements OnInit {
     const pos = window.scrollY + window.innerHeight;
     const max = document.documentElement.scrollHeight;
 
-    if (pos >= max) {
+    if (pos >= (max / 10) * 7) {
       if (this.recordList.length < this.pageSize) {
         this.hasMore = false;
       } else {
         this.hasMore = true;
       }
     }
-    if (pos >= max && !this.isLoading && this.hasMore) {
+    if (pos >= (max / 10) * 7 && !this.isLoading && this.hasMore) {
       // console.log('pos1:', pos);
       // console.log('max1:', max);
       // console.log('page1:', this.page);
