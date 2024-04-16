@@ -34,8 +34,17 @@ interface Album {
 interface Folder {
   id: number;
   folderId: number;
+  userId: number;
   folderName: string;
   imageURL: string;
+  username: string;
+}
+
+interface Profile {
+  id: number;
+  username: string;
+  spotifyURI: string;
+  profilePhoto: string;
 }
 @Component({
   selector: 'jhi-search',
@@ -52,9 +61,14 @@ export class SearchComponent implements OnInit {
   selectedSpotifyURI!: string;
   selectedTrack: Record | null = null;
   showSuggestions = false;
+  //folderList for adding track or album
   folderList: Folder[] = [];
   albumList: Album[] = [];
-
+  profileList: Profile[] = [];
+  //folderList for find all folder list
+  folderAllList: Folder[] = [];
+  testImageURL: string = '../../content/images/jhipster_family_member_0_head-192.png';
+  testFolderImageURL: string = '../../content/images/HMAC.png';
   constructor(
     private fetchTrackService: FetchTrackService,
     private modalService: NgbModal,
@@ -96,14 +110,58 @@ export class SearchComponent implements OnInit {
           newItem: true, // Assuming you want to set newItem to true for the animation
         }));
         this.albumList = newAlbumData;
+
         console.log('data.data.album', data.data.album);
         console.log('albumList', this.albumList);
+        console.log('profile data:', this.profileList);
+        console.log('folder data:', this.folderAllList);
+        console.log('data.dta.profile', data.data.folder);
       },
       error => {
         // Handle any errors here
         console.error('There was an error fetching the tracks', error);
       }
     );
+    this.fetchTrackService.getfolderProfile().subscribe(
+      data => {
+        const newProfileData: Profile[] = data.data.profiles.map((item: any) => ({
+          id: item.id,
+          username: item.username,
+          spotifyURI: item.spotifyURI,
+          profilePhoto: item.profilePhoto,
+          newItem: true, // Assuming you want to set newItem to true for the animation
+        }));
+        this.profileList = newProfileData;
+
+        const newfolderData: Folder[] = data.data.folder.map((item: any) => ({
+          id: item.id,
+          folderId: item.id,
+          folderName: item.name,
+          imageURL: item.image,
+          userId: item.profile.id,
+          username: this.findUserNameById(item.profile.id),
+          newItem: true, // Assuming you want to set newItem to true for the animation
+        }));
+        this.folderAllList = newfolderData;
+
+        console.log('data.data.album', data.data.album);
+        console.log('albumList', this.albumList);
+        console.log('profile data:', this.profileList);
+        console.log('folder data:', this.folderAllList);
+        console.log('data.dta.profile', data.data.folder);
+      },
+      error => {
+        // Handle any errors here
+        console.error('There was an error fetching the tracks', error);
+      }
+    );
+  }
+
+  findUserNameById(userId: number): string | null {
+    // 在 profileList 中查找与提供的 userId 匹配的 profile
+    const profile = this.profileList.find(profile => profile.id === userId);
+    // 如果找到了匹配的 profile，则返回其 username，否则返回 null
+    return profile ? profile.username : null;
   }
 
   openModal(spotifyURI: string, content: TemplateRef<any>): void;
@@ -177,6 +235,22 @@ export class SearchComponent implements OnInit {
       return this.albumList.filter(album => album.albumName.toLowerCase().includes(this.searchText.toLowerCase()));
     } else {
       return this.albumList;
+    }
+  }
+
+  get filteredProfiles() {
+    if (this.searchText) {
+      return this.profileList.filter(profile => profile.username.toLowerCase().includes(this.searchText.toLowerCase()));
+    } else {
+      return this.profileList;
+    }
+  }
+
+  get filteredFolders() {
+    if (this.searchText) {
+      return this.folderAllList.filter(folder => folder.folderName.toLowerCase().includes(this.searchText.toLowerCase()));
+    } else {
+      return this.folderAllList;
     }
   }
   onRecordSelected(recordURI: string): void {

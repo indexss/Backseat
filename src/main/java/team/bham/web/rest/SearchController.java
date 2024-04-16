@@ -17,6 +17,7 @@ import team.bham.service.ProfileService;
 import team.bham.service.dto.FolderDTO;
 import team.bham.service.dto.LeaderboardTrackDTO;
 import team.bham.service.dto.ProfileDTO;
+import team.bham.utils.ResponseUtils;
 import team.bham.utils.SearchUtils;
 
 @RestController
@@ -48,6 +49,7 @@ public class SearchController {
     private int pageSize = 10;
     Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
+    //fetch both albumdtos and track dtos
     @GetMapping("/")
     public SearchUtils fetchTrackLeaderboard() {
         SearchUtils resp = null;
@@ -65,11 +67,24 @@ public class SearchController {
             System.out.println("!!!!!!!!!!!!!In Search Controller");
             System.out.println("Trying to fetch Album DTOs");
             System.out.println(leaderboardAlbumDTOS);
-            List<FolderDTO> folderDTOs = folderService.findAll();
-            Page<ProfileDTO> profileDTOs = profileService.findAll();
             List<LeaderboardTrackDTO> leaderboardTrackDTOS = leaderboardService.fetchTrackLeaderboard();
-            resp =
-                new SearchUtils().put("leaderboard", leaderboardTrackDTOS, "album", leaderboardAlbumDTOS, "folder", folderDTOs, "profiles");
+            resp = new SearchUtils().put("leaderboard", leaderboardTrackDTOS, "album", leaderboardAlbumDTOS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new SearchUtils(e.getClass().getSimpleName(), e.getMessage(), e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
+    //fetch both folder and profile dtos
+
+    @GetMapping("/fP")
+    public SearchUtils fetchProfileLeaderboard() {
+        SearchUtils resp = null;
+        try {
+            List<FolderDTO> folderDTOs = folderService.findAll();
+            List<ProfileDTO> profileDTOs = profileService.getAllProfiles();
+            resp = new SearchUtils().put("folder", folderDTOs, "profiles", profileDTOs);
         } catch (Exception e) {
             e.printStackTrace();
             resp = new SearchUtils(e.getClass().getSimpleName(), e.getMessage(), e.getClass().getSimpleName(), e.getMessage());

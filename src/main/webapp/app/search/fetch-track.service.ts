@@ -22,4 +22,7 @@ export class FetchTrackService {
   getTrack(): Observable<any> {
     return this.http.get(`api/search/`);
   }
+  getfolderProfile(): Observable<any> {
+    return this.http.get(`api/search/fP`);
+  }
 }
