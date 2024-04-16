@@ -33,6 +33,12 @@ interface AbbreviatedFollow {
   photoURL: string;
 }
 
+interface ModFolder {
+  folderId: number;
+  folderName: string;
+  imageURL: string;
+}
+
 @Component({
   selector: 'jhi-profile',
   templateUrl: './profile.component.html',
@@ -46,7 +52,7 @@ export class ProfileComponent implements OnInit {
   protected isFollowing: boolean | null = null;
 
   protected friends: AbbreviatedFollow[] = [];
-  protected folders: IFolder[] = [];
+  protected folders: ModFolder[] = [];
 
   constructor(
     private router: Router,
@@ -94,7 +100,7 @@ export class ProfileComponent implements OnInit {
       next: res => {
         this.profile = res;
 
-        this.http.get<IFolder[]>(this.applicationConfigService.getEndpointFor("/api/folders/byProfile/" + this.profile?.id)).subscribe({
+        this.http.get<ModFolder[]>(this.applicationConfigService.getEndpointFor("/api/folders/byProfile/" + this.login)).subscribe({
           next: (res) => {
             console.debug("Folders", res);
             this.folders = res;
