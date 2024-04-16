@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GetMusicServiceService } from './getMusicService.service';
 import { DeviceService } from 'app/mobile/device.service';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { faArrowUp, faFilter, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 interface Record {
   id: number;
