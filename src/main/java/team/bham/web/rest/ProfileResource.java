@@ -215,12 +215,9 @@ public class ProfileResource {
                     SpotifyCredential.SYSTEM
                 )).getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
 
-            int maxImageDims = 0;
-            for (ImageResponse im : up.images) {
-                if (im.width > maxImageDims) {
-                    maxImageDims = im.width;
-                    profilePhotoURL = im.url;
-                }
+            ImageResponse largestImage = up.getLargestImage();
+            if (largestImage != null) {
+                profilePhotoURL = largestImage.url;
             }
         }
 
