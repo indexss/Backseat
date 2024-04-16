@@ -1,20 +1,33 @@
 package team.bham.web.rest;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import team.bham.config.ApplicationProperties;
+import team.bham.domain.Profile;
+import team.bham.domain.User;
 import team.bham.repository.FollowRepository;
+import team.bham.repository.ProfileRepository;
 import team.bham.service.FollowService;
+import team.bham.service.SpotifyConnectionService;
+import team.bham.service.UserService;
 import team.bham.service.dto.FollowDTO;
+import team.bham.spotify.SpotifyAPI;
+import team.bham.spotify.SpotifyCredential;
+import team.bham.spotify.SpotifyException;
+import team.bham.spotify.SpotifyUtil;
+import team.bham.spotify.responses.ImageResponse;
+import team.bham.spotify.responses.UserProfileResponse;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -36,10 +49,19 @@ public class FollowResource {
     private final FollowService followService;
 
     private final FollowRepository followRepository;
+    private final UserService userService;
 
-    public FollowResource(FollowService followService, FollowRepository followRepository) {
+    private final ApplicationProperties appProps;
+    private final SpotifyConnectionService spotConnServ;
+    private final ProfileRepository profileRepository;
+
+    public FollowResource(FollowService followService, FollowRepository followRepository, UserService userService, ApplicationProperties appProps, SpotifyConnectionService spotConnServ, ProfileRepository profileRepository) {
         this.followService = followService;
         this.followRepository = followRepository;
+        this.userService = userService;
+        this.appProps = appProps;
+        this.spotConnServ = spotConnServ;
+        this.profileRepository = profileRepository;
     }
 
     /**
@@ -143,6 +165,31 @@ public class FollowResource {
         return followService.findAll();
     }
 
+    private Optional<FollowDTO> findFollowBetweenLogins(String source, String target) {
+        for (FollowDTO f: followService.findAll()) {
+            if (f.getSourceUserID().equals(source) && f.getTargetUserID().equals(target)) {
+                return Optional.of(f);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @GetMapping("/follows/check/{opposingUserLogin}")
+    public ResponseEntity<Boolean> doesFollowUser(@PathVariable String opposingUserLogin) {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
+        if (fo.isPresent()) {
+            return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(Boolean.FALSE, HttpStatus.OK);
+    }
+
     /**
      * {@code GET  /follows/:id} : get the "id" follow.
      *
@@ -170,5 +217,99 @@ public class FollowResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/follows/follow/{opposingUserLogin}")
+    public ResponseEntity<Void> followUser(@PathVariable String opposingUserLogin) {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        opposingUserLogin = opposingUserLogin.toLowerCase();
+
+        Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
+        if (fo.isEmpty()) {
+            FollowDTO fdto = new FollowDTO();
+            fdto.setSourceUserID(u.getLogin());
+            fdto.setTargetUserID(opposingUserLogin);
+            followService.save(fdto);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/follows/unfollow/{opposingUserLogin}")
+    public ResponseEntity<Void> unfollowUser(@PathVariable String opposingUserLogin) {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        opposingUserLogin = opposingUserLogin.toLowerCase();
+
+        Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
+        fo.ifPresent(followDTO -> followService.delete(followDTO.getId()));
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    protected class MyFollowsResp {
+        public String target;
+        public String photoURL;
+
+        public MyFollowsResp(String target, String photoURL) {
+            this.target = target;
+            this.photoURL = photoURL;
+        }
+    }
+
+    @GetMapping("/follows/mine")
+    public List<MyFollowsResp> getMyFollows() throws SpotifyException, IOException, InterruptedException {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        SpotifyAPI api = new SpotifyAPI(
+            new SpotifyCredential(
+                this.appProps,
+                this.spotConnServ,
+                SpotifyCredential.SYSTEM
+            ));
+
+        ArrayList<MyFollowsResp> follows = new ArrayList<>();
+        for (FollowDTO f: followService.findAll()) {
+            if (f.getSourceUserID().equals(u.getLogin())) {
+
+                Optional<Profile> profOpt = profileRepository.findByUserLogin(f.getTargetUserID());
+                if (profOpt.isEmpty()) {
+                    continue;
+                }
+                Profile prof = profOpt.get();
+
+                String profilePhotoURL = "https://avatars.platform.tdpain.net/" + f.getTargetUserID();
+
+                if (!"undefined".equals(prof.getSpotifyURI())) {
+                    UserProfileResponse up = new SpotifyAPI(
+                        new SpotifyCredential(
+                            this.appProps,
+                            this.spotConnServ,
+                            SpotifyCredential.SYSTEM
+                        )).getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
+
+                    ImageResponse largestImage = up.getLargestImage();
+                    if (largestImage != null) {
+                        profilePhotoURL = largestImage.url;
+                    }
+                }
+
+                follows.add(new MyFollowsResp(f.getTargetUserID(), profilePhotoURL));
+            }
+        }
+        return follows;
     }
 }

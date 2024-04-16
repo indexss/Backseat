@@ -194,35 +194,36 @@ public class ProfileResource {
     @GetMapping("/profiles/byLogin/{login}")
     public ResponseEntity<Profile> getProfileByLogin(@PathVariable String login) {
         log.debug("REST request to get Profile by login: {}", login);
-        return ResponseUtil.wrapOrNotFound(profileRepository.findByUserLogin(login));
+        return ResponseUtil.wrapOrNotFound(profileRepository.findByUserLogin(login.toLowerCase()));
     }
 
     @GetMapping("/profiles/byLogin/{login}/profilePhoto")
     public ResponseEntity<String> getProfilePhotoByLogin(@PathVariable String login) throws SpotifyException, IOException, InterruptedException {
-        Optional<Profile> profOpt = profileRepository.findByUserLogin(login);
+        Optional<Profile> profOpt = profileRepository.findByUserLogin(login.toLowerCase());
         if (profOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         Profile prof = profOpt.get();
-        UserProfileResponse up = new SpotifyAPI(
-            new SpotifyCredential(
-                this.appProps,
-                this.spotConnServ,
-                SpotifyCredential.SYSTEM
-        )).getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
 
-        int maxImageDims = 0;
-        String maxURL = "https://avatars.platform.tdpain.net/" + login;
-        for (ImageResponse im: up.images) {
-            if (im.width > maxImageDims) {
-                maxImageDims = im.width;
-                maxURL = im.url;
+        String profilePhotoURL = "https://avatars.platform.tdpain.net/" + login;
+
+        if (!"undefined".equals(prof.getSpotifyURI())) {
+            UserProfileResponse up = new SpotifyAPI(
+                new SpotifyCredential(
+                    this.appProps,
+                    this.spotConnServ,
+                    SpotifyCredential.SYSTEM
+                )).getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
+
+            ImageResponse largestImage = up.getLargestImage();
+            if (largestImage != null) {
+                profilePhotoURL = largestImage.url;
             }
         }
 
         HttpHeaders headers = new HttpHeaders();
         // for some reason the response HAS to be JSON so lmao
-        return new ResponseEntity<>("\""+maxURL+"\"", headers, HttpStatus.OK);
+        return new ResponseEntity<>("\""+profilePhotoURL+"\"", headers, HttpStatus.OK);
     }
 
     @GetMapping("/profiles/mine")
