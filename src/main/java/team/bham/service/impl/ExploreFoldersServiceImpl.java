@@ -27,9 +27,9 @@ public class ExploreFoldersServiceImpl implements ExploreFoldersService {
         List<Folder> chosenFolders = new ArrayList<>() {};
 
         for (int i = 0; i < 10; i++) {
-            long leftLimit = 0;
-            long rightLimit = allFolders.size();
-            long random_long = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
+            long lowLimit = 0;
+            long highLimit = allFolders.size();
+            long random_long = lowLimit + (long) (Math.random() * (highLimit - lowLimit));
             Folder oneFolder = folderRepository.getById(random_long);
             chosenFolders.add(oneFolder);
         }

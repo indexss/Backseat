@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecentlyReviewedService } from './getMusicService.service';
+import { ExploreFoldersService } from './getFoldersService.service';
 import { DeviceService } from 'app/mobile/device.service';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
@@ -37,7 +38,11 @@ export class DiscoverComponent implements OnInit {
   //are these needed??
   faArrowUp = faArrowUp;
 
-  constructor(private getMusicService: RecentlyReviewedService, private deviceService: DeviceService) {}
+  constructor(
+    private getMusicService: RecentlyReviewedService,
+    private getFoldersService: ExploreFoldersService,
+    private deviceService: DeviceService
+  ) {}
 
   ngOnInit(): void {
     if (this.deviceService.isMobile()) {
@@ -49,7 +54,9 @@ export class DiscoverComponent implements OnInit {
       this.recordList = data.data.discover;
     });
 
-    //now need to add getFolderService
+    this.getFoldersService.getFolders().subscribe(data => {
+      this.folderList = data.data.discover;
+    });
   }
   clear() {
     window.location.reload();

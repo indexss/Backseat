@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 })
 export class ExploreFoldersService {
   constructor(private http: HttpClient) {}
-
   getFolders(): Observable<any> {
     return this.http.get(`api/discover/explorefolders`);
   }

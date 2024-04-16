@@ -136,19 +136,27 @@
   </div>
 
   <div class="text-primary justify-content-center">
-    <span>No data right now!</span><span><a class="add" routerLink="/search"> </a>Add reviews to fill this space!</span>
+    <span>No data right now!</span><span><a class="add" routerLink="/search"> Add reviews to fill this space!</a></span>
   </div>
 
   <h1>EXPLORE FOLDERS</h1>
 
   <div class="display-folders">
-    <div class="folder-card">
+    <div class="folder-card" *ngFor="let folder of folderList; let i = index">
       <div class="coverImg">
-        <img class="rounded" src="/content/images/clementine.png" alt="Watercolour image of a clementine" width="300" height="300" />
+        <a [routerLink]="['/folder', folder.folderId]">
+          <img
+            class="rounded"
+            [src]="folder.imageURL"
+            style="width: 300px; height: 300px"
+            [alt]="['Cover art for folder ', folder.folderName, ' made by ', folder.username]"
+          />
+        </a>
       </div>
-      <div class="folderName">Clementine</div>
-      <div class="creatorName">erose</div>
+      <div class="folderName">{{ folder.folderName }}</div>
+      <div class="creatorName">{{ folder.username }}</div>
     </div>
+    <!--
     <div class="folder-card">
       <div class="coverImg">
         <img class="rounded" src="/content/images/clarinet-cat.png" alt="Art of an orange cat with a clarinet" width="300" height="300" />
@@ -182,6 +190,11 @@
       <div class="folderName">Groovetown</div>
       <div class="creatorName">chromadreams</div>
     </div>
+    -->
+  </div>
+
+  <div class="text-primary justify-content-center">
+    <span>No data right now!</span><span><a class="add" routerLink="/search"> Create folders to fill this space! </a></span>
   </div>
 </div>
 <div class="sidebar">
