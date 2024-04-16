@@ -123,8 +123,12 @@ export class ProfileComponent implements OnInit {
       },
       error: (err) => {
         // This might be a profile ID instead - let's try getting that, and if it works, redirect to that profile.
-
-        console.debug("lol hi");
+        
+        if (err.status == 401) {
+          alert("Please log in first");
+          this.router.navigate(["/login"]);
+          return;
+        }
 
         if (err.status != 404) {
           alert(JSON.stringify(err));
