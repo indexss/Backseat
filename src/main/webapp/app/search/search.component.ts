@@ -36,7 +36,7 @@ interface Folder {
   folderId: number;
   userId: number;
   folderName: string;
-  imageURL: string;
+  imgURL: string;
   username: string;
 }
 
@@ -44,7 +44,7 @@ interface Profile {
   id: number;
   username: string;
   spotifyURI: string;
-  profilePhoto: string;
+  imgURL: string;
 }
 @Component({
   selector: 'jhi-search',
@@ -69,6 +69,12 @@ export class SearchComponent implements OnInit {
   folderAllList: Folder[] = [];
   testImageURL: string = '../../content/images/jhipster_family_member_0_head-192.png';
   testFolderImageURL: string = '../../content/images/HMAC.png';
+  //shows only the top 10 of filtered result;
+  //why I am writing this: Because the html can not load so much data, which will result lots of image unable to load
+  ShowRecordList: Record[] = [];
+  ShowAlbumList: Album[] = [];
+  ShowProfileList: Profile[] = [];
+  ShowFolderList: Folder[] = [];
   constructor(
     private fetchTrackService: FetchTrackService,
     private modalService: NgbModal,
@@ -99,6 +105,7 @@ export class SearchComponent implements OnInit {
           newItem: true, // Assuming you want to set newItem to true for the animation
         }));
         this.recordList = newData;
+        this.ShowRecordList = this.recordList.slice(0, 10);
         const newAlbumData: Album[] = data.data.album.map((item: any) => ({
           id: item.id,
           albumName: item.trackName,
@@ -110,12 +117,9 @@ export class SearchComponent implements OnInit {
           newItem: true, // Assuming you want to set newItem to true for the animation
         }));
         this.albumList = newAlbumData;
-
+        this.ShowAlbumList = this.albumList.slice(0, 10);
         console.log('data.data.album', data.data.album);
         console.log('albumList', this.albumList);
-        console.log('profile data:', this.profileList);
-        console.log('folder data:', this.folderAllList);
-        console.log('data.dta.profile', data.data.folder);
       },
       error => {
         // Handle any errors here
@@ -128,27 +132,27 @@ export class SearchComponent implements OnInit {
           id: item.id,
           username: item.username,
           spotifyURI: item.spotifyURI,
-          profilePhoto: item.profilePhoto,
+          imgURL: item.profilePhoto,
           newItem: true, // Assuming you want to set newItem to true for the animation
         }));
         this.profileList = newProfileData;
-
+        this.ShowProfileList = this.ShowProfileList.slice(0, 10);
         const newfolderData: Folder[] = data.data.folder.map((item: any) => ({
           id: item.id,
           folderId: item.id,
           folderName: item.name,
-          imageURL: item.image,
+          imgURL: item.image,
           userId: item.profile.id,
           username: this.findUserNameById(item.profile.id),
           newItem: true, // Assuming you want to set newItem to true for the animation
         }));
         this.folderAllList = newfolderData;
+        this.ShowFolderList = this.folderAllList.slice(0, 10);
 
-        console.log('data.data.album', data.data.album);
-        console.log('albumList', this.albumList);
         console.log('profile data:', this.profileList);
         console.log('folder data:', this.folderAllList);
-        console.log('data.dta.profile', data.data.folder);
+        console.log('data.data.folder', data.data.folder);
+        console.log('data.dta.profile', data.data.profiles);
       },
       error => {
         // Handle any errors here
@@ -212,15 +216,20 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  redirectToAlbum(spotifyURI: string): void {
-    // 导航到 /rating/{spotifyURI}
-    this.router.navigate(['/rating', spotifyURI]);
-  }
-
   redirectToTrack(spotifyURI: string): void {
     // 导航到 /rating/{spotifyURI}
     this.router.navigate(['/rating', spotifyURI]);
   }
+
+  redirectToProfile(profileId: number): void {
+    // 导航到 /rating/{spotifyURI}
+    this.router.navigate(['/profile', profileId]);
+  }
+
+  redirecToFolder(folderId: number): void {
+    this.router.navigate(['folderPage', folderId]);
+  }
+
   //filter any track contain some string
   get filteredRecords() {
     if (this.searchText) {

@@ -26,6 +26,24 @@
             <a (click)="redirectToTrack(album.albumURI)" style="text-decoration: none">{{ album.albumName }} - {{ album.artist }}</a>
           </div>
         </div>
+
+        <p>Profile:</p>
+        <div *ngFor="let profile of filteredProfiles; let t = index">
+          <div *ngIf="t < 5" class="autocomplete-item">
+            <img class="cover img-thumbnail me-3" [src]="profile.imgURL" alt="cover" />
+            <a (click)="redirectToProfile(profile.id)" style="text-decoration: none">id:{{ profile.id }}--User:{{ profile.username }}</a>
+          </div>
+        </div>
+
+        <p>Folder:</p>
+        <div *ngFor="let folder of filteredFolders; let t = index">
+          <div *ngIf="t < 5" class="autocomplete-item">
+            <!--            <img class="cover img-thumbnail me-3" [src]="folder.imgURL" alt="cover" />-->
+            <a (click)="redirecToFolder(folder.id)" style="text-decoration: none"
+              >Folder Name:{{ folder.folderName }}--Owner:{{ folder.username }}</a
+            >
+          </div>
+        </div>
       </div>
     </div>
 
@@ -42,9 +60,47 @@
           <th scope="col" class="text-center align-middle table-text green anta-regular">Add</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="searchText">
         <tr
           *ngFor="let record of filteredRecords | filter: searchText; let i = index"
+          [ngClass]="{ 'new-record-animation': record.newItem }"
+          class="record-animation"
+        >
+          <!--          // You can show Whole page in the track if you want , just delete ngIf = "i < 10"-->
+          <!--           </br>-->
+          <!--          -->
+          <th *ngIf="i < 10" scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
+          <td *ngIf="i < 10">
+            <div class="d-flex align-items-center">
+              <a [routerLink]="['/rating', record.trackURI]">
+                <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+              </a>
+              <div class="flex-grow-1">
+                <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
+                  <strong>{{ record.trackName }}</strong>
+                  <p>{{ record.artist }}</p>
+                </a>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="i < 10" class="text-center align-middle row-album">{{ record.album }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-reviews">{{ record.reviews }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">
+            <a (click)="openModal(record.trackURI, content)">
+              <!-- <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> -->
+              <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>
+            </a>
+            <!--          <a [routerLink]="['/', record.trackURI]" (click)="openModal(record.trackURI, content)">-->
+            <!--            &lt;!&ndash; <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> &ndash;&gt;-->
+            <!--            <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>-->
+            <!--          </a>-->
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="!searchText">
+        <tr
+          *ngFor="let record of ShowRecordList; let i = index"
           [ngClass]="{ 'new-record-animation': record.newItem }"
           class="record-animation"
         >
@@ -198,13 +254,13 @@
           <th *ngIf="i < 10" scope="row" class="text-center align-middle row-id">{{ folder.id }}</th>
           <td *ngIf="i < 10">
             <div class="d-flex align-items-center">
-              <a [routerLink]="['/folderPage', folder.id]">
-                <img [src]="folder.imageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
-              </a>
+              <!--              <a [routerLink]="['/folderPage', folder.id]">-->
+              <!--                <img [src]="testImageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" alt = "cover"/>-->
+              <!--              </a>-->
               <div class="flex-grow-1">
                 <a [routerLink]="['/folderPage', folder.id]" class="text-left d-block">
                   <strong>{{ folder.folderName }}</strong>
-                  <p>{{ folder.userid }}</p>
+                  <!--                  <p>{{ folder.userId }}</p>-->
                 </a>
               </div>
             </div>
@@ -231,7 +287,7 @@
       <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.folderId)">
         <div class="d-flex align-items-center">
           <!--          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" />-->
-          <img [src]="testFolderImageURL" class="me-3" style="width: 50px; height: 50px" />
+          <img [src]="folder.imgURL" class="me-3" style="width: 50px; height: 50px" />
           <span style="color: dimgrey; font-size: 20px">{{ folder.folderName }}</span>
         </div>
       </li>

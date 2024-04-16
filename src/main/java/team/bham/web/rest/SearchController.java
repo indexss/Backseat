@@ -7,6 +7,7 @@ import org.h2.mvstore.Page;
 // 导入 PageRequest 和 Pageable
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -84,6 +85,10 @@ public class SearchController {
         try {
             List<FolderDTO> folderDTOs = folderService.findAll();
             List<ProfileDTO> profileDTOs = profileService.getAllProfiles();
+            System.out.println("*&@!%#@*#!@(#*!@#&!@#*&!@(#!@#");
+            System.out.println("profile:" + profileDTOs);
+            System.out.println("folder:" + folderDTOs);
+            System.out.println("*&@!%#@*#!@(#*!@#&!@#*&!@(#!@#");
             resp = new SearchUtils().put("folder", folderDTOs, "profiles", profileDTOs);
         } catch (Exception e) {
             e.printStackTrace();
