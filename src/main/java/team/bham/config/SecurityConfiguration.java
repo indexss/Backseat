@@ -74,6 +74,7 @@ public class SecurityConfiguration {
             .authorizeRequests()
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .antMatchers("/api/generatemusic").permitAll()
+            .antMatchers("/api/search/**").permitAll()
             .antMatchers("/api/rating/**").permitAll()
             .antMatchers("/api/reivews/**").permitAll()
             .antMatchers("/api/reviews/**").permitAll()

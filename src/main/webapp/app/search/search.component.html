@@ -1,1 +1,296 @@
-<p>search works!</p>
+<div class="container">
+  <div class="row">
+    <div class="search-hero">
+      <input
+        type="text"
+        name="search"
+        [(ngModel)]="searchText"
+        placeholder="Search Track"
+        class="search-input"
+        (focus)="onSearchInput(true)"
+        (blur)="onSearchInput(false)"
+      />
+
+      <div *ngIf="searchText && showSuggestions" class="autocomplete-dropdown-container">
+        <p>Track:</p>
+        <div *ngFor="let track of filteredRecords; let i = index">
+          <div *ngIf="i < 5" class="autocomplete-item">
+            <img class="cover img-thumbnail me-3" [src]="track.imgURL" alt="cover" />
+            <a (click)="redirectToTrack(track.trackURI)" style="text-decoration: none">{{ track.trackName }} - {{ track.artist }}</a>
+          </div>
+        </div>
+        <p>Album:</p>
+        <div *ngFor="let album of filteredAlbums; let j = index">
+          <div *ngIf="j < 5" class="autocomplete-item">
+            <img class="cover img-thumbnail me-3" [src]="album.imgURL" alt="cover" />
+            <a (click)="redirectToTrack(album.albumURI)" style="text-decoration: none">{{ album.albumName }} - {{ album.artist }}</a>
+          </div>
+        </div>
+
+        <p>Profile:</p>
+        <div *ngFor="let profile of filteredProfiles; let t = index">
+          <div *ngIf="t < 5" class="autocomplete-item">
+            <img class="cover img-thumbnail me-3" [src]="profile.imgURL" alt="cover" />
+            <a (click)="redirectToProfile(profile.id)" style="text-decoration: none">id:{{ profile.id }}--User:{{ profile.username }}</a>
+          </div>
+        </div>
+
+        <p>Folder:</p>
+        <div *ngFor="let folder of filteredFolders; let t = index">
+          <div *ngIf="t < 5" class="autocomplete-item">
+            <!--            <img class="cover img-thumbnail me-3" [src]="folder.imgURL" alt="cover" />-->
+            <a (click)="redirecToFolder(folder.id)" style="text-decoration: none"
+              >Folder Name:{{ folder.folderName }}--Owner:{{ folder.username }}</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="displayText">Tracks</p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
+          <th scope="col" class="table-text green anta-regular">Track</th>
+          <th *ngIf="!isAlbum" scope="col" class="text-center align-middle table-text green anta-regular">Album</th>
+          <th *ngIf="isAlbum" scope="col" class="text-center align-middle table-text green anta-regular"></th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Reviews</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Rating</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Add</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="searchText">
+        <tr
+          *ngFor="let record of filteredRecords | filter: searchText; let i = index"
+          [ngClass]="{ 'new-record-animation': record.newItem }"
+          class="record-animation"
+        >
+          <!--          // You can show Whole page in the track if you want , just delete ngIf = "i < 10"-->
+          <!--           </br>-->
+          <!--          -->
+          <th *ngIf="i < 10" scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
+          <td *ngIf="i < 10">
+            <div class="d-flex align-items-center">
+              <a [routerLink]="['/rating', record.trackURI]">
+                <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+              </a>
+              <div class="flex-grow-1">
+                <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
+                  <strong>{{ record.trackName }}</strong>
+                  <p>{{ record.artist }}</p>
+                </a>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="i < 10" class="text-center align-middle row-album">{{ record.album }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-reviews">{{ record.reviews }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">
+            <a (click)="openModal(record.trackURI, content)">
+              <!-- <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> -->
+              <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>
+            </a>
+            <!--          <a [routerLink]="['/', record.trackURI]" (click)="openModal(record.trackURI, content)">-->
+            <!--            &lt;!&ndash; <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> &ndash;&gt;-->
+            <!--            <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>-->
+            <!--          </a>-->
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="!searchText">
+        <tr
+          *ngFor="let record of ShowRecordList; let i = index"
+          [ngClass]="{ 'new-record-animation': record.newItem }"
+          class="record-animation"
+        >
+          <!--          // You can show Whole page in the track if you want , just delete ngIf = "i < 10"-->
+          <!--           </br>-->
+          <!--          -->
+          <th *ngIf="i < 10" scope="row" class="text-center align-middle row-id">{{ record.id }}</th>
+          <td *ngIf="i < 10">
+            <div class="d-flex align-items-center">
+              <a [routerLink]="['/rating', record.trackURI]">
+                <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+              </a>
+              <div class="flex-grow-1">
+                <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
+                  <strong>{{ record.trackName }}</strong>
+                  <p>{{ record.artist }}</p>
+                </a>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="i < 10" class="text-center align-middle row-album">{{ record.album }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-reviews">{{ record.reviews }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">{{ record.rating | number: '1.0-2' }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">
+            <a (click)="openModal(record.trackURI, content)">
+              <!-- <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> -->
+              <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>
+            </a>
+            <!--          <a [routerLink]="['/', record.trackURI]" (click)="openModal(record.trackURI, content)">-->
+            <!--            &lt;!&ndash; <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> &ndash;&gt;-->
+            <!--            <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>-->
+            <!--          </a>-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="displayText">Albums</p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
+          <th scope="col" class="table-text green anta-regular">Album</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular"></th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Reviews</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Rating</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Add</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let album of filteredAlbums | filter: searchText; let i = index"
+          [ngClass]="{ 'new-record-animation': album.newItem }"
+          class="record-animation"
+        >
+          <!--          // You can show Whole page in the track if you want , just delete ngIf = "i < 10"-->
+          <!--           </br>-->
+          <!--          -->
+          <th *ngIf="i < 10" scope="row" class="text-center align-middle row-id">{{ album.id }}</th>
+          <td *ngIf="i < 10">
+            <div class="d-flex align-items-center">
+              <a [routerLink]="['/rating', album.trackURI]">
+                <img [src]="album.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+              </a>
+              <div class="flex-grow-1">
+                <a [routerLink]="['/rating', album.albumURI]" class="text-left d-block">
+                  <strong>{{ album.albumName }}</strong>
+                  <p>{{ album.artist }}</p>
+                </a>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="i < 10" class="text-center align-middle row-album">{{ album.albumName }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-reviews">{{ album.reviews }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">{{ album.rating | number: '1.0-2' }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">
+            <a (click)="openModal(album.albumURI, content)">
+              <!-- <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> -->
+              <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>
+            </a>
+            <!--          <a [routerLink]="['/', record.trackURI]" (click)="openModal(record.trackURI, content)">-->
+            <!--            &lt;!&ndash; <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3"/> &ndash;&gt;-->
+            <!--            <fa-icon [icon]="faSquarePlus" style="font-size: 26px"></fa-icon>-->
+            <!--          </a>-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="displayText">Profiles</p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
+          <th scope="col" class="table-text green anta-regular">Profile</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">UserName</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">User Id</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular"></th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let profile of filteredProfiles | filter: searchText; let i = index"
+          [ngClass]="{ 'new-record-animation': profile.newItem }"
+          class="record-animation"
+        >
+          <!--          // You can show Whole page in the track if you want , just delete ngIf = "i < 10"-->
+          <!--           </br>-->
+          <!--          -->
+          <th *ngIf="i < 10" scope="row" class="text-center align-middle row-id"></th>
+          <td *ngIf="i < 10">
+            <div class="d-flex align-items-center">
+              <a [routerLink]="['/profile', profile.id]">
+                <!--              <img [src]="profile.profilePhoto" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />-->
+                <img [src]="testImageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+              </a>
+            </div>
+          </td>
+          <td *ngIf="i < 10" class="text-center align-middle row-album">{{ profile.username }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-album">{{ profile.id }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-reviews"></td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating"></td>
+          <!--        <td *ngIf="i < 10" class="text-center align-middle row-rating">-->
+          <!--        </td>-->
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="displayText">Folders</p>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">#</th>
+          <th scope="col" class="table-text green anta-regular">Folder Name</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular"></th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Owner Id</th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular"></th>
+          <th scope="col" class="text-center align-middle table-text green anta-regular">Owner Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let folder of filteredFolders | filter: searchText; let i = index"
+          [ngClass]="{ 'new-record-animation': folder.newItem }"
+          class="record-animation"
+        >
+          <!--          // You can show Whole page in the track if you want , just delete ngIf = "i < 10"-->
+          <!--           </br>-->
+          <!--          -->
+          <th *ngIf="i < 10" scope="row" class="text-center align-middle row-id">{{ folder.id }}</th>
+          <td *ngIf="i < 10">
+            <div class="d-flex align-items-center">
+              <!--              <a [routerLink]="['/folderPage', folder.id]">-->
+              <!--                <img [src]="testImageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" alt = "cover"/>-->
+              <!--              </a>-->
+              <div class="flex-grow-1">
+                <a [routerLink]="['/folderPage', folder.id]" class="text-left d-block">
+                  <strong>{{ folder.folderName }}</strong>
+                  <!--                  <p>{{ folder.userId }}</p>-->
+                </a>
+              </div>
+            </div>
+          </td>
+          <td *ngIf="i < 10" class="text-center align-middle row-album"></td>
+          <td *ngIf="i < 10" class="text-center align-middle row-reviews">{{ folder.userId }}</td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating"></td>
+          <td *ngIf="i < 10" class="text-center align-middle row-rating">{{ folder.username }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Select Folder</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group">
+      <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.folderId)">
+        <div class="d-flex align-items-center">
+          <!--          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" />-->
+          <img [src]="folder.imgURL" class="me-3" style="width: 50px; height: 50px" />
+          <span style="color: dimgrey; font-size: 20px">{{ folder.folderName }}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</ng-template>

@@ -1,6 +1,8 @@
 package team.bham.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import team.bham.domain.Profile;
 import team.bham.domain.User;
 import team.bham.repository.ProfileRepository;
@@ -95,5 +98,17 @@ public class ProfileServiceImpl implements ProfileService {
     public void delete(Long id) {
         log.debug("Request to delete Profile : {}", id);
         profileRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProfileDTO> getAllProfiles() {
+        log.debug("REST request to get all Profiles");
+        // Assuming findAll returns a List<Profile>, otherwise adjust accordingly
+        List<Profile> profiles = profileRepository.findAll();
+        return profiles
+            .stream()
+            .map(profileMapper::toDto) // Make sure toDto can handle the profiles list
+            .collect(Collectors.toList());
     }
 }

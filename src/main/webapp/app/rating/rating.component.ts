@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FetchReviewInfoService } from './fetch-review-info.service';
 import { Review } from './review.interface';
@@ -12,7 +12,20 @@ import { Track } from './track.interface';
 import { ThemeService } from './theme.service';
 import { DeleteReviewService } from './delete-review.service';
 import { FetchAccService } from './fetch-acc.service';
-
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
+import { WantToListenService } from '../want-to-listen/want-to-listen.service';
+// I am so sorry for fetch review becomes a big chaos in my code
+// That's majorly because the redirect happens a lot in my page which my result rating page
+// unable to load resource
+// And there are lots of user input that may change the data in the page
+interface Folder {
+  id: number;
+  folderId: number;
+  folderName: string;
+  imageURL: string;
+}
 @Component({
   selector: 'jhi-rating',
   templateUrl: './rating.component.html',
@@ -51,6 +64,13 @@ export class RatingComponent implements OnInit {
   reviewsPerPage: number = 5;
   userName!: string;
   albumReviewList: Review[] = [];
+  //folder part
+  spotifyURI!: string;
+  modalRef!: NgbModalRef;
+  folderList: Folder[] = [];
+  faSquarePlus = faSquarePlus;
+  showAddWantListen: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private fetchReviewInfoService: FetchReviewInfoService,
@@ -61,16 +81,26 @@ export class RatingComponent implements OnInit {
     private deleteReviewService: DeleteReviewService,
     private router: Router,
     private themeService: ThemeService,
-    private fetchAcc: FetchAccService
+    private fetchAcc: FetchAccService,
+    private modalService: NgbModal,
+    private addToFolderService: AddToFolderService,
+    private wantToListenService: WantToListenService
   ) {}
 
   ngOnInit(): void {
+    this.addToFolderService.getUserFolder().subscribe(data => {
+      this.folderList = data.data.folder;
+    });
+    console.log('!!!!!!!!!!!!!!!!!!');
+    console.log('folder list:');
+    console.log(this.folderList);
+
     this.route.params.subscribe(params => {
       // console.log("next is id:");
       // console.log(params['id']);
       this.id = params['id'];
       this.checkTrackOrAlbum(this.id);
-      this.themeService.loadTheme();
+      // this.themeService.loadTheme();
       if (this.isTrack) {
         // this.router.navigate(['/rating-not-found']);
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
@@ -81,7 +111,7 @@ export class RatingComponent implements OnInit {
               this.router.navigate(['/rating-not-found']);
             }
           });
-
+          console.log('review All:', data.data.review);
           this.trackName = data.data.review.trackName;
           this.albumName = data.data.review.albumName;
           this.artistName = data.data.review.artistName;
@@ -99,12 +129,15 @@ export class RatingComponent implements OnInit {
               username: reviewDTO[i].profile.username,
               // userProfileImage: reviewDTO[i].profile.profileImage,
               userProfileImage: './../../content/images/common_avatar.png',
+              userId: reviewDTO[i].profile.id,
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
               rating: reviewDTO[i].rating,
             };
             this.reviewList.push(review);
+            console.log('this.reviewList', this.reviewList);
           }
+          console.log('ReviewList:', this.reviewList);
           this.reviewList = this.reviewList.reverse();
           this.changeDetectorRef.detectChanges();
         });
@@ -147,6 +180,7 @@ export class RatingComponent implements OnInit {
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
               rating: reviewDTO[i].rating,
+              userId: reviewDTO[i].profile.id,
               // rating: reviewDTO[i].rating,
             };
             this.reviewList.push(review);
@@ -166,6 +200,7 @@ export class RatingComponent implements OnInit {
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.albumReviewList.push(review);
             }
@@ -180,6 +215,56 @@ export class RatingComponent implements OnInit {
     });
   }
 
+  // From  Willis Shi
+  openModal(spotifyURI: string, content: TemplateRef<any>): void;
+  openModal(content: TemplateRef<any>): void;
+
+  openModal(arg1: any, arg2?: any): void {
+    if (typeof arg1 === 'string') {
+      // 处理第一个重载的情况
+      this.spotifyURI = arg1;
+      console.log('folderlist');
+      this.modalRef = this.modalService.open(arg2, { centered: true });
+    } else {
+      // 处理第二个重载的情况
+      this.modalService.open(arg1, { centered: true });
+    }
+  }
+
+  addToWantToListen(): void {
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.fetchAcc.fetchAcc().subscribe(data => {
+          this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName);
+        });
+        this.showAddWantListen = true;
+      } else {
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  addToFolder(folderId: number) {
+    console.log(`Adding trackURI: ${this.spotifyURI} to folderId: ${folderId}`);
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.addToFolderService.addEntryFolder(this.spotifyURI, folderId).subscribe(data => {});
+      }
+    });
+    this.modalRef.close();
+  }
+
+  getSpotifyLink(spotifyURI: string): string {
+    let spotifyLink: string = '';
+    if (spotifyURI.startsWith('spotify:track:')) {
+      spotifyLink = spotifyURI.replace('spotify:track:', 'https://open.spotify.com/track/');
+    } else if (spotifyURI.startsWith('spotify:album:')) {
+      spotifyLink = spotifyURI.replace('spotify:album:', 'https://open.spotify.com/album/');
+    } else {
+      console.error('Unsupported SpotifyURI: ', spotifyURI);
+    }
+    return spotifyLink;
+  }
   onTrackSelected(spotifyURI: string): void {
     this.selectedTrack = this.trackList.find(track => track.spotifyURI === spotifyURI);
   }
@@ -238,6 +323,7 @@ export class RatingComponent implements OnInit {
                         reviewContent: reviewDTO[i].content,
                         reviewDate: reviewDTO[i].date,
                         rating: reviewDTO[i].rating,
+                        userId: reviewDTO[i].profile.id,
                       };
                       this.reviewList.push(review);
                     }
@@ -282,6 +368,7 @@ export class RatingComponent implements OnInit {
                           reviewContent: reviewDTO[i].content,
                           reviewDate: reviewDTO[i].date,
                           rating: reviewDTO[i].rating,
+                          userId: reviewDTO[i].profile.id,
                         };
                         this.albumReviewList.push(review);
                       }
@@ -326,6 +413,7 @@ export class RatingComponent implements OnInit {
                             reviewContent: reviewDTO[i].content,
                             reviewDate: reviewDTO[i].date,
                             rating: reviewDTO[i].rating,
+                            userId: reviewDTO[i].profile.id,
                           };
                           this.reviewList.push(review);
                         }
@@ -429,6 +517,7 @@ export class RatingComponent implements OnInit {
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.albumReviewList.push(review);
             }
@@ -457,6 +546,7 @@ export class RatingComponent implements OnInit {
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.reviewList.push(review);
             }
@@ -493,6 +583,7 @@ export class RatingComponent implements OnInit {
                   reviewContent: reviewDTO[i].content,
                   reviewDate: reviewDTO[i].date,
                   rating: reviewDTO[i].rating,
+                  userId: reviewDTO[i].profile.id,
                 };
                 this.albumReviewList.push(review);
               }
@@ -537,6 +628,7 @@ export class RatingComponent implements OnInit {
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
+                    userId: reviewDTO[i].profile.id,
                   };
                   this.reviewList.push(review);
                 }
@@ -563,6 +655,7 @@ export class RatingComponent implements OnInit {
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
+                    userId: reviewDTO[i].profile.id,
                   };
                   this.reviewList.push(review);
                 }
@@ -605,6 +698,10 @@ export class RatingComponent implements OnInit {
 
   setPage(pageNo: number): void {
     this.currentPage = pageNo;
+  }
+  redirectToProfile(profileId: number): void {
+    // 导航到 /rating/{spotifyURI}
+    this.router.navigate(['/profile', profileId]);
   }
 
   findSpotifyURIByTrackName(trackName: string): string {

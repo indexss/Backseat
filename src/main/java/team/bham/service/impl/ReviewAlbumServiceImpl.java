@@ -65,13 +65,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
             trackSet.addAll(optionalTrackList);
             reviewAlbumDTO.pushTrackList(trackSet);
-
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-------optionalTrackList in ReviewAlbumServiceImpl-----------");
-            System.out.println(trackSet);
-            System.out.println("+++++++++++++++++++++++" + reviewAlbumDTO.getTracks());
             //到这里为止成功返回了
             reviewAlbumDTO.setImgURL(album.getImageURL());
             reviewAlbumDTO.setTotalTracks(album.getTotalTracks());
@@ -101,16 +94,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             }
             reviewAlbumDTO.pushAvgRating((sum * 1.0) / reviews.size());
             reviewAlbumDTO.pushReviewList(reviewList);
-            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(reviewAlbumDTO.getReviewList());
-            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(reviewRepository.findByAlbum(album));
-            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
             //            Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
             //            ArrayList<Review> reviews = new ArrayList<>(reviewList);
@@ -147,12 +130,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             trackSet.addAll(optionalTrackList);
             reviewAlbumDTO.pushTrackList(trackSet);
 
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-------optionalTrackList in ReviewAlbumServiceImpl-----------");
-            System.out.println(trackSet);
-            System.out.println("+++++++++++++++++++++++" + reviewAlbumDTO.getTracks());
             //到这里为止成功返回了
             reviewAlbumDTO.setImgURL(album.getImageURL());
             reviewAlbumDTO.setTotalTracks(album.getTotalTracks());
@@ -253,14 +230,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
         while (iterator.hasNext()) {
             Review review = iterator.next();
             if (review.getProfile().equals(profile)) {
-                System.out.println(review);
-                System.out.println(
-                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
-                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
-                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
-                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting"
-                );
-                System.out.println(review);
                 iterator.remove();
                 // 如果你需要从数据库中也删除这个Review，确保调用repository的delete方法
                 reviewRepository.delete(review);

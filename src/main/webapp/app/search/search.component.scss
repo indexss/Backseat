@@ -1,0 +1,41 @@
+.search-hero {
+  position: relative; /* This ensures the dropdown is positioned relative to the search input */
+}
+
+/* Styles for hovering over items */
+.autocomplete-item:hover {
+  background-color: #f2f2f2;
+}
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  top: 100%; /* Positions the dropdown right below the input field */
+  left: 0.9%;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ccc;
+  z-index: 10;
+  max-width: 40%; /* Ensure the dropdown is not wider than the search box */
+}
+
+.autocomplete-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  /* You might want to set a max-width here as well to match the input width */
+}
+
+/* Styles for hovering over items */
+.autocomplete-item:hover {
+  background-color: #f2f2f2;
+}
+
+.cover {
+  width: 50px; /* You can set the width as you prefer */
+  height: auto; /* This will maintain the aspect ratio */
+}
+
+.displayText {
+  font-size: 3em;
+  font-color: black;
+}
