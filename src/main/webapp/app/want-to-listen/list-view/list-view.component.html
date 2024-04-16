@@ -1,3 +1,34 @@
+<!--<div class="list-group">-->
+<!--  <div-->
+<!--    class="list-group-item list-group-item-action align-self-center align-items-center"-->
+<!--    [attr.data-id]="item.id"-->
+<!--    (click)="expand()"-->
+<!--    (mouseover)="onMouseOver()"-->
+<!--    (mouseleave)="onMouseLeave()"-->
+<!--    *ngFor="let item of wantToListenList"-->
+<!--  >-->
+<!--    <div class="container row align-self-center">-->
+<!--      <h5 class="col-1">{{ item.id }}</h5>-->
+
+<!--      <div class="col-1 text-start">-->
+<!--        <img [src]="item.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" alt="Album Cover"/>-->
+<!--      </div>-->
+<!--      <div class="col-4 align-self-center align-items-center">-->
+<!--        <a class="h4 green">{{ item.itemName }}</a>-->
+<!--        <h5 class="green">{{ item.artistName }}</h5>-->
+<!--      </div>-->
+<!--      <div class="col-3">-->
+<!--        <h5>{{item.albumName}}</h5>-->
+<!--      </div>-->
+<!--      <h5 class="col-1 text-center">{{ item.rating | number: '1.0-2' }}</h5>-->
+<!--      <h5 class="col-1 text-center">{{ item.reviewsCount | number: '':'en' }}</h5>-->
+<!--      <a class="col-1 text-end" *ngIf="showDeleteIcon" (click)="deleteItem(item.id); $event.stopPropagation()">-->
+<!--        <fa-icon [icon]="faTrash" class="trash-icon"></fa-icon>-->
+<!--      </a>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -14,8 +45,8 @@
       class=""
       [attr.data-id]="item.id"
       (click)="expand()"
-      (mouseover)="item.isFocus = setFocusOn()"
-      (mouseleave)="item.isFocus = setFocusOff()"
+      (mouseover)="onMouseOver()"
+      (mouseleave)="onMouseLeave()"
       *ngFor="let item of wantToListenList"
     >
       <td class="col-1 text-center">
@@ -44,16 +75,8 @@
       <td class="col-1 text-center">
         <h5>{{ item.reviewsCount | number: '':'en' }}</h5>
       </td>
-      <td class="col-1 text-center">
-        <jhi-add-new-want-to-listen-item [userID]="'testID'" [itemURI]="'testURI'"></jhi-add-new-want-to-listen-item>
-        <button class="col-auto btn" style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: rgba(0, 0, 0, 0)">
-          <fa-icon
-            [icon]="faTrash"
-            *ngIf="item.isFocus"
-            (click)="deleteItem(item.id)"
-            style="font-size: 2em; margin: 0; padding: 0; color: #447848"
-          ></fa-icon>
-        </button>
+      <td class="col-1 text-center" *ngIf="showDeleteIcon" (click)="deleteItem(item.id); $event.stopPropagation()">
+        <fa-icon [icon]="faTrash" class="trash-icon"></fa-icon>
       </td>
     </tr>
   </tbody>

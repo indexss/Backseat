@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
     private followService: FollowService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
   ) {
     this.isSelf = false;
     this.login = this.route.snapshot.paramMap.get('id');
@@ -115,30 +115,29 @@ export class ProfileComponent implements OnInit {
           });
         console.debug('Profile: ', res);
       },
-      error: err => {
+      error: (err) => {
         // This might be a profile ID instead - let's try getting that, and if it works, redirect to that profile.
 
-        console.debug('lol hi');
+        console.debug("lol hi");
 
         if (err.status != 404) {
           alert(JSON.stringify(err));
           return;
-        } else if (isNaN(Number(this.login))) {
-          // can't be a profile ID if it's not a number
+        } else if (isNaN(Number(this.login))) { // can't be a profile ID if it's not a number
           this.router.navigate(['/404']);
           return;
         }
 
         this.profileService.find(Number(this.login)).subscribe({
-          next: val => {
+          next: (val) => {
             // we got a profile!!
-            this.router.navigate(['/profile', val.body?.username]).then(() => {
+            this.router.navigate(["/profile", val.body?.username]).then(() => {
               this.login = val.body?.username ? val.body.username : null;
               this.ngOnInit();
-              return;
+              return
             });
           },
-          error: err => {
+          error: (err) => {
             // :(
             if (err.status == 404) {
               this.router.navigate(['/404']);
@@ -146,7 +145,7 @@ export class ProfileComponent implements OnInit {
             }
             alert(JSON.stringify(err));
             this.router.navigate([]);
-          },
+          }
         });
       },
     });

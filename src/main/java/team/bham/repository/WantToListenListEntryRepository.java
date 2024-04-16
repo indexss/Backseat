@@ -23,6 +23,5 @@ public interface WantToListenListEntryRepository extends JpaRepository<WantToLis
     @Query(value = "SELECT p FROM WantToListenListEntry p")
     List<WantToListenListEntry> findAllWantList();
 
-    @Query(value = "SELECT entrys FROM WantToListenListEntry entrys WHERE entrys.userID = :userID ORDER BY entrys.addTime DESC")
-    List<WantToListenListEntry> findAllByUserIDOrderByAddTimeDesc(@NotNull @Param("userID") String userID);
+    List<WantToListenListEntry> findAllByUserIDOrderByAddTimeAsc(@NotNull @Param("User ID") String userID);
 }

@@ -60,6 +60,11 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             reviewTrackDTO.setAlbumName(track.getAlbum().getName());
             reviewTrackDTO.setImgURL(track.getAlbum().getImageURL());
             reviewTrackDTO.setAlbumURI(track.getAlbum().getSpotifyURI());
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(reviewTrackDTO.getAlbumURI());
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
             StringBuilder artistNameBuilder = new StringBuilder();
             Set<Artist> artists = track.getAlbum().getArtists();
             List<Artist> artistList = new ArrayList<>(artists);
@@ -74,7 +79,12 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             reviewTrackDTO.setArtistName(artistNameBuilder.toString());
             //        reviewTrackDTO.setArtistName(track.getArtists().toString());
             //        reviewTrackDTO.setReviewList(track.getReviews());
+            System.out.println("SpotifyID");
+            System.out.println(trackSpotifyId);
             Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
+            System.out.println(artistNameBuilder.toString());
+            System.out.println(artists);
+            System.out.println(artistList);
             ArrayList<Review> reviews = new ArrayList<>(reviewList);
             double sum = 0;
             for (int i = 0; i < reviews.size(); i++) {
@@ -134,6 +144,14 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         while (iterator.hasNext()) {
             Review review = iterator.next();
             if (review.getProfile().equals(profile)) {
+                System.out.println(review);
+                System.out.println(
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting"
+                );
+                System.out.println(review);
                 iterator.remove();
                 // 如果你需要从数据库中也删除这个Review，确保调用repository的delete方法
                 reviewRepository.delete(review);

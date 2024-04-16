@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 
 import { LoginService } from 'app/login/login.service';
 import { AccountService } from 'app/core/auth/account.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ApplicationConfigService } from '../core/config/application-config.service';
-import { ProfileService } from '../layouts/profiles/profile.service';
-import { IProfile } from '../entities/profile/profile.model';
-import { StoreResultResponse } from '../oauth/inbound/inbound.component';
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {ApplicationConfigService} from "../core/config/application-config.service";
+import {ProfileService} from "../layouts/profiles/profile.service";
+import {IProfile} from "../entities/profile/profile.model";
+import {StoreResultResponse} from "../oauth/inbound/inbound.component";
 
 @Component({
   selector: 'jhi-login',
@@ -26,13 +26,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     rememberMe: new FormControl(false, { nonNullable: true, validators: [Validators.required] }),
   });
 
-  constructor(
-    private accountService: AccountService,
-    private loginService: LoginService,
-    private router: Router,
-    private http: HttpClient,
-    private applicationConfigService: ApplicationConfigService
-  ) {}
+  constructor(private accountService: AccountService, private loginService: LoginService, private router: Router, private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
   ngOnInit(): void {
     // if already authenticated then navigate to home page
@@ -65,9 +59,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
   checkSpotifyConnectionStatus(): void {
     this.http.get<IProfile>(this.applicationConfigService.getEndpointFor('api/profiles/mine')).subscribe({
       next: (resp: IProfile) => {
-        console.debug('resp.spotifyURI === null =', resp.spotifyConnection === null);
+        console.debug("resp.spotifyURI === null =", resp.spotifyConnection === null);
         if (resp.spotifyConnection === null) {
-          this.router.navigateByUrl('/oauth/outbound').then(r => {});
+          this.router.navigateByUrl("/oauth/outbound").then(r => {});
         }
       },
     });
