@@ -100,7 +100,7 @@ export class RatingComponent implements OnInit {
       // console.log(params['id']);
       this.id = params['id'];
       this.checkTrackOrAlbum(this.id);
-      this.themeService.loadTheme();
+      // this.themeService.loadTheme();
       if (this.isTrack) {
         // this.router.navigate(['/rating-not-found']);
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
@@ -135,6 +135,7 @@ export class RatingComponent implements OnInit {
             };
             this.reviewList.push(review);
           }
+          console.log('ReviewList:', this.reviewList);
           this.reviewList = this.reviewList.reverse();
           this.changeDetectorRef.detectChanges();
         });
