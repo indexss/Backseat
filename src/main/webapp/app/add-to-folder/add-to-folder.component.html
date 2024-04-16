@@ -1,38 +1,38 @@
 <div class="container">
-  <table class="table table-bordered table-hover mt-5">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col" class="text-center align-middle table-text green">#</th>
-        <th scope="col" class="table-text green">Track/Album</th>
-        <th scope="col" class="text-center align-middle table-text green">Artist</th>
-        <th scope="col" class="text-center align-middle table-text green">Reviews</th>
-        <th scope="col" class="text-center align-middle table-text green">Rating</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let record of recordList">
-        <th scope="row" class="text-center">{{ record.id }}</th>
-        <td>
-          <div class="d-flex align-items-center">
-            <a [routerLink]="['/rating', record.trackURI]">
-              <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />
-            </a>
-            <div class="flex-grow-1">
-              <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
-                <strong>{{ record.trackName }}</strong>
-              </a>
-            </div>
-          </div>
-        </td>
-        <td class="text-center">{{ record.artist }}</td>
-        <td class="text-center">{{ record.reviews }}</td>
-        <td class="text-center">{{ record.rating | number: '1.0-2' }}</td>
-        <td class="text-center">
-          <button class="add-button" (click)="openModal(record.trackURI, content)">Add</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!--  <table class="table table-bordered table-hover mt-5">-->
+  <!--    <thead class="thead-dark">-->
+  <!--      <tr>-->
+  <!--        <th scope="col" class="text-center align-middle table-text green">#</th>-->
+  <!--        <th scope="col" class="table-text green">Track/Album</th>-->
+  <!--        <th scope="col" class="text-center align-middle table-text green">Artist</th>-->
+  <!--        <th scope="col" class="text-center align-middle table-text green">Reviews</th>-->
+  <!--        <th scope="col" class="text-center align-middle table-text green">Rating</th>-->
+  <!--      </tr>-->
+  <!--    </thead>-->
+  <!--    <tbody>-->
+  <!--      <tr *ngFor="let record of recordList">-->
+  <!--        <th scope="row" class="text-center">{{ record.id }}</th>-->
+  <!--        <td>-->
+  <!--          <div class="d-flex align-items-center">-->
+  <!--            <a [routerLink]="['/rating', record.trackURI]">-->
+  <!--              <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />-->
+  <!--            </a>-->
+  <!--            <div class="flex-grow-1">-->
+  <!--              <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">-->
+  <!--                <strong>{{ record.trackName }}</strong>-->
+  <!--              </a>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </td>-->
+  <!--        <td class="text-center">{{ record.artist }}</td>-->
+  <!--        <td class="text-center">{{ record.reviews }}</td>-->
+  <!--        <td class="text-center">{{ record.rating | number: '1.0-2' }}</td>-->
+  <!--        <td class="text-center">-->
+  <!--          <button class="add-button" (click)="openModal(record.trackURI, content)">Add</button>-->
+  <!--        </td>-->
+  <!--      </tr>-->
+  <!--    </tbody>-->
+  <!--  </table>-->
 
   <button (click)="openModal(addFolderContent)" class="btn btn-success" type="button"><i class="bi bi-plus"></i>+</button>
 
@@ -75,10 +75,10 @@
   </table>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #content let-modal class="popwindow">
   <div class="modal-header">
     <h4 class="modal-title">Select Folder</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+    <button type="button" class="close" (click)="modal.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>

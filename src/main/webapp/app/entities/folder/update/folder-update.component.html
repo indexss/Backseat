@@ -50,20 +50,20 @@
           />
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_profile">Profile</label>
-          <select
-            class="form-control"
-            id="field_profile"
-            data-cy="profile"
-            name="profile"
-            formControlName="profile"
-            [compareWith]="compareProfile"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="profileOption" *ngFor="let profileOption of profilesSharedCollection">{{ profileOption.id }}</option>
-          </select>
-        </div>
+        <!--        <div class="row mb-3">-->
+        <!--          <label class="form-label" for="field_profile">Profile</label>-->
+        <!--          <select-->
+        <!--            class="form-control"-->
+        <!--            id="field_profile"-->
+        <!--            data-cy="profile"-->
+        <!--            name="profile"-->
+        <!--            formControlName="profile"-->
+        <!--            [compareWith]="compareProfile"-->
+        <!--          >-->
+        <!--            <option [ngValue]="null"></option>-->
+        <!--            <option [ngValue]="profileOption" *ngFor="let profileOption of profilesSharedCollection">{{ profileOption.id }}</option>-->
+        <!--          </select>-->
+        <!--        </div>-->
       </div>
 
       <div>

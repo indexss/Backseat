@@ -125,29 +125,16 @@
       <div class="d-flex justify-content-center pb-4"><h2 class="fs-4">Friends</h2></div>
 
       <div id="friends">
-        <div class="d-flex gap-3 align-items-center">
-          <img style="max-width: 100px" src="https://avatars.platform.tdpain.net/ScoutAbout" alt="" />
-          <div class="fs-5"><a href="https://youtube.com/shorts/wD2grEAVInc">ScoutAbout</a></div>
-        </div>
-        <hr class="separator" />
-        <div class="d-flex gap-3 align-items-center">
-          <img style="max-width: 100px" src="https://avatars.platform.tdpain.net/PardonMeWhat" alt="" />
-          <div class="fs-5"><a href="https://youtube.com/shorts/wD2grEAVInc">PardonMeWhat</a></div>
-        </div>
-        <hr class="separator" />
-        <div class="d-flex gap-3 align-items-center">
-          <img style="max-width: 100px" src="https://avatars.platform.tdpain.net/TrafficConeSaxophone" alt="" />
-          <div class="fs-5"><a href="https://youtube.com/shorts/wD2grEAVInc">TrafficConeSaxophone</a></div>
-        </div>
-        <hr class="separator" />
-        <div class="d-flex gap-3 align-items-center">
-          <img style="max-width: 100px" src="https://avatars.platform.tdpain.net/RhubarbCustardHair" alt="" />
-          <div class="fs-5"><a href="https://youtube.com/shorts/wD2grEAVInc">RhubarbCustardHair</a></div>
-        </div>
-        <hr class="separator" />
-        <div class="d-flex gap-3 align-items-center">
-          <img style="max-width: 100px" src="https://avatars.platform.tdpain.net/DeadLaptopMan" alt="" />
-          <div class="fs-5"><a href="https://youtube.com/shorts/wD2grEAVInc">DeadLaptopMan</a></div>
+        <div class="d-flex gap-3 justify-content-center" *ngIf="friends.length == 0">No friends! ☹️</div>
+
+        <div *ngFor="let friend of friends; let i = index">
+          <hr class="separator" *ngIf="i != 0" />
+          <div class="d-flex gap-3 align-items-center">
+            <img style="max-width: 100px" src="{{ friend.photoURL }}" alt="" />
+            <div class="fs-5">
+              <a href="/profile/{{ friend.target }}">{{ friend.target }}</a>
+            </div>
+          </div>
         </div>
       </div>
 

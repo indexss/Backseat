@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit {
   version = '';
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
+  isDarkModeEnabled = false;
 
   constructor(
     private loginService: LoginService,
@@ -66,9 +67,31 @@ export class NavbarComponent implements OnInit {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 
+  toggleDarkMode(): void {
+    this.isDarkModeEnabled = !this.isDarkModeEnabled;
+    const body = document.body;
+    const head = document.getElementsByTagName('head')[0];
+    const linkId = 'dark-theme-style';
+    const existingLink = document.getElementById(linkId) as HTMLLinkElement | null;
+
+    if (this.isDarkModeEnabled) {
+      if (!existingLink) {
+        const cssLink = document.createElement('link');
+        cssLink.id = linkId;
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'content/css/dark.css'; // Use the compiled CSS path
+        head.appendChild(cssLink);
+      }
+    } else {
+      if (existingLink) {
+        existingLink.parentNode?.removeChild(existingLink);
+      }
+    }
+
+    // Re-trigger layout to force style re-calculation
+    void body.offsetWidth;
+  }
+
   protected readonly faPhotoFilm = faPhotoFilm;
   protected readonly faSquareXmark = faSquareXmark;
 }
-
-//这个导航栏在哪个文件里面引用了呢？
-// Path: src/main/webapp/app/layouts/main/main.component.html

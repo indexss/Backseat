@@ -199,13 +199,14 @@ public class ProfileResource {
     @GetMapping("/profiles/byLogin/{login}")
     public ResponseEntity<Profile> getProfileByLogin(@PathVariable String login) {
         log.debug("REST request to get Profile by login: {}", login);
-        return ResponseUtil.wrapOrNotFound(profileRepository.findByUserLogin(login));
+        return ResponseUtil.wrapOrNotFound(profileRepository.findByUserLogin(login.toLowerCase()));
     }
 
     @GetMapping("/profiles/byLogin/{login}/profilePhoto")
     public ResponseEntity<String> getProfilePhotoByLogin(@PathVariable String login)
         throws SpotifyException, IOException, InterruptedException {
-        Optional<Profile> profOpt = profileRepository.findByUserLogin(login);
+        Optional<Profile> profOpt = profileRepository.findByUserLogin(login.toLowerCase());
+
         if (profOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -214,16 +215,12 @@ public class ProfileResource {
         String profilePhotoURL = "https://avatars.platform.tdpain.net/" + login;
 
         if (!"undefined".equals(prof.getSpotifyURI())) {
-            System.err.println("cheez: ".concat(prof.getSpotifyURI()));
             UserProfileResponse up = new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotConnServ, SpotifyCredential.SYSTEM))
                 .getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
 
-            int maxImageDims = 0;
-            for (ImageResponse im : up.images) {
-                if (im.width > maxImageDims) {
-                    maxImageDims = im.width;
-                    profilePhotoURL = im.url;
-                }
+            ImageResponse largestImage = up.getLargestImage();
+            if (largestImage != null) {
+                profilePhotoURL = largestImage.url;
             }
         }
 

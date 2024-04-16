@@ -213,14 +213,14 @@ ngb-rating {
 .rating-container-span {
   display: flex;
   justify-content: flex-end;
-  color: gold;
+  color: rgb(245, 209, 6);
   font-size: 24px;
 }
 
 .rating-spans {
   display: flex;
   justify-content: flex-end;
-  color: gold;
+  color: rgb(245, 209, 6);
   font-size: 25px;
 }
 
@@ -230,7 +230,7 @@ ngb-rating {
 }
 
 .no-underline {
-  text-decoration: none;
+  // text-decoration: none;
   font-size: 1em;
   vertical-align: middle;
 }
