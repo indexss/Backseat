@@ -111,7 +111,7 @@ export class RatingComponent implements OnInit {
               this.router.navigate(['/rating-not-found']);
             }
           });
-
+          console.log('review All:', data.data.review);
           this.trackName = data.data.review.trackName;
           this.albumName = data.data.review.albumName;
           this.artistName = data.data.review.artistName;
@@ -129,11 +129,13 @@ export class RatingComponent implements OnInit {
               username: reviewDTO[i].profile.username,
               // userProfileImage: reviewDTO[i].profile.profileImage,
               userProfileImage: './../../content/images/common_avatar.png',
+              userId: reviewDTO[i].profile.id,
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
               rating: reviewDTO[i].rating,
             };
             this.reviewList.push(review);
+            console.log('this.reviewList', this.reviewList);
           }
           console.log('ReviewList:', this.reviewList);
           this.reviewList = this.reviewList.reverse();
@@ -178,6 +180,7 @@ export class RatingComponent implements OnInit {
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
               rating: reviewDTO[i].rating,
+              userId: reviewDTO[i].profile.id,
               // rating: reviewDTO[i].rating,
             };
             this.reviewList.push(review);
@@ -197,6 +200,7 @@ export class RatingComponent implements OnInit {
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.albumReviewList.push(review);
             }
@@ -319,6 +323,7 @@ export class RatingComponent implements OnInit {
                         reviewContent: reviewDTO[i].content,
                         reviewDate: reviewDTO[i].date,
                         rating: reviewDTO[i].rating,
+                        userId: reviewDTO[i].profile.id,
                       };
                       this.reviewList.push(review);
                     }
@@ -363,6 +368,7 @@ export class RatingComponent implements OnInit {
                           reviewContent: reviewDTO[i].content,
                           reviewDate: reviewDTO[i].date,
                           rating: reviewDTO[i].rating,
+                          userId: reviewDTO[i].profile.id,
                         };
                         this.albumReviewList.push(review);
                       }
@@ -407,6 +413,7 @@ export class RatingComponent implements OnInit {
                             reviewContent: reviewDTO[i].content,
                             reviewDate: reviewDTO[i].date,
                             rating: reviewDTO[i].rating,
+                            userId: reviewDTO[i].profile.id,
                           };
                           this.reviewList.push(review);
                         }
@@ -510,6 +517,7 @@ export class RatingComponent implements OnInit {
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.albumReviewList.push(review);
             }
@@ -538,6 +546,7 @@ export class RatingComponent implements OnInit {
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.reviewList.push(review);
             }
@@ -574,6 +583,7 @@ export class RatingComponent implements OnInit {
                   reviewContent: reviewDTO[i].content,
                   reviewDate: reviewDTO[i].date,
                   rating: reviewDTO[i].rating,
+                  userId: reviewDTO[i].profile.id,
                 };
                 this.albumReviewList.push(review);
               }
@@ -618,6 +628,7 @@ export class RatingComponent implements OnInit {
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
+                    userId: reviewDTO[i].profile.id,
                   };
                   this.reviewList.push(review);
                 }
@@ -644,6 +655,7 @@ export class RatingComponent implements OnInit {
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
+                    userId: reviewDTO[i].profile.id,
                   };
                   this.reviewList.push(review);
                 }
@@ -686,6 +698,10 @@ export class RatingComponent implements OnInit {
 
   setPage(pageNo: number): void {
     this.currentPage = pageNo;
+  }
+  redirectToProfile(profileId: number): void {
+    // 导航到 /rating/{spotifyURI}
+    this.router.navigate(['/profile', profileId]);
   }
 
   findSpotifyURIByTrackName(trackName: string): string {
