@@ -2,6 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -141,6 +142,17 @@ public class FolderResource {
     public List<FolderDTO> getAllFolders() {
         log.debug("REST request to get all Folders");
         return folderService.findAll();
+    }
+
+    @GetMapping("/folders/byProfile/{id}")
+    public List<FolderDTO> getAllFoldersByProfile(@PathVariable Long id) {
+        List<FolderDTO> res = new ArrayList<>();
+        for (FolderDTO f : folderService.findAll()) {
+            if (f.getProfile().getId().equals(id)) {
+                res.add(f);
+            }
+        }
+        return res;
     }
 
     /**
