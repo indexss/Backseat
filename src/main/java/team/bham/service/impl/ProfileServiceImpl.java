@@ -77,18 +77,23 @@ public class ProfileServiceImpl implements ProfileService {
             .map(profileMapper::toDto);
     }
 
+    private ProfileDTO stripConnectionInfo(ProfileDTO pdto) {
+        pdto.setSpotifyConnection(null);
+        return pdto;
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Page<ProfileDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Profiles");
-        return profileRepository.findAll(pageable).map(profileMapper::toDto);
+        return profileRepository.findAll(pageable).map(profileMapper::toDto).map(this::stripConnectionInfo);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<ProfileDTO> findOne(Long id) {
         log.debug("Request to get Profile : {}", id);
-        return profileRepository.findById(id).map(profileMapper::toDto);
+        return profileRepository.findById(id).map(profileMapper::toDto).map(this::stripConnectionInfo);
     }
 
     @Override
