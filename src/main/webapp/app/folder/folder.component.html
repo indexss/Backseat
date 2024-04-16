@@ -2,7 +2,9 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-auto">
-        <img [src]="imageURL" style="width: 300px; height: 300px; margin: 5px; border-radius: 10%" class="me-3" />
+        <a (click)="navigateToEditFolder()">
+          <img [src]="imageURL" style="width: 300px; height: 300px; margin: 5px; border-radius: 10%" class="me-3" />
+        </a>
       </div>
       <div class="col-auto d-flex flex-column position-relative">
         <h2>{{ folderName | slice: 0:18 }}</h2>
@@ -45,7 +47,7 @@
           <strong style="color: #666666">{{ entryInfoList[i].artist }}</strong>
         </td>
         <td class="text-center align-middle">
-          <a [href]="getSpotifyLink(folderEntry.spotifyURI)" target="_blank" class="btn btn-green">
+          <a [href]="getSpotifyURL(folderEntry.spotifyURI)" target="_blank" class="btn btn-green">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
               <path
                 d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"
