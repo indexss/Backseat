@@ -2,9 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -204,12 +202,14 @@ public class FollowResource {
     }
 
     @PostMapping("/follows/follow/{opposingUserLogin}")
-    public ResponseEntity<String> followUser(@PathVariable String opposingUserLogin) {
+    public ResponseEntity<Void> followUser(@PathVariable String opposingUserLogin) {
         Optional<User> ou = userService.getUserWithAuthorities();
         if (ou.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         User u = ou.get();
+
+        opposingUserLogin = opposingUserLogin.toLowerCase();
 
         Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
         if (fo.isEmpty()) {
@@ -223,16 +223,45 @@ public class FollowResource {
     }
 
     @PostMapping("/follows/unfollow/{opposingUserLogin}")
-    public ResponseEntity<String> unfollowUser(@PathVariable String opposingUserLogin) {
+    public ResponseEntity<Void> unfollowUser(@PathVariable String opposingUserLogin) {
         Optional<User> ou = userService.getUserWithAuthorities();
         if (ou.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         User u = ou.get();
 
+        opposingUserLogin = opposingUserLogin.toLowerCase();
+
         Optional<FollowDTO> fo = findFollowBetweenLogins(u.getLogin(), opposingUserLogin);
         fo.ifPresent(followDTO -> followService.delete(followDTO.getId()));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    protected class MyFollowsResp {
+        public String target;
+        public String photoURL;
+
+        public MyFollowsResp(String target, String photoURL) {
+            this.target = target;
+            this.photoURL = photoURL;
+        }
+    }
+
+    @GetMapping("/follows/mine")
+    public List<MyFollowsResp> getMyFollows() {
+        Optional<User> ou = userService.getUserWithAuthorities();
+        if (ou.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        User u = ou.get();
+
+        ArrayList<MyFollowsResp> follows = new ArrayList<>();
+        for (FollowDTO f: followService.findAll()) {
+            if (f.getSourceUserID().equals(u.getLogin())) {
+                follows.add(new MyFollowsResp(f.getTargetUserID(), "https://avatars.platform.tdpain.net/" + f.getTargetUserID()));
+            }
+        }
+        return follows;
     }
 }
