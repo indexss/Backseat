@@ -113,8 +113,7 @@ export class ListViewComponent implements OnInit {
     this.accService.identity().subscribe(acc => {
       if (acc) {
         // check if user has logged in, if yes, then get
-        this.service.getUserEntries(acc.login).subscribe(res => {
-          console.log(res);
+        this.service.getUserEntries('hao').subscribe(res => {
           this.testList = res.data.entryList;
         });
       } else {
@@ -132,7 +131,16 @@ export class ListViewComponent implements OnInit {
     return false;
   }
 
-  deleteItem(id: number): void {}
+  deleteItem(id: number): void {
+    this.service
+      .delEntry(id)
+      .subscribe(() => {
+        // Make a notice to user: item deleted
+        console.log('Entry id: ' + id + 'deleted!');
+        this.ngOnInit(); //refresh page to show changes (maybe not needed) TODO
+      })
+      .unsubscribe();
+  }
 
   expand(): void {
     //On mouse click

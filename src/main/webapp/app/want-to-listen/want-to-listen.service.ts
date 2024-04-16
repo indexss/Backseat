@@ -34,6 +34,12 @@ export class WantToListenService {
   }
 
   getUserEntries(userID: string): Observable<any> {
-    return this.http.get(`api/want-to-listen-list/user?${userID}`);
+    console.log('userID: ' + userID);
+    return this.http.get(`api/want-to-listen-list/user?userID=${userID}`);
+  }
+
+  delEntry(entryID: number): Observable<any> {
+    console.log('Delete Entry : ' + entryID);
+    return this.http.delete(`api/want-to-listen-list-entries/${entryID}`);
   }
 }
