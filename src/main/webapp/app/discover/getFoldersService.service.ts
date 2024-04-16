@@ -5,9 +5,10 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class RecentlyReviewedService {
+export class ExploreFoldersService {
   constructor(private http: HttpClient) {}
-  getRecord(): Observable<any> {
-    return this.http.get('api/discover/recent'); //TODO i think this needs editing
+
+  getFolders(): Observable<any> {
+    return this.http.get(`api/discover/explorefolders`);
   }
 }

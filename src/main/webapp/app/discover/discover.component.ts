@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GetMusicServiceService } from './getMusicService.service';
+import { RecentlyReviewedService } from './getMusicService.service';
 import { DeviceService } from 'app/mobile/device.service';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
@@ -37,7 +37,7 @@ export class DiscoverComponent implements OnInit {
   //are these needed??
   faArrowUp = faArrowUp;
 
-  constructor(private getMusicService: GetMusicServiceService, private deviceService: DeviceService) {}
+  constructor(private getMusicService: RecentlyReviewedService, private deviceService: DeviceService) {}
 
   ngOnInit(): void {
     if (this.deviceService.isMobile()) {

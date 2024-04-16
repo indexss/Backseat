@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import team.bham.domain.Artist;
 import team.bham.domain.Review;
 import team.bham.domain.Track;
-import team.bham.repository.AlbumRepository;
 import team.bham.repository.ReviewRepository;
 import team.bham.repository.TrackRepository;
 import team.bham.service.RecentlyReviewedService;
@@ -23,9 +22,6 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
     private TrackRepository trackRepository;
 
     @Resource
-    private AlbumRepository albumRepository;
-
-    @Resource
     private ReviewRepository reviewRepository;
 
     @Override
@@ -34,9 +30,8 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
 
         /*Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(tracks.get(j).getSpotifyURI());
         ArrayList<Review> reviews = new ArrayList<>(reviewList);*/
-        /*TODO*/
         List<Review> rrByTrackName = reviewRepository.fetchRecentReviews();
-        List<Track> tracks = new ArrayList<>() {};/*need an empty list for tracks to go into*/
+        List<Track> tracks = new ArrayList<>();/*need an empty list for tracks to go into*/
         /* TODO Authenticate track somehow*/
         int x = 0;
         while (x < rrByTrackName.size()) {
