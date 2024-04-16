@@ -10,7 +10,7 @@ import team.bham.service.SpotifyConnectionService;
 import team.bham.spotify.SpotifyAPI;
 import team.bham.spotify.SpotifyCredential;
 import team.bham.spotify.SpotifyException;
-import team.bham.spotify.responses.TrackResponse;
+import team.bham.spotify.responses.RecentListenedTrackResponse;
 
 @RestController
 @RequestMapping("/api/discover")
@@ -27,10 +27,10 @@ public class RecentlyListenedResource {
     }
 
     @GetMapping("/recent")
-    public TrackResponse[] getTrack() throws IOException, InterruptedException, SpotifyException {
+    public RecentListenedTrackResponse getTrack() throws IOException, InterruptedException, SpotifyException {
         SpotifyAPI client = new SpotifyAPI(new SpotifyCredential(appProps, spotifyConnectionService, "spotify:user:josiemp169"));
-        TrackResponse resp[] = { client.getTrack("7FAFkQQZFeNwOFzTrSDFIh"), client.getTrack("1PJu7IPmGJZx5fAQeL4trB") };
-        //TrackResponse resp[] = client.getRecentTracks();
+        //TrackResponse resp[] = { client.getTrack("7FAFkQQZFeNwOFzTrSDFIh"), client.getTrack("1PJu7IPmGJZx5fAQeL4trB") };
+        RecentListenedTrackResponse resp = client.getRecentTracks();
 
         return resp;
     }

@@ -19,28 +19,59 @@ interface Review {
   id: number;
   date: dayjs.Dayjs;
 }
-interface TrackResponse {
-  uri: string;
-  name: string;
-  id: string;
-  durationMilliseconds: number;
 
-  album: {
-    album_type: string;
-    id: string;
-    name: string;
+interface RecentTrackResponse {
+  track: {
     uri: string;
-    images: {
-      url: string;
-      height: number;
-      width: number;
+    name: string;
+    id: string;
+    durationMilliseconds: number;
+
+    album: {
+      album_type: string;
+      id: string;
+      name: string;
+      uri: string;
+      images: {
+        url: string;
+        height: number;
+        width: number;
+      }[];
+    };
+
+    artists: {
+      uri: string;
+      name: string;
+      id: string;
     }[];
   };
+}
+interface RecentListenedTrackResponse {
+  items: {
+    track: {
+      uri: string;
+      name: string;
+      id: string;
+      durationMilliseconds: number;
 
-  artists: {
-    uri: string;
-    name: string;
-    id: string;
+      album: {
+        album_type: string;
+        id: string;
+        name: string;
+        uri: string;
+        images: {
+          url: string;
+          height: number;
+          width: number;
+        }[];
+      };
+
+      artists: {
+        uri: string;
+        name: string;
+        id: string;
+      }[];
+    };
   }[];
 }
 @Component({
@@ -54,8 +85,10 @@ export class DiscoverComponent implements OnInit {
   trackURI = 'erg';
   trackLink = '/rating/'.concat(this.trackURI);
   recordList: Record[] = [];
-  Track: TrackResponse[] = [];
+  Track: RecentTrackResponse[] = [];
   Test: String[] = [];
+  isSidebarOpen: boolean = false;
+
   constructor(
     private getMusicService: GetMusicService,
     private recentlyListenedTracksService: getRecentlyListenedService,
@@ -63,27 +96,11 @@ export class DiscoverComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    /*
-    this.getMusicService.getRecord().subscribe(data => {
-      console.log('data: ');
-      console.log(data);
-      // this.recordList = data;
-      // console.log('recordList: ');
-      // console.log(this.recordList);
-      this.recordList = data.data.discover;
-    },
-    error => {
-      // Handle errors here
-      console.error(error);
-    });
-*/
-
     this.recentlyListenedTracksService.getTrack().subscribe({
-      next: (data: TrackResponse[]) => {
+      next: (data: RecentListenedTrackResponse) => {
         console.log('Response:', data);
-        this.Track = data;
-
-        console.log(this.Track[0], '#######################################################');
+        this.Track = data.items;
+        console.log(this.Track[0].track.name, '#########################################################################################');
       },
       error: error => {
         console.error('Error:', error);
@@ -92,5 +109,9 @@ export class DiscoverComponent implements OnInit {
         console.log('Request completed');
       },
     });
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 }

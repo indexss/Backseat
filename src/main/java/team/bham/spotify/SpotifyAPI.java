@@ -10,6 +10,7 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import team.bham.spotify.responses.APIErrorResponse;
+import team.bham.spotify.responses.RecentListenedTrackResponse;
 import team.bham.spotify.responses.TrackResponse;
 import team.bham.spotify.responses.UserProfileResponse;
 
@@ -51,7 +52,7 @@ public class SpotifyAPI {
         return Util.unmarshalJson(resp.body(), UserProfileResponse.class);
     }
 
-    public TrackResponse[] getRecentTracks() throws IOException, SpotifyException, InterruptedException {
+    public RecentListenedTrackResponse getRecentTracks() throws IOException, SpotifyException, InterruptedException {
         HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri("/me/player/recently-played")).build());
         System.err.println(resp.body());
 
@@ -61,7 +62,7 @@ public class SpotifyAPI {
         }
 
         //log.debug("####################################", resp);
-        return Util.unmarshalJson(resp.body(), TrackResponse[].class);
+        return Util.unmarshalJson(resp.body(), RecentListenedTrackResponse.class);
     }
 
     public TrackResponse getTrack(String id) throws IOException, SpotifyException, InterruptedException {

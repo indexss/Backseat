@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 
 <body lang="eng">
-  <div class="container-fluid">
-    <h1>RECENTLY REVIEWED</h1>
-    <!--
-  <div class="albums-tracks">
-    <div class="record-card">
-      <div *ngFor="let record of recordList">
-        <div class="d-flex align-items-center">
-          <a [routerLink]="['/rating', record.trackURI]">
-            <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
-          </a>
-          <div class="flex-grow-1">
-            <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block"> </a>
+  <!--<div class="box">-->
+  <!--
+    <div class="button-wrapper">
+      <button (click)="toggleSidebar()" style="visibility: visible;">Toggle Sidebar</button>
+    </div>
+    <div class="sidebar" [class.open]="isSidebarOpen">
+      
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4</li>
+      </ul>
+    </div>
+  -->
+  <div class="sidebar" style="width: 25%; right: 0; overflow-y: auto">
+    <div class="Info">Info Goes here</div>
+    <div class="startShowing">
+      <div class="head1">Recently Listened</div>
+      <div *ngIf="Track.length > 0">
+        <div *ngFor="let nums of Track">
+          <div class="songs d-flex align-items-center" margin="1.5em">
+            <a [routerLink]="['/rating', nums.track.uri]">
+              <img [src]="nums.track.album.images[0].url" style="width: 100px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
+            </a>
+            <div class="flex-grow-1">
+              <a [routerLink]="['/rating', nums.track.uri]" class="text-decoration-none text-left d-block">{{ nums.track.name }}</a>
+              <div class="text-muted">{{ nums.track.artists[0].name }}</div>
+            </div>
           </div>
         </div>
-        <div class="text-center align-middle">{{ record.rating | number: '1.0-2' }}</div>
-        <div class="text-center align-middle">{{ record.artist }}</div>
-        <div class="text-center align-middle">{{ record.trackName }}</div>
       </div>
     </div>
   </div>
--->
+  <div class="container-fluid">
+    <!--[class.shifted]="isSidebarOpen"-->
 
+    <h1>RECENTLY REVIEWED</h1>
     <div class="recently-reviewed">
       <div class="record-card">
         <div class="image">
@@ -173,23 +189,6 @@
         </div>
         <div class="folderName">Groovetown</div>
         <div class="creatorName">chromadreams</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sidebar" style="width: 25%; right: 0">
-    <div class="head1">Recently Listened</div>
-    <div *ngIf="Track.length > 0">
-      <div *ngFor="let track of Track">
-        <div class="d-flex align-items-center">
-          <a [routerLink]="['/rating', track.uri]">
-            <img [src]="track.album.images[0].url" style="width: 100px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
-          </a>
-          <div class="flex-grow-1">
-            <a [routerLink]="['/rating', track.uri]" class="text-decoration-none text-left d-block">{{ track.name }}</a>
-            <div class="text-muted">{{ track.artists[0].name }}</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
