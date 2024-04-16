@@ -9,6 +9,8 @@ import { ApplicationConfigService } from '../core/config/application-config.serv
 import { IUser } from '../entities/user/user.model';
 import { ISpotifyConnection } from '../entities/spotify-connection/spotify-connection.model';
 import { FollowService } from '../entities/follow/service/follow.service';
+import {FolderService} from "../entities/folder/service/folder.service";
+import {IFolder} from "../entities/folder/folder.model";
 
 interface ModUser {
   id: number;
@@ -42,7 +44,9 @@ export class ProfileComponent implements OnInit {
   protected profile: ModProfile | null = null;
   protected profilePhotoURL: string | null = null;
   protected isFollowing: boolean | null = null;
+
   protected friends: AbbreviatedFollow[] = [];
+  protected folders: IFolder[] = [];
 
   constructor(
     private router: Router,
@@ -89,6 +93,18 @@ export class ProfileComponent implements OnInit {
     this.http.get<ModProfile>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login)).subscribe({
       next: res => {
         this.profile = res;
+
+        this.http.get<IFolder[]>(this.applicationConfigService.getEndpointFor("/api/folders/byProfile/" + this.profile?.id)).subscribe({
+          next: (res) => {
+            console.debug("Folders", res);
+            this.folders = res;
+          },
+          error: (err) => {
+            alert("Get folders " + JSON.stringify(err));
+            this.router.navigate([]);
+          }
+        });
+
         this.http
           .get<string>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login + '/profilePhoto'))
           .subscribe({
