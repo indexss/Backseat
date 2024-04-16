@@ -44,6 +44,9 @@ public interface TrackRepository extends TrackRepositoryWithBagRelationships, Jp
     @Query("select t from Track t WHERE t.album.spotifyURI = :albumURI")
     List<Track> findByAlbum(@Param("albumURI") String albumURI);
 
+    @Query("SELECT t FROM Track t WHERE t.name = :name")
+    Track fetchTrackbyRecentReview(@Param("name") String name);
+
     // orderKey = rating / size(reviews), order = asc / desc, between startTime and endTime,  search = text, could order by rating or size of the reviews;
 
     @Query(
@@ -85,8 +88,4 @@ public interface TrackRepository extends TrackRepositoryWithBagRelationships, Jp
         @Param("text") String text,
         Pageable pageable
     );
-
-    /*TODO*/
-    @Query("select t from Track t where t.name == :name")
-    Track fetchTrackbyRecentReview(@Param("name") Track name);
 }

@@ -1,43 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import dayjs from 'dayjs/esm';
-import { GetMusicService } from './getMusicService';
+import { GetMusicServiceService } from './getMusicService.service';
+import { DeviceService } from 'app/mobile/device.service';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { faArrowUp, faFilter, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 
 interface Record {
   id: number;
   trackName: string;
   album: string;
-  reviews: number;
   rating: number;
   artist: string;
   trackURI: string;
   imgURL: string;
 }
 
-interface Review {
+interface Folder {
   id: number;
-  date: dayjs.Dayjs;
+  folderId: number;
+  folderName: string;
+  username: string;
+  imageURL: string;
 }
+
 @Component({
   selector: 'jhi-discover',
   templateUrl: './discover.component.html',
   styleUrls: ['./discover.component.scss'],
 })
-
-//need to implement getting a record based on date in Review
 export class DiscoverComponent implements OnInit {
-  trackURI = 'erg';
-  trackLink = '/rating/'.concat(this.trackURI);
   recordList: Record[] = [];
-  constructor(private getMusicService: GetMusicService) {}
+  isMobile: boolean = false;
+  spotifyURI!: string;
+  modalRef!: NgbModalRef; //unsure if needed
+  folderList: Folder[] = [];
+
+  //are these needed??
+  faArrowUp = faArrowUp;
+
+  constructor(private getMusicService: GetMusicServiceService, private deviceService: DeviceService) {}
 
   ngOnInit(): void {
+    if (this.deviceService.isMobile()) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
     this.getMusicService.getRecord().subscribe(data => {
-      console.log('data: ');
-      console.log(data);
-      // this.recordList = data;
-      // console.log('recordList: ');
-      // console.log(this.recordList);
       this.recordList = data.data.discover;
     });
+
+    //now need to add getFolderService
+  }
+  clear() {
+    window.location.reload();
   }
 }

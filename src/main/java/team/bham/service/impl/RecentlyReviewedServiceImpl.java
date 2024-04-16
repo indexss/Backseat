@@ -37,15 +37,19 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
         /*TODO*/
         List<Review> rrByTrackName = reviewRepository.fetchRecentReviews();
         List<Track> tracks = new ArrayList<>() {};/*need an empty list for tracks to go into*/
-        /* TODO Limit of 50*/
         /* TODO Authenticate track somehow*/
-        for (int j = 0; j < 50; j++) {
-            /*fetch track info from track name*/
-            Track trackName = trackRepository.fetchTrackbyRecentReview(rrByTrackName.get(j).getTrack());
-            if (rrByTrackName.get(j).getAlbum() == trackName.getAlbum()) {
-                tracks.add(trackName);
-            } else {
+        int x = 0;
+        while (x < rrByTrackName.size()) {
+            for (int j = 0; j < 50; j++) {
+                /*fetch track info from track name*/
+                String rrName = rrByTrackName.get(j).getTrack().getName();
+                Track trackName = trackRepository.fetchTrackbyRecentReview(rrName);
+                if (rrByTrackName.get(j).getAlbum() == trackName.getAlbum()) {
+                    tracks.add(trackName);
+                }/*else {
                 j -= 1;
+                }*/
+                x += 1;
             }
         }
         for (int i = 0; i < tracks.size(); i++) {
