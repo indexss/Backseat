@@ -1,5 +1,6 @@
 package team.bham.service.impl;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -43,6 +44,9 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
 
     @Resource
     private PasswordEncoder passwordEncoder;
+
+    @Resource
+    private WantToListenListEntryRepository listenListEntryRepository;
 
     @Override
     public void generateTestDate() {
@@ -268,5 +272,33 @@ public class GenerateTestDataServiceImpl implements GenerateTestDataService {
         track1.setRating(5d);
         track1.setAlbum(album1);
         trackRepository.save(track1);
+    }
+
+    @Override
+    public void generateTestWantToListenEntry() {
+        WantToListenListEntry entry1 = new WantToListenListEntry();
+        entry1.setSpotifyURI("spotify:track:77jIEebt4z9WzaI6LsntDG");
+        entry1.setUserID("hao");
+        entry1.setAddTime(Instant.now());
+
+        WantToListenListEntry entry2 = new WantToListenListEntry();
+        entry2.setSpotifyURI("spotify:track:11dFghVXANMlKmJXsNCbNl");
+        entry2.setUserID("hao");
+        entry2.setAddTime(Instant.now());
+
+        WantToListenListEntry entry3 = new WantToListenListEntry();
+        entry3.setSpotifyURI("spotify:track:5L9anTQJGLyRObYDYvLWdh");
+        entry3.setUserID("hao");
+        entry3.setAddTime(Instant.now());
+
+        WantToListenListEntry entry4 = new WantToListenListEntry();
+        entry4.setSpotifyURI("spotify:track:5wjmqUGN7vrAqFqDWrywlZ");
+        entry4.setUserID("hao");
+        entry4.setAddTime(Instant.now());
+
+        listenListEntryRepository.save(entry1);
+        listenListEntryRepository.save(entry2);
+        listenListEntryRepository.save(entry3);
+        listenListEntryRepository.save(entry4);
     }
 }

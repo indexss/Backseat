@@ -113,7 +113,7 @@ export class ListViewComponent implements OnInit {
     this.accService.identity().subscribe(acc => {
       if (acc) {
         // check if user has logged in, if yes, then get
-        this.service.getUserEntries('hao').subscribe(res => {
+        this.service.getUserEntries(acc.login).subscribe(res => {
           this.testList = res.data.entryList;
         });
       } else {

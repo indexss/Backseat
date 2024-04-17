@@ -13,4 +13,6 @@ public interface GenerateTestDataService {
     public void generateTestDate();
 
     public void generateMusic();
+
+    public void generateTestWantToListenEntry();
 }
