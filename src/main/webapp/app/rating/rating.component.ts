@@ -86,7 +86,9 @@ export class RatingComponent implements OnInit {
               this.httpClient.post<boolean>(this.appConfig.getEndpointFor("/api/datapipe/import/" + this.id), null).subscribe({
                 next: (success) => {
                   if (success) {
-                    location.reload();
+                    // this is equivalent to reloading the entire page
+                    // (redir to / then back to restart rendering)
+                    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {this.router.navigate(["/rating", this.id])});
                   } else {
                     this.router.navigate(['/rating-not-found']);
                   }
