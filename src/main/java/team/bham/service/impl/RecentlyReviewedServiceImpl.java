@@ -54,9 +54,7 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
             for (int j = 0; j < min(rrByTrackName.size(), 50); j++) {
                 String rrName = rrByTrackName.get(j).getTrack().getName();
                 System.out.println("rrName: " + rrName);
-                String rrAlbum = rrByTrackName.get(j).getAlbum().getName();
-                System.out.println("rrAlbum: " + rrAlbum);
-                Track trackName = trackRepository.fetchTrackbyRecentReview(rrName, rrAlbum);
+                Track trackName = trackRepository.fetchTrackbyRecentReview(rrName);
                 System.out.println("trackName: " + trackName);
                 tracks.add(trackName);
                 System.out.println("tracks: " + tracks);
