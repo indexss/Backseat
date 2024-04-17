@@ -12,18 +12,26 @@
         >
         <!--        <a class=" no-underline" (click)="redirectToAlbum(albumURIforTrack)">{{ albumName }}</a>-->
 
-        <span class="artist d-block">Artist: {{ artistName }}</span>
-        <span class="rdate d-block">Release Date: {{ releaseDate }}</span>
-        <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
-        <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
-        <br />
-        <!-- <span class="description d-block">Description:{{ description }}</span> -->
+          <span class="artist d-block">Artist: {{ artistName }}</span>
+          <span class="rdate d-block">Release Date: {{ releaseDate }}</span>
+          <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
+          <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
+          <br />
+          <!--          <span class="description d-block">Description:{{ description }}</span>-->
+        </div>
+
+        <div class="d-flex flex-column align-items-end">
+          <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
+          <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
+        </div>
       </div>
     </div>
   </div>
   <br />
-  <!-- 在 app.component.html 或其他组件模板中 -->
 
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListen" (close)="this.showAlert = false">
+    <strong>Add to Want-to-listen-list successfully!</strong>
+  </ngb-alert>
   <ngb-alert [dismissible]="true" *ngIf="showAlert" (close)="this.showAlert = false">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>
@@ -99,9 +107,9 @@
       <!-- <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> -->
     </div>
   </div>
-</div>
 
-<!--//这里开始是Album-->
+
+<!--//Album Start from here-->
 
 <div *ngIf="!isTrack" class="container">
   <div class="row">
@@ -132,15 +140,15 @@
     <table class="track-table table">
       <thead>
         <tr>
-          <th class="track-table tracksalbum">Track Name</th>
-          <th class="track-table tracksalbum">Artist Name</th>
-          <th class="track-table tracksalbum">Release Date</th>
-          <th class="track-table tracksalbum">avgRating</th>
+          <th class="tracksalbum">Track Name</th>
+          <th class="tracksalbum">Artist Name</th>
+          <th class="tracksalbum">Release Date</th>
+          <th class="tracksalbum">avgRating</th>
+          <th class="tracksalbum" style="text-align: center; vertical-align: middle">play</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let track of trackList">
-          <!-- Assuming you have album cover images -->
           <td class="album-cover-cell">
             <img [src]="imgURL" alt="Album Cover" />
             <a class="btn btn-link no-underline trackurlinrating" (click)="redirectToTrack(track.spotifyURI)">{{ track.trackName }}</a>
@@ -153,14 +161,10 @@
     </table>
   </div>
   <!--Leave a review for track-->
-  <!--Leave a review for track-->
-  <!--Leave a review for track-->
-  <div class="row" *ngIf="!showAlbumReviews">
-    <!--    <div class="bg-dark-green rounded shadow-sm p-4 mb-5 rating-review-select-page ">-->
+  <div class="row leaveReview" *ngIf="!showAlbumReviews">
     <div class="rounded shadow-sm rating-review-select-page">
       <h5 class="mb-4"><Strong>Leave a Review </Strong></h5>
       <div class="form-check form-switch">
-        <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
         <input class="form-check-input" style="display: none" type="checkbox" id="aaa" [(ngModel)]="showAlbumReviews" />
 
         <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
@@ -194,7 +198,6 @@
           </span>
         </div>
       </form>
-      <!-- Warning message for track selection -->
 
       <form>
         <div class="form-group">
@@ -211,9 +214,7 @@
   </div>
 
   <!--  Leave a review for album-->
-  <!--  Leave a review for album-->
-  <!--  Leave a review for album-->
-  <div class="row" *ngIf="showAlbumReviews">
+  <div class="row leaveReview" *ngIf="showAlbumReviews">
     <!--    <div class="bg-dark-green rounded shadow-sm p-4 mb-5 rating-review-select-page ">-->
     <div class="rounded shadow-sm rating-review-select-page">
       <h5 class="mb-4"><Strong>Leave a Review For the Album </Strong></h5>
@@ -240,7 +241,6 @@
           </span>
         </div>
       </form>
-      <!-- Warning message for track selection -->
 
       <form>
         <div class="form-group">
@@ -257,9 +257,6 @@
   </div>
 
   <br />
-  <!--  这里开始写 album review，做一个nav bar 可供选择，album还是 track in album-->
-  <!--View track reviews!!-->
-  <!--View track reviews!!-->
   <!--View track reviews!!-->
   <div *ngIf="!showAlbumReviews">
     <div class="form-check form-switch">
@@ -271,10 +268,8 @@
         {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
       </label>
     </div>
-    <div class="row">
-      <!-- <h2>Reviews</h2> -->
+    <div class="row leaveReview">
       <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
-        <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
         <h4 class="mb-1">Track Ratings and Reviews</h4>
         <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">
           <div class="media">
@@ -292,8 +287,6 @@
                 {{ review.reviewContent }}
               </p>
               <div class="reviews-members-header align-items-end">
-                <!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
-                <!--              <p class="review-track-artist-right">Track: {{ review.reviewTrackName }} --- {{ artistName }}</p>-->
                 <p class="text-end fst-italic">Track: {{ review.reviewTrackName }} --- {{ artistName }}</p>
                 <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
               </div>
@@ -314,8 +307,6 @@
           [pageSize]="reviewsPerPage"
           aria-label="Pagination"
         ></ngb-pagination>
-
-        <!-- <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> -->
       </div>
     </div>
   </div>
@@ -331,11 +322,9 @@
         {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
       </label>
     </div>
-    <!-- Logic for displaying album reviews goes here -->
     <div class="row">
       <!-- <h2>Reviews</h2> -->
       <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
-        <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
         <h4 class="mb-1">Album Ratings and Reviews</h4>
         <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">
           <div class="media">
@@ -353,8 +342,6 @@
                 {{ review.reviewContent }}
               </p>
               <div class="reviews-members-header align-items-end">
-                <!--              <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>-->
-                <!--              <p class="review-track-artist-right">Track: {{ review.reviewTrackName }} --- {{ artistName }}</p>-->
                 <p class="text-end fst-italic">Album: {{ review.reviewTrackName }} --- {{ artistName }}</p>
                 <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
               </div>
@@ -372,9 +359,26 @@
           aria-label="Pagination"
           class="pagenation"
         ></ngb-pagination>
-
-        <!-- <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> -->
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Select Folder</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group">
+      <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.folderId)">
+        <div class="d-flex align-items-center">
+          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" />
+          <span style="color: dimgrey; font-size: 20px">{{ folder.folderName }}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</ng-template>

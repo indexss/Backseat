@@ -1,25 +1,3 @@
-// 默认的亮色模式变量
-:root {
-  --background-color: #fff;
-  --text-color: #000;
-  --border-color: #ddd;
-  --header-bg-color: #f5f5f5;
-  --star-color-default: #ccc;
-  --star-color-filled: #4caf50;
-  // 其他颜色变量...
-}
-
-// 深色模式变量
-[data-theme='dark'] {
-  --background-color: #333;
-  --text-color: #fff;
-  --border-color: #444;
-  --header-bg-color: #222;
-  --star-color-default: #666;
-  --star-color-filled: #cddc39;
-  // 其他颜色变量...
-}
-
 $custom-green: rgb(68, 120, 72);
 .abcde {
   color: $custom-green;
@@ -145,8 +123,8 @@ body {
 .track-table {
   width: 100%;
   text-align: left;
-  border-collapse: collapse; // Ensures there's no space between table cells
-  box-shadow: 0 2px 3px #ccc; // Gives a slight shadow to the table for depth
+  border-collapse: collapse;
+  box-shadow: 0 2px 3px #ccc;
   background-color: var(--header-bg-color);
   color: var(--text-color);
 
@@ -154,9 +132,9 @@ body {
     font-size: 0.9em;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    background-color: #f5f5f5; // A light grey background for the header row
+    background-color: #f5f5f5;
     padding: 0.75em 1em;
-    color: #333; // Dark grey text for contrast
+    color: #333;
   }
 
   tr {
@@ -166,27 +144,23 @@ body {
   td {
     padding: 1em;
     vertical-align: middle;
-    // For a look similar to the provided image, you can align the text to the left
     text-align: left;
   }
 
-  // Highlighting the album cover column
   .album-cover-cell {
     img {
-      width: auto; // Maintain aspect ratio
-      height: 60px; // Adjust height as necessary to align with your design
-      margin-right: 10px; // Space between the album cover and track name
+      width: auto;
+      height: 60px;
+      margin-right: 10px;
     }
   }
 
   // Responsive adjustments
   @media (max-width: 768px) {
     .track-table {
-      // Here you can adjust any styles for smaller screens, such as font sizes
-      // and cell padding to make the table more readable on mobile devices
       th,
       td {
-        padding: 0.5em; // Reduced padding on smaller screens
+        padding: 0.5em;
       }
     }
   }
@@ -194,12 +168,12 @@ body {
 
 ngb-rating {
   .star {
-    font-size: 5em !important; /* Makes stars larger and forces style */
-    color: #ccc !important; /* Default color of stars */
+    font-size: 5em !important;
+    color: #ccc !important;
   }
 
   .star.filled {
-    color: #4caf50 !important; /* Changes the color of filled stars to green and forces style */
+    color: #4caf50 !important;
   }
 }
 
@@ -235,17 +209,16 @@ ngb-rating {
 }
 
 .ViewAlbumToggler {
-  font-size: 18px; /* 调整字体大小 */
-  color: darkgreen; /* 设置字体颜色为深绿色 */
-  display: inline-block; /* 如果需要，确保label正确显示 */
-  margin-left: 8px; /* 根据需要调整，为了和checkbox有适当的间距 */
+  font-size: 18px;
+  color: darkgreen;
+  display: inline-block;
+  margin-left: 8px;
   padding-bottom: 10px;
 }
 
-/* 调整标签（label）的样式 */
 .form-check-label {
-  font-size: 18px; /* 字体大小 */
-  color: #006400; /* 深绿色 */
+  font-size: 18px;
+  color: #006400;
 }
 
 .form-check {
@@ -256,129 +229,7 @@ ngb-rating {
   text-align: right;
 }
 
-.theme-toggler {
-  // 创建圆形按钮
-  width: 70px;
-  height: 40px;
-  cursor: pointer;
-  //background-color: black; // 按钮颜色，可以根据需要调整
-  color: white; // 文字颜色
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 15px;
-  font-style: italic;
-  font-weight: bold; // 调整字体大小以适应按钮
-  text-align: right;
+.redirectButton {
+  width: 170px;
+  height: 35px;
 }
-
-//.total-like-user {
-//  border: 2px solid #fff;
-//  height: 34px;
-//  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-//  width: 34px;
-//}
-//.total-like-user-main a {
-//  display: inline-block;
-//  margin: 0 -17px 0 0;
-//}
-//.total-like {
-//  border: 1px solid;
-//  border-radius: 50px;
-//  display: inline-block;
-//  font-weight: 500;
-//  height: 34px;
-//  line-height: 33px;
-//  padding: 0 13px;
-//  vertical-align: top;
-//}
-//.graph-star-rating-header .star-rating {
-//  font-size: 17px;
-//}
-//.progress {
-//  background: #f2f4f8 none repeat scroll 0 0;
-//  border-radius: 0;
-//  height: 30px;
-//}
-//.graph-star-rating-header .star-rating {
-//  font-size: 17px;
-//}
-//.progress {
-//  background: #f2f4f8 none repeat scroll 0 0;
-//  border-radius: 0;
-//  height: 30px;
-//}
-//.rating-list {
-//  display: inline-flex;
-//  margin-bottom: 15px;
-//  width: 100%;
-//}
-//.rating-list-left {
-//  height: 16px;
-//  line-height: 29px;
-//  width: 10%;
-//}
-//.rating-list-center {
-//  width: 80%;
-//}
-//.rating-list-right {
-//  line-height: 29px;
-//  text-align: right;
-//  width: 10%;
-//}
-//.restaurant-slider-pics {
-//  bottom: 0;
-//  font-size: 12px;
-//  left: 0;
-//  z-index: 999;
-//  padding: 0 10px;
-//}
-//.restaurant-slider-view-all {
-//  bottom: 15px;
-//  right: 15px;
-//  z-index: 999;
-//}
-//.offer-dedicated-nav .nav-link.active,
-//.offer-dedicated-nav .nav-link:hover,
-//.offer-dedicated-nav .nav-link:focus {
-//  border-color: #3868fb;
-//  color: #3868fb;
-//}
-//.offer-dedicated-nav .nav-link {
-//  border-bottom: 2px solid #fff;
-//  color: #000000;
-//  padding: 16px 0;
-//  font-weight: 600;
-//}
-//.offer-dedicated-nav .nav-item {
-//  margin: 0 37px 0 0;
-//}
-//.restaurant-detailed-action-btn {
-//  margin-top: 12px;
-//}
-//.restaurant-detailed-header-right .btn-success {
-//  border-radius: 3px;
-//  height: 45px;
-//  margin: -18px 0 18px;
-//  min-width: 130px;
-//  padding: 7px;
-//}
-//.icon-overlap {
-//  bottom: -23px;
-//  font-size: 74px;
-//  opacity: 0.23;
-//  position: absolute;
-//  right: -32px;
-//}
-//.menu-list img {
-//  width: 41px;
-//  height: 41px;
-//  object-fit: cover;
-//}
-//.restaurant-detailed-header-left img {
-//  width: 88px;
-//  height: 88px;
-//  border-radius: 3px;
-//  object-fit: cover;
-//  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-//}
