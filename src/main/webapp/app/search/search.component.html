@@ -1,11 +1,9 @@
 <div class="container">
-  <div class="input-group input-group-lg">
+  <div class="input-group input-group-lg pt-2 pb-4">
     <input type="text" placeholder="Search..." class="form-control" (keyup)="doSearch()" [(ngModel)]="searchQuery">
   </div>
 
-  <div class="pt-4"></div>
-
-  <div *ngIf="loading" class="d-flex justify-content-center">
+  <div *ngIf="loading" class="d-flex justify-content-center pb-4">
     <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
