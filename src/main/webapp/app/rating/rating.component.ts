@@ -12,6 +12,8 @@ import { Track } from './track.interface';
 import { ThemeService } from './theme.service';
 import { DeleteReviewService } from './delete-review.service';
 import { FetchAccService } from './fetch-acc.service';
+import {HttpClient} from "@angular/common/http";
+import {ApplicationConfigService} from "../core/config/application-config.service";
 
 @Component({
   selector: 'jhi-rating',
@@ -61,7 +63,9 @@ export class RatingComponent implements OnInit {
     private deleteReviewService: DeleteReviewService,
     private router: Router,
     private themeService: ThemeService,
-    private fetchAcc: FetchAccService
+    private fetchAcc: FetchAccService,
+    private httpClient: HttpClient,
+    private appConfig: ApplicationConfigService
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +82,21 @@ export class RatingComponent implements OnInit {
 
           this.checkExistService.checkExist(this.id).subscribe(data => {
             if (data.data.exist === 'false') {
-              this.router.navigate(['/rating-not-found']);
+
+              this.httpClient.post<boolean>(this.appConfig.getEndpointFor("/api/datapipe/import/" + this.id), null).subscribe({
+                next: (success) => {
+                  if (success) {
+                    // this is equivalent to reloading the entire page
+                    // (redir to / then back to restart rendering)
+                    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {this.router.navigate(["/rating", this.id])});
+                  } else {
+                    this.router.navigate(['/rating-not-found']);
+                  }
+                },
+                error: () => {
+                  this.router.navigate(['/rating-not-found']);
+                }
+              });
             }
           });
 
@@ -92,7 +110,7 @@ export class RatingComponent implements OnInit {
           this.albumURI = data.data.review.albumURI;
           // console.log(this.avgRating);
           const reviewDTO = data.data.review.reviewList;
-          for (let i = 0; i < reviewDTO.length; i++) {
+          for (let i = 0; i < reviewDTO?.length; i++) {
             const review: Review = {
               reviewTrackName: data.data.review.trackName,
               userSporifyURI: reviewDTO[i].profile.userSporifyURI,
@@ -137,7 +155,7 @@ export class RatingComponent implements OnInit {
           //这里返回的不是ReivewDTO而是单纯的review
           // const reviewDTO = data.data.review.getTracks()[j].getReview();
           const reviewDTO = data.data.review.reviewList;
-          for (let i = 0; i < reviewDTO.length; i++) {
+          for (let i = 0; i < reviewDTO?.length; i++) {
             const review: Review = {
               reviewTrackName: reviewDTO[i].track.name,
               userSporifyURI: reviewDTO[i].profile.userSporifyURI,

@@ -2,6 +2,7 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,7 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import team.bham.repository.FolderRepository;
+import team.bham.service.FolderHandlerService;
 import team.bham.service.FolderService;
+import team.bham.service.dto.FetchFolderDTO;
 import team.bham.service.dto.FolderDTO;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -36,10 +39,12 @@ public class FolderResource {
     private final FolderService folderService;
 
     private final FolderRepository folderRepository;
+    private final FolderHandlerService folderHandlerService;
 
-    public FolderResource(FolderService folderService, FolderRepository folderRepository) {
+    public FolderResource(FolderService folderService, FolderRepository folderRepository, FolderHandlerService folderHandlerService) {
         this.folderService = folderService;
         this.folderRepository = folderRepository;
+        this.folderHandlerService = folderHandlerService;
     }
 
     /**
@@ -141,6 +146,18 @@ public class FolderResource {
     public List<FolderDTO> getAllFolders() {
         log.debug("REST request to get all Folders");
         return folderService.findAll();
+    }
+
+    @GetMapping("/folders/byProfile/{id}")
+//    public List<FolderDTO> getAllFoldersByProfile(@PathVariable Long id) {
+    public List<FetchFolderDTO> getAllFoldersByProfile(@PathVariable String id) {
+//        List<FolderDTO> res = new ArrayList<>();
+//        for (FolderDTO f : folderService.findAll()) {
+//            if (f.getProfile().getId().equals(id)) {
+//                res.add(f);
+//            }
+//        }
+        return folderHandlerService.fetchFolder(id);
     }
 
     /**

@@ -55,16 +55,20 @@ export class FolderComponent implements OnInit {
     });
   }
 
-  getSpotifyLink(spotifyURI: string): string {
-    let spotifyLink: string = '';
+  getSpotifyURL(spotifyURI: string): string {
+    let spotifyURL: string = '';
     if (spotifyURI.startsWith('spotify:track:')) {
-      spotifyLink = spotifyURI.replace('spotify:track:', 'https://open.spotify.com/track/');
+      spotifyURL = spotifyURI.replace('spotify:track:', 'https://open.spotify.com/track/');
     } else if (spotifyURI.startsWith('spotify:album:')) {
-      spotifyLink = spotifyURI.replace('spotify:album:', 'https://open.spotify.com/album/');
+      spotifyURL = spotifyURI.replace('spotify:album:', 'https://open.spotify.com/album/');
     } else {
       console.error('Unsupported SpotifyURI: ', spotifyURI);
     }
-    return spotifyLink;
+    return spotifyURL;
+  }
+
+  navigateToEditFolder() {
+    this.router.navigate(['/folder', this.id, 'edit']);
   }
 
   deleteFolderEntry(spotifyURI: string) {

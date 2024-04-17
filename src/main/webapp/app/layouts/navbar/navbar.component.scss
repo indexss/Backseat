@@ -80,6 +80,13 @@ Navbar
   content: '\e8b0';
 }
 
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30px;
+}
+
 /* ==========================================================================
 Logo styles
 ========================================================================== */
