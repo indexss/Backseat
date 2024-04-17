@@ -104,7 +104,7 @@ export class SearchComponent implements OnInit {
   }
 
   makeSearchRequest(query: string): void {
-    this.http.get<SpotifySearchResult>(this.appConfig.getEndpointFor("/api/search/do") + "?q=" + encodeURIComponent(query)).subscribe({
+    this.http.get<SpotifySearchResult>(this.appConfig.getEndpointFor("/api/datapipe/search") + "?q=" + encodeURIComponent(query)).subscribe({
       next: (res) => {
         this.spotifySearchResults = res;
       },

@@ -14,7 +14,7 @@ import team.bham.spotify.responses.SearchResponse;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/search")
+@RequestMapping("/api/datapipe")
 public class SearchResource {
 
     private final ApplicationProperties appProps;
@@ -26,7 +26,7 @@ public class SearchResource {
         this.spotifyConnectionService = spotifyConnectionService;
     }
 
-    @GetMapping("/do")
+    @GetMapping("/search")
     public SearchResponse doSearch(@RequestParam("q") String query) throws SpotifyException, IOException, InterruptedException {
         return new SpotifyAPI(
             new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)
