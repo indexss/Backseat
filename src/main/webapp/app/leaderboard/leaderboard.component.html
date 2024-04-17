@@ -214,7 +214,13 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">Select Folder</h4>
+    <h4 class="modal-title">
+      Select Folder
+      <span style="margin-left: 10px"></span>
+      <button class="btn btn-success btn-sm" type="button" [routerLink]="['/addToFolder']" (click)="modal.dismiss()">
+        <i class="bi bi-plus"></i>+
+      </button>
+    </h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
