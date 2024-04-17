@@ -28,7 +28,7 @@ public class RecentlyReviewedController {
     @Resource
     private RecentlyReviewedService recentlyReviewedService;
 
-    @GetMapping("/track")
+/*    @GetMapping("/track")
     public ResponseUtils fetchRecentTrack() {
         ResponseUtils response = null;
         try {
@@ -40,9 +40,9 @@ public class RecentlyReviewedController {
         }
         return response;
     }
-}
-/*
-    @GetMapping("/fetchtracks")
+}*/
+
+    @GetMapping("/track")
     public List<RecentlyReviewedDTO> fetchRecentTrack() {
         try {
             List<RecentlyReviewedDTO> recentDTO = recentlyReviewedService.fetchRecentTrack();
@@ -51,6 +51,7 @@ public class RecentlyReviewedController {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-    }*/
+    }
+}
 //need to do explore folders one once recently reviewed is fixed
 //WHY WON'T ANY DATA SEND TO THE FRONT. THE FRONT IS WORKING, SO WHAT IS WRONG AT THE BACK?????

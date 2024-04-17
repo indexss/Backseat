@@ -32,17 +32,36 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
 
     @Override
     public List<RecentlyReviewedDTO> fetchRecentTrack() {
+        System.out.println("" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "====================================================================");
         ArrayList<RecentlyReviewedDTO> recentTrackDTO = new ArrayList<>();
         List<Review> rrByTrackName = reviewRepository.fetchRecentReviews();
+        System.out.println("rrByTrackName: " + rrByTrackName);
         List<Track> tracks = new ArrayList<>();
         int x = 0;
         while (x < rrByTrackName.size() && x < 50) {
             for (int j = 0; j < min(rrByTrackName.size(), 50); j++) {
                 String rrName = rrByTrackName.get(j).getTrack().getName();
+                System.out.println("rrName: " + rrName);
                 String rrAlbum = rrByTrackName.get(j).getAlbum().getName();
+                System.out.println("rrAlbum: " + rrAlbum);
                 Track trackName = trackRepository.fetchTrackbyRecentReview(rrName, rrAlbum);
+                System.out.println("trackName: " + trackName);
                 tracks.add(trackName);
+                System.out.println("tracks: " + tracks);
                 x += 1;
+                System.out.println("x: " + x);
             }
         }
         for (int i = 0; i < tracks.size(); i++) {
@@ -58,9 +77,25 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
             rrDTO.setArtist(artistList.get(0).getName());
             Set<Review> byTrackSpotifyURI = reviewRepository.findByTrackSpotifyURI(rrDTO.getTrackURI());
             rrDTO.setReviews(byTrackSpotifyURI.size());
+            System.out.println("rrDTO: " + rrDTO);
 
             recentTrackDTO.add(rrDTO);
-        }
+            System.out.println("recentTrackDTO: " + recentTrackDTO);
+        }        System.out.println("" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "" +
+            "====================================================================");
+
         return recentTrackDTO;
+
     }
 }

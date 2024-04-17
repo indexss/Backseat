@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RecentlyReviewedService } from './getMusicService.service';
-import { ExploreFoldersService } from './getFoldersService.service';
+import { RecentlyReviewedService } from "./getMusicService.service";
+import { ExploreFoldersService } from "./getFoldersService.service";
 import { DeviceService } from 'app/mobile/device.service';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
