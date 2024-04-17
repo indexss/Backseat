@@ -35,7 +35,6 @@ import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
 import { LeaderboardFolderComponent } from './leaderboard-folder/leaderboard-folder.component';
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 import { ListViewComponent } from './want-to-listen/list-view/list-view.component';
-import { AddNewWantToListenItemComponent } from './want-to-listen/add-new-want-to-listen-item/add-new-want-to-listen-item.component';
 
 @NgModule({
   imports: [
@@ -73,7 +72,6 @@ import { AddNewWantToListenItemComponent } from './want-to-listen/add-new-want-t
     LeaderboardFolderComponent,
     WantToListenComponent,
     ListViewComponent,
-    AddNewWantToListenItemComponent,
   ],
   bootstrap: [MainComponent],
 })
