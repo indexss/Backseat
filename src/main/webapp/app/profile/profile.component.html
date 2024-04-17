@@ -43,16 +43,13 @@
       <div class="d-flex justify-content-center pb-4"><h2 class="fs-4">Recent reviews</h2></div>
 
       <div id="reviews">
-        <!-- TODO(txp271): we probably want some more links going on here -->
+        <div class="d-flex gap-3 justify-content-center" *ngIf="reviews.length == 0">No reviews! ☹️</div>
         <div *ngFor="let r of reviews; let idx = index">
           <hr class="separator" *ngIf="idx != 0" />
           <div>
             <div><span *ngFor="let x of [].constructor(r.review.rating)">★</span><span *ngFor="let x of [].constructor(5-r.review.rating)">☆</span> {{ r.review.date }}<br><a href="/rating/{{ r.review.track.spotifyURI }}"><i>{{ r.review.track.name }} by {{ r.artists.join(", ") }}</i></a></div>
             <span>{{ r.review.content }}</span>
           </div>
-        </div>
-        <div class="d-flex justify-content-center pt-4">
-          <div><a class="fs-5" routerLink="/profile/PLACEHOLDER/reviews">See more reviews</a></div>
         </div>
       </div>
     </div>
