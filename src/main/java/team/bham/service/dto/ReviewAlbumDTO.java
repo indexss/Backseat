@@ -153,7 +153,7 @@ public class ReviewAlbumDTO implements Serializable {
             sum += rating;
         }
 
-        this.avgRating = sum / avgRatingList.size(); // 平均值等于总和除以元素个数
+        this.avgRating = sum / avgRatingList.size();
     }
 
     public void setTrack(Set<Track> trackList) {
