@@ -2,6 +2,12 @@ package team.bham.spotify.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import team.bham.domain.Track;
+import team.bham.service.dto.ArtistDTO;
+import team.bham.service.dto.TrackDTO;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrackResponse {
@@ -19,52 +25,25 @@ public class TrackResponse {
     public Integer durationMilliseconds;
 
     @JsonProperty("album")
-    public Album album;
+    public AlbumResponse album;
 
     @JsonProperty("artists")
-    public Artist[] artists;
+    public ArtistResponse[] artists;
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Album {
+    public TrackDTO asDTO() {
+        TrackDTO tdto = new TrackDTO();
+        tdto.setSpotifyURI(this.uri);
+        tdto.setName(this.name);
+        tdto.setReleaseDate(this.album.getReleaseDate());
+        tdto.setRating(0d);
 
-        @JsonProperty("album_type")
-        public String albumType;
-
-        @JsonProperty("id")
-        public String id;
-
-        @JsonProperty("name")
-        public String name;
-
-        @JsonProperty("uri")
-        public String uri;
-
-        @JsonProperty("images")
-        public Image[] images;
-
-        public static class Image {
-
-            @JsonProperty("url")
-            public String url;
-
-            @JsonProperty("height")
-            public Integer height;
-
-            @JsonProperty("width")
-            public Integer width;
+        Set<ArtistDTO> artists = new HashSet<>();
+        for (ArtistResponse a: this.artists) {
+            artists.add(a.asDTO());
         }
-    }
+        tdto.setArtists(artists);
+        tdto.setAlbum(this.album.asDTO());
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Artist {
-
-        @JsonProperty("uri")
-        public String uri;
-
-        @JsonProperty("name")
-        public String name;
-
-        @JsonProperty("id")
-        public String id;
+        return tdto;
     }
 }

@@ -1,1 +1,26 @@
-<p>search works!</p>
+<div class="container">
+  <div class="input-group input-group-lg pt-2 pb-4">
+    <input type="text" placeholder="Search..." class="form-control" (keyup)="doSearch()" [(ngModel)]="searchQuery">
+  </div>
+
+  <div *ngIf="loading" class="d-flex justify-content-center pb-4">
+    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div id="results" *ngIf="spotifySearchResults != null">
+    <div *ngFor="let res of spotifySearchResults.tracks.items; let idx = index">
+      <div class="pt-2" *ngIf="idx != 0"></div>
+      <a routerLink="/rating/{{ res.uri }}">
+        <div class="d-flex gap-3 align-items-center">
+          <img style="max-width: 100px" src="{{ getLargestAlbumImage(res.album)?.url }}" alt="" />
+          <div>
+            <div class="fs-4">{{ res.name }}</div>
+            <div class="fs-6">{{ joinTrackArtists(res) }}</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
