@@ -132,7 +132,18 @@ export class ProfileComponent implements OnInit {
                 next: (res) => {
                   console.debug("Reviews", res)
                   this.reviews = res.map((v) => {
-                    v.review.date = new Date(v.review.date).toLocaleDateString('en-GB', {
+                    v.review.date = new Date(v.review.date);
+                    return v;
+                  }).sort((a: ExtendedReview, b: ExtendedReview): number => {
+                    if (a.review.date > b.review.date) {
+                      return -1;
+                    }
+                    if (a.review.date < b.review.date) {
+                      return 1;
+                    }
+                    return 0;
+                  }).map((v) => {
+                    v.review.date = (<Date>v.review.date).toLocaleDateString('en-GB', {
                       weekday: 'short',
                       year: 'numeric',
                       month: 'short',
