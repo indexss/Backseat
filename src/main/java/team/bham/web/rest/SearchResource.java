@@ -1,15 +1,14 @@
 package team.bham.web.rest;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.bham.config.ApplicationProperties;
 import team.bham.service.SpotifyConnectionService;
 import team.bham.spotify.SpotifyAPI;
 import team.bham.spotify.SpotifyCredential;
 import team.bham.spotify.SpotifyException;
+import team.bham.spotify.SpotifyUtil;
 import team.bham.spotify.responses.SearchResponse;
+import team.bham.spotify.responses.TrackResponse;
 
 import java.io.IOException;
 
@@ -31,5 +30,22 @@ public class SearchResource {
         return new SpotifyAPI(
             new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)
         ).search(query);
+    }
+
+    @PostMapping("/import/{trackURI}")
+    public boolean doImport(@PathVariable String trackURI) throws IOException, InterruptedException {
+        TrackResponse track;
+        try {
+            track = new SpotifyAPI(
+                new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)
+            ).getTrack(SpotifyUtil.getIdFromUri(trackURI));
+
+            // TODO(txp271): implement imports
+        } catch (SpotifyException e) {
+            // I'm assuming that this is a not found error, but if the import fails for some other unrelated reason
+            // then it's still the same net result, ie. track cannot be found, give up.
+            return false;
+        }
+        return false;
     }
 }
