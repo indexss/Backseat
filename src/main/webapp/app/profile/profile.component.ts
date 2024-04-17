@@ -11,6 +11,9 @@ import { ISpotifyConnection } from '../entities/spotify-connection/spotify-conne
 import { FollowService } from '../entities/follow/service/follow.service';
 import {FolderService} from "../entities/folder/service/folder.service";
 import {IFolder} from "../entities/folder/folder.model";
+import {IReview} from "../entities/review/review.model";
+import {ReviewService} from "../entities/review/service/review.service";
+import {ITrack} from "../entities/track/track.model";
 
 interface ModUser {
   id: number;
@@ -39,6 +42,24 @@ interface ModFolder {
   imageURL: string;
 }
 
+interface ExtendedReview {
+  review: ModReview;
+  artists: ModArtist[];
+}
+
+interface ModReview {
+  id: number;
+  content: string;
+  date: Date | string;
+  profile: ModProfile;
+  track: ITrack;
+  rating: number;
+}
+
+interface ModArtist {
+  name: string;
+}
+
 @Component({
   selector: 'jhi-profile',
   templateUrl: './profile.component.html',
@@ -53,6 +74,7 @@ export class ProfileComponent implements OnInit {
 
   protected friends: AbbreviatedFollow[] = [];
   protected folders: ModFolder[] = [];
+  protected reviews: ExtendedReview[] = [];
 
   constructor(
     private router: Router,
@@ -104,6 +126,31 @@ export class ProfileComponent implements OnInit {
           next: (res) => {
             console.debug("Folders", res);
             this.folders = res;
+
+            if (this.profile != null && "id" in this.profile) {
+              this.http.get<ExtendedReview[]>(this.applicationConfigService.getEndpointFor("/api/reviews/byProfile/" + this.profile.id)).subscribe({
+                next: (res) => {
+                  console.debug("Reviews", res)
+                  this.reviews = res.map((v) => {
+                    v.review.date = new Date(v.review.date).toLocaleDateString('en-GB', {
+                      weekday: 'short',
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    });
+                    return v;
+                  });
+
+                  console.debug(new Date(this.reviews[0].review.date));
+                },
+                error: (err) => {
+                  alert("Failed to get reviews\n" + JSON.stringify(err));
+                }
+              });
+            } else {
+              alert("Failed to get reviews: null ID")
+            }
+
           },
           error: (err) => {
             alert("Get folders " + JSON.stringify(err));

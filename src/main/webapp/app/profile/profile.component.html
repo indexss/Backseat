@@ -44,38 +44,13 @@
 
       <div id="reviews">
         <!-- TODO(txp271): we probably want some more links going on here -->
-        <div>
-          <div>★★★☆☆ Jan 24th<br /><i style="color: dimgray">Surface to Air by Django Django</i></div>
-          <span
-            >volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin fermentum leo...
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">read more</a></span
-          >
+        <div *ngFor="let r of reviews; let idx = index">
+          <hr class="separator" *ngIf="idx != 0" />
+          <div>
+            <div><span *ngFor="let x of [].constructor(r.review.rating)">★</span><span *ngFor="let x of [].constructor(5-r.review.rating)">☆</span> {{ r.review.date }}<br><a href="/rating/{{ r.review.track.spotifyURI }}"><i>{{ r.review.track.name }} by {{ r.artists.join(", ") }}</i></a></div>
+            <span>{{ r.review.content }}</span>
+          </div>
         </div>
-        <hr class="separator" />
-        <div>
-          <div>★★★☆☆ Dec 2023<br /><i style="color: dimgrey">Like Giving Wings to a Tiger by Challenger Deep</i></div>
-          <span
-            >volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin fermentum leo...
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">read more</a></span
-          >
-        </div>
-        <hr class="separator" />
-        <div>
-          <div>★★★☆☆ Dec 2023<br /><i style="color: dimgrey">Ghosts by VOLA</i></div>
-          <span
-            >volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin fermentum leo...
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">read more</a></span
-          >
-        </div>
-        <hr class="separator" />
-        <div>
-          <div>★★★☆☆ Nov 2023<br /><i style="color: dimgrey">Brother by D. D. Dumbo</i></div>
-          <span
-            >volutpat diam ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet proin fermentum leo...
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">read more</a></span
-          >
-        </div>
-
         <div class="d-flex justify-content-center pt-4">
           <div><a class="fs-5" routerLink="/profile/PLACEHOLDER/reviews">See more reviews</a></div>
         </div>
