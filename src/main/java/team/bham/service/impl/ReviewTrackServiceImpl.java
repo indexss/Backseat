@@ -135,7 +135,6 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             Review review = iterator.next();
             if (review.getProfile().equals(profile)) {
                 iterator.remove();
-                // 如果你需要从数据库中也删除这个Review，确保调用repository的delete方法
                 reviewRepository.delete(review);
             }
             List<Review> reviewList = new ArrayList<>(reviews);
