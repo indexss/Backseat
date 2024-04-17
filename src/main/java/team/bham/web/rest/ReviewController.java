@@ -38,7 +38,7 @@ public class ReviewController {
     @Resource
     private ReviewAlbumService reviewAlbumService;
 
-    @GetMapping("/reivews")
+    @GetMapping("/reviews")
     public ResponseUtils fetchReviews(String id) {
         ResponseUtils resp = null;
         try {
@@ -65,7 +65,7 @@ public class ReviewController {
         return resp;
     }
 
-    @GetMapping("/albumReivews")
+    @GetMapping("/albumReviews")
     public ResponseUtils fetchAlbumReviews(String id) {
         ResponseUtils resp = null;
         try {

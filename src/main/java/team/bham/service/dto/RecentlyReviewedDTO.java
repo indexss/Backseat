@@ -7,6 +7,7 @@ public class RecentlyReviewedDTO {
     private int id;
     private String trackName;
     private String album;
+    private int reviews;
     private Double rating;
     private String artist;
     private String trackURI;
@@ -23,11 +24,21 @@ public class RecentlyReviewedDTO {
 
     public RecentlyReviewedDTO() {}
 
-    public RecentlyReviewedDTO(String imgURL, int id, String trackName, String album, Double rating, String artist, String trackURI) {
+    public RecentlyReviewedDTO(
+        String imgURL,
+        int id,
+        String trackName,
+        String album,
+        Integer reviews,
+        Double rating,
+        String artist,
+        String trackURI
+    ) {
         this.id = id;
         this.imgURL = imgURL;
         this.trackName = trackName;
         this.album = album;
+        this.reviews = reviews;
         this.rating = rating;
         this.artist = artist;
         this.trackURI = trackURI;
@@ -55,6 +66,14 @@ public class RecentlyReviewedDTO {
 
     public void setAlbum(String album) {
         this.album = album;
+    }
+
+    public int getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(int reviews) {
+        this.reviews = reviews;
     }
 
     public Double getRating() {
