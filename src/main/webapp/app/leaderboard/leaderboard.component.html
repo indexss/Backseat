@@ -179,7 +179,12 @@
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/rating', record.trackURI]">
-              <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="img-normal img-zoom me-3" />
+              <img
+                [src]="record.imgURL"
+                style="width: 90px; margin: 2px; border-radius: 7%"
+                class="img-normal img-zoom me-3"
+                alt="Album cover art for {{ record.album }} by {{ record.artist }}"
+              />
             </a>
             <div class="flex-grow-1">
               <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
@@ -232,7 +237,7 @@
     <ul class="list-group">
       <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.folderId)">
         <div class="d-flex align-items-center">
-          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" />
+          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" alt="Cover art for folder {{ folder.folderName }}" />
           <span style="color: dimgrey; font-size: 20px">{{ folder.folderName }}</span>
         </div>
       </li>
