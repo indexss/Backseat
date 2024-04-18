@@ -31,8 +31,8 @@
         <span class="ps-2 fs-6 me-auto">{{ profile?.username }} on Spotify</span>
       </a>
 
-      <button *ngIf="!isSelf && !isFollowing" (click)="toggleFollowing()" class="btn btn-primary">Add friend</button>
-      <button *ngIf="!isSelf && isFollowing" (click)="toggleFollowing()" class="btn btn-danger">Remove friend</button>
+      <button *ngIf="isAuthed && !isSelf && !isFollowing" (click)="toggleFollowing()" class="btn btn-primary">Add friend</button>
+      <button *ngIf="isAuthed && !isSelf && isFollowing" (click)="toggleFollowing()" class="btn btn-danger">Remove friend</button>
     </div>
   </div>
 
@@ -75,7 +75,7 @@
         </div>
       </div>
 
-      <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length != 0"><a routerLink="/addToFolder">Manage your lists</a></div>
+      <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length != 0 && isSelf"><a routerLink="/addToFolder">Manage your lists</a></div>
     </div>
 
     <div class="col">
