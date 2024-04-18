@@ -58,9 +58,11 @@ public class ExploreFoldersServiceImpl implements ExploreFoldersService {
             //System.out.println("folderDTO2: " + folderDTO);
             folderDTO.setUsername(chosenFolders.get(j).getProfile().getUsername());
             //System.out.println("folderDTO3: " + folderDTO);
-            String image = createImageURL(chosenFolders.get(j).getImage(), chosenFolders.get(j).getImageContentType());
+
             //TODO fix this so that null image will display if null
-            if (image != null) {
+            byte[] ix = chosenFolders.get(j).getImage();
+            if (ix != null) {
+                String image = createImageURL(ix, chosenFolders.get(j).getImageContentType());
                 folderDTO.setImage(image);
             } else {
                 folderDTO.setImage(

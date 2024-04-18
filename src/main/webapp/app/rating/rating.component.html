@@ -71,10 +71,14 @@
       <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
         <div class="media">
           <div class="column-4">
-            <a href="#" class="mb-4">
-              <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
+            <a routerLink="/profile/{{ review.username }}" class="mb-4">
+              <img
+                alt="Generic placeholder image"
+                src="/api/profiles/byLogin/{{ review.username }}/profilePhoto"
+                class="mr-3 rounded-pill img-fluid"
+              />
             </a>
-            <a class="p-4 userurl" href="#">{{ review.username }}</a>
+            <a class="p-4 userurl" routerLink="/profile/{{ review.username }}">{{ review.username }}</a>
             <p class="rating-spans">
               <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
             </p>
@@ -275,10 +279,14 @@
         <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">
           <div class="media">
             <div class="column-4">
-              <a href="#" class="mb-4">
-                <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
+              <a routerLink="/profile/{{ review.username }}" class="mb-4">
+                <img
+                  alt="Generic placeholder image"
+                  src="/api/profiles/byLogin/{{ review.username }}/profilePhoto"
+                  class="mr-3 rounded-pill img-fluid"
+                />
               </a>
-              <a class="userurl p-4" href="#">{{ review.username }}</a>
+              <a class="userurl p-4" routerLink="/profile/{{ review.username }}">{{ review.username }}</a>
               <p class="rating-spans">
                 <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
               </p>
@@ -327,10 +335,14 @@
         <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">
           <div class="media">
             <div class="column-4">
-              <a href="#" class="mb-4">
-                <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
+              <a routerLink="/profile/{{ review.username }}" class="mb-4">
+                <img
+                  alt="Generic placeholder image"
+                  src="/api/profiles/byLogin/{{ review.username }}/profilePhoto"
+                  class="mr-3 rounded-pill img-fluid"
+                />
               </a>
-              <a class="userurl p-4" href="#">{{ review.username }}</a>
+              <a class="userurl p-4" routerLink="/profile/{{ review.username }}">{{ review.username }}</a>
               <p class="rating-spans">
                 <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
               </p>

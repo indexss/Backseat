@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.web.bind.annotation.*;
 import team.bham.config.ApplicationProperties;
 import team.bham.domain.Folder;
@@ -23,6 +22,7 @@ import team.bham.spotify.SpotifyAPI;
 import team.bham.spotify.SpotifyCredential;
 import team.bham.spotify.SpotifyException;
 import team.bham.spotify.SpotifyUtil;
+import team.bham.spotify.responses.AlbumResponse;
 import team.bham.spotify.responses.ArtistResponse;
 import team.bham.spotify.responses.SearchResponse;
 import team.bham.spotify.responses.TrackResponse;
@@ -109,42 +109,76 @@ public class SearchResource {
         return us;
     }
 
-    @PostMapping("/import/{trackURI}")
-    public boolean doImport(@PathVariable String trackURI) throws IOException, InterruptedException {
-        TrackResponse track;
-        try {
-            track =
-                new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM))
-                    .getTrack(SpotifyUtil.getIdFromUri(trackURI));
-        } catch (SpotifyException e) {
-            // I'm assuming that this is a not found error, but if the import fails for some other unrelated reason
-            // then it's still the same net result, ie. track cannot be found, give up.
-            return false;
-        }
+    @PostMapping("/import/{objectURI}")
+    public boolean doImport(@PathVariable String objectURI) throws IOException, InterruptedException {
+        String uriType = SpotifyUtil.getTypeFromUri(objectURI);
 
-        // Ensure every artist exists
-        for (ArtistResponse a : ArrayUtils.addAll(track.artists, track.album.artists)) {
-            Optional<ArtistDTO> ao = this.artistService.findOne(a.uri);
-            if (ao.isEmpty()) {
-                this.artistService.save(a.asDTO());
-                ArtistDTO adto = new ArtistDTO();
+        if (uriType.equals("track")) {
+            TrackResponse track;
+            try {
+                track =
+                    new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM))
+                        .getTrack(SpotifyUtil.getIdFromUri(objectURI));
+            } catch (SpotifyException e) {
+                // I'm assuming that this is a not found error, but if the import fails for some other unrelated reason
+                // then it's still the same net result, ie. track cannot be found, give up.
+                return false;
             }
-        }
 
-        // Ensure album exists
-        {
-            Optional<AlbumDTO> ao = this.albumService.findOne(track.album.uri);
-            if (ao.isEmpty()) {
-                this.albumService.save(track.album.asDTO());
+            // Ensure every artist exists
+            for (ArtistResponse a : ArrayUtils.addAll(track.artists, track.album.artists)) {
+                Optional<ArtistDTO> ao = this.artistService.findOne(a.uri);
+                if (ao.isEmpty()) {
+                    this.artistService.save(a.asDTO());
+                }
             }
+
+            // Ensure album exists
+            {
+                Optional<AlbumDTO> ao = this.albumService.findOne(track.album.uri);
+                if (ao.isEmpty()) {
+                    this.albumService.save(track.album.asDTO());
+                }
+            }
+
+            // Ensure track exists
+            Optional<TrackDTO> to = this.trackService.findOne(track.uri);
+            if (to.isEmpty()) {
+                this.trackService.save(track.asDTO());
+            }
+
+            return true;
+        } else if (uriType.equals("album")) {
+            AlbumResponse album;
+            try {
+                album =
+                    new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM))
+                        .getAlbum(SpotifyUtil.getIdFromUri(objectURI));
+            } catch (SpotifyException e) {
+                // I'm assuming that this is a not found error, but if the import fails for some other unrelated reason
+                // then it's still the same net result, ie. track cannot be found, give up.
+                return false;
+            }
+
+            // Ensure every artist exists
+            for (ArtistResponse a : album.artists) {
+                Optional<ArtistDTO> ao = this.artistService.findOne(a.uri);
+                if (ao.isEmpty()) {
+                    this.artistService.save(a.asDTO());
+                }
+            }
+
+            // Ensure album exists
+            {
+                Optional<AlbumDTO> ao = this.albumService.findOne(album.uri);
+                if (ao.isEmpty()) {
+                    this.albumService.save(album.asDTO());
+                }
+            }
+
+            return true;
         }
 
-        // Ensure track exists
-        Optional<TrackDTO> to = this.trackService.findOne(track.uri);
-        if (to.isEmpty()) {
-            this.trackService.save(track.asDTO());
-        }
-
-        return true;
+        return false;
     }
 }

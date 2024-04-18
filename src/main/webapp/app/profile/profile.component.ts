@@ -14,6 +14,7 @@ import { IFolder } from '../entities/folder/folder.model';
 import { IReview } from '../entities/review/review.model';
 import { ReviewService } from '../entities/review/service/review.service';
 import { ITrack } from '../entities/track/track.model';
+import { IAlbum } from '../entities/album/album.model';
 
 interface ModUser {
   id: number;
@@ -52,7 +53,8 @@ interface ModReview {
   content: string;
   date: Date | string;
   profile: ModProfile;
-  track: ITrack;
+  track: ITrack | null;
+  album: IAlbum | null;
   rating: number;
 }
 
@@ -67,6 +69,7 @@ interface ModArtist {
 })
 export class ProfileComponent implements OnInit {
   protected isSelf: boolean;
+  protected isAuthed: boolean = true;
   private login: string | null;
   protected profile: ModProfile | null = null;
   protected profilePhotoURL: string | null = null;
@@ -92,20 +95,16 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.identity().subscribe(acc => {
       if (acc == null) {
+        this.isAuthed = false;
         return;
       }
+      this.isAuthed = true;
 
       if (acc.login == this.login) {
         this.isSelf = true;
       }
 
-      if (this.isSelf) {
-        this.http.get<AbbreviatedFollow[]>(this.applicationConfigService.getEndpointFor('/api/follows/mine')).subscribe({
-          next: v => {
-            this.friends = v;
-          },
-        });
-      } else {
+      if (!this.isSelf) {
         this.http.get<boolean>(this.applicationConfigService.getEndpointFor('/api/follows/check/' + this.login)).subscribe({
           next: v => {
             console.debug('Follows?', v);
@@ -118,9 +117,19 @@ export class ProfileComponent implements OnInit {
       }
     });
 
+    if (this.login == '') {
+      this.router.navigate(['/']);
+    }
+
     this.http.get<ModProfile>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login)).subscribe({
       next: res => {
         this.profile = res;
+
+        this.http.get<AbbreviatedFollow[]>(this.applicationConfigService.getEndpointFor('/api/follows/byLogin/' + this.login)).subscribe({
+          next: v => {
+            this.friends = v;
+          },
+        });
 
         this.http.get<ModFolder[]>(this.applicationConfigService.getEndpointFor('/api/folders/byProfile/' + this.login)).subscribe({
           next: res => {
@@ -173,15 +182,7 @@ export class ProfileComponent implements OnInit {
           },
         });
 
-        this.http
-          .get<string>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login + '/profilePhoto'))
-          .subscribe({
-            next: v => {
-              console.debug('Profile photo URL: ', v);
-              this.profilePhotoURL = v;
-            },
-          });
-        console.debug('Profile: ', res);
+        this.profilePhotoURL = '/api/profiles/byLogin/' + this.profile.username + '/profilePhoto';
       },
       error: err => {
         // This might be a profile ID instead - let's try getting that, and if it works, redirect to that profile.

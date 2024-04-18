@@ -87,6 +87,31 @@ public class SpotifyAPI {
         return SpotifyUtil.unmarshalJson(resp.body(), TrackResponse.class);
     }
 
+    public AlbumResponse getAlbum(String id) throws IOException, SpotifyException, InterruptedException {
+        return getAlbum(id, null);
+    }
+
+    public AlbumResponse getAlbum(String id, String market) throws IOException, SpotifyException, InterruptedException {
+        String pathString = "/albums/".concat(id);
+
+        if (market != null) {
+            HashMap<String, String> params = new HashMap<>();
+            params.put("market", market);
+            pathString = pathString.concat("?" + SpotifyUtil.createUrlEncodedString(params));
+        }
+
+        HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri(pathString)).build());
+
+        System.err.println(resp.body());
+
+        if (resp.statusCode() != 200) {
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
+            throw res.toException();
+        }
+
+        return SpotifyUtil.unmarshalJson(resp.body(), AlbumResponse.class);
+    }
+
     public SearchResponse search(String query, String type) throws SpotifyException, IOException, InterruptedException {
         // TODO(txp271): add toggle for search type?
         String pathString = "/search";
