@@ -104,13 +104,7 @@ export class ProfileComponent implements OnInit {
         this.isSelf = true;
       }
 
-      if (this.isSelf) {
-        this.http.get<AbbreviatedFollow[]>(this.applicationConfigService.getEndpointFor('/api/follows/mine')).subscribe({
-          next: v => {
-            this.friends = v;
-          },
-        });
-      } else {
+      if (!this.isSelf) {
         this.http.get<boolean>(this.applicationConfigService.getEndpointFor('/api/follows/check/' + this.login)).subscribe({
           next: v => {
             console.debug('Follows?', v);
@@ -130,6 +124,12 @@ export class ProfileComponent implements OnInit {
     this.http.get<ModProfile>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login)).subscribe({
       next: res => {
         this.profile = res;
+
+        this.http.get<AbbreviatedFollow[]>(this.applicationConfigService.getEndpointFor('/api/follows/byLogin/' + this.login)).subscribe({
+          next: v => {
+            this.friends = v;
+          },
+        });
 
         this.http.get<ModFolder[]>(this.applicationConfigService.getEndpointFor("/api/folders/byProfile/" + this.login)).subscribe({
           next: (res) => {

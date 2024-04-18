@@ -75,6 +75,7 @@ public class SecurityConfiguration {
             .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .antMatchers("/api/profiles/**").permitAll()
             .antMatchers("/api/folders/byProfile/**").permitAll()
+            .antMatchers("/api/follows/byLogin/**").permitAll()
             .antMatchers("/api/generatemusic").permitAll()
             .antMatchers("/api/rating/**").permitAll()
             .antMatchers("/api/reivews/**").permitAll()
