@@ -1,31 +1,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
 <div class="container-fluid">
-  <!-- TODO mobile integration and dark mode integration-->
   <h1>RECENTLY REVIEWED</h1>
-  <!--
-  <div class="albums-tracks">
-    <div class="record-card">
-      <div *ngFor="let record of recordList">
-        <div class="d-flex align-items-center">
-          <a [routerLink]="['/rating', record.trackURI]">
-            <img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
-          </a>
-          <div class="flex-grow-1">
-            <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block"> </a>
-          </div>
-        </div>
-        <div class="text-center align-middle">{{ record.rating | number: '1.0-2' }}</div>
-        <div class="text-center align-middle">{{ record.artist }}</div>
-        <div class="text-center align-middle">{{ record.trackName }}</div>
-      </div>
-    </div>
-  </div>
--->
-
   <div class="recently-reviewed">
     <div class="record-card" *ngFor="let record of recordList; let i = index">
       <div class="image">
-        <a [routerLink]="['/rating', record.trackURI]">
+        <a *ngIf="record.trackURI != null" [routerLink]="['/rating', record.trackURI]">
+          <img
+            class="rounded"
+            [src]="record.imgURL"
+            style="width: 300px; height: 300px"
+            [alt]="['Cover art for ', record.album, ' by ', record.artist]"
+          />
+        </a>
+        <a *ngIf="record.trackURI == null" [routerLink]="['/rating', record.albumURI]">
           <img
             class="rounded"
             [src]="record.imgURL"
@@ -45,6 +32,7 @@
       </div>
       <div class="recordName">
         <p>{{ record.trackName }}</p>
+        <p>{{ record.album }}</p>
       </div>
     </div>
   </div>
