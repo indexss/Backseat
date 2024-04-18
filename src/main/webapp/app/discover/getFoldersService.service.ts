@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class GetMusicService {
+export class ExploreFoldersService {
   constructor(private http: HttpClient) {}
-  getRecord(): Observable<any> {
-    return this.http.get('api/discover/record');
+  getFolders(): Observable<any> {
+    return this.http.get(`api/discover/folder`); //this may be the problem???
   }
 }

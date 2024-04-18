@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<body lang="eng">
-  <div class="container-fluid">
-    <h1>RECENTLY REVIEWED</h1>
-    <!--
+<link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
+<div class="container-fluid">
+  <!-- TODO mobile integration and dark mode integration-->
+  <h1>RECENTLY REVIEWED</h1>
+  <!--
   <div class="albums-tracks">
     <div class="record-card">
       <div *ngFor="let record of recordList">
@@ -22,238 +22,169 @@
   </div>
 -->
 
-    <div class="recently-reviewed">
-      <div class="record-card">
-        <div class="image">
-          <a routerLink="/rating/spotify:track:1q9l6c8bAzqWcvO3DM6FsR">
-            <img
-              class="rounded"
-              src="https://i.scdn.co/image/ab67616d0000b273ab41b12bbc0f61ebdfb2dfaf"
-              alt="Cover art for the album Ta Dah by Scissor Sisters"
-              width="300"
-              height="300"
-            />
-          </a>
-        </div>
-        <div class="rating">
-          <p>
-            <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-            4.3
-          </p>
-        </div>
-        <div class="artist"><p>Scissor Sisters</p></div>
-        <div class="recordName"><p>I Don't Feel Like Dancing</p></div>
-      </div>
-      <div class="record-card">
-        <div class="image">
-          <a routerLink="/rating/spotify:track:7oB0QBEnGRIJjvlDc8YnM6">
-            <img
-              class="rounded"
-              src="https://i.scdn.co/image/ab67616d0000b2736b5fddcee4e4163eb9d34fea"
-              alt="Cover art for George Gershwin's Rhapsody in Blue"
-              width="300"
-              height="300"
-            />
-          </a>
-        </div>
-        <div class="rating">
-          <p>
-            <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-            3.7
-          </p>
-        </div>
-        <div class="artist"><p>George Gershwin</p></div>
-        <div class="recordName"><p>Rhapsody in Blue</p></div>
-      </div>
-      <div class="record-card">
-        <div class="image">
-          <a routerLink="/rating/spotify:track:1a44N64DKPb37IyZBpunWm">
-            <img
-              class="rounded"
-              src="https://i.scdn.co/image/ab67616d00001e0252f430cc0841fd970088ba1b"
-              alt="Cover art for Charles Mingus' Tensions"
-              width="300"
-              height="300"
-            />
-          </a>
-        </div>
-        <div class="rating">
-          <p>
-            <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-            4.2
-          </p>
-        </div>
-        <div class="artist"><p>Charles Mingus</p></div>
-        <div class="recordName"><p>Tensions</p></div>
-      </div>
-      <div class="record-card">
-        <div class="image">
-          <a routerLink="/rating/spotify:track:0uvagCBJC0ClsR11W10T0Y">
-            <img
-              class="rounded"
-              src="https://i.scdn.co/image/ab67616d00001e021b0de2abcdc89c8dc76c917e"
-              alt="Cover art for Tom Odell's Black Friday"
-              width="300"
-              height="300"
-            />
-          </a>
-        </div>
-        <div class="rating">
-          <p>
-            <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-            3.4
-          </p>
-        </div>
-        <div class="artist"><p>Tom Odell</p></div>
-        <div class="recordName"><p>Black Friday</p></div>
-      </div>
-      <div class="record-card">
-        <div class="image">
-          <a routerLink="/rating/spotify:track:4klPQOLiUPgwZ3YIWgGJrK">
-            <img
-              class="rounded"
-              src="https://i.scdn.co/image/ab67616d00001e024ccb64f022a53d3e8ec84a20"
-              alt="Cover art for Jamiroquai's King for a Day"
-              width="300"
-              height="300"
-            />
-          </a>
-        </div>
-        <div class="rating">
-          <p>
-            <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-            4.5
-          </p>
-        </div>
-        <div class="artist"><p>Jamiroquai</p></div>
-        <div class="recordName"><p>King for a Day</p></div>
-      </div>
-    </div>
-
-    <h1>EXPLORE FOLDERS</h1>
-
-    <div class="display-folders">
-      <div class="folder-card">
-        <div class="coverImg">
-          <img class="rounded" src="/content/images/clementine.png" alt="Watercolour image of a clementine" width="300" height="300" />
-        </div>
-        <div class="folderName">Clementine</div>
-        <div class="creatorName">erose</div>
-      </div>
-      <div class="folder-card">
-        <div class="coverImg">
-          <img class="rounded" src="/content/images/clarinet-cat.png" alt="Art of an orange cat with a clarinet" width="300" height="300" />
-        </div>
-        <div class="folderName">Late Night Clarinet</div>
-        <div class="creatorName">smoothtuneslover</div>
-      </div>
-      <div class="folder-card">
-        <div class="coverImg">
+  <div class="recently-reviewed">
+    <div class="record-card" *ngFor="let record of recordList; let i = index">
+      <div class="image">
+        <a [routerLink]="['/rating', record.trackURI]">
           <img
             class="rounded"
-            src="/content/images/psyche-waterhouse.png"
-            alt="Psyche Entering Cupid's Garden by John William Waterhouse"
-            width="300"
-            height="300"
+            [src]="record.imgURL"
+            style="width: 300px; height: 300px"
+            [alt]="['Cover art for ', record.album, ' by ', record.artist]"
           />
-        </div>
-        <div class="folderName">Back in Time</div>
-        <div class="creatorName">retrosprings</div>
+        </a>
       </div>
-      <div class="folder-card">
-        <div class="coverImg">
-          <img
-            class="rounded"
-            src="/content/images/groovetown.png"
-            alt="Various amphibians playing jazz band instruments"
-            width="300"
-            height="300"
-          />
-        </div>
-        <div class="folderName">Groovetown</div>
-        <div class="creatorName">chromadreams</div>
+      <div class="rating">
+        <p>
+          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+          {{ record.rating }}
+        </p>
+      </div>
+      <div class="artist">
+        <p>{{ record.artist }}</p>
+      </div>
+      <div class="recordName">
+        <p>{{ record.trackName }}</p>
       </div>
     </div>
   </div>
-  <div class="sidebar">
-    <div class="head2">Recently Listened</div>
-    <div class="tracks">
-      <div class="image1">
-        <a routerLink="/rating/spotify:track:7gaA3wERFkFkgivjwbSvkG">
+
+  <h1>EXPLORE FOLDERS</h1>
+
+  <div class="display-folders">
+    <div class="folder-card" *ngFor="let folder of folderList; let i = index">
+      <div class="coverImg">
+        <a [routerLink]="['/folderPage', folder.folderId]">
           <img
-            src="https://i.scdn.co/image/ab67616d0000b2736b0b6e20fdb1ee07de7e92d6"
-            alt="Cover art for the track 'Yes, And?' by Ariana Grande"
-            width="100"
-            height="100"
+            class="rounded"
+            [src]="folder.image"
+            style="width: 300px; height: 300px"
+            [alt]="['Cover art for folder ', folder.folderName, ' made by ', folder.userName]"
           />
         </a>
       </div>
-      <div class="description1">
-        <p>
-          Yes, And?<br />
-          Ariana Grande<br />
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-        </p>
+      <div class="folderName">{{ folder.folderName }}</div>
+      <div class="creatorName">{{ folder.userName }}</div>
+    </div>
+    <!--
+    <div class="folder-card">
+      <div class="coverImg">
+        <img class="rounded" src="/content/images/clarinet-cat.png" alt="Art of an orange cat with a clarinet" width="300" height="300" />
       </div>
-      <div class="image2">
-        <a routerLink="/rating/spotify:track:1BxfuPKGuaTgP7aM0Bbdwr">
-          <img
-            src="https://i.scdn.co/image/ab67616d0000b273e787cffec20aa2a396a61647"
-            alt="Cover art for the album Lover by Taylor Swift"
-            width="100"
-            height="100"
-          />
-        </a>
+      <div class="folderName">Late Night Clarinet</div>
+      <div class="creatorName">smoothtuneslover</div>
+    </div>
+    <div class="folder-card">
+      <div class="coverImg">
+        <img
+          class="rounded"
+          src="/content/images/psyche-waterhouse.png"
+          alt="Psyche Entering Cupid's Garden by John William Waterhouse"
+          width="300"
+          height="300"
+        />
       </div>
-      <div class="decription2">
-        <p>
-          Cruel Summer<br />
-          Taylor Swift<br />
-          Leave a Review...
-        </p>
+      <div class="folderName">Back in Time</div>
+      <div class="creatorName">retrosprings</div>
+    </div>
+    <div class="folder-card">
+      <div class="coverImg">
+        <img
+          class="rounded"
+          src="/content/images/groovetown.png"
+          alt="Various amphibians playing jazz band instruments"
+          width="300"
+          height="300"
+        />
       </div>
-      <div class="image3">
-        <a routerLink="/rating/spotify:track:5wjmqUGN7vrAqFqDWrywlZ">
-          <img
-            src="https://i.scdn.co/image/ab67616d000048512f76b797c382bedcafdf45e1"
-            alt="Cover art for the album Midgnight Memories by One Direction"
-            width="100"
-            height="100"
-          />
-        </a>
-      </div>
-      <div class="description3">
-        <p>
-          Midnight Memories<br />
-          One Direction<br />
-          Leave a Review...
-        </p>
-      </div>
-      <div class="image4">
-        <a routerLink="/rating/spotify:track:11dFghVXANMlKmJXsNCbNl	">
-          <img
-            src="https://i.scdn.co/image/ab67616d0000b273ef531a2218e0274cb4f67896"
-            alt="Cover art for the album Cut to the Feeling by Carly Rae Jepson"
-            width="100"
-            height="100"
-          />
-        </a>
-      </div>
-      <div class="decription4">
-        <p>
-          Cut to the Feeling<br />
-          Carly Rae Jepson<br />
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-        </p>
-      </div>
+      <div class="folderName">Groovetown</div>
+      <div class="creatorName">chromadreams</div>
+    </div>
+    -->
+  </div>
+
+  <div class="text-primary justify-content-center">
+    <span>No data right now!</span><span><a class="add" routerLink="/search"> Create folders to fill this space! </a></span>
+  </div>
+</div>
+<div class="sidebar">
+  <div class="head2">Recently Listened</div>
+  <div class="tracks">
+    <div class="image1">
+      <a routerLink="/rating/spotify:track:7gaA3wERFkFkgivjwbSvkG">
+        <img
+          src="https://i.scdn.co/image/ab67616d0000b2736b0b6e20fdb1ee07de7e92d6"
+          alt="Cover art for the track 'Yes, And?' by Ariana Grande"
+          width="100"
+          height="100"
+        />
+      </a>
+    </div>
+    <div class="description1">
+      <p>
+        Yes, And?<br />
+        Ariana Grande<br />
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+      </p>
+    </div>
+    <div class="image2">
+      <a routerLink="/rating/spotify:track:1BxfuPKGuaTgP7aM0Bbdwr">
+        <img
+          src="https://i.scdn.co/image/ab67616d0000b273e787cffec20aa2a396a61647"
+          alt="Cover art for the album Lover by Taylor Swift"
+          width="100"
+          height="100"
+        />
+      </a>
+    </div>
+    <div class="decription2">
+      <p>
+        Cruel Summer<br />
+        Taylor Swift<br />
+        Leave a Review...
+      </p>
+    </div>
+    <div class="image3">
+      <a routerLink="/rating/spotify:track:5wjmqUGN7vrAqFqDWrywlZ">
+        <img
+          src="https://i.scdn.co/image/ab67616d000048512f76b797c382bedcafdf45e1"
+          alt="Cover art for the album Midgnight Memories by One Direction"
+          width="100"
+          height="100"
+        />
+      </a>
+    </div>
+    <div class="description3">
+      <p>
+        Midnight Memories<br />
+        One Direction<br />
+        Leave a Review...
+      </p>
+    </div>
+    <div class="image4">
+      <a routerLink="/rating/spotify:track:11dFghVXANMlKmJXsNCbNl	">
+        <img
+          src="https://i.scdn.co/image/ab67616d0000b273ef531a2218e0274cb4f67896"
+          alt="Cover art for the album Cut to the Feeling by Carly Rae Jepson"
+          width="100"
+          height="100"
+        />
+      </a>
+    </div>
+    <div class="decription4">
+      <p>
+        Cut to the Feeling<br />
+        Carly Rae Jepson<br />
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+        <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+      </p>
     </div>
   </div>
-</body>
+</div>
