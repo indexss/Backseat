@@ -5,14 +5,6 @@
     <div class="col-12 col-md d-flex align-items-start">
       <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
 
-      <!--<<<<<<< HEAD-->
-      <!--      <div class="d-flex justify-content-between w-100">-->
-      <!--        <div>-->
-      <!--          <span class="title d-block">Track:&nbsp;&nbsp;{{ trackName }}</span>-->
-      <!--          <span class="album d-block"-->
-      <!--            ><a class="btn btn-link no-underline albumurl" (click)="redirectToAlbum(albumURI)">Album: {{ albumName }}</a></span-->
-      <!--          >-->
-      <!--=======-->
       <div>
         <span class="title d-block">Track:&nbsp;&nbsp;{{ trackName }}</span>
         <span class="album d-block"
@@ -111,6 +103,8 @@
     </div>
   </div>
 </div>
+
+<!--//Album Start from here-->
 
 <div *ngIf="!isTrack" class="container">
   <div class="row">
@@ -249,6 +243,7 @@
           </span>
         </div>
       </form>
+
       <form>
         <div class="form-group">
           <label>Your Comment</label>
@@ -265,7 +260,7 @@
 
   <br />
 
-  <!--View track reviews!!-->
+  <!--View track reviews on clicking "view track review button"-->
   <div *ngIf="!showAlbumReviews">
     <div class="form-check form-switch">
       <input class="form-check-input" style="display: none" type="checkbox" id="ccc" [(ngModel)]="showAlbumReviews" />
