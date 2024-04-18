@@ -18,7 +18,7 @@ interface Folder {
   id: number;
   folderId: number;
   folderName: string;
-  userName: string;
+  username: string;
   image: string;
 }
 
@@ -38,7 +38,11 @@ export class DiscoverComponent implements OnInit {
   constructor(private deviceService: DeviceService, private http: HttpClient, private appConfig: ApplicationConfigService) {}
 
   ngOnInit(): void {
-    this.isMobile = this.deviceService.isMobile();
+    if (this.deviceService.isMobile()) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
 
     this.http.get<Record[]>(this.appConfig.getEndpointFor('/api/discover/track')).subscribe({
       next: vowel => {

@@ -47,12 +47,12 @@
             class="rounded"
             [src]="folder.image"
             style="width: 300px; height: 300px"
-            [alt]="['Cover art for folder ', folder.folderName, ' made by ', folder.userName]"
+            [alt]="['Cover art for folder ', folder.folderName, ' made by ', folder.username]"
           />
           <div class="folderName">{{ folder.folderName }}</div>
         </a>
       </div>
-      <div class="creatorName">{{ folder.userName }}</div>
+      <div class="creatorName">{{ folder.username }}</div>
     </div>
   </div>
   <div *ngIf="isMobile" class="display-folders">
@@ -63,12 +63,14 @@
             class="rounded"
             [src]="folder.image"
             style="width: 300px; height: 300px"
-            [alt]="['Cover art for folder ', folder.folderName, ' made by ', folder.userName]"
+            [alt]="['Cover art for folder ', folder.folderName, ' made by ', folder.username]"
           />
           <div class="folderName">{{ folder.folderName }}</div>
         </a>
       </div>
-      <div class="creatorName">{{ folder.userName }}</div>
+      <div class="creatorName">
+        <a [routerLink]="['/profile', folder.username]">{{ folder.username }}</a>
+      </div>
     </div>
   </div>
 </div>

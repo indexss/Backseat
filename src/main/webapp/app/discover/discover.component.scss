@@ -151,7 +151,7 @@ h2 {
   //flex-wrap: nowrap;
   grid-template-columns: repeat(3, 4fr);
   grid-auto-rows: auto;
-  grid-gap: 2rem;
+  grid-gap: 1.5rem;
   overflow-x: auto;
   padding: 10px;
   position: relative;
@@ -164,7 +164,7 @@ h2 {
     grid-template-rows: 300px 25px 25px;
     text-align: center;
     border-radius: 4px;
-    gap: 15px;
+    gap: 5px;
     padding: 10px;
     overflow-wrap: break-word;
   }
@@ -178,14 +178,14 @@ h2 {
 .folderName {
   grid-column: 1 / 3;
   grid-row: 2;
-  font-size: 15px;
+  font-size: 25px;
   color: seagreen;
 }
 
 .creatorName {
   grid-column: 1 / 3;
   grid-row: 3;
-  font-size: 10px;
+  font-size: 20px;
   color: darkseagreen;
 }
 
