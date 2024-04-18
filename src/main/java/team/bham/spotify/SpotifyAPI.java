@@ -87,13 +87,13 @@ public class SpotifyAPI {
         return SpotifyUtil.unmarshalJson(resp.body(), TrackResponse.class);
     }
 
-    public SearchResponse search(String query) throws SpotifyException, IOException, InterruptedException {
+    public SearchResponse search(String query, String type) throws SpotifyException, IOException, InterruptedException {
         // TODO(txp271): add toggle for search type?
         String pathString = "/search";
 
         HashMap<String, String> params = new HashMap<>();
         params.put("query", query);
-        params.put("type", "track");
+        params.put("type", type);
         params.put("limit", "20");
         pathString = pathString.concat("?" + SpotifyUtil.createUrlEncodedString(params));
 
