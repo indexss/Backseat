@@ -59,7 +59,7 @@ const getLargestAlbumImage = (album: SpotifyAlbum): SpotifyImage | null => {
     return album.images[maxIdx];
   }
   return null;
-};
+}
 
 const joinArtists = (artists: SpotifyArtist[]): string => {
   return artists.map((v) => {return v.name}).join(", ");
@@ -75,9 +75,9 @@ const debounce = (callback: Function, ms: number = 500) => {
   let timer = 0;
   return function (this: any, ...args: any[]) {
     clearTimeout(timer);
-    timer = setTimeout(() => callback.apply(this, args), ms);
-  };
-};
+    timer = setTimeout(() => callback.apply(this, args), ms)
+  }
+}
 
 enum TabState {
   Track = "track",
@@ -92,19 +92,23 @@ enum TabState {
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-  constructor(private http: HttpClient, private appConfig: ApplicationConfigService) {}
+
+  constructor(
+    private http: HttpClient,
+    private appConfig: ApplicationConfigService,
+  ) {}
 
   protected loading: boolean = false;
   protected currentTab: TabState = TabState.Track;
 
   protected spotifySearchResults: SpotifySearchResult | null = null;
 
-  protected searchQuery: string = '';
+  protected searchQuery: string = "";
 
   ngOnInit(): void {}
 
   protected searchImpl = debounce(() => {
-    if (this.searchQuery == '') {
+    if (this.searchQuery == "") {
       this.spotifySearchResults = null;
       return;
     }
