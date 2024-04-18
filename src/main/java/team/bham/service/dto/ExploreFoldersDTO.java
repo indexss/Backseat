@@ -7,26 +7,25 @@ public class ExploreFoldersDTO {
     private int id;
     private long folderId;
     private String folderName;
-    private Profile profile;
-    private byte[] image; //may need to change to ImgURL and do something with FetchFolderDTO
+    private String userName;
+    private String image;
 
     public ExploreFoldersDTO() {}
 
-    public ExploreFoldersDTO(byte[] image, int id, long folderId, String folderName, Profile profile) {
-        this.image = image;
+    public ExploreFoldersDTO(int id, long folderId, String folderName, String userName, String image) {
         this.id = id;
         this.folderId = folderId;
         this.folderName = folderName;
-        this.profile = profile;
+        this.userName = userName;
+        this.image = image;
     }
 
     public int getId() {
         return id;
     }
 
-    public int setId(int id) {
+    public void setId(int id) {
         this.id = id;
-        return id;
     }
 
     public long getFolderId() {
@@ -45,19 +44,19 @@ public class ExploreFoldersDTO {
         this.folderName = folderName;
     }
 
-    public Profile getProfile() {
-        return profile;
+    public String getUsername() {
+        return userName;
     }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setUsername(String userName) {
+        this.userName = userName;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }

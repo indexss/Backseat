@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RecentlyReviewedService } from "./getMusicService.service";
-import { ExploreFoldersService } from "./getFoldersService.service";
+import { RecentlyReviewedService } from './getMusicService.service';
+import { ExploreFoldersService } from './getFoldersService.service';
 import { DeviceService } from 'app/mobile/device.service';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
@@ -104,8 +104,8 @@ interface Folder {
   id: number;
   folderId: number;
   folderName: string;
-  username: string;
-  imageURL: string;
+  userName: string;
+  image: string;
 }
 
 @Component({
@@ -153,9 +153,19 @@ export class DiscoverComponent implements OnInit {
         alert(JSON.stringify(err));
       },
     });
-    //folders are not functional yet
-    this.getFoldersService.getFolders().subscribe(data => {
-      this.folderList = data.data.discover;
+    // /folders may be the problem here
+    this.http.get<Folder[]>(this.appConfig.getEndpointFor('api/discover/folder')).subscribe({
+      next: cons => {
+        this.folderList = cons;
+      },
+      error: err => {
+        alert(JSON.stringify(err));
+      },
     });
+
+    //folders are not functional yet
+    //this.getFoldersService.getFolders().subscribe(data => {
+    //this.folderList = data.data.discover;
+    //});
   }
 }
