@@ -1,5 +1,7 @@
 package team.bham.web.rest;
 
+import java.io.IOException;
+import java.util.Optional;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.web.bind.annotation.*;
 import team.bham.config.ApplicationProperties;
@@ -18,9 +20,6 @@ import team.bham.spotify.responses.ArtistResponse;
 import team.bham.spotify.responses.SearchResponse;
 import team.bham.spotify.responses.TrackResponse;
 
-import java.io.IOException;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/datapipe")
 public class SearchResource {
@@ -30,7 +29,6 @@ public class SearchResource {
     private final ArtistService artistService;
     private final AlbumService albumService;
     private final TrackService trackService;
-
 
     public SearchResource(
         ApplicationProperties appProps,
@@ -48,18 +46,16 @@ public class SearchResource {
 
     @GetMapping("/search")
     public SearchResponse doSearch(@RequestParam("q") String query) throws SpotifyException, IOException, InterruptedException {
-        return new SpotifyAPI(
-            new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)
-        ).search(query);
+        return new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)).search(query);
     }
 
     @PostMapping("/import/{trackURI}")
     public boolean doImport(@PathVariable String trackURI) throws IOException, InterruptedException {
         TrackResponse track;
         try {
-            track = new SpotifyAPI(
-                new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)
-            ).getTrack(SpotifyUtil.getIdFromUri(trackURI));
+            track =
+                new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM))
+                    .getTrack(SpotifyUtil.getIdFromUri(trackURI));
         } catch (SpotifyException e) {
             // I'm assuming that this is a not found error, but if the import fails for some other unrelated reason
             // then it's still the same net result, ie. track cannot be found, give up.
@@ -67,7 +63,7 @@ public class SearchResource {
         }
 
         // Ensure every artist exists
-        for (ArtistResponse a: ArrayUtils.addAll(track.artists, track.album.artists)) {
+        for (ArtistResponse a : ArrayUtils.addAll(track.artists, track.album.artists)) {
             Optional<ArtistDTO> ao = this.artistService.findOne(a.uri);
             if (ao.isEmpty()) {
                 this.artistService.save(a.asDTO());
