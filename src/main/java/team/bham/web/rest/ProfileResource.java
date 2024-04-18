@@ -224,8 +224,8 @@ public class ProfileResource {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        // for some reason the response HAS to be JSON so lmao
-        return new ResponseEntity<>("\""+profilePhotoURL+"\"", headers, HttpStatus.OK);
+        headers.add("Location", profilePhotoURL);
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
     @GetMapping("/profiles/mine")

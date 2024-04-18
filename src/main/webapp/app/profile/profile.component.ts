@@ -14,6 +14,7 @@ import {IFolder} from "../entities/folder/folder.model";
 import {IReview} from "../entities/review/review.model";
 import {ReviewService} from "../entities/review/service/review.service";
 import {ITrack} from "../entities/track/track.model";
+import {IAlbum} from "../entities/album/album.model";
 
 interface ModUser {
   id: number;
@@ -52,7 +53,8 @@ interface ModReview {
   content: string;
   date: Date | string;
   profile: ModProfile;
-  track: ITrack;
+  track: ITrack | null;
+  album: IAlbum | null;
   rating: number;
 }
 
@@ -169,15 +171,7 @@ export class ProfileComponent implements OnInit {
           }
         });
 
-        this.http
-          .get<string>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login + '/profilePhoto'))
-          .subscribe({
-            next: v => {
-              console.debug('Profile photo URL: ', v);
-              this.profilePhotoURL = v;
-            },
-          });
-        console.debug('Profile: ', res);
+        this.profilePhotoURL = "/api/profiles/byLogin/" + this.profile.username + "/profilePhoto";
       },
       error: (err) => {
         // This might be a profile ID instead - let's try getting that, and if it works, redirect to that profile.

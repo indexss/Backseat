@@ -3,8 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import dayjs from 'dayjs/esm';
 import { Observable } from 'rxjs';
 import { Dayjs } from 'dayjs';
-import { ItemList } from './item-list.interface';
-import { User } from '../entities/user/user.model';
 import { AccountService } from '../core/auth/account.service';
 
 interface listItem {
