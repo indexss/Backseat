@@ -81,6 +81,8 @@ public class SecurityConfiguration {
             .antMatchers("/api/reivews/**").permitAll()
             .antMatchers("/api/reviews/**").permitAll()
             .antMatchers("/api/generate").permitAll()
+            .antMatchers("/api/folderPage/**").permitAll()
+            .antMatchers("/api/folder/fetchfolderentry").permitAll()
             .antMatchers("/api/check/**").permitAll()
             .antMatchers("/api/leaderboard/**").permitAll()
             .antMatchers("/api/discover/**").permitAll()
