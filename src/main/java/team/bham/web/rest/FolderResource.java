@@ -149,14 +149,14 @@ public class FolderResource {
     }
 
     @GetMapping("/folders/byProfile/{id}")
-//    public List<FolderDTO> getAllFoldersByProfile(@PathVariable Long id) {
+    //    public List<FolderDTO> getAllFoldersByProfile(@PathVariable Long id) {
     public List<FetchFolderDTO> getAllFoldersByProfile(@PathVariable String id) {
-//        List<FolderDTO> res = new ArrayList<>();
-//        for (FolderDTO f : folderService.findAll()) {
-//            if (f.getProfile().getId().equals(id)) {
-//                res.add(f);
-//            }
-//        }
+        //        List<FolderDTO> res = new ArrayList<>();
+        //        for (FolderDTO f : folderService.findAll()) {
+        //            if (f.getProfile().getId().equals(id)) {
+        //                res.add(f);
+        //            }
+        //        }
         return folderHandlerService.fetchFolder(id);
     }
 

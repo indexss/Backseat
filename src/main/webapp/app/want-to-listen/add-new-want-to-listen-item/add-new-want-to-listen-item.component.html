@@ -1,0 +1,15 @@
+<button class="col-auto btn" style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: rgba(0, 0, 0, 0)">
+  <fa-icon [icon]="faPlusSquare" (click)="addNewItem()" style="font-size: 2em; margin: 0; padding: 0; color: #447848"></fa-icon>
+</button>
+
+<!--
+    This component can be used for adding new tracks (or albums) to users' own Want-to-listen List
+    To passing spotifyURI into internal function, using with:
+    ```
+      <jhi-add-new-want-to-listen-item [userID]="ID" [itemURI]="track.spotifyURI"></jhi-add-new-want-to-listen-item>
+    ```
+    where ```track.spotifyURI``` is the URI you wish to passing into, ```ID``` is the current user's ID
+
+    15th of Apr update:
+      [userID] is no longer needed
+                                                                                                                    -->
