@@ -120,6 +120,10 @@ export class ProfileComponent implements OnInit {
       }
     });
 
+    if (this.login == "") {
+      this.router.navigate(["/"]);
+    }
+
     this.http.get<ModProfile>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login)).subscribe({
       next: res => {
         this.profile = res;
