@@ -2,12 +2,13 @@ package team.bham.spotify.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import team.bham.service.dto.AlbumDTO;
+import team.bham.service.dto.ArtistDTO;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import team.bham.service.dto.AlbumDTO;
-import team.bham.service.dto.ArtistDTO;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AlbumResponse {
@@ -69,7 +70,7 @@ public class AlbumResponse {
         }
 
         Set<ArtistDTO> aset = new HashSet<>();
-        for (ArtistResponse a : this.artists) {
+        for (ArtistResponse a: this.artists) {
             ArtistDTO x = new ArtistDTO();
             x.setSpotifyURI(a.uri);
             aset.add(x);
