@@ -26,7 +26,6 @@
         </div>
       </div>
     </div>
-  </div>
   <br />
 
   <ngb-alert [dismissible]="true" *ngIf="showAddWantListen" (close)="this.showAlert = false">
@@ -107,6 +106,7 @@
       <!-- <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a> -->
     </div>
   </div>
+</div>
 
 
 <!--//Album Start from here-->
@@ -123,8 +123,6 @@
         <span class="rdate d-block">Total Tracks: {{ totalTracks }}</span>
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
         <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
-        <br />
-        <span class="description d-block">Description: {{ description }}</span>
       </div>
     </div>
   </div>

@@ -65,12 +65,16 @@
 
         <div *ngFor="let folder of folders; let i = index">
           <hr class="separator" *ngIf="i != 0" />
+          <a href="/folderPage/{{ folder.folderId }}">
           <div class="d-flex gap-3 align-items-center">
             <img style="max-width: 100px" src="{{ folder.imageURL }}" alt="" />
-            <div class="fs-5"><a href="/folderPage/{{ folder.folderId }}">{{ folder.folderName }}</a></div>
+            <div class="fs-5">{{ folder.folderName }}</div>
           </div>
+          </a>
         </div>
       </div>
+
+      <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length != 0"><a href="/addToFolder">Manage your lists</a></div>
     </div>
 
     <div class="col">
