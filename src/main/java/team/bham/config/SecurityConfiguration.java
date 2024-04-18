@@ -80,6 +80,7 @@ public class SecurityConfiguration {
             .antMatchers("/api/generate").permitAll()
             .antMatchers("/api/check/**").permitAll()
             .antMatchers("/api/leaderboard/**").permitAll()
+            .antMatchers("/api/discover/**").permitAll()
             .antMatchers("/api/want-to-listen-list/**").permitAll()
             .antMatchers("/api/want-to-listen-list-entries").permitAll()
             .antMatchers("/app/**/*.{js,html}").permitAll()

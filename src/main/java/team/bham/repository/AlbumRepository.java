@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import team.bham.domain.Album;
+import team.bham.domain.Track;
 
 /**
  * Spring Data JPA repository for the Album entity.
@@ -29,6 +30,9 @@ public interface AlbumRepository extends AlbumRepositoryWithBagRelationships, Jp
     default Page<Album> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    @Query("SELECT a FROM Album a WHERE a.name = :name")
+    Album fetchAlbumbyRecentReview(@Param("name") String name);
 
     @Query(
         "select a from Album a where a.releaseDate > :startTime and a.releaseDate <= :endTime and (a.name like %:text%) order by a.rating DESC, size(a.reviews) DESC, a.name ASC"

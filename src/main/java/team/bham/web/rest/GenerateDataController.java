@@ -48,4 +48,17 @@ public class GenerateDataController {
         }
         return resp;
     }
+
+    @GetMapping("generate-listen-entry")
+    public ResponseUtils generateListenEntry() {
+        ResponseUtils resp = null;
+        try {
+            generateTestDataService.generateTestWantToListenEntry();
+            resp = new ResponseUtils();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
 }

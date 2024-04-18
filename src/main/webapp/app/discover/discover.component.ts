@@ -1,43 +1,66 @@
 import { Component, OnInit } from '@angular/core';
-import dayjs from 'dayjs/esm';
-import { GetMusicService } from './getMusicService';
+import { DeviceService } from 'app/mobile/device.service';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from '../core/config/application-config.service';
 
 interface Record {
   id: number;
-  trackName: string;
+  trackName?: string | null;
   album: string;
-  reviews: number;
   rating: number;
   artist: string;
-  trackURI: string;
+  trackURI?: string | null;
+  albumURI?: string | null;
   imgURL: string;
 }
 
-interface Review {
+interface Folder {
   id: number;
-  date: dayjs.Dayjs;
+  folderId: number;
+  folderName: string;
+  username: string;
+  image: string;
 }
+
 @Component({
   selector: 'jhi-discover',
   templateUrl: './discover.component.html',
   styleUrls: ['./discover.component.scss'],
 })
-
-//need to implement getting a record based on date in Review
 export class DiscoverComponent implements OnInit {
-  trackURI = 'erg';
-  trackLink = '/rating/'.concat(this.trackURI);
+  page = 1;
   recordList: Record[] = [];
-  constructor(private getMusicService: GetMusicService) {}
+  spotifyURI!: string;
+  trackName: string = '';
+  folderList: Folder[] = [];
+  isMobile: boolean = false;
+
+  constructor(private deviceService: DeviceService, private http: HttpClient, private appConfig: ApplicationConfigService) {}
 
   ngOnInit(): void {
-    this.getMusicService.getRecord().subscribe(data => {
-      console.log('data: ');
-      console.log(data);
-      // this.recordList = data;
-      // console.log('recordList: ');
-      // console.log(this.recordList);
-      this.recordList = data.data.discover;
+    if (this.deviceService.isMobile()) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+
+    this.http.get<Record[]>(this.appConfig.getEndpointFor('/api/discover/track')).subscribe({
+      next: vowel => {
+        this.recordList = vowel;
+      },
+      error: err => {
+        //error handling
+        alert(JSON.stringify(err));
+      },
+    });
+
+    this.http.get<Folder[]>(this.appConfig.getEndpointFor('api/discover/folder')).subscribe({
+      next: cons => {
+        this.folderList = cons;
+      },
+      error: err => {
+        alert(JSON.stringify(err));
+      },
     });
   }
 }

@@ -6,11 +6,13 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
-import team.bham.spotify.responses.APIErrorResponse;
-import team.bham.spotify.responses.SearchResponse;
-import team.bham.spotify.responses.TrackResponse;
-import team.bham.spotify.responses.UserProfileResponse;
+import java.util.List;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import team.bham.service.dto.WantToListenListItem;
+import team.bham.spotify.responses.*;
 
 public class SpotifyAPI {
 
@@ -105,5 +107,59 @@ public class SpotifyAPI {
         }
 
         return SpotifyUtil.unmarshalJson(resp.body(), SearchResponse.class);
+    }
+
+    public PlaylistResponse createPlaylist() throws SpotifyException, IOException, InterruptedException {
+        UserProfileResponse currentUser = getCurrentUserProfile();
+        String pathString = "/users/".concat(currentUser.id).concat("/playlists");
+
+        //make HttpRequestBody
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("name", "Want-To-Listen List");
+        body.put("description", "Created by Backseat");
+        body.put("public", false);
+        body.put("collaborative", false);
+
+        //make HttpRequest
+        HttpRequest.Builder builder = getAuthenticatedRequestBuilder()
+            .uri(formUri(pathString))
+            .POST(HttpRequest.BodyPublishers.ofString(SpotifyUtil.marshalJSON(body)));
+        HttpResponse<String> resp = doHttpRequest(builder.build());
+
+        if (resp.statusCode() != 201) {
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class); // TODO: 403 ERROR
+            throw res.toException();
+        }
+
+        return SpotifyUtil.unmarshalJson(resp.body(), PlaylistResponse.class);
+    }
+
+    public void addWantToListenEntriesToPlaylist(List<WantToListenListItem> itemList, String playlistId)
+        throws SpotifyException, IOException, InterruptedException {
+        String pathString = "/playlists/" + playlistId + "/tracks";
+
+        List<String> uriList = new ArrayList<>();
+        for (WantToListenListItem item : itemList) {
+            uriList.add(item.getItemUri());
+            if (uriList.size() >= 100) { // spotify api only accept 100 uris in one request
+                break;
+            }
+        }
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("uris", uriList);
+        body.put("position", 0);
+
+        HttpResponse<String> resp = doHttpRequest(
+            getAuthenticatedRequestBuilder()
+                .uri(formUri(pathString))
+                .POST(HttpRequest.BodyPublishers.ofString(SpotifyUtil.marshalJSON(body)))
+                .build()
+        );
+
+        if (resp.statusCode() != 200) {
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
+            throw res.toException();
+        }
     }
 }
