@@ -33,7 +33,7 @@ public class ExploreFoldersServiceImpl implements ExploreFoldersService {
         ArrayList<Long> numbers = new ArrayList<Long>();
 
         int x = 0;
-        while (x < allFolders.size() && x < 10) {
+        while (x < allFolders.size() && x < 12) {
             long lowLimit = 0;
             long highLimit = allFolders.size();
             //System.out.println("highLimit: " + highLimit);

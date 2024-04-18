@@ -115,16 +115,19 @@ h2 {
 .rating {
   grid-column: 4 / span 2;
   grid-row: 1;
+  color: seagreen;
 }
 
 .artist {
   grid-column: 4 / span 2;
   grid-row: 2;
+  color: seagreen;
 }
 
 .recordName {
   grid-column: 4 / span 2;
   grid-row: 3 / span 2;
+  color: seagreen;
 }
 
 .recently-reviewed {
@@ -146,7 +149,7 @@ h2 {
   display: grid;
   -webkit-align-items: center;
   //flex-wrap: nowrap;
-  grid-template-columns: repeat(3, 3fr);
+  grid-template-columns: repeat(4, 3fr);
   grid-auto-rows: auto;
   grid-gap: 2rem;
   overflow-x: auto;
@@ -175,19 +178,22 @@ h2 {
 .folderName {
   grid-column: 1 / 3;
   grid-row: 2;
-  font-size: 30px;
+  font-size: 15px;
   color: seagreen;
 }
 
 .creatorName {
   grid-column: 1 / 3;
   grid-row: 3;
-  font-size: 25px;
+  font-size: 10px;
   color: darkseagreen;
 }
+//use if can't collapse sidebar TODO
+/*.display-folders::-webkit-scrollbar {
+  background-color: darkseagreen;
+}
 
-/*to be implemented*/
-/*.card .scroll-button :hover{
-  background-color: limegreen;
-  border-color: darkolivegreen;
-}*/
+.display-folders::-webkit-scrollbar-thumb {
+  background-color: seagreen;
+}
+*/
