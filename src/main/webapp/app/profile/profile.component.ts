@@ -69,6 +69,7 @@ interface ModArtist {
 })
 export class ProfileComponent implements OnInit {
   protected isSelf: boolean;
+  protected isAuthed: boolean = true;
   private login: string | null;
   protected profile: ModProfile | null = null;
   protected profilePhotoURL: string | null = null;
@@ -94,8 +95,10 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.identity().subscribe(acc => {
       if (acc == null) {
+        this.isAuthed = false;
         return;
       }
+      this.isAuthed = true;
 
       if (acc.login == this.login) {
         this.isSelf = true;
