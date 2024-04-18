@@ -23,4 +23,6 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
 
     @Query("SELECT f FROM Folder f ORDER BY f.id ASC")
     List<Folder> findAllOrderByIdAsc();
+
+    List<Folder> findAllByNameContaining(String name);
 }
