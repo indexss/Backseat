@@ -15,6 +15,7 @@ import team.bham.domain.Review;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Set<Review> findByTrackSpotifyURI(String spotifyURI);
+    Set<Review> findByAlbumSpotifyURI(String spotifyURI);
     Set<Review> findByAlbum(Album album);
 
     @Query("select r from Review r order by r.date DESC")

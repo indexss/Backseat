@@ -10,9 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.bham.domain.Album;
 import team.bham.domain.Artist;
 import team.bham.domain.Review;
 import team.bham.domain.Track;
+import team.bham.repository.AlbumRepository;
 import team.bham.repository.ReviewRepository;
 import team.bham.repository.TrackRepository;
 import team.bham.service.RecentlyReviewedService;
@@ -30,20 +32,29 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
     @Resource
     private ReviewRepository reviewRepository;
 
+    @Resource
+    private AlbumRepository albumRepository;
+
     @Override
     public List<RecentlyReviewedDTO> fetchRecentTrack() {
         ArrayList<RecentlyReviewedDTO> recentTrackDTO = new ArrayList<>();
         List<Review> rrByTrackName = reviewRepository.fetchRecentReviews();
-        //System.out.println("rrByTrackName: " + rrByTrackName);
+        System.out.println("rrByTrackName: " + rrByTrackName);
         List<Track> tracks = new ArrayList<>();
+        List<Album> albums = new ArrayList<>();
+
         int x = 0;
         while (x < rrByTrackName.size() && x < 50) {
             for (int j = 0; j < min(rrByTrackName.size(), 50); j++) {
-                String rrName = rrByTrackName.get(j).getTrack().getName();
-                //System.out.println("rrName: " + rrName);
-                Track trackName = trackRepository.fetchTrackbyRecentReview(rrName);
-                //System.out.println("trackName: " + trackName);
-                tracks.add(trackName);
+                if (rrByTrackName.get(j).getTrack() != null) {
+                    String rrName = rrByTrackName.get(j).getTrack().getName();
+                    Track trackName = trackRepository.fetchTrackbyRecentReview(rrName);
+                    tracks.add(trackName);
+                } else {
+                    String rrAlbumName = rrByTrackName.get(j).getAlbum().getName();
+                    Album albumName = albumRepository.fetchAlbumbyRecentReview(rrAlbumName);
+                    albums.add(albumName);
+                }
                 //System.out.println("tracks: " + tracks);
                 x += 1;
                 //System.out.println("x: " + x);
@@ -64,6 +75,22 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
             rrDTO.setReviews(byTrackSpotifyURI.size());
             //System.out.println("rrDTO: " + rrDTO);
 
+            recentTrackDTO.add(rrDTO);
+            //System.out.println("recentTrackDTO: " + recentTrackDTO);
+        }
+        for (int k = 0; k < albums.size(); k++) {
+            RecentlyReviewedDTO rrDTO = new RecentlyReviewedDTO();
+            rrDTO.setId(k + 1);
+            rrDTO.setAlbumURI(albums.get(k).getSpotifyURI());
+            rrDTO.setAlbum(albums.get(k).getName());
+            rrDTO.setRating(albums.get(k).getRating());
+            rrDTO.setImgURL(albums.get(k).getImageURL());
+            Set<Artist> artistSet = albums.get(k).getArtists();
+            List<Artist> artistList = new ArrayList<>(artistSet);
+            rrDTO.setArtist(artistList.get(0).getName());
+            Set<Review> byAlbumSpotifyURI = reviewRepository.findByAlbumSpotifyURI(rrDTO.getAlbumURI());
+            rrDTO.setReviews(byAlbumSpotifyURI.size());
+            //System.out.println("rrDTO: " + rrDTO);
             recentTrackDTO.add(rrDTO);
             //System.out.println("recentTrackDTO: " + recentTrackDTO);
         }

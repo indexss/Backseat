@@ -149,7 +149,7 @@ h2 {
   display: grid;
   -webkit-align-items: center;
   //flex-wrap: nowrap;
-  grid-template-columns: repeat(4, 3fr);
+  grid-template-columns: repeat(3, 4fr);
   grid-auto-rows: auto;
   grid-gap: 2rem;
   overflow-x: auto;
@@ -188,6 +188,11 @@ h2 {
   font-size: 10px;
   color: darkseagreen;
 }
+
+.mobile-h1 {
+  font-size: 1.2em;
+}
+
 //use if can't collapse sidebar TODO
 /*.display-folders::-webkit-scrollbar {
   background-color: darkseagreen;

@@ -51,7 +51,7 @@
 
   <h1>EXPLORE FOLDERS</h1>
 
-  <div class="display-folders">
+  <div *ngIf="!isMobile" class="display-folders">
     <div class="folder-card" *ngFor="let folder of folderList; let i = index">
       <div class="coverImg">
         <a [routerLink]="['/folderPage', folder.folderId]">
@@ -61,9 +61,25 @@
             style="width: 300px; height: 300px"
             [alt]="['Cover art for folder ', folder.folderName, ' made by ', folder.userName]"
           />
+          <div class="folderName">{{ folder.folderName }}</div>
         </a>
       </div>
-      <div class="folderName">{{ folder.folderName }}</div>
+      <div class="creatorName">{{ folder.userName }}</div>
+    </div>
+  </div>
+  <div *ngIf="isMobile" class="display-folders">
+    <div class="folder-card" *ngFor="let folder of folderList; let i = index">
+      <div class="coverImg">
+        <a [routerLink]="['/folderPage', folder.folderId]">
+          <img
+            class="rounded"
+            [src]="folder.image"
+            style="width: 300px; height: 300px"
+            [alt]="['Cover art for folder ', folder.folderName, ' made by ', folder.userName]"
+          />
+          <div class="folderName">{{ folder.folderName }}</div>
+        </a>
+      </div>
       <div class="creatorName">{{ folder.userName }}</div>
     </div>
   </div>

@@ -5,11 +5,12 @@ import { ApplicationConfigService } from '../core/config/application-config.serv
 
 interface Record {
   id: number;
-  trackName: string;
+  trackName?: string | null;
   album: string;
   rating: number;
   artist: string;
-  trackURI: string;
+  trackURI?: string | null;
+  albumURI?: string | null;
   imgURL: string;
 }
 
@@ -32,10 +33,13 @@ export class DiscoverComponent implements OnInit {
   spotifyURI!: string;
   trackName: string = '';
   folderList: Folder[] = [];
+  isMobile: boolean = false;
 
   constructor(private deviceService: DeviceService, private http: HttpClient, private appConfig: ApplicationConfigService) {}
 
   ngOnInit(): void {
+    this.isMobile = this.deviceService.isMobile();
+
     this.http.get<Record[]>(this.appConfig.getEndpointFor('/api/discover/track')).subscribe({
       next: vowel => {
         this.recordList = vowel;

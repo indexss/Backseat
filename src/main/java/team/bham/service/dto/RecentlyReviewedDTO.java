@@ -11,6 +11,7 @@ public class RecentlyReviewedDTO {
     private Double rating;
     private String artist;
     private String trackURI;
+    private String albumURI;
 
     public String getImgURL() {
         return imgURL;
@@ -32,7 +33,8 @@ public class RecentlyReviewedDTO {
         Integer reviews,
         Double rating,
         String artist,
-        String trackURI
+        String trackURI,
+        String albumURI
     ) {
         this.id = id;
         this.imgURL = imgURL;
@@ -42,6 +44,7 @@ public class RecentlyReviewedDTO {
         this.rating = rating;
         this.artist = artist;
         this.trackURI = trackURI;
+        this.albumURI = albumURI;
     }
 
     public int getId() {
@@ -98,5 +101,13 @@ public class RecentlyReviewedDTO {
 
     public void setTrackURI(String trackURI) {
         this.trackURI = trackURI;
+    }
+
+    public String getAlbumURI() {
+        return albumURI;
+    }
+
+    public void setAlbumURI(String albumURI) {
+        this.albumURI = albumURI;
     }
 }
