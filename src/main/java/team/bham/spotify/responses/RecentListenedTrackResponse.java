@@ -7,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class RecentListenedTrackResponse {
 
     @JsonProperty("items")
-    public Item[] items;
+    public Items[] items;
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Item {
+    public static class Items {
 
         @JsonProperty("track")
         public Track track;

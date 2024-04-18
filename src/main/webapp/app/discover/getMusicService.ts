@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class GetMusicService {
+export class RecentlyReviewedService {
   constructor(private http: HttpClient) {}
-  getRecord(): Observable<any> {
-    return this.http.get('api/discover/record');
+  fetchRecentTrack(): Observable<any> {
+    return this.http.get('api/discover/track'); //TODO i think this needs editing
   }
 }

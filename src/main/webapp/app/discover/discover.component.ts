@@ -1,8 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import dayjs from 'dayjs/esm';
-import { GetMusicService } from './getMusicService';
+import { RecentlyReviewedService } from './getMusicService';
 import { getRecentlyListenedService } from './getRecentlyListenedService';
 import { testService } from './test.service';
+import { DeviceService } from 'app/mobile/device.service';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { ITrack } from '../entities/track/track.model';
+import { TrackService } from '../entities/track/service/track.service';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from '../core/config/application-config.service';
+import { IArtist } from '../entities/artist/artist.model';
+import { IAlbum } from '../entities/album/album.model';
+import { IProfile } from '../entities/profile/profile.model';
+import { ReviewService } from '../entities/review/service/review.service';
+import { IReview } from '../entities/review/review.model';
+import { min } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface Record {
   id: number;
@@ -18,6 +32,10 @@ interface Record {
 interface Review {
   id: number;
   date: dayjs.Dayjs;
+}
+
+interface Rating {
+  rating: number;
 }
 
 interface RecentTrackResponse {
@@ -88,11 +106,22 @@ export class DiscoverComponent implements OnInit {
   Track: RecentTrackResponse[] = [];
   Test: String[] = [];
   isSidebarOpen: boolean = false;
+  page = 1;
+  spotifyURI!: string;
+  trackName: string = '';
+  rating: Rating[] = [];
 
   constructor(
-    private getMusicService: GetMusicService,
+    private getMusicService: RecentlyReviewedService,
     private recentlyListenedTracksService: getRecentlyListenedService,
-    private testing: testService
+    private testing: testService,
+
+    private http: HttpClient,
+    private appConfig: ApplicationConfigService,
+
+    private route: ActivatedRoute,
+    private trackService: TrackService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -107,6 +136,31 @@ export class DiscoverComponent implements OnInit {
       },
       complete: () => {
         console.log('Request completed');
+      },
+    });
+    this.http.get<Rating>(this.appConfig.getEndpointFor('/api/discover/rating')).subscribe({
+      next: (data: Rating) => {
+        console.log('Response:', data);
+        this.rating[0] = data;
+        console.log(this.rating, '#########################################################################################');
+      },
+      error: error => {
+        console.error('Error:', error);
+      },
+      complete: () => {
+        console.log('Request completed');
+      },
+    });
+
+    this.http.get<Record[]>(this.appConfig.getEndpointFor('/api/discover/track')).subscribe({
+      next: vowel => {
+        this.recordList = vowel;
+        console.log(this.recordList[0], '#########################################################################################');
+      },
+      error: err => {
+        //error handling
+        console.log('Error', err);
+        alert(JSON.stringify(err));
       },
     });
   }
