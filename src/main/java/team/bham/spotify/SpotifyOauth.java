@@ -11,13 +11,13 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import team.bham.config.ApplicationProperties;
-import team.bham.service.SpotifyConnectionService;
 import team.bham.spotify.responses.AccessTokenResponse;
 import team.bham.spotify.responses.AuthenticationErrorResponse;
 
 public class SpotifyOauth {
 
-    public static final String SCOPES = "user-read-recently-played";
+    public static final String SCOPES =
+        "user-read-recently-played playlist-read-private playlist-read-collaborative playlist-modify-private playlist-modify-public";
 
     private final ApplicationProperties appProps;
 
@@ -34,7 +34,7 @@ public class SpotifyOauth {
             throw new RuntimeException(e);
         }
 
-        return Util.bytesToHexString(rawState);
+        return SpotifyUtil.bytesToHexString(rawState);
     }
 
     private static String generateInboundOauthUrl(HttpServletRequest request) {
@@ -49,7 +49,7 @@ public class SpotifyOauth {
         params.put("redirect_uri", generateInboundOauthUrl(request));
         params.put("state", state);
 
-        return "https://accounts.spotify.com/authorize?" + Util.createUrlEncodedString(params);
+        return "https://accounts.spotify.com/authorize?" + SpotifyUtil.createUrlEncodedString(params);
     }
 
     public AccessTokenResponse performTokenExchange(HttpServletRequest request, String code)
@@ -63,7 +63,7 @@ public class SpotifyOauth {
             HttpRequest
                 .newBuilder()
                 .uri(URI.create("https://accounts.spotify.com/api/token"))
-                .POST(HttpRequest.BodyPublishers.ofString(Util.createUrlEncodedString(params)))
+                .POST(HttpRequest.BodyPublishers.ofString(SpotifyUtil.createUrlEncodedString(params)))
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header(
                     "Authorization",
@@ -76,10 +76,10 @@ public class SpotifyOauth {
         );
 
         if (resp.statusCode() != 200) {
-            AuthenticationErrorResponse err = Util.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
+            AuthenticationErrorResponse err = SpotifyUtil.unmarshalJson(resp.body(), AuthenticationErrorResponse.class);
             throw new SpotifyException("unable to obtain Spotify access token: " + err.errorDescription, err.error);
         }
 
-        return Util.unmarshalJson(resp.body(), AccessTokenResponse.class);
+        return SpotifyUtil.unmarshalJson(resp.body(), AccessTokenResponse.class);
     }
 }

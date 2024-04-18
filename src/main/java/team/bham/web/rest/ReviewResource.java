@@ -2,14 +2,14 @@ package team.bham.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -17,9 +17,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import team.bham.domain.Album;
+import team.bham.domain.Artist;
+import team.bham.domain.Review;
+import team.bham.domain.Track;
+import team.bham.repository.AlbumRepository;
+import team.bham.repository.ArtistRepository;
 import team.bham.repository.ReviewRepository;
+import team.bham.repository.TrackRepository;
+import team.bham.service.AlbumService;
+import team.bham.service.ArtistService;
 import team.bham.service.ReviewService;
+import team.bham.service.dto.AlbumDTO;
 import team.bham.service.dto.ReviewDTO;
+import team.bham.service.mapper.ReviewMapper;
 import team.bham.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -42,10 +53,19 @@ public class ReviewResource {
     private final ReviewService reviewService;
 
     private final ReviewRepository reviewRepository;
+    private final TrackRepository trackRepository;
+    private final ArtistRepository artistRepository;
 
-    public ReviewResource(ReviewService reviewService, ReviewRepository reviewRepository) {
+    public ReviewResource(
+        ReviewService reviewService,
+        ReviewRepository reviewRepository,
+        TrackRepository trackRepository,
+        ArtistRepository artistRepository
+    ) {
         this.reviewService = reviewService;
         this.reviewRepository = reviewRepository;
+        this.trackRepository = trackRepository;
+        this.artistRepository = artistRepository;
     }
 
     /**
@@ -150,6 +170,34 @@ public class ReviewResource {
         Page<ReviewDTO> page = reviewService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    public static class ExtendedReview {
+
+        public Review review;
+        public List<String> artists;
+    }
+
+    @GetMapping("/reviews/byProfile/{id}")
+    public List<ExtendedReview> getAllMyReviews(@PathVariable Long id) {
+        log.debug("REST request to get a all my Reviews");
+        List<Review> page = reviewRepository.findAll();
+        List<ExtendedReview> res = new ArrayList<>();
+
+        for (Review r : page) {
+            if (id.equals(r.getProfile().getId())) {
+                ExtendedReview er = new ExtendedReview();
+                er.review = r;
+                er.artists =
+                    this.artistRepository.findByTracks_SpotifyURI(r.getTrack().getSpotifyURI())
+                        .stream()
+                        .map(Artist::getName)
+                        .collect(Collectors.toList());
+                res.add(er);
+            }
+        }
+
+        return res;
     }
 
     /**

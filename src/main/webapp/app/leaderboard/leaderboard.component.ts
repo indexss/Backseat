@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, PipeTransform } from '@angular/core';
+import { Component, OnInit, HostListener, PipeTransform, TemplateRef } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 
@@ -6,10 +6,13 @@ import { Observable } from 'rxjs';
 import { endWith, map, startWith } from 'rxjs/operators';
 import { FetchTrackLeaderboardService } from './fetch-track-leaderboard.service';
 import { DeviceService } from 'app/mobile/device.service';
-import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { AccountService } from '../core/auth/account.service';
+import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
+import { NavbarComponent } from '../layouts/navbar/navbar.component';
 
 interface Record {
   id: number;
@@ -21,6 +24,13 @@ interface Record {
   trackURI: string;
   imgURL: string;
   newItem?: boolean;
+}
+
+interface Folder {
+  id: number;
+  folderId: number;
+  folderName: string;
+  imageURL: string;
 }
 
 @Component({
@@ -36,6 +46,9 @@ export class LeaderboardComponent implements OnInit {
   recordList: Record[] = [];
   ismobile: boolean = false;
   isCollapsed = true;
+  spotifyURI!: string;
+  modalRef!: NgbModalRef;
+  folderList: Folder[] = [];
 
   faFilter = faFilter;
   faSquarePlus = faSquarePlus;
@@ -76,7 +89,13 @@ export class LeaderboardComponent implements OnInit {
     this.darkMode = !this.darkMode;
   }
 
-  constructor(private fetchTrackLeaderboardService: FetchTrackLeaderboardService, private deviceService: DeviceService) {}
+  constructor(
+    private fetchTrackLeaderboardService: FetchTrackLeaderboardService,
+    private deviceService: DeviceService,
+    private modalService: NgbModal,
+    private accountService: AccountService,
+    private addToFolderService: AddToFolderService
+  ) {}
 
   getTodayDate(): string {
     const today = new Date();
@@ -93,6 +112,10 @@ export class LeaderboardComponent implements OnInit {
       this.ismobile = false;
     }
 
+    this.addToFolderService.getUserFolder().subscribe(data => {
+      this.folderList = data.data.folder;
+    });
+
     this.fetchTrackLeaderboardService
       .getTrackLeaderboard({
         page: this.page,
@@ -107,6 +130,28 @@ export class LeaderboardComponent implements OnInit {
         this.pageSize = 30;
         this.page += 1;
       });
+  }
+
+  openModal(spotifyURI: string, content: TemplateRef<any>): void;
+  openModal(content: TemplateRef<any>): void;
+
+  openModal(arg1: any, arg2?: any): void {
+    if (typeof arg1 === 'string') {
+      this.spotifyURI = arg1;
+      this.modalRef = this.modalService.open(arg2, { centered: true });
+    } else {
+      this.modalService.open(arg1, { centered: true });
+    }
+  }
+
+  addToFolder(folderId: number) {
+    console.log(`Adding trackURI: ${this.spotifyURI} to folderId: ${folderId}`);
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.addToFolderService.addEntryFolder(this.spotifyURI, folderId).subscribe(data => {});
+      }
+    });
+    this.modalRef.close();
   }
 
   addAllWithAnimation(records: Record[]) {
@@ -153,7 +198,6 @@ export class LeaderboardComponent implements OnInit {
   }
 
   clear() {
-    //刷新网页
     window.location.reload();
   }
 
@@ -162,14 +206,14 @@ export class LeaderboardComponent implements OnInit {
     const pos = window.scrollY + window.innerHeight;
     const max = document.documentElement.scrollHeight;
 
-    if (pos >= max) {
+    if (pos >= (max / 10) * 7) {
       if (this.recordList.length < this.pageSize) {
         this.hasMore = false;
       } else {
         this.hasMore = true;
       }
     }
-    if (pos >= max && !this.isLoading && this.hasMore) {
+    if (pos >= (max / 10) * 7 && !this.isLoading && this.hasMore) {
       // console.log('pos1:', pos);
       // console.log('max1:', max);
       // console.log('page1:', this.page);

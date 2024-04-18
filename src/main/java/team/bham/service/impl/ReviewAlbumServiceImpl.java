@@ -34,9 +34,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
     //get albumName
     private AlbumRepository albumRepository;
 
-    //    @Resource
-    //    //get artistName
-    //    private ArtistRepository artistRepository;
     @Resource
     //    //get reviewList
     private ReviewRepository reviewRepository;
@@ -62,17 +59,8 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             reviewAlbumDTO.setReviewList(reviewSet);
             Set<Track> trackSet = new HashSet<>();
             reviewAlbumDTO.setTrack(trackSet);
-            //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
             trackSet.addAll(optionalTrackList);
             reviewAlbumDTO.pushTrackList(trackSet);
-
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-------optionalTrackList in ReviewAlbumServiceImpl-----------");
-            System.out.println(trackSet);
-            System.out.println("+++++++++++++++++++++++" + reviewAlbumDTO.getTracks());
-            //到这里为止成功返回了
             reviewAlbumDTO.setImgURL(album.getImageURL());
             reviewAlbumDTO.setTotalTracks(album.getTotalTracks());
             StringBuilder artistNameBuilder = new StringBuilder();
@@ -88,12 +76,9 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             }
             reviewAlbumDTO.setArtistName(artistNameBuilder.toString());
 
-            //        reviewTrackDTO.setArtistName(track.getArtists().toString());
-            //        reviewTrackDTO.setReviewList(track.getReviews());
             Set<Track> trackList = reviewAlbumDTO.getTracks();
             System.out.println(trackList + "==============================");
             Set<Review> reviewList = reviewRepository.findByAlbum(album);
-            //成功到这为止是成功的
             ArrayList<Review> reviews = new ArrayList<>(reviewList);
             double sum = 0;
             for (int i = 0; i < reviews.size(); i++) {
@@ -112,14 +97,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             System.out.println("In fetchAlbumReview:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-            //            Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
-            //            ArrayList<Review> reviews = new ArrayList<>(reviewList);
-            //            double sum = 0;
-            //            for (int i = 0; i < reviews.size(); i++) {
-            //                sum += reviews.get(i).getRating();
-            //            }
-            //            reviewTrackDTO.setAvgRating((sum * 1.0) / reviews.size());
-            //            reviewTrackDTO.setReviewList(reviewList);
             System.out.println(reviewAlbumDTO.getReviewList());
             reviewAlbumDTO.setAvgRating();
         } catch (Exception e) {}
@@ -143,17 +120,8 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             reviewAlbumDTO.setReviewList(reviewSet);
             Set<Track> trackSet = new HashSet<>();
             reviewAlbumDTO.setTrack(trackSet);
-            //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
             trackSet.addAll(optionalTrackList);
             reviewAlbumDTO.pushTrackList(trackSet);
-
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-----------------------------");
-            System.out.println("-------optionalTrackList in ReviewAlbumServiceImpl-----------");
-            System.out.println(trackSet);
-            System.out.println("+++++++++++++++++++++++" + reviewAlbumDTO.getTracks());
-            //到这里为止成功返回了
             reviewAlbumDTO.setImgURL(album.getImageURL());
             reviewAlbumDTO.setTotalTracks(album.getTotalTracks());
             StringBuilder artistNameBuilder = new StringBuilder();
@@ -169,14 +137,11 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             }
             reviewAlbumDTO.setArtistName(artistNameBuilder.toString());
 
-            //        reviewTrackDTO.setArtistName(track.getArtists().toString());
-            //        reviewTrackDTO.setReviewList(track.getReviews());
             Set<Track> trackList = reviewAlbumDTO.getTracks();
             System.out.println(trackList + "==============================");
             ArrayList<Track> tracks = new ArrayList<>(trackList);
             for (int j = 0; j < reviewAlbumDTO.getTracks().size(); j++) {
                 Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(tracks.get(j).getSpotifyURI());
-                //成功到这为止是成功的
                 ArrayList<Review> reviews = new ArrayList<>(reviewList);
                 double sum = 0;
                 for (int i = 0; i < reviews.size(); i++) {
@@ -185,14 +150,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
                 reviewAlbumDTO.pushAvgRating((sum * 1.0) / reviews.size());
                 reviewAlbumDTO.pushReviewList(reviewList);
             }
-            //            Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
-            //            ArrayList<Review> reviews = new ArrayList<>(reviewList);
-            //            double sum = 0;
-            //            for (int i = 0; i < reviews.size(); i++) {
-            //                sum += reviews.get(i).getRating();
-            //            }
-            //            reviewTrackDTO.setAvgRating((sum * 1.0) / reviews.size());
-            //            reviewTrackDTO.setReviewList(reviewList);
             System.out.println(reviewAlbumDTO.getReviewList());
             reviewAlbumDTO.setAvgRating();
         } catch (Exception e) {}
@@ -200,11 +157,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
 
         return reviewAlbumDTO;
     }
-
-    //    @Override
-    //    public ReviewAlbumDTO fetchReviewAndAlbumInfo(String albumSpotifyId) {
-    //        return null;
-    //    }
 
     @Override
     public void addReview(int rating, String content, String albumId, String username) {
@@ -262,7 +214,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
                 );
                 System.out.println(review);
                 iterator.remove();
-                // 如果你需要从数据库中也删除这个Review，确保调用repository的delete方法
                 reviewRepository.delete(review);
             }
             System.out.println(albumId);

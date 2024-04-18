@@ -1,3 +1,5 @@
+.h2.server.properties
+
 .history/*
 src/main/resources/config/application-dev.yml
 

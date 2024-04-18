@@ -17,7 +17,7 @@
             <column name="refresh_token" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="access_token" type="varchar(255)">
+            <column name="access_token" type="varchar(1024)">
                 <constraints nullable="false" />
             </column>
             <column name="access_token_expires_at" type="${datetimeType}">
