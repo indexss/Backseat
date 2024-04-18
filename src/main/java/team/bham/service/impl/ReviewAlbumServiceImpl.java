@@ -74,6 +74,7 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
                 }
             }
             reviewAlbumDTO.setArtistName(artistNameBuilder.toString());
+
             Set<Track> trackList = reviewAlbumDTO.getTracks();
             Set<Review> reviewList = reviewRepository.findByAlbum(album);
             ArrayList<Review> reviews = new ArrayList<>(reviewList);
@@ -84,7 +85,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             reviewAlbumDTO.pushAvgRating((sum * 1.0) / reviews.size());
             reviewAlbumDTO.pushReviewList(reviewList);
 
-            System.out.println(reviewAlbumDTO.getReviewList());
             reviewAlbumDTO.setAvgRating();
         } catch (Exception e) {}
         //TODO: Error handling
@@ -109,7 +109,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             reviewAlbumDTO.setTrack(trackSet);
             trackSet.addAll(optionalTrackList);
             reviewAlbumDTO.pushTrackList(trackSet);
-
             reviewAlbumDTO.setImgURL(album.getImageURL());
             reviewAlbumDTO.setTotalTracks(album.getTotalTracks());
             StringBuilder artistNameBuilder = new StringBuilder();
@@ -192,6 +191,14 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
         while (iterator.hasNext()) {
             Review review = iterator.next();
             if (review.getProfile().equals(profile)) {
+                System.out.println(review);
+                System.out.println(
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting" +
+                    "Test Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review DeletingTest Review Deleting"
+                );
+                System.out.println(review);
                 iterator.remove();
                 reviewRepository.delete(review);
             }

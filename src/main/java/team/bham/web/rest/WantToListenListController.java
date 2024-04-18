@@ -2,11 +2,11 @@ package team.bham.web.rest;
 
 import java.util.List;
 import javax.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import team.bham.domain.WantToListenListEntry;
-import team.bham.service.WantToListenListEntryService;
 import team.bham.service.WantToListenListService;
-import team.bham.service.dto.WantToListenListItem;
 import team.bham.utils.ResponseUtils;
 
 @RestController
@@ -15,9 +15,6 @@ public class WantToListenListController {
 
     @Resource
     private WantToListenListService wantListService;
-
-    @Resource
-    private WantToListenListEntryService entryService;
 
     @GetMapping("/all")
     public ResponseUtils fetchAllListEntries() {
@@ -32,15 +29,20 @@ public class WantToListenListController {
         return resp;
     }
 
-    @GetMapping("/user")
-    public ResponseUtils fetchEntriesByUser(@RequestParam String userID) {
+    @GetMapping("/test")
+    public ResponseUtils fetchTestList() {
         ResponseUtils resp;
         try {
-            //new service to be testing!! TODO: GET api testing: 1. check 'artists'  2. check 'addTime'   3. check 'releaseDate'
-            List<WantToListenListItem> itemList = wantListService.fetchUserWantToListenList(userID);
-            resp = new ResponseUtils().put(userID, itemList);
+            String json =
+                "[{" +
+                "\"id\": 0," +
+                "\"spotifyURI\": \"String\"," +
+                "\"userID\": \"String\"," +
+                "\"addTime\": \"2024-03-19T21:20:39.402Z\"" +
+                "}]";
+            resp = new ResponseUtils().put("test", json);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Testing Error");
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
         }
         return resp;

@@ -1,5 +1,6 @@
 package team.bham.spotify;
 
+import io.micrometer.core.instrument.search.Search;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -7,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import team.bham.spotify.responses.APIErrorResponse;
+import team.bham.spotify.responses.SearchResponse;
 import team.bham.spotify.responses.TrackResponse;
 import team.bham.spotify.responses.UserProfileResponse;
 
@@ -81,5 +83,27 @@ public class SpotifyAPI {
         }
 
         return SpotifyUtil.unmarshalJson(resp.body(), TrackResponse.class);
+    }
+
+    public SearchResponse search(String query, String type) throws SpotifyException, IOException, InterruptedException {
+        // TODO(txp271): add toggle for search type?
+        String pathString = "/search";
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("query", query);
+        params.put("type", type);
+        params.put("limit", "20");
+        pathString = pathString.concat("?" + SpotifyUtil.createUrlEncodedString(params));
+
+        HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri(pathString)).build());
+
+        System.err.println(resp.body());
+
+        if (resp.statusCode() != 200) {
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
+            throw res.toException();
+        }
+
+        return SpotifyUtil.unmarshalJson(resp.body(), SearchResponse.class);
     }
 }

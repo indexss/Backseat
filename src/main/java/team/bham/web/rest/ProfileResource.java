@@ -199,14 +199,15 @@ public class ProfileResource {
     @GetMapping("/profiles/byLogin/{login}")
     public ResponseEntity<Profile> getProfileByLogin(@PathVariable String login) {
         log.debug("REST request to get Profile by login: {}", login);
-        return ResponseUtil.wrapOrNotFound(profileRepository.findByUserLogin(login.toLowerCase()));
+        Optional<Profile> res = profileRepository.findByUserLogin(login.toLowerCase());
+        res.ifPresent(profile -> profile.setSpotifyConnection(null));
+        return ResponseUtil.wrapOrNotFound(res);
     }
 
     @GetMapping("/profiles/byLogin/{login}/profilePhoto")
     public ResponseEntity<String> getProfilePhotoByLogin(@PathVariable String login)
         throws SpotifyException, IOException, InterruptedException {
         Optional<Profile> profOpt = profileRepository.findByUserLogin(login.toLowerCase());
-
         if (profOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

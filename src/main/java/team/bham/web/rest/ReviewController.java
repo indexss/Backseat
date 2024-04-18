@@ -53,6 +53,15 @@ public class ReviewController {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
         }
+        //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //        String userId = null;
+        //        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+        //            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        //            userId = userDetails.getUsername();
+        //        } else if (authentication != null && authentication.getPrincipal() instanceof String) {
+        //            userId = (String) authentication.getPrincipal();
+        //        }
+        //        System.out.println("%%%%%%%%%%%988888888 UserId is:" + userId);
         return resp;
     }
 
@@ -136,6 +145,9 @@ public class ReviewController {
         } else if (authentication != null && authentication.getPrincipal() instanceof String) {
             userId = (String) authentication.getPrincipal();
         }
+        System.out.println("77777777777777777777777777777: " + addReviewDTO.getId());
+        System.out.println("77777777777777777777777777777: " + addReviewDTO.getId());
+        System.out.println("77777777777777777777777777777: " + addReviewDTO.getId());
 
         //        System.out.println("888888888888888888888888: " + userId);
         try {

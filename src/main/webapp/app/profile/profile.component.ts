@@ -9,8 +9,11 @@ import { ApplicationConfigService } from '../core/config/application-config.serv
 import { IUser } from '../entities/user/user.model';
 import { ISpotifyConnection } from '../entities/spotify-connection/spotify-connection.model';
 import { FollowService } from '../entities/follow/service/follow.service';
-import {FolderService} from "../entities/folder/service/folder.service";
-import {IFolder} from "../entities/folder/folder.model";
+import { FolderService } from '../entities/folder/service/folder.service';
+import { IFolder } from '../entities/folder/folder.model';
+import { IReview } from '../entities/review/review.model';
+import { ReviewService } from '../entities/review/service/review.service';
+import { ITrack } from '../entities/track/track.model';
 
 interface ModUser {
   id: number;
@@ -33,6 +36,30 @@ interface AbbreviatedFollow {
   photoURL: string;
 }
 
+interface ModFolder {
+  folderId: number;
+  folderName: string;
+  imageURL: string;
+}
+
+interface ExtendedReview {
+  review: ModReview;
+  artists: ModArtist[];
+}
+
+interface ModReview {
+  id: number;
+  content: string;
+  date: Date | string;
+  profile: ModProfile;
+  track: ITrack;
+  rating: number;
+}
+
+interface ModArtist {
+  name: string;
+}
+
 @Component({
   selector: 'jhi-profile',
   templateUrl: './profile.component.html',
@@ -46,7 +73,8 @@ export class ProfileComponent implements OnInit {
   protected isFollowing: boolean | null = null;
 
   protected friends: AbbreviatedFollow[] = [];
-  protected folders: IFolder[] = [];
+  protected folders: ModFolder[] = [];
+  protected reviews: ExtendedReview[] = [];
 
   constructor(
     private router: Router,
@@ -94,15 +122,55 @@ export class ProfileComponent implements OnInit {
       next: res => {
         this.profile = res;
 
-        this.http.get<IFolder[]>(this.applicationConfigService.getEndpointFor("/api/folders/byProfile/" + this.profile?.id)).subscribe({
-          next: (res) => {
-            console.debug("Folders", res);
+        this.http.get<ModFolder[]>(this.applicationConfigService.getEndpointFor('/api/folders/byProfile/' + this.login)).subscribe({
+          next: res => {
+            console.debug('Folders', res);
             this.folders = res;
+
+            if (this.profile != null && 'id' in this.profile) {
+              this.http
+                .get<ExtendedReview[]>(this.applicationConfigService.getEndpointFor('/api/reviews/byProfile/' + this.profile.id))
+                .subscribe({
+                  next: res => {
+                    console.debug('Reviews', res);
+                    this.reviews = res
+                      .map(v => {
+                        v.review.date = new Date(v.review.date);
+                        return v;
+                      })
+                      .sort((a: ExtendedReview, b: ExtendedReview): number => {
+                        if (a.review.date > b.review.date) {
+                          return -1;
+                        }
+                        if (a.review.date < b.review.date) {
+                          return 1;
+                        }
+                        return 0;
+                      })
+                      .map(v => {
+                        v.review.date = (<Date>v.review.date).toLocaleDateString('en-GB', {
+                          weekday: 'short',
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        });
+                        return v;
+                      });
+
+                    console.debug(new Date(this.reviews[0].review.date));
+                  },
+                  error: err => {
+                    alert('Failed to get reviews\n' + JSON.stringify(err));
+                  },
+                });
+            } else {
+              alert('Failed to get reviews: null ID');
+            }
           },
-          error: (err) => {
-            alert("Get folders " + JSON.stringify(err));
+          error: err => {
+            alert('Get folders ' + JSON.stringify(err));
             this.router.navigate([]);
-          }
+          },
         });
 
         this.http
@@ -118,7 +186,11 @@ export class ProfileComponent implements OnInit {
       error: err => {
         // This might be a profile ID instead - let's try getting that, and if it works, redirect to that profile.
 
-        console.debug('lol hi');
+        if (err.status == 401) {
+          alert('Please log in first');
+          this.router.navigate(['/login']);
+          return;
+        }
 
         if (err.status != 404) {
           alert(JSON.stringify(err));

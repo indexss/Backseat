@@ -1,21 +1,16 @@
 package team.bham.service.impl;
 
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import team.bham.domain.Album;
-import team.bham.domain.Artist;
-import team.bham.domain.Track;
 import team.bham.domain.WantToListenListEntry;
 import team.bham.repository.AlbumRepository;
 import team.bham.repository.ArtistRepository;
 import team.bham.repository.TrackRepository;
 import team.bham.repository.WantToListenListEntryRepository;
 import team.bham.service.WantToListenListService;
-import team.bham.service.dto.WantToListenListItem;
 
 @Service
 @Transactional
@@ -39,70 +34,7 @@ public class WantToListenListServiceImpl implements WantToListenListService {
     }
 
     @Override
-    public List<WantToListenListItem> fetchUserWantToListenList(@Param("UserID") String userID) {
-        //re-organized list before return value
-        //return well-formed value for frontend
-        List<WantToListenListEntry> entryList = wantListRepository.findAllByUserIDOrderByAddTimeDesc(userID);
-        if (entryList.isEmpty()) {
-            return null;
-        }
-
-        List<WantToListenListItem> itemList = new ArrayList<>();
-        for (WantToListenListEntry entry : entryList) { //Add item infos for each entry
-            String itemURI = entry.getSpotifyURI();
-            System.out.println("**************entry.spotifyURI = " + itemURI);
-
-            WantToListenListItem newItem = new WantToListenListItem(
-                entry.getId(),
-                entry.getUserID(),
-                entry.getSpotifyURI(),
-                entry.getAddTime().toString()
-            );
-
-            if (itemURI.contains(":track:")) { //Figure out album or track entry by reading spotifyURI, then fill newItem with infos
-                //Searching track in repository
-                Optional<Track> res = trackRepository.findById(itemURI);
-                if (res.isEmpty()) {
-                    continue;
-                }
-                Track newTrack = res.get();
-                //fill infos
-                newItem.setItemName(newTrack.getName());
-                newItem.setAlbumName(newTrack.getAlbum().getName());
-                newItem.setArtists(ArtistSetToString(newTrack.getAlbum().getArtists()));
-                newItem.setRating(newTrack.getRating());
-                newItem.setReviewsCount(newTrack.getReviews().size());
-                newItem.setReleaseDate(newTrack.getReleaseDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            } else if (itemURI.contains(":album:")) {
-                //searching album in repository
-                Optional<Album> res = albumRepository.findById(itemURI);
-                if (res.isEmpty()) {
-                    continue;
-                }
-                Album newAlbum = res.get();
-
-                //fill infos
-                newItem.setItemName(newAlbum.getName());
-                newItem.setArtists(ArtistSetToString(newAlbum.getArtists()));
-                newItem.setRating(newAlbum.getRating());
-                newItem.setReviewsCount(newAlbum.getReviews().size());
-                newItem.setReleaseDate(newAlbum.getReleaseDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            } else { // Unexpected case, passing out Unexpected cases only for testing, TODO: Change after "user's want-to-listen list" testing
-                System.out.println("*************Unexpected spotifyURI: " + itemURI);
-            }
-            //Adding to List for return
-            itemList.add(newItem);
-        }
-        return itemList;
-    }
-
-    private String ArtistSetToString(Set<Artist> artists) {
-        List<Artist> artistList = new ArrayList<>(artists);
-        Iterator<Artist> iterator = artistList.iterator();
-        String artistName = iterator.next().getName();
-        while (iterator.hasNext()) {
-            artistName = artistName.concat(", ").concat(iterator.next().getName());
-        }
-        return artistName;
+    public List<WantToListenListEntry> fetchUserWantToListenList(@Param("User ID") String userID) {
+        return wantListRepository.findAllByUserIDOrderByAddTimeAsc(userID);
     }
 }

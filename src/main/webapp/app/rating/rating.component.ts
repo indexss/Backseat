@@ -11,20 +11,18 @@ import { Router } from '@angular/router';
 import { Track } from './track.interface';
 import { DeleteReviewService } from './delete-review.service';
 import { FetchAccService } from './fetch-acc.service';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from '../core/config/application-config.service';
 import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { WantToListenService } from '../want-to-listen/want-to-listen.service';
-// I am so sorry for fetch review becomes a big chaos in my code
-// That's majorly because the redirect happens a lot in my page which my result rating page
-// unable to load resource
-// And there are lots of user input that may change the data in the page
 interface Folder {
   id: number;
   folderId: number;
   folderName: string;
   imageURL: string;
 }
+
 @Component({
   selector: 'jhi-rating',
   templateUrl: './rating.component.html',
@@ -79,9 +77,11 @@ export class RatingComponent implements OnInit {
     private deleteReviewService: DeleteReviewService,
     private router: Router,
     private fetchAcc: FetchAccService,
-    private modalService: NgbModal,
+    private httpClient: HttpClient,
+    private appConfig: ApplicationConfigService,
     private addToFolderService: AddToFolderService,
-    private wantToListenService: WantToListenService
+    private wantToListenService: WantToListenService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -99,11 +99,25 @@ export class RatingComponent implements OnInit {
 
           this.checkExistService.checkExist(this.id).subscribe(data => {
             if (data.data.exist === 'false') {
-              this.router.navigate(['/rating-not-found']);
+              this.httpClient.post<boolean>(this.appConfig.getEndpointFor('/api/datapipe/import/' + this.id), null).subscribe({
+                next: success => {
+                  if (success) {
+                    // this is equivalent to reloading the entire page
+                    // (redir to / then back to restart rendering)
+                    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                      this.router.navigate(['/rating', this.id]);
+                    });
+                  } else {
+                    this.router.navigate(['/rating-not-found']);
+                  }
+                },
+                error: () => {
+                  this.router.navigate(['/rating-not-found']);
+                },
+              });
             }
           });
-          console.log('review All:', data.data.review);
-          //Update var in component
+
           this.trackName = data.data.review.trackName;
           this.albumName = data.data.review.albumName;
           this.artistName = data.data.review.artistName;
@@ -114,7 +128,7 @@ export class RatingComponent implements OnInit {
           this.albumURI = data.data.review.albumURI;
           // console.log(this.avgRating);
           const reviewDTO = data.data.review.reviewList;
-          for (let i = 0; i < reviewDTO.length; i++) {
+          for (let i = 0; i < reviewDTO?.length; i++) {
             const review: Review = {
               reviewTrackName: data.data.review.trackName,
               userSporifyURI: reviewDTO[i].profile.userSporifyURI,
@@ -127,9 +141,7 @@ export class RatingComponent implements OnInit {
               rating: reviewDTO[i].rating,
             };
             this.reviewList.push(review);
-            console.log('this.reviewList', this.reviewList);
           }
-          console.log('ReviewList:', this.reviewList);
           this.reviewList = this.reviewList.reverse();
           this.changeDetectorRef.detectChanges();
         });
@@ -161,7 +173,7 @@ export class RatingComponent implements OnInit {
           }
 
           const reviewDTO = data.data.review.reviewList;
-          for (let i = 0; i < reviewDTO.length; i++) {
+          for (let i = 0; i < reviewDTO?.length; i++) {
             const review: Review = {
               reviewTrackName: reviewDTO[i].track.name,
               userSporifyURI: reviewDTO[i].profile.userSporifyURI,
@@ -446,7 +458,6 @@ export class RatingComponent implements OnInit {
     this.isTrack = true;
 
     this.resetData();
-    // 导航到 /rating/{spotifyURI}
     this.router.navigate(['/rating', spotifyURI]);
     this.changeDetectorRef.detectChanges();
   }
@@ -670,6 +681,7 @@ export class RatingComponent implements OnInit {
   setPage(pageNo: number): void {
     this.currentPage = pageNo;
   }
+
   redirectToProfile(profileId: number): void {
     this.router.navigate(['/profile', profileId]);
   }

@@ -120,4 +120,8 @@ export class AddToFolderComponent implements OnInit {
       }
     });
   }
+
+  editFolder(folderId: number) {
+    this.router.navigate(['/folder', folderId, 'edit']);
+  }
 }
