@@ -12,20 +12,28 @@
         >
         <!--        <a class=" no-underline" (click)="redirectToAlbum(albumURIforTrack)">{{ albumName }}</a>-->
 
-          <span class="artist d-block">Artist: {{ artistName }}</span>
-          <span class="rdate d-block">Release Date: {{ releaseDate }}</span>
-          <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
-          <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
-          <br />
-          <!--          <span class="description d-block">Description:{{ description }}</span>-->
-        </div>
+        <span class="artist d-block">Artist: {{ artistName }}</span>
+        <span class="rdate d-block">Release Date: {{ releaseDate }}</span>
+        <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
+        <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
+        <!-- <br /> -->
+        <!--          <span class="description d-block">Description:{{ description }}</span>-->
 
-        <div class="d-flex flex-column align-items-end">
-          <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
-          <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
+        <!-- <button class="btn btn-primary redirectButton wtl" (click)="addToWantToListen()">Want to listen</button> -->
+        <!-- <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button> -->
+        <div class="d-flex align-items-start">
+          <button class="btn btn-primary redirectButton wtl" (click)="addToWantToListen()">Want to listen</button>
+          <br />
+          <button class="btn btn-primary redirectButton ms-2" (click)="openModal(id, content)">Add to Folder</button>
         </div>
       </div>
+
+      <!-- <div class="d-flex flex-column align-items-end"> -->
+      <!-- <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want to listen</button> -->
+      <!-- <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button> -->
+      <!-- </div> -->
     </div>
+  </div>
   <br />
 
   <ngb-alert [dismissible]="true" *ngIf="showAddWantListen" (close)="this.showAlert = false">
@@ -107,7 +115,6 @@
     </div>
   </div>
 </div>
-
 
 <!--//Album Start from here-->
 
