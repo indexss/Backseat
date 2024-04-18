@@ -302,9 +302,14 @@
           <div class="media">
             <div class="column-4">
               <a href="#" class="mb-4">
-                <img alt="Generic placeholder image" [src]="review.userProfileImage" class="mr-3 rounded-pill img-fluid" />
+                <img
+                  alt="Generic placeholder image"
+                  (click)="redirectToProfile(review.userId)"
+                  [src]="review.userProfileImage"
+                  class="mr-3 rounded-pill img-fluid"
+                />
               </a>
-              <a class="userurl p-4" href="#">{{ review.username }}</a>
+              <a class="userurl p-4" (click)="redirectToProfile(review.userId)">{{ review.username }}</a>
               <p class="rating-spans">
                 <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
               </p>
@@ -375,7 +380,7 @@
                 <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
               </div>
             </div>
-            <button *ngIf="review.username === userName" class="btn-danger btn-sm deleteButton" (click)="deleteReview(id)">
+            <button *ngIf="review.username === userName" class="btn btn-danger btn-sm deleteButton" (click)="deleteReview(id)">
               Delete Review
             </button>
           </div>
