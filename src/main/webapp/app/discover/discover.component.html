@@ -52,7 +52,9 @@
           <div class="folderName">{{ folder.folderName }}</div>
         </a>
       </div>
-      <div class="creatorName">{{ folder.username }}</div>
+      <div class="creatorName">
+        <a [routerLink]="['/profile', folder.username]">{{ folder.username }}</a>
+      </div>
     </div>
   </div>
   <div *ngIf="isMobile" class="display-folders">
