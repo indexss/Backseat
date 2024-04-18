@@ -23,9 +23,10 @@ export class WantToListenComponent implements OnInit {
     console.log('go to spotify');
     this.accService.identity().subscribe(account => {
       if (account) {
-        this.service.createList(account.login).subscribe(date => {
-          const playListId = date.data.playListId;
-          window.location.href = 'https://open.spotify.com/playlist/' + playListId;
+        this.service.createList(account.login).subscribe(res => {
+          const playListId = res.data.playlistId;
+          console.log(playListId);
+          window.open('https://open.spotify.com/playlist/' + playListId);
         });
       } else {
         console.log('No login');

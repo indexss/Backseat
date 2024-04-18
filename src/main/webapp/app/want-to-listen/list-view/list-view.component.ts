@@ -132,14 +132,11 @@ export class ListViewComponent implements OnInit {
   }
 
   deleteItem(id: number): void {
-    this.service
-      .delEntry(id)
-      .subscribe(() => {
-        // Make a notice to user: item deleted
-        console.log('Entry id: ' + id + 'deleted!');
-        this.ngOnInit(); //refresh page to show changes (maybe not needed) TODO
-      })
-      .unsubscribe();
+    this.service.delEntry(id).subscribe(() => {
+      // Make a notice to user: item deleted
+      console.log('Entry id: ' + id + 'deleted!');
+      this.ngOnInit(); //refresh page to show changes
+    });
   }
 
   expand(): void {

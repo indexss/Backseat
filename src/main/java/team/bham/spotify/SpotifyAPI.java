@@ -126,7 +126,8 @@ public class SpotifyAPI {
             "{\n" +
             "    \"name\": \"Want-To-Listen List\",\n" +
             "    \"description\": \"Created by Backseat\",\n" +
-            "    \"public\": false\n" +
+            "    \"public\": false,\n" +
+            "    \"collaborative\": false\n" +
             "}";
 
         //make HttpRequest
@@ -135,14 +136,14 @@ public class SpotifyAPI {
             .POST(HttpRequest.BodyPublishers.ofString(body));
         HttpResponse<String> resp = doHttpRequest(builder.build());
 
-        if (resp.statusCode() != 200) {
+        if (resp.statusCode() != 201) {
             APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class); // TODO: 403 ERROR
             throw res.toException();
         }
 
         //get playlist ID, return ID
-        JSONObject respBody = new JSONObject(resp.body());
-        return respBody.getString("id");
+        String temp = resp.body().substring(resp.body().indexOf("\"id\":"));
+        return temp.split("\"", 5)[3];
     }
 
     public void addWantToListenEntriesToPlaylist(List<WantToListenListItem> itemList, String playlistId)
@@ -156,12 +157,16 @@ public class SpotifyAPI {
                 break;
             }
         }
-        JSONObject body = new JSONObject();
-        body.put("uris", uriList);
-        body.put("position", 0);
+        String uris = "\"" + uriList.get(0) + "\"";
+        if (uriList.size() > 1) {
+            for (int i = 1; i < uriList.size(); i++) {
+                uris = uris.concat(",\"").concat(uriList.get(i)).concat("\"");
+            }
+        }
+        String body = "{\n" + "   \"uris\": [" + uris + "],\n" + "   \"position\": 0\n" + "}";
         System.out.println("********************" + body);
         HttpResponse<String> resp = doHttpRequest(
-            getAuthenticatedRequestBuilder().uri(formUri(pathString)).POST(HttpRequest.BodyPublishers.ofString(body.toString())).build()
+            getAuthenticatedRequestBuilder().uri(formUri(pathString)).POST(HttpRequest.BodyPublishers.ofString(body)).build()
         );
         if (resp.statusCode() != 200) {
             APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
