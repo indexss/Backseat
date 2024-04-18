@@ -10,4 +10,7 @@ export class getRecentlyListenedService {
   getTrack(): Observable<any> {
     return this.http.get('api/discover/recent');
   }
+  getTrackRating(): Observable<any> {
+    return this.http.get('api/discover/rating');
+  }
 }

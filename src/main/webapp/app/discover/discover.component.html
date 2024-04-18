@@ -21,7 +21,7 @@
     <div class="startShowing">
       <div class="head1">Recently Listened</div>
       <div *ngIf="Track.length > 0">
-        <div *ngFor="let nums of Track">
+        <div *ngFor="let nums of Track; let i = index">
           <div class="songs d-flex align-items-center" margin="1.5em">
             <a [routerLink]="['/rating', nums.track.uri]">
               <img [src]="nums.track.album.images[0].url" style="width: 100px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
@@ -29,6 +29,34 @@
             <div class="flex-grow-1">
               <a [routerLink]="['/rating', nums.track.uri]" class="text-decoration-none text-left d-block">{{ nums.track.name }}</a>
               <div class="text-muted">{{ nums.track.artists[0].name }}</div>
+              <div *ngIf="rating[i] == 0.0">
+                <div class="text-muted">Leave a Review....</div>
+              </div>
+              <div *ngIf="rating[i] == 1.0">
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              </div>
+              <div *ngIf="rating[i] == 2.0">
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              </div>
+              <div *ngIf="rating[i] == 3.0">
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              </div>
+              <div *ngIf="rating[i] == 4.0">
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              </div>
+              <div *ngIf="rating[i] == 5.0">
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+              </div>
               <!--<td class="text-center align-middle row-rating">{{ track.rating | number: '1.0-2' }}</td>-->
             </div>
           </div>

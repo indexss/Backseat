@@ -88,7 +88,4 @@ public interface TrackRepository extends TrackRepositoryWithBagRelationships, Jp
         @Param("text") String text,
         Pageable pageable
     );
-    //make query that gets rating from Review Where id = eihxdigxbdflgiob
-    //@Query("select t.Rating from Track t Where t.spotifyURI = '5wjmqUGN7vrAqFqDWrywlZ'")
-    //Double GetTrackRating();
 }

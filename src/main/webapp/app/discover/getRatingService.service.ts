@@ -17,5 +17,6 @@ export class getRatingService {
   constructor(private http: HttpClient) {}
   getTrackRating(): Observable<any> {
     return this.http.get('/api/discover/rating');
+    //return this.http.get('/api/discover/rating');
   }
 }

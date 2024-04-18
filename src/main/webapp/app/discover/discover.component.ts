@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import dayjs from 'dayjs/esm';
 import { RecentlyReviewedService } from './getMusicService';
 import { getRecentlyListenedService } from './getRecentlyListenedService';
+import { getRatingService } from './getRatingService.service';
 import { testService } from './test.service';
 import { DeviceService } from 'app/mobile/device.service';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -36,6 +37,38 @@ interface Review {
 
 interface Rating {
   rating: number;
+}
+
+interface test {
+  test: string;
+}
+
+interface FullTrackResponse {
+  track: {
+    uri: string;
+    name: string;
+    id: string;
+    durationMilliseconds: number;
+    rating: number;
+
+    album: {
+      album_type: string;
+      id: string;
+      name: string;
+      uri: string;
+      images: {
+        url: string;
+        height: number;
+        width: number;
+      }[];
+    };
+
+    artists: {
+      uri: string;
+      name: string;
+      id: string;
+    }[];
+  };
 }
 
 interface RecentTrackResponse {
@@ -109,12 +142,14 @@ export class DiscoverComponent implements OnInit {
   page = 1;
   spotifyURI!: string;
   trackName: string = '';
-  rating: Rating[] = [];
+  rating: number[] = [];
+  TrackandReview: FullTrackResponse[] = [];
 
   constructor(
     private getMusicService: RecentlyReviewedService,
     private recentlyListenedTracksService: getRecentlyListenedService,
     private testing: testService,
+    private getRatingService: getRatingService,
 
     private http: HttpClient,
     private appConfig: ApplicationConfigService,
@@ -129,7 +164,6 @@ export class DiscoverComponent implements OnInit {
       next: (data: RecentListenedTrackResponse) => {
         console.log('Response:', data);
         this.Track = data.items;
-        console.log(this.Track[0].track.name, '#########################################################################################');
       },
       error: error => {
         console.error('Error:', error);
@@ -138,29 +172,16 @@ export class DiscoverComponent implements OnInit {
         console.log('Request completed');
       },
     });
-    this.http.get<Rating>(this.appConfig.getEndpointFor('/api/discover/rating')).subscribe({
-      next: (data: Rating) => {
+    this.recentlyListenedTracksService.getTrackRating().subscribe({
+      next: (data: number[]) => {
         console.log('Response:', data);
-        this.rating[0] = data;
-        console.log(this.rating, '#########################################################################################');
+        this.rating = data;
       },
       error: error => {
         console.error('Error:', error);
       },
       complete: () => {
         console.log('Request completed');
-      },
-    });
-
-    this.http.get<Record[]>(this.appConfig.getEndpointFor('/api/discover/track')).subscribe({
-      next: vowel => {
-        this.recordList = vowel;
-        console.log(this.recordList[0], '#########################################################################################');
-      },
-      error: err => {
-        //error handling
-        console.log('Error', err);
-        alert(JSON.stringify(err));
       },
     });
   }

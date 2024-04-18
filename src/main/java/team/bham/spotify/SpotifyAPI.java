@@ -1,6 +1,5 @@
 package team.bham.spotify;
 
-import io.micrometer.core.instrument.search.Search;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -63,14 +62,12 @@ public class SpotifyAPI {
 
     public RecentListenedTrackResponse getRecentTracks() throws IOException, SpotifyException, InterruptedException {
         HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri("/me/player/recently-played")).build());
-        System.err.println(resp.body());
 
         if (resp.statusCode() != 200) {
             APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
             throw res.toException();
         }
 
-        //log.debug("####################################", resp);
         return SpotifyUtil.unmarshalJson(resp.body(), RecentListenedTrackResponse.class);
     }
 
