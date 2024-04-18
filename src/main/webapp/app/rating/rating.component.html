@@ -95,7 +95,7 @@
               <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
             </div>
           </div>
-          <button *ngIf="review.username === userName" class="btn-danger btn-sm" (click)="deleteReview(id)">Delete Review</button>
+          <button *ngIf="review.username === userName" class="btn btn-danger btn-sm" (click)="deleteReview(id)">Delete Review</button>
         </div>
         <hr />
       </div>
@@ -315,7 +315,7 @@
             </div>
             <button
               *ngIf="review.username === userName"
-              class="btn-danger btn-sm deleteButton"
+              class="btn btn-danger btn-sm deleteButton"
               (click)="deleteReview(findSpotifyURIByTrackName(review.reviewTrackName))"
             >
               Delete Review
