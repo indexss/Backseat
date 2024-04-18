@@ -14,6 +14,7 @@ import {IFolder} from "../entities/folder/folder.model";
 import {IReview} from "../entities/review/review.model";
 import {ReviewService} from "../entities/review/service/review.service";
 import {ITrack} from "../entities/track/track.model";
+import {IAlbum} from "../entities/album/album.model";
 
 interface ModUser {
   id: number;
@@ -52,7 +53,8 @@ interface ModReview {
   content: string;
   date: Date | string;
   profile: ModProfile;
-  track: ITrack;
+  track: ITrack | null;
+  album: IAlbum | null;
   rating: number;
 }
 

@@ -47,9 +47,10 @@
         <div *ngFor="let r of reviews; let idx = index">
           <hr class="separator" *ngIf="idx != 0" />
           <div>
-            <div><span *ngFor="let x of [].constructor(r.review.rating)">★</span><span *ngFor="let x of [].constructor(5-r.review.rating)">☆</span> {{ r.review.date }}<br><a href="/rating/{{ r.review.track.spotifyURI }}"><i>{{ r.review.track.name }} by {{ r.artists.join(", ") }}</i></a></div>
+            <div><span *ngFor="let x of [].constructor(r.review.rating)">★</span><span *ngFor="let x of [].constructor(5-r.review.rating)">☆</span> {{ r.review.date }}<br>
+              <a *ngIf="r.review.track != null" href="/rating/{{ r.review.track.spotifyURI }}"><i>{{ r.review.track.name }} by {{ r.artists.join(", ") }}</i></a></div>
+              <a *ngIf="r.review.album != null" href="/rating/{{ r.review.album.spotifyURI }}"><i>{{ r.review.album.name }} by {{ r.artists.join(", ") }}</i></a></div>
             <span>{{ r.review.content }}</span>
-          </div>
         </div>
       </div>
     </div>
