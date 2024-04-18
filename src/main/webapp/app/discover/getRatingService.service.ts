@@ -6,6 +6,7 @@ import { ApplicationConfigService } from '../core/config/application-config.serv
 @Injectable({
   providedIn: 'root',
 })
+
 /*export class RecentlyReviewedService {
   constructor(private http: HttpClient, private appConfig: ApplicationConfigService) {}
   getRecord(): Observable<any> {
