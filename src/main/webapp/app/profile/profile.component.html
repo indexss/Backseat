@@ -86,7 +86,7 @@
         <div *ngFor="let friend of friends; let i = index">
           <hr class="separator" *ngIf="i != 0" />
           <div class="d-flex gap-3 align-items-center">
-            <img style="max-width: 100px" src="{{ friend.photoURL }}" alt="" />
+            <img style="max-width: 100px" src="/api/profiles/byLogin/{{ friend.target }}/profilePhoto" alt="" />
             <div class="fs-5">
               <a href="/profile/{{ friend.target }}">{{ friend.target }}</a>
             </div>

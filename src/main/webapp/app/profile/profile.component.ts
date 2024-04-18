@@ -169,15 +169,7 @@ export class ProfileComponent implements OnInit {
           }
         });
 
-        this.http
-          .get<string>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login + '/profilePhoto'))
-          .subscribe({
-            next: v => {
-              console.debug('Profile photo URL: ', v);
-              this.profilePhotoURL = v;
-            },
-          });
-        console.debug('Profile: ', res);
+        this.profilePhotoURL = "/api/profiles/byLogin/" + this.profile.username + "/profilePhoto";
       },
       error: (err) => {
         // This might be a profile ID instead - let's try getting that, and if it works, redirect to that profile.
