@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef, TemplateRef} from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FetchReviewInfoService } from './fetch-review-info.service';
 import { Review } from './review.interface';
@@ -11,10 +11,10 @@ import { Router } from '@angular/router';
 import { Track } from './track.interface';
 import { DeleteReviewService } from './delete-review.service';
 import { FetchAccService } from './fetch-acc.service';
-import {HttpClient} from "@angular/common/http";
-import {ApplicationConfigService} from "../core/config/application-config.service";
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from '../core/config/application-config.service';
 import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
-import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { WantToListenService } from '../want-to-listen/want-to-listen.service';
 interface Folder {
   id: number;
@@ -81,7 +81,7 @@ export class RatingComponent implements OnInit {
     private appConfig: ApplicationConfigService,
     private addToFolderService: AddToFolderService,
     private wantToListenService: WantToListenService,
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -99,20 +99,21 @@ export class RatingComponent implements OnInit {
 
           this.checkExistService.checkExist(this.id).subscribe(data => {
             if (data.data.exist === 'false') {
-
-              this.httpClient.post<boolean>(this.appConfig.getEndpointFor("/api/datapipe/import/" + this.id), null).subscribe({
-                next: (success) => {
+              this.httpClient.post<boolean>(this.appConfig.getEndpointFor('/api/datapipe/import/' + this.id), null).subscribe({
+                next: success => {
                   if (success) {
                     // this is equivalent to reloading the entire page
                     // (redir to / then back to restart rendering)
-                    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {this.router.navigate(["/rating", this.id])});
+                    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                      this.router.navigate(['/rating', this.id]);
+                    });
                   } else {
                     this.router.navigate(['/rating-not-found']);
                   }
                 },
                 error: () => {
                   this.router.navigate(['/rating-not-found']);
-                }
+                },
               });
             }
           });
@@ -148,21 +149,22 @@ export class RatingComponent implements OnInit {
       // For condition of Album request
       else {
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
-
           if (data.data.review.albumName == null) {
-            this.httpClient.post<boolean>(this.appConfig.getEndpointFor("/api/datapipe/import/" + this.id), null).subscribe({
-              next: (success) => {
+            this.httpClient.post<boolean>(this.appConfig.getEndpointFor('/api/datapipe/import/' + this.id), null).subscribe({
+              next: success => {
                 if (success) {
                   // this is equivalent to reloading the entire page
                   // (redir to / then back to restart rendering)
-                  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {this.router.navigate(["/rating", this.id])});
+                  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                    this.router.navigate(['/rating', this.id]);
+                  });
                 } else {
                   this.router.navigate(['/rating-not-found']);
                 }
               },
               error: () => {
                 this.router.navigate(['/rating-not-found']);
-              }
+              },
             });
           }
 
@@ -249,7 +251,7 @@ export class RatingComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.fetchAcc.fetchAcc().subscribe(data => {
-          this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName);
+          this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName).subscribe();
         });
         this.showAddWantListen = true;
       } else {
