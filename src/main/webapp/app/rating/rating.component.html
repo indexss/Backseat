@@ -18,6 +18,9 @@
         <br />
       </div>
 
+      <!--      //  Add To Folder and Want to Listen Please look at here-->
+      <!--      //  Add To Folder and Want to Listen Please look at here-->
+      <!--      //  Add To Folder and Want to Listen Please look at here-->
       <div class="d-flex flex-column align-items-end">
         <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
         <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
@@ -92,9 +95,7 @@
               <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
             </div>
           </div>
-          <button *ngIf="review.username === userName" class="btn-danger btn-sm deleteButton" (click)="deleteReview(id)">
-            Delete Review
-          </button>
+          <button *ngIf="review.username === userName" class="btn-danger btn-sm" (click)="deleteReview(id)">Delete Review</button>
         </div>
         <hr />
       </div>
@@ -135,11 +136,22 @@
         <span class="rdate d-block">Total Tracks: {{ totalTracks }}</span>
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
         <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
+
+        <!--        //  Add To Folder and Want to Listen Please look at here-->
+        <!--        //  Add To Folder and Want to Listen Please look at here-->
+        <!--        //  Add To Folder and Want to Listen Please look at here-->
+        <div class="d-flex flex-column align-items-start">
+          <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
+          <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
+        </div>
       </div>
     </div>
   </div>
   <br />
 
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListen" (close)="this.showAlert = false">
+    <strong>Add to Want-to-listen-list successfully!</strong>
+  </ngb-alert>
   <ngb-alert [dismissible]="false" *ngIf="showAlert">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>
@@ -163,6 +175,15 @@
           <td>{{ track.artistName }}</td>
           <td>{{ track.releaseDate }}</td>
           <td>{{ track.rating | number: '1.2-2' }}</td>
+          <td style="text-align: center; vertical-align: middle">
+            <a [href]="getSpotifyLink(id)" target="_blank" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
+                <path
+                  d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"
+                />
+              </svg>
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>
