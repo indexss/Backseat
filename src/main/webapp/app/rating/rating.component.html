@@ -9,14 +9,11 @@
           <span class="album d-block"
             ><a class="btn btn-link no-underline albumurl" (click)="redirectToAlbum(albumURI)">Album: {{ albumName }}</a></span
           >
-          <!--        <a class=" no-underline" (click)="redirectToAlbum(albumURIforTrack)">{{ albumName }}</a>-->
-
           <span class="artist d-block">Artist: {{ artistName }}</span>
           <span class="rdate d-block">Release Date: {{ releaseDate }}</span>
           <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
           <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
           <br />
-          <!--          <span class="description d-block">Description:{{ description }}</span>-->
         </div>
 
         <div class="d-flex flex-column align-items-end">
@@ -50,7 +47,6 @@
         </span>
       </div>
     </form>
-    <!-- Warning message for track selection -->
     <form>
       <div class="form-group">
         <label class="YourComment">Your Comment</label>
@@ -67,9 +63,7 @@
   <br />
 
   <div class="row">
-    <!-- <h2>Reviews</h2> -->
     <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
-      <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
       <h3 class="mb-1 abcde">All Ratings and Reviews</h3>
       <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
         <div class="media">
@@ -124,7 +118,7 @@
           <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
           <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
           <br />
-          <span class="description d-block">Description: {{ description }}</span>
+          <!--          <span class="description d-block">Description: {{ description }}</span>-->
         </div>
 
         <div class="d-flex flex-column align-items-end">
@@ -141,9 +135,6 @@
   <ngb-alert [dismissible]="true" *ngIf="showAlert" (close)="this.showAlert = false">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>
-  <!-- <ngb-alert [dismissible]="false" *ngIf="showAlert">
-	<strong>Warning!</strong> Comments cannot be empty!
-  </ngb-alert> -->
   <div class="row">
     <table class="track-table table">
       <thead>
@@ -183,8 +174,6 @@
       <h3 class="mb-4"><Strong>Leave a Review </Strong></h3>
       <div class="form-check form-switch">
         <input class="form-check-input" style="display: none" type="checkbox" id="aaa" [(ngModel)]="showAlbumReviews" />
-
-        <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
         <label class="btn btn-primary" (click)="toggleReviews()" for="aaa">
           {{ showAlbumReviews ? 'Click to Review Track' : 'Click to Review Album' }}
         </label>
@@ -234,15 +223,12 @@
 
   <!--  Leave a review for album-->
   <div class="row leaveReview" *ngIf="showAlbumReviews">
-    <!--    <div class="bg-dark-green rounded shadow-sm p-4 mb-5 rating-review-select-page ">-->
     <div class="rounded shadow-sm rating-review-select-page">
       <h3 class="mb-4"><Strong>Leave a Review For the Album </Strong></h3>
 
       <div class="form-check form-switch">
-        <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
         <input class="form-check-input" style="display: none" type="checkbox" id="checkAlbumOrTrack" [(ngModel)]="showAlbumReviews" />
 
-        <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
         <label class="btn btn-primary" (click)="toggleReviews()" for="checkAlbumOrTrack">
           {{ showAlbumReviews ? 'Click to Review Track' : 'Click to Review Album' }}
         </label>
@@ -276,13 +262,12 @@
   </div>
 
   <br />
-  <!--View track reviews!!-->
+
+  <!--View track reviews on clicking "view track review button"-->
   <div *ngIf="!showAlbumReviews">
     <div class="form-check form-switch">
-      <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
       <input class="form-check-input" style="display: none" type="checkbox" id="ccc" [(ngModel)]="showAlbumReviews" />
 
-      <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
       <label class="btn btn-primary" (click)="toggleReviews()" for="ccc">
         {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
       </label>
@@ -333,16 +318,13 @@
   <!--View album reviews!!-->
   <div *ngIf="showAlbumReviews">
     <div class="form-check form-switch">
-      <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
       <input class="form-check-input" style="display: none" type="checkbox" id="abc" [(ngModel)]="showAlbumReviews" />
 
-      <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
       <label class="btn btn-primary" (click)="toggleReviews()" for="abc">
         {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
       </label>
     </div>
     <div class="row">
-      <!-- <h2>Reviews</h2> -->
       <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
         <h4 class="mb-1">Album Ratings and Reviews</h4>
         <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">

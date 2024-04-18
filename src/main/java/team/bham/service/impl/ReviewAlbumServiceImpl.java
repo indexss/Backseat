@@ -35,7 +35,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
     private AlbumRepository albumRepository;
 
     @Resource
-    //    //get reviewList
     private ReviewRepository reviewRepository;
 
     @Resource
@@ -77,7 +76,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             reviewAlbumDTO.setArtistName(artistNameBuilder.toString());
 
             Set<Track> trackList = reviewAlbumDTO.getTracks();
-            System.out.println(trackList + "==============================");
             Set<Review> reviewList = reviewRepository.findByAlbum(album);
             ArrayList<Review> reviews = new ArrayList<>(reviewList);
             double sum = 0;
@@ -160,7 +158,6 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
         Profile profile = optionalProfile.get();
         newReview.setProfile(profile);
 
-        //        System.out.println("888888888888: " + trackId);
         Optional<Album> optionalAlbum = albumRepository.findById(albumId);
         Album album = optionalAlbum.get();
         newReview.setAlbum(album);

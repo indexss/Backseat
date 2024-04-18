@@ -67,7 +67,6 @@ export class RatingComponent implements OnInit {
   spotifyURI!: string;
   modalRef!: NgbModalRef;
   folderList: Folder[] = [];
-  faSquarePlus = faSquarePlus;
   showAddWantListen: boolean = false;
 
   constructor(
@@ -551,8 +550,8 @@ export class RatingComponent implements OnInit {
                   reviewTrackName: reviewDTO[i].album.name,
                   userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                   username: reviewDTO[i].profile.username,
-                  // userProfileImage: reviewDTO[i].profile.profileImage,
-                  userProfileImage: './../../content/images/common_avatar.png',
+                  userProfileImage: reviewDTO[i].profile.profilePhoto,
+                  // userProfileImage: './../../content/images/common_avatar.png',
                   reviewContent: reviewDTO[i].content,
                   reviewDate: reviewDTO[i].date,
                   rating: reviewDTO[i].rating,
@@ -596,8 +595,8 @@ export class RatingComponent implements OnInit {
                     reviewTrackName: reviewDTO[i].track.name,
                     userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                     username: reviewDTO[i].profile.username,
-                    // userProfileImage: reviewDTO[i].profile.profileImage,
-                    userProfileImage: './../../content/images/common_avatar.png',
+                    userProfileImage: reviewDTO[i].profile.profilePhoto,
+                    // userProfileImage: './../../content/images/common_avatar.png',
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
@@ -623,8 +622,8 @@ export class RatingComponent implements OnInit {
                     reviewTrackName: data.data.review.trackName,
                     userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                     username: reviewDTO[i].profile.username,
-                    // userProfileImage: reviewDTO[i].profile.profileImage,
-                    userProfileImage: './../../content/images/common_avatar.png',
+                    userProfileImage: reviewDTO[i].profile.profilePhoto,
+                    // userProfileImage: './../../content/images/common_avatar.png',
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
