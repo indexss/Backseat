@@ -168,6 +168,18 @@
             <li *ngSwitchCase="true">
               <a
                 class="dropdown-item"
+                routerLink="profile"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="settings"
+              >
+                <fa-icon icon="user" [fixedWidth]="true"></fa-icon>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li *ngSwitchCase="true">
+              <a
+                class="dropdown-item"
                 routerLink="account/settings"
                 routerLinkActive="active"
                 (click)="collapseNavbar()"
