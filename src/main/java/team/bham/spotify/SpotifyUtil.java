@@ -32,6 +32,10 @@ public class SpotifyUtil {
         return new ObjectMapper().readValue(data, cl);
     }
 
+    protected static String marshalJSON(Object cl) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(cl);
+    }
+
     public static String getIdFromUri(String uri) {
         String[] sp = uri.split(":");
         return sp[sp.length - 1];

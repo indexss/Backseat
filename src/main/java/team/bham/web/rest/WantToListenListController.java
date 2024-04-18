@@ -67,7 +67,7 @@ public class WantToListenListController {
         //TODO: new function in class `SpotifyAPI` need to be created: CreateUserPlaylist(void) and AddNewTrack(List<WantToListenListItem>, "playListID")
         try {
             List<WantToListenListItem> itemList = wantListService.fetchUserWantToListenList(userName);
-            String playListId = api.createPlaylist();
+            String playListId = api.createPlaylist().id;
             System.out.println("*************************PlayList ID: " + playListId);
 
             api.addWantToListenEntriesToPlaylist(itemList, playListId);

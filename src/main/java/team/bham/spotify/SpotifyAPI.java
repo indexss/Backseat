@@ -12,10 +12,7 @@ import java.util.List;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import team.bham.service.dto.WantToListenListItem;
-import team.bham.spotify.responses.APIErrorResponse;
-import team.bham.spotify.responses.SearchResponse;
-import team.bham.spotify.responses.TrackResponse;
-import team.bham.spotify.responses.UserProfileResponse;
+import team.bham.spotify.responses.*;
 
 public class SpotifyAPI {
 
@@ -112,28 +109,21 @@ public class SpotifyAPI {
         return SpotifyUtil.unmarshalJson(resp.body(), SearchResponse.class);
     }
 
-    public String createPlaylist() throws SpotifyException, IOException, InterruptedException, JSONException {
+    public PlaylistResponse createPlaylist() throws SpotifyException, IOException, InterruptedException {
         UserProfileResponse currentUser = getCurrentUserProfile();
-
-        System.out.println("******************************************************");
-        System.out.println("*************CurrentUser: " + currentUser);
-        System.out.println("******************************************************");
-
         String pathString = "/users/".concat(currentUser.id).concat("/playlists");
 
         //make HttpRequestBody
-        String body =
-            "{\n" +
-            "    \"name\": \"Want-To-Listen List\",\n" +
-            "    \"description\": \"Created by Backseat\",\n" +
-            "    \"public\": false,\n" +
-            "    \"collaborative\": false\n" +
-            "}";
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("name", "Want-To-Listen List");
+        body.put("description", "Created by Backseat");
+        body.put("public", false);
+        body.put("collaborative", false);
 
         //make HttpRequest
         HttpRequest.Builder builder = getAuthenticatedRequestBuilder()
             .uri(formUri(pathString))
-            .POST(HttpRequest.BodyPublishers.ofString(body));
+            .POST(HttpRequest.BodyPublishers.ofString(SpotifyUtil.marshalJSON(body)));
         HttpResponse<String> resp = doHttpRequest(builder.build());
 
         if (resp.statusCode() != 201) {
@@ -141,37 +131,31 @@ public class SpotifyAPI {
             throw res.toException();
         }
 
-        //get playlist ID, return ID
-        String temp = resp.body().substring(resp.body().indexOf("\"id\":"));
-        return temp.split("\"", 5)[3];
+        return SpotifyUtil.unmarshalJson(resp.body(), PlaylistResponse.class);
     }
 
-    public void addWantToListenEntriesToPlaylist(List<WantToListenListItem> itemList, String playlistId)
-        throws JSONException, SpotifyException, IOException, InterruptedException {
+    public void addWantToListenEntriesToPlaylist(List<WantToListenListItem> itemList, String playlistId) throws SpotifyException, IOException, InterruptedException {
         String pathString = "/playlists/" + playlistId + "/tracks";
+
         List<String> uriList = new ArrayList<>();
         for (WantToListenListItem item : itemList) {
             uriList.add(item.getItemUri());
             if (uriList.size() >= 100) { // spotify api only accept 100 uris in one request
-                System.out.println("************More than 100 items in playlist, add first 100 items to playlist****************");
                 break;
             }
         }
-        String uris = "\"" + uriList.get(0) + "\"";
-        if (uriList.size() > 1) {
-            for (int i = 1; i < uriList.size(); i++) {
-                uris = uris.concat(",\"").concat(uriList.get(i)).concat("\"");
-            }
-        }
-        String body = "{\n" + "   \"uris\": [" + uris + "],\n" + "   \"position\": 0\n" + "}";
-        System.out.println("********************" + body);
+
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("uris", uriList);
+        body.put("position", 0);
+
         HttpResponse<String> resp = doHttpRequest(
-            getAuthenticatedRequestBuilder().uri(formUri(pathString)).POST(HttpRequest.BodyPublishers.ofString(body)).build()
+            getAuthenticatedRequestBuilder().uri(formUri(pathString)).POST(HttpRequest.BodyPublishers.ofString(SpotifyUtil.marshalJSON(body))).build()
         );
+
         if (resp.statusCode() != 200) {
             APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
             throw res.toException();
         }
-        System.out.println("********************Add complete!");
     }
 }
