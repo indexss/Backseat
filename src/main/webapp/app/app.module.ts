@@ -62,7 +62,7 @@ import { ListViewComponent } from './want-to-listen/list-view/list-view.componen
     PageRibbonComponent,
     FooterComponent,
     NavbarNewComponent,
-    DiscoverComponent,
+    // DiscoverComponent,
     LeaderboardComponent,
     SearchComponent,
     RatingComponent,
