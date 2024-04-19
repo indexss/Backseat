@@ -38,7 +38,11 @@ public class SpotifyOauth {
     }
 
     private static String generateInboundOauthUrl(HttpServletRequest request) {
-        return request.getProtocol().split("/")[0].toLowerCase() + "://" + request.getHeader(HttpHeaders.HOST) + "/oauth/inbound";
+        String host = request.getHeader("X-Forwarded-Host");
+        if (host == null || "".equals(host)) {
+            host = request.getHeader(HttpHeaders.HOST);
+        }
+        return request.getProtocol().split("/")[0].toLowerCase() + "://" + host + "/oauth/inbound";
     }
 
     public String generateOauthRedirectUrl(String state, HttpServletRequest request) {
