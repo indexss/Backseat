@@ -5,6 +5,40 @@
     <div class="record-card" *ngFor="let record of recordList; let i = index">
       <div class="image">
         <a *ngIf="record.trackURI != null" [routerLink]="['/rating', record.trackURI]">
+          <img class="rounded" [src]="record.imgURL" [alt]="['Cover art for ', record.album, ' by ', record.artist]" />
+        </a>
+        <a *ngIf="record.trackURI == null" [routerLink]="['/rating', record.albumURI]">
+          <img class="rounded" [src]="record.imgURL" [alt]="['Cover art for ', record.album, ' by ', record.artist]" />
+        </a>
+      </div>
+      <div class="rating text-wrap">
+        <p>
+          <fa-icon [icon]="['fas', 'star']" style="font-size: 3vmin"></fa-icon>
+          {{ record.rating }}
+        </p>
+      </div>
+      <div *ngIf="record.trackName != null" class="recordName text-wrap">
+        <p>
+          <b>Track &#x2022; {{ record.trackName }}</b>
+        </p>
+      </div>
+      <div *ngIf="record.trackName == null" class="album text-wrap">
+        <p>
+          <b>Album &#x2022; {{ record.album }}</b>
+        </p>
+      </div>
+      <div class="artist text-wrap">
+        <p>
+          <i>{{ record.artist }}</i>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!--
+  <div *ngIf="!isMobile" class="recently-reviewed">
+    <div class="record-card" *ngFor="let record of recordList; let i = index">
+      <div class="image">
+        <a *ngIf="record.trackURI != null" [routerLink]="['/rating', record.trackURI]">
           <img
             class="rounded"
             [src]="record.imgURL"
@@ -36,7 +70,7 @@
       </div>
     </div>
   </div>
-
+-->
   <h1>EXPLORE FOLDERS</h1>
 
   <div *ngIf="!isMobile" class="display-folders">
