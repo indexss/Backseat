@@ -160,9 +160,7 @@ export class ProfileComponent implements OnInit {
                     });
                     return v;
                   });
-
-                  console.debug(new Date(this.reviews[0].review.date));
-                },
+                  },
                 error: (err) => {
                   alert("Failed to get reviews\n" + JSON.stringify(err));
                 }
