@@ -62,6 +62,17 @@ public class SpotifyAPI {
         return SpotifyUtil.unmarshalJson(resp.body(), UserProfileResponse.class);
     }
 
+    public RecentListenedTrackResponse getRecentTracks() throws IOException, SpotifyException, InterruptedException {
+        HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri("/me/player/recently-played")).build());
+
+        if (resp.statusCode() != 200) {
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
+            throw res.toException();
+        }
+
+        return SpotifyUtil.unmarshalJson(resp.body(), RecentListenedTrackResponse.class);
+    }
+
     public TrackResponse getTrack(String id) throws IOException, SpotifyException, InterruptedException {
         return getTrack(id, null);
     }
@@ -159,7 +170,8 @@ public class SpotifyAPI {
         return SpotifyUtil.unmarshalJson(resp.body(), PlaylistResponse.class);
     }
 
-    public void addWantToListenEntriesToPlaylist(List<WantToListenListItem> itemList, String playlistId) throws SpotifyException, IOException, InterruptedException {
+    public void addWantToListenEntriesToPlaylist(List<WantToListenListItem> itemList, String playlistId)
+        throws SpotifyException, IOException, InterruptedException {
         String pathString = "/playlists/" + playlistId + "/tracks";
 
         List<String> uriList = new ArrayList<>();
@@ -175,7 +187,10 @@ public class SpotifyAPI {
         body.put("position", 0);
 
         HttpResponse<String> resp = doHttpRequest(
-            getAuthenticatedRequestBuilder().uri(formUri(pathString)).POST(HttpRequest.BodyPublishers.ofString(SpotifyUtil.marshalJSON(body))).build()
+            getAuthenticatedRequestBuilder()
+                .uri(formUri(pathString))
+                .POST(HttpRequest.BodyPublishers.ofString(SpotifyUtil.marshalJSON(body)))
+                .build()
         );
 
         if (resp.statusCode() != 200) {
