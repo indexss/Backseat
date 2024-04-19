@@ -1,6 +1,5 @@
 package team.bham.web.rest;
 
-import io.micrometer.core.ipc.http.HttpSender;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,6 +9,8 @@ import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import io.micrometer.core.ipc.http.HttpSender;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,13 +66,7 @@ public class ProfileResource {
     private final ApplicationProperties appProps;
     private final SpotifyConnectionService spotConnServ;
 
-    public ProfileResource(
-        ProfileService profileService,
-        ProfileRepository profileRepository,
-        UserService userService,
-        ApplicationProperties appProps,
-        SpotifyConnectionService spotConnServ
-    ) {
+    public ProfileResource(ProfileService profileService, ProfileRepository profileRepository, UserService userService, ApplicationProperties appProps, SpotifyConnectionService spotConnServ) {
         this.profileService = profileService;
         this.profileRepository = profileRepository;
         this.userService = userService;
@@ -205,8 +200,7 @@ public class ProfileResource {
     }
 
     @GetMapping("/profiles/byLogin/{login}/profilePhoto")
-    public ResponseEntity<String> getProfilePhotoByLogin(@PathVariable String login)
-        throws SpotifyException, IOException, InterruptedException {
+    public ResponseEntity<String> getProfilePhotoByLogin(@PathVariable String login) throws SpotifyException, IOException, InterruptedException {
         Optional<Profile> profOpt = profileRepository.findByUserLogin(login.toLowerCase());
         if (profOpt.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -216,8 +210,12 @@ public class ProfileResource {
         String profilePhotoURL = "https://avatars.platform.tdpain.net/" + login;
 
         if (!"undefined".equals(prof.getSpotifyURI())) {
-            UserProfileResponse up = new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotConnServ, SpotifyCredential.SYSTEM))
-                .getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
+            UserProfileResponse up = new SpotifyAPI(
+                new SpotifyCredential(
+                    this.appProps,
+                    this.spotConnServ,
+                    SpotifyCredential.SYSTEM
+                )).getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
 
             ImageResponse largestImage = up.getLargestImage();
             if (largestImage != null) {
@@ -239,6 +237,7 @@ public class ProfileResource {
         }
         Optional<Profile> prof = profileRepository.findByUserLogin(u.get().getLogin());
         return prof.get();
+
     }
 
     /**

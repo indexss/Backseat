@@ -9,12 +9,12 @@ import { ApplicationConfigService } from '../core/config/application-config.serv
 import { IUser } from '../entities/user/user.model';
 import { ISpotifyConnection } from '../entities/spotify-connection/spotify-connection.model';
 import { FollowService } from '../entities/follow/service/follow.service';
-import { FolderService } from '../entities/folder/service/folder.service';
-import { IFolder } from '../entities/folder/folder.model';
-import { IReview } from '../entities/review/review.model';
-import { ReviewService } from '../entities/review/service/review.service';
-import { ITrack } from '../entities/track/track.model';
-import { IAlbum } from '../entities/album/album.model';
+import {FolderService} from "../entities/folder/service/folder.service";
+import {IFolder} from "../entities/folder/folder.model";
+import {IReview} from "../entities/review/review.model";
+import {ReviewService} from "../entities/review/service/review.service";
+import {ITrack} from "../entities/track/track.model";
+import {IAlbum} from "../entities/album/album.model";
 
 interface ModUser {
   id: number;
@@ -86,7 +86,7 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private applicationConfigService: ApplicationConfigService,
     private followService: FollowService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
   ) {
     this.isSelf = false;
     this.login = this.route.snapshot.paramMap.get('id');
@@ -117,8 +117,8 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    if (this.login == '') {
-      this.router.navigate(['/']);
+    if (this.login == "") {
+      this.router.navigate(["/"]);
     }
 
     this.http.get<ModProfile>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login)).subscribe({
@@ -131,93 +131,82 @@ export class ProfileComponent implements OnInit {
           },
         });
 
-        this.http.get<AbbreviatedFollow[]>(this.applicationConfigService.getEndpointFor('/api/follows/byLogin/' + this.login)).subscribe({
-          next: v => {
-            this.friends = v;
-          },
-        });
-
-        this.http.get<ModFolder[]>(this.applicationConfigService.getEndpointFor('/api/folders/byProfile/' + this.login)).subscribe({
-          next: res => {
-            console.debug('Folders', res);
+        this.http.get<ModFolder[]>(this.applicationConfigService.getEndpointFor("/api/folders/byProfile/" + this.login)).subscribe({
+          next: (res) => {
+            console.debug("Folders", res);
             this.folders = res;
 
-            if (this.profile != null && 'id' in this.profile) {
-              this.http
-                .get<ExtendedReview[]>(this.applicationConfigService.getEndpointFor('/api/reviews/byProfile/' + this.profile.id))
-                .subscribe({
-                  next: res => {
-                    console.debug('Reviews', res);
-                    this.reviews = res
-                      .map(v => {
-                        v.review.date = new Date(v.review.date);
-                        return v;
-                      })
-                      .sort((a: ExtendedReview, b: ExtendedReview): number => {
-                        if (a.review.date > b.review.date) {
-                          return -1;
-                        }
-                        if (a.review.date < b.review.date) {
-                          return 1;
-                        }
-                        return 0;
-                      })
-                      .map(v => {
-                        v.review.date = (<Date>v.review.date).toLocaleDateString('en-GB', {
-                          weekday: 'short',
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                        });
-                        return v;
-                      });
+            if (this.profile != null && "id" in this.profile) {
+              this.http.get<ExtendedReview[]>(this.applicationConfigService.getEndpointFor("/api/reviews/byProfile/" + this.profile.id)).subscribe({
+                next: (res) => {
+                  console.debug("Reviews", res)
+                  this.reviews = res.map((v) => {
+                    v.review.date = new Date(v.review.date);
+                    return v;
+                  }).sort((a: ExtendedReview, b: ExtendedReview): number => {
+                    if (a.review.date > b.review.date) {
+                      return -1;
+                    }
+                    if (a.review.date < b.review.date) {
+                      return 1;
+                    }
+                    return 0;
+                  }).map((v) => {
+                    v.review.date = (<Date>v.review.date).toLocaleDateString('en-GB', {
+                      weekday: 'short',
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    });
+                    return v;
+                  });
 
-                    console.debug(new Date(this.reviews[0].review.date));
-                  },
-                  error: err => {
-                    alert('Failed to get reviews\n' + JSON.stringify(err));
-                  },
-                });
+                  console.debug(new Date(this.reviews[0].review.date));
+                },
+                error: (err) => {
+                  alert("Failed to get reviews\n" + JSON.stringify(err));
+                }
+              });
             } else {
-              alert('Failed to get reviews: null ID');
+              alert("Failed to get reviews: null ID")
             }
+
           },
-          error: err => {
-            alert('Get folders ' + JSON.stringify(err));
+          error: (err) => {
+            alert("Get folders " + JSON.stringify(err));
             this.router.navigate([]);
-          },
+          }
         });
 
-        this.profilePhotoURL = '/api/profiles/byLogin/' + this.profile.username + '/profilePhoto';
+        this.profilePhotoURL = "/api/profiles/byLogin/" + this.profile.username + "/profilePhoto";
       },
-      error: err => {
+      error: (err) => {
         // This might be a profile ID instead - let's try getting that, and if it works, redirect to that profile.
 
         if (err.status == 401) {
-          alert('Please log in first');
-          this.router.navigate(['/login']);
+          alert("Please log in first");
+          this.router.navigate(["/login"]);
           return;
         }
 
         if (err.status != 404) {
           alert(JSON.stringify(err));
           return;
-        } else if (isNaN(Number(this.login))) {
-          // can't be a profile ID if it's not a number
+        } else if (isNaN(Number(this.login))) { // can't be a profile ID if it's not a number
           this.router.navigate(['/404']);
           return;
         }
 
         this.profileService.find(Number(this.login)).subscribe({
-          next: val => {
+          next: (val) => {
             // we got a profile!!
-            this.router.navigate(['/profile', val.body?.username]).then(() => {
+            this.router.navigate(["/profile", val.body?.username]).then(() => {
               this.login = val.body?.username ? val.body.username : null;
               this.ngOnInit();
-              return;
+              return
             });
           },
-          error: err => {
+          error: (err) => {
             // :(
             if (err.status == 404) {
               this.router.navigate(['/404']);
@@ -225,7 +214,7 @@ export class ProfileComponent implements OnInit {
             }
             alert(JSON.stringify(err));
             this.router.navigate([]);
-          },
+          }
         });
       },
     });

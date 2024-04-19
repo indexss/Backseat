@@ -15,7 +15,7 @@
 
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: INFO
     tech.jhipster: INFO
     team.bham: INFO
 
@@ -122,5 +122,6 @@ jhipster:
 # More documentation is available at:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
-# application:
+application:
+  spotify-client-id: "187eb5982f3e452f9eb8583dfc31e059"
+  spotify-client-secret: "17cf9d34a0de436db9846e62f17c4a5e"

@@ -1,19 +1,16 @@
 package team.bham.web.rest;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import team.bham.config.ApplicationProperties;
 import team.bham.domain.Folder;
 import team.bham.domain.Profile;
+import team.bham.domain.User;
 import team.bham.repository.FolderRepository;
 import team.bham.repository.ProfileRepository;
-import team.bham.service.AlbumService;
-import team.bham.service.ArtistService;
-import team.bham.service.SpotifyConnectionService;
-import team.bham.service.TrackService;
+import team.bham.service.*;
 import team.bham.service.dto.AlbumDTO;
 import team.bham.service.dto.ArtistDTO;
 import team.bham.service.dto.TrackDTO;
@@ -26,6 +23,10 @@ import team.bham.spotify.responses.ArtistResponse;
 import team.bham.spotify.responses.SearchResponse;
 import team.bham.spotify.responses.TrackResponse;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/datapipe")
 public class SearchResource {
@@ -37,6 +38,8 @@ public class SearchResource {
     private final TrackService trackService;
     private final ProfileRepository profileRepository;
     private final FolderRepository folderRepository;
+    private final UserService userService;
+
 
     public SearchResource(
         ApplicationProperties appProps,
@@ -45,7 +48,8 @@ public class SearchResource {
         AlbumService albumService,
         TrackService trackService,
         ProfileRepository profileRepository,
-        FolderRepository folderRepository
+        FolderRepository folderRepository,
+        UserService userService
     ) {
         this.appProps = appProps;
         this.spotifyConnectionService = spotifyConnectionService;
@@ -54,10 +58,10 @@ public class SearchResource {
         this.trackService = trackService;
         this.profileRepository = profileRepository;
         this.folderRepository = folderRepository;
+        this.userService = userService;
     }
 
     public class UnifiedSearchResults {
-
         SearchResponse.TrackBox tracks;
         SearchResponse.AlbumBox albums;
         List<Profile> users;
@@ -81,20 +85,27 @@ public class SearchResource {
     }
 
     @GetMapping("/search")
-    public UnifiedSearchResults doSearch(@RequestParam("q") String query, @RequestParam("t") String searchType)
-        throws SpotifyException, IOException, InterruptedException {
+    public UnifiedSearchResults doSearch(@RequestParam("q") String query, @RequestParam("t") String searchType) throws SpotifyException, IOException, InterruptedException {
         if (!("track".equals(searchType) || "album".equals(searchType) || "user".equals(searchType) || "folder".equals(searchType))) {
             searchType = "track";
         }
 
         UnifiedSearchResults us = new UnifiedSearchResults();
         if ("track".equals(searchType) || "album".equals(searchType)) {
+            // Select to search as SYSTEM or as the user if applicable so users get personalised results when logged in
+            String userURI = SpotifyCredential.SYSTEM;
+
+            Optional<User> ou = userService.getUserWithAuthorities();
+            if (ou.isPresent()) {
+                Optional<Profile> op = profileRepository.findByUserLogin(ou.get().getLogin());
+                if (op.isPresent() && op.get().getSpotifyURI() != null) {
+                    userURI = op.get().getSpotifyURI();
+                }
+            }
+
             SearchResponse results = new SpotifyAPI(
-                // TODO(txp271): If user is logged in, use their Spotify credential so they get personalised search
-                //  results
-                new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)
-            )
-                .search(query, searchType);
+                new SpotifyCredential(this.appProps, this.spotifyConnectionService, userURI)
+            ).search(query, searchType);
 
             us.tracks = results.tracks;
             us.albums = results.albums;
@@ -115,9 +126,9 @@ public class SearchResource {
         if (uriType.equals("track")) {
             TrackResponse track;
             try {
-                track =
-                    new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM))
-                        .getTrack(SpotifyUtil.getIdFromUri(objectURI));
+                track = new SpotifyAPI(
+                    new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)
+                ).getTrack(SpotifyUtil.getIdFromUri(objectURI));
             } catch (SpotifyException e) {
                 // I'm assuming that this is a not found error, but if the import fails for some other unrelated reason
                 // then it's still the same net result, ie. track cannot be found, give up.
@@ -150,9 +161,9 @@ public class SearchResource {
         } else if (uriType.equals("album")) {
             AlbumResponse album;
             try {
-                album =
-                    new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM))
-                        .getAlbum(SpotifyUtil.getIdFromUri(objectURI));
+                album = new SpotifyAPI(
+                    new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)
+                ).getAlbum(SpotifyUtil.getIdFromUri(objectURI));
             } catch (SpotifyException e) {
                 // I'm assuming that this is a not found error, but if the import fails for some other unrelated reason
                 // then it's still the same net result, ie. track cannot be found, give up.
