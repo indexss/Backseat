@@ -17,4 +17,5 @@ public interface ArtistRepository extends JpaRepository<Artist, String> {
     //    List<String> getArtistNamesForTrack(@Param("track_uri") String trackURI);
 
     List<Artist> findByTracks_SpotifyURI(@NotNull String tracks_spotifyURI);
+    List<Artist> findByAlbums_SpotifyURI(@NotNull String tracks_spotifyURI);
 }

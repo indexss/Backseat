@@ -15,8 +15,10 @@ import team.bham.domain.Review;
 import team.bham.domain.Track;
 import team.bham.repository.ReviewRepository;
 import team.bham.repository.TrackRepository;
+import team.bham.service.ExploreFoldersService;
 import team.bham.service.RecentlyReviewedService;
 import team.bham.service.dto.AlbumDTO;
+import team.bham.service.dto.ExploreFoldersDTO;
 import team.bham.service.dto.RecentlyReviewedDTO;
 import team.bham.service.dto.TrackDTO;
 import team.bham.utils.ResponseUtils;
@@ -52,6 +54,18 @@ public class RecentlyReviewedController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    @Resource
+    private ExploreFoldersService exploreFoldersService;
+
+    @GetMapping("/folder")
+    public List<ExploreFoldersDTO> fetchRandomFolders() {
+        try {
+            List<ExploreFoldersDTO> foldersDTOS = exploreFoldersService.fetchRandomFolders();
+            return foldersDTOS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
 }
-//need to do explore folders one once recently reviewed is fixed
-//WHY WON'T ANY DATA SEND TO THE FRONT. THE FRONT IS WORKING, SO WHAT IS WRONG AT THE BACK?????

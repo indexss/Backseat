@@ -188,11 +188,19 @@ public class ReviewResource {
             if (id.equals(r.getProfile().getId())) {
                 ExtendedReview er = new ExtendedReview();
                 er.review = r;
-                er.artists =
-                    this.artistRepository.findByTracks_SpotifyURI(r.getTrack().getSpotifyURI())
-                        .stream()
-                        .map(Artist::getName)
-                        .collect(Collectors.toList());
+
+                List<Artist> aex = null;
+
+                if (r.getTrack() != null) {
+                    aex = this.artistRepository.findByTracks_SpotifyURI(r.getTrack().getSpotifyURI());
+                } else if (r.getAlbum() != null) {
+                    aex = this.artistRepository.findByAlbums_SpotifyURI(r.getAlbum().getSpotifyURI());
+                }
+
+                if (aex != null) {
+                    er.artists = aex.stream().map(Artist::getName).collect(Collectors.toList());
+                }
+
                 res.add(er);
             }
         }

@@ -16,4 +16,6 @@ import team.bham.domain.User;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
     @Query("SELECT p FROM Profile p WHERE p.user.login = :login")
     Optional<Profile> findByUserLogin(@Param("login") String login);
+
+    List<Profile> findAllByUsernameContaining(String username);
 }

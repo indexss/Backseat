@@ -1,10 +1,19 @@
 package team.bham.web.rest;
 
+import io.micrometer.core.instrument.search.Search;
 import java.io.IOException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import java.util.Optional;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.web.bind.annotation.*;
 import team.bham.config.ApplicationProperties;
+import team.bham.domain.Folder;
+import team.bham.domain.Profile;
+import team.bham.repository.FolderRepository;
+import team.bham.repository.ProfileRepository;
 import team.bham.service.AlbumService;
 import team.bham.service.ArtistService;
 import team.bham.service.SpotifyConnectionService;
@@ -29,24 +38,77 @@ public class SearchResource {
     private final ArtistService artistService;
     private final AlbumService albumService;
     private final TrackService trackService;
+    private final ProfileRepository profileRepository;
+    private final FolderRepository folderRepository;
 
     public SearchResource(
         ApplicationProperties appProps,
         SpotifyConnectionService spotifyConnectionService,
         ArtistService artistService,
         AlbumService albumService,
-        TrackService trackService
+        TrackService trackService,
+        ProfileRepository profileRepository,
+        FolderRepository folderRepository
     ) {
         this.appProps = appProps;
         this.spotifyConnectionService = spotifyConnectionService;
         this.artistService = artistService;
         this.albumService = albumService;
         this.trackService = trackService;
+        this.profileRepository = profileRepository;
+        this.folderRepository = folderRepository;
+    }
+
+    public class UnifiedSearchResults {
+
+        SearchResponse.TrackBox tracks;
+        SearchResponse.AlbumBox albums;
+        List<Profile> users;
+        List<Folder> folders;
+
+        public SearchResponse.TrackBox getTracks() {
+            return tracks;
+        }
+
+        public SearchResponse.AlbumBox getAlbums() {
+            return albums;
+        }
+
+        public List<Profile> getUsers() {
+            return users;
+        }
+
+        public List<Folder> getFolders() {
+            return folders;
+        }
     }
 
     @GetMapping("/search")
-    public SearchResponse doSearch(@RequestParam("q") String query) throws SpotifyException, IOException, InterruptedException {
-        return new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)).search(query);
+    public UnifiedSearchResults doSearch(@RequestParam("q") String query, @RequestParam("t") String searchType)
+        throws SpotifyException, IOException, InterruptedException {
+        if (!("track".equals(searchType) || "album".equals(searchType) || "user".equals(searchType) || "folder".equals(searchType))) {
+            searchType = "track";
+        }
+
+        UnifiedSearchResults us = new UnifiedSearchResults();
+        if ("track".equals(searchType) || "album".equals(searchType)) {
+            SearchResponse results = new SpotifyAPI(
+                // TODO(txp271): If user is logged in, use their Spotify credential so they get personalised search
+                //  results
+                new SpotifyCredential(this.appProps, this.spotifyConnectionService, SpotifyCredential.SYSTEM)
+            )
+                .search(query, searchType);
+
+            us.tracks = results.tracks;
+            us.albums = results.albums;
+            return us;
+        } else if ("user".equals(searchType)) {
+            us.users = this.profileRepository.findAllByUsernameContaining(query);
+        } else {
+            us.folders = this.folderRepository.findAllByNameContaining(query);
+        }
+
+        return us;
     }
 
     @PostMapping("/import/{trackURI}")

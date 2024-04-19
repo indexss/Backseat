@@ -3,13 +3,22 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from '../core/config/application-config.service';
 import { ReviewService } from '../entities/review/service/review.service';
 import { IReview } from '../entities/review/review.model';
+import { IProfile } from '../entities/profile/profile.model';
+import { IFolder } from '../entities/folder/folder.model';
 
 interface SpotifySearchResult {
-  tracks: TrackBox;
+  tracks: TrackBox | null;
+  albums: AlbumBox | null;
+  users: IProfile[] | null;
+  folders: IFolder[] | null;
 }
 
 interface TrackBox {
   items: SpotifyTrack[];
+}
+
+interface AlbumBox {
+  items: SpotifyAlbum[];
 }
 
 interface SpotifyTrack {
@@ -31,6 +40,7 @@ interface SpotifyAlbum {
   name: string;
   id: string;
   uri: string;
+  artists: SpotifyArtist[];
   images: SpotifyImage[];
 }
 
@@ -51,8 +61,8 @@ const getLargestAlbumImage = (album: SpotifyAlbum): SpotifyImage | null => {
   return null;
 };
 
-const joinTrackArtists = (track: SpotifyTrack): string => {
-  return track.artists
+const joinArtists = (artists: SpotifyArtist[]): string => {
+  return artists
     .map(v => {
       return v.name;
     })
@@ -73,6 +83,13 @@ const debounce = (callback: Function, ms: number = 500) => {
   };
 };
 
+enum TabState {
+  Track = 'track',
+  Album = 'album',
+  User = 'user',
+  Folder = 'folder',
+}
+
 @Component({
   selector: 'jhi-search',
   templateUrl: './search.component.html',
@@ -82,6 +99,7 @@ export class SearchComponent implements OnInit {
   constructor(private http: HttpClient, private appConfig: ApplicationConfigService) {}
 
   protected loading: boolean = false;
+  protected currentTab: TabState = TabState.Track;
 
   protected spotifySearchResults: SpotifySearchResult | null = null;
 
@@ -96,16 +114,18 @@ export class SearchComponent implements OnInit {
     }
 
     this.loading = true;
-    this.makeSearchRequest(this.searchQuery);
+    this.makeSearchRequest(this.searchQuery, this.currentTab);
   }, 500);
 
   doSearch(): void {
     this.searchImpl();
   }
 
-  makeSearchRequest(query: string): void {
+  makeSearchRequest(query: string, type: TabState): void {
     this.http
-      .get<SpotifySearchResult>(this.appConfig.getEndpointFor('/api/datapipe/search') + '?q=' + encodeURIComponent(query))
+      .get<SpotifySearchResult>(
+        this.appConfig.getEndpointFor('/api/datapipe/search') + '?t=' + type.toString() + '&q=' + encodeURIComponent(query)
+      )
       .subscribe({
         next: res => {
           this.spotifySearchResults = res;
@@ -119,6 +139,18 @@ export class SearchComponent implements OnInit {
       });
   }
 
+  selectTab(ts: TabState) {
+    this.currentTab = ts;
+
+    if (this.searchQuery != '') {
+      this.spotifySearchResults = null;
+      this.loading = true;
+      this.makeSearchRequest(this.searchQuery, ts);
+    }
+  }
+
   protected readonly getLargestAlbumImage = getLargestAlbumImage;
-  protected readonly joinTrackArtists = joinTrackArtists;
+  protected readonly joinArtists = joinArtists;
+  protected readonly TabState = TabState; // bodge to allow referencing the enum inside of templates as it's not
+  // possible to define it inside the class.
 }

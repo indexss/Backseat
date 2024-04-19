@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import dayjs from 'dayjs/esm';
-import { RecentlyReviewedService } from './getMusicService';
+import { DeviceService } from 'app/mobile/device.service';
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from '../core/config/application-config.service';
 import { getRecentlyListenedService } from './getRecentlyListenedService';
 import { getRatingService } from './getRatingService.service';
 import { testService } from './test.service';
-import { DeviceService } from 'app/mobile/device.service';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { ITrack } from '../entities/track/track.model';
 import { TrackService } from '../entities/track/service/track.service';
-import { HttpClient } from '@angular/common/http';
-import { ApplicationConfigService } from '../core/config/application-config.service';
 import { IArtist } from '../entities/artist/artist.model';
 import { IAlbum } from '../entities/album/album.model';
 import { IProfile } from '../entities/profile/profile.model';
@@ -21,18 +20,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 interface Record {
   id: number;
-  trackName: string;
+  trackName?: string | null;
   album: string;
-  reviews: number;
   rating: number;
   artist: string;
-  trackURI: string;
+  trackURI?: string | null;
+  albumURI?: string | null;
   imgURL: string;
 }
 
-interface Review {
+interface Folder {
   id: number;
-  date: dayjs.Dayjs;
+  folderId: number;
+  folderName: string;
+  username: string;
+  image: string;
 }
 
 interface Rating {
@@ -130,36 +132,54 @@ interface RecentListenedTrackResponse {
   templateUrl: './discover.component.html',
   styleUrls: ['./discover.component.scss'],
 })
-
-//need to implement getting a record based on date in Review
 export class DiscoverComponent implements OnInit {
-  trackURI = 'erg';
-  trackLink = '/rating/'.concat(this.trackURI);
+  page = 1;
   recordList: Record[] = [];
+  spotifyURI!: string;
+  trackName: string = '';
+  folderList: Folder[] = [];
+  isMobile: boolean = false;
   Track: RecentTrackResponse[] = [];
   Test: String[] = [];
   isSidebarOpen: boolean = false;
-  page = 1;
-  spotifyURI!: string;
-  trackName: string = '';
   rating: number[] = [];
   TrackandReview: FullTrackResponse[] = [];
-
   constructor(
-    private getMusicService: RecentlyReviewedService,
+    private deviceService: DeviceService,
+    private http: HttpClient,
+    private appConfig: ApplicationConfigService,
     private recentlyListenedTracksService: getRecentlyListenedService,
     private testing: testService,
     private getRatingService: getRatingService,
-
-    private http: HttpClient,
-    private appConfig: ApplicationConfigService,
-
-    private route: ActivatedRoute,
     private trackService: TrackService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    if (this.deviceService.isMobile()) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+
+    this.http.get<Record[]>(this.appConfig.getEndpointFor('/api/discover/track')).subscribe({
+      next: vowel => {
+        this.recordList = vowel;
+      },
+      error: err => {
+        //error handling
+        alert(JSON.stringify(err));
+      },
+    });
+
+    this.http.get<Folder[]>(this.appConfig.getEndpointFor('api/discover/folder')).subscribe({
+      next: cons => {
+        this.folderList = cons;
+      },
+      error: err => {
+        alert(JSON.stringify(err));
+      },
+    });
     this.recentlyListenedTracksService.getTrack().subscribe({
       next: (data: RecentListenedTrackResponse) => {
         console.log('Response:', data);

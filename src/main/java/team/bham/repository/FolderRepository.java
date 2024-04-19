@@ -1,5 +1,6 @@
 package team.bham.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.jpa.repository.*;
@@ -19,4 +20,9 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
 
     @Query("select f from Folder f WHERE f.name = :folderName and f.profile.id = :profileId")
     Optional<Folder> isFolderExist(@Param("folderName") String folderName, @Param("profileId") Long profileId);
+
+    @Query("SELECT f FROM Folder f ORDER BY f.id ASC")
+    List<Folder> findAllOrderByIdAsc();
+
+    List<Folder> findAllByNameContaining(String name);
 }

@@ -49,29 +49,33 @@
           <div>
             <div>
               <span *ngFor="let x of [].constructor(r.review.rating)">★</span
-              ><span *ngFor="let x of [].constructor(5 - r.review.rating)">☆</span> {{ r.review.date }}<br /><a
-                href="/rating/{{ r.review.track.spotifyURI }}"
+              ><span *ngFor="let x of [].constructor(5 - r.review.rating)">☆</span> {{ r.review.date }}<br />
+              <a *ngIf="r.review.track != null" routerLink="/rating/{{ r.review.track.spotifyURI }}"
                 ><i>{{ r.review.track.name }} by {{ r.artists.join(', ') }}</i></a
               >
             </div>
-            <span>{{ r.review.content }}</span>
+            <a *ngIf="r.review.album != null" routerLink="/rating/{{ r.review.album.spotifyURI }}"
+              ><i>{{ r.review.album.name }} by {{ r.artists.join(', ') }}</i></a
+            >
           </div>
+          <span>{{ r.review.content }}</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="col">
-      <div class="d-flex justify-content-center gap-2 pb-4">
-        <h2 class="fs-4">Lists</h2>
-        <a [routerLink]="['/addToFolder']" *ngIf="isSelf"><h2 class="fs-4">+</h2></a>
-      </div>
+  <div class="col">
+    <div class="d-flex justify-content-center gap-2 pb-4">
+      <h2 class="fs-4">Lists</h2>
+      <a [routerLink]="['/addToFolder']" *ngIf="isSelf"><h2 class="fs-4">+</h2></a>
+    </div>
 
-      <div id="lists">
-        <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length == 0">No folders! ☹️</div>
-
+    <div id="lists">
+      <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length == 0">
+        No folders! ☹️
         <div *ngFor="let folder of folders; let i = index">
           <hr class="separator" *ngIf="i != 0" />
-          <a href="/folderPage/{{ folder.folderId }}">
+          <a routerLink="/folderPage/{{ folder.folderId }}">
             <div class="d-flex gap-3 align-items-center">
               <img style="max-width: 100px" src="{{ folder.imageURL }}" alt="" />
               <div class="fs-5">{{ folder.folderName }}</div>
@@ -79,6 +83,8 @@
           </a>
         </div>
       </div>
+
+      <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length != 0"><a routerLink="/addToFolder">Manage your lists</a></div>
     </div>
 
     <div class="col">
@@ -89,12 +95,14 @@
 
         <div *ngFor="let friend of friends; let i = index">
           <hr class="separator" *ngIf="i != 0" />
-          <div class="d-flex gap-3 align-items-center">
-            <img style="max-width: 100px" src="{{ friend.photoURL }}" alt="" />
-            <div class="fs-5">
-              <a href="/profile/{{ friend.target }}">{{ friend.target }}</a>
+          <a href="/profile/{{ friend.target }}">
+            <div class="d-flex gap-3 align-items-center">
+              <img style="max-width: 100px" src="/api/profiles/byLogin/{{ friend.target }}/profilePhoto" alt="" />
+              <div class="fs-5">
+                {{ friend.target }}
+              </div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
