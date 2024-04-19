@@ -41,6 +41,13 @@ public class SpotifyOauth {
         String host = request.getHeader("X-Forwarded-Host");
         if (host == null || host.isEmpty()) {
             host = request.getHeader(HttpHeaders.HOST);
+        } else {
+            // Since we're behind two layers of reverse proxying, X-Forwarded-Host looks like this:
+            //
+            //     X-Forwarded-Host: dev.backseatmusic.xyz, team31.dev.bham.team:443
+            //
+            // Since the first item in that is the main part that we need, we just split by `, ` and take that.
+            host = host.split(", ")[0];
         }
 
         String proto = request.getHeader("X-Forwarded-Proto");
