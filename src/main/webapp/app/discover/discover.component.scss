@@ -147,7 +147,7 @@ button {
 h1,
 h2 {
   color: rgb(68, 120, 72);
-  font-size: 3.5vw; //2.5em //makes header size responsive to different screen sizes
+  font-size: 4vw; //2.5em //makes header size responsive to different screen sizes
   font-weight: 700;
 }
 .container-fluid {
@@ -187,10 +187,6 @@ h2 {
 .image {
   grid-column: 1 / span 3;
   grid-row: 1 / span 4;
-}
-.rounded {
-  width: 36vmin;
-  height: 36vmin;
 }
 
 .rating {
@@ -234,27 +230,29 @@ h2 {
 }
 
 .display-folders {
+  flex: auto;
   display: grid;
   -webkit-align-items: center;
   //flex-wrap: nowrap;
   grid-template-columns: repeat(3, 4fr);
   grid-auto-rows: auto;
-  grid-gap: 1.5rem;
+  grid-gap: 1vmin;
   overflow-x: auto;
-  padding: 10px;
+  padding: 2vmin;
   padding-right: 0;
   position: relative;
+  margin-bottom: 40px;
 
   .folder-card {
-    flex: 0 0 auto;
-    margin-right: 5px;
+    flex: auto;
+    margin-right: 0.5vmin;
     display: grid;
-    grid-template-columns: 300px;
-    grid-template-rows: 300px 25px 25px;
+    grid-template-columns: 45vmin;
+    grid-template-rows: 45vmin 2vmin 1vmin;
     text-align: center;
     border-radius: 4px;
-    gap: 5px;
-    padding: 10px;
+    gap: 0.2vmin;
+    padding: 1vmin;
     padding-right: 0;
     overflow-wrap: break-word;
   }
@@ -268,23 +266,17 @@ h2 {
 .folderName {
   grid-column: 1 / 3;
   grid-row: 2;
-  font-size: 25px;
+  font-size: 4vmin;
   color: seagreen;
 }
 
 .creatorName {
   grid-column: 1 / 3;
   grid-row: 3;
-  font-size: 20px;
-  color: darkseagreen;
+  font-size: 3.5vmin;
+  color: mediumseagreen;
 }
-
-//use if can't collapse sidebar TODO
-/*.display-folders::-webkit-scrollbar {
-  background-color: darkseagreen;
+.rounded {
+  width: 36vmin;
+  height: 36vmin;
 }
-
-.display-folders::-webkit-scrollbar-thumb {
-  background-color: seagreen;
-}
-*/
