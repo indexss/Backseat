@@ -274,19 +274,11 @@ public class FollowResource {
         }
     }
 
-    @GetMapping("/follows/mine")
-    public List<MyFollowsResp> getMyFollows() throws SpotifyException, IOException, InterruptedException {
-        Optional<User> ou = userService.getUserWithAuthorities();
-        if (ou.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
-        User u = ou.get();
-
-        SpotifyAPI api = new SpotifyAPI(new SpotifyCredential(this.appProps, this.spotConnServ, SpotifyCredential.SYSTEM));
-
+    @GetMapping("/follows/byLogin/{login}")
+    public List<MyFollowsResp> getMyFollows(@PathVariable String login) throws SpotifyException, IOException, InterruptedException {
         ArrayList<MyFollowsResp> follows = new ArrayList<>();
         for (FollowDTO f : followService.findAll()) {
-            if (f.getSourceUserID().equals(u.getLogin())) {
+            if (f.getSourceUserID().equals(login)) {
                 Optional<Profile> profOpt = profileRepository.findByUserLogin(f.getTargetUserID());
                 if (profOpt.isEmpty()) {
                     continue;

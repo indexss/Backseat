@@ -33,14 +33,18 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
 
     @Override
     public void generateFolder(String folderName, String userName) {
-        Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userName);
-        Profile profile = optionalProfile.get();
-        Optional<Folder> optionalFolder = folderRepository.isFolderExist(folderName, profile.getId());
-        if (!optionalFolder.isPresent()) {
-            Folder folder = new Folder();
-            folder.setName(folderName);
-            folder.setProfile(profile);
-            folderRepository.save(folder);
+        try {
+            Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userName);
+            Profile profile = optionalProfile.get();
+            Optional<Folder> optionalFolder = folderRepository.isFolderExist(folderName, profile.getId());
+            if (!optionalFolder.isPresent()) {
+                Folder folder = new Folder();
+                folder.setName(folderName);
+                folder.setProfile(profile);
+                folderRepository.save(folder);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -53,10 +57,20 @@ public class FolderHandlerServiceImpl implements FolderHandlerService {
     }
 
     @Override
-    public void deleteFolderEntry(String spotifyURI, Long folderId) {
-        Optional<FolderEntry> optionalFolderEntry = folderEntryRepository.isExist(spotifyURI, folderId);
-        FolderEntry folderEntry = optionalFolderEntry.get();
-        folderEntryRepository.delete(folderEntry);
+    public void deleteFolderEntry(String spotifyURI, Long folderId, String userName) {
+        try {
+            Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userName);
+            Profile profile = optionalProfile.get();
+            Optional<Folder> optionalFolder = folderRepository.findById(folderId);
+            Folder folder = optionalFolder.get();
+            if (folder.getProfile().getId() == profile.getId()) {
+                Optional<FolderEntry> optionalFolderEntry = folderEntryRepository.isExist(spotifyURI, folderId);
+                FolderEntry folderEntry = optionalFolderEntry.get();
+                folderEntryRepository.delete(folderEntry);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -41,4 +41,12 @@ public class SpotifyUtil {
         String[] sp = uri.split(":");
         return sp[sp.length - 1];
     }
+
+    public static String getTypeFromUri(String uri) {
+        String[] sp = uri.split(":");
+        if (sp.length == 3) {
+            return sp[1];
+        }
+        return "";
+    }
 }

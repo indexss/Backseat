@@ -149,6 +149,25 @@ export class RatingComponent implements OnInit {
       // For condition of Album request
       else {
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
+          if (data.data.review.albumName == null) {
+            this.httpClient.post<boolean>(this.appConfig.getEndpointFor('/api/datapipe/import/' + this.id), null).subscribe({
+              next: success => {
+                if (success) {
+                  // this is equivalent to reloading the entire page
+                  // (redir to / then back to restart rendering)
+                  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                    this.router.navigate(['/rating', this.id]);
+                  });
+                } else {
+                  this.router.navigate(['/rating-not-found']);
+                }
+              },
+              error: () => {
+                this.router.navigate(['/rating-not-found']);
+              },
+            });
+          }
+
           // this.trackName = data.data.review.trackName;
           this.albumName = data.data.review.albumName;
           this.artistName = data.data.review.artistName;

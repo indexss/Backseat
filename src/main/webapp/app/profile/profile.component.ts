@@ -69,6 +69,7 @@ interface ModArtist {
 })
 export class ProfileComponent implements OnInit {
   protected isSelf: boolean;
+  protected isAuthed: boolean = true;
   private login: string | null;
   protected profile: ModProfile | null = null;
   protected profilePhotoURL: string | null = null;
@@ -94,20 +95,16 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.identity().subscribe(acc => {
       if (acc == null) {
+        this.isAuthed = false;
         return;
       }
+      this.isAuthed = true;
 
       if (acc.login == this.login) {
         this.isSelf = true;
       }
 
-      if (this.isSelf) {
-        this.http.get<AbbreviatedFollow[]>(this.applicationConfigService.getEndpointFor('/api/follows/mine')).subscribe({
-          next: v => {
-            this.friends = v;
-          },
-        });
-      } else {
+      if (!this.isSelf) {
         this.http.get<boolean>(this.applicationConfigService.getEndpointFor('/api/follows/check/' + this.login)).subscribe({
           next: v => {
             console.debug('Follows?', v);
@@ -120,9 +117,25 @@ export class ProfileComponent implements OnInit {
       }
     });
 
+    if (this.login == '') {
+      this.router.navigate(['/']);
+    }
+
     this.http.get<ModProfile>(this.applicationConfigService.getEndpointFor('/api/profiles/byLogin/' + this.login)).subscribe({
       next: res => {
         this.profile = res;
+
+        this.http.get<AbbreviatedFollow[]>(this.applicationConfigService.getEndpointFor('/api/follows/byLogin/' + this.login)).subscribe({
+          next: v => {
+            this.friends = v;
+          },
+        });
+
+        this.http.get<AbbreviatedFollow[]>(this.applicationConfigService.getEndpointFor('/api/follows/byLogin/' + this.login)).subscribe({
+          next: v => {
+            this.friends = v;
+          },
+        });
 
         this.http.get<ModFolder[]>(this.applicationConfigService.getEndpointFor('/api/folders/byProfile/' + this.login)).subscribe({
           next: res => {

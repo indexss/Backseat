@@ -67,10 +67,6 @@ export class FolderComponent implements OnInit {
     return spotifyURL;
   }
 
-  navigateToEditFolder() {
-    this.router.navigate(['/folder', this.id, 'edit']);
-  }
-
   deleteFolderEntry(spotifyURI: string) {
     this.accountService.identity().subscribe(account => {
       if (account) {

@@ -34,7 +34,7 @@ interface Folder {
   folderId: number;
   folderName: string;
   username: string;
-  image: string;
+  image?: string | null;
 }
 
 interface Rating {
