@@ -17,7 +17,7 @@ import team.bham.spotify.responses.AuthenticationErrorResponse;
 public class SpotifyOauth {
 
     public static final String SCOPES =
-        "user-read-recently-played playlist-modify-private playlist-read-private playlist-read-collaborative playlist-modify-public";
+        "user-read-recently-played playlist-modify-private playlist-read-private";
 
     private final ApplicationProperties appProps;
 
