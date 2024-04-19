@@ -251,9 +251,11 @@ export class RatingComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.fetchAcc.fetchAcc().subscribe(data => {
-          this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName).subscribe();
+          // @ts-ignore
+          this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName).subscribe(res => {
+            this.showAddWantListen = res != null;
+          });
         });
-        this.showAddWantListen = true;
       } else {
         this.router.navigate(['/login']);
       }

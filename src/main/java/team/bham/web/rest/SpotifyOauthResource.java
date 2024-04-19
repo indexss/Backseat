@@ -46,7 +46,13 @@ public class SpotifyOauthResource {
     private UserRepository userRepository;
     private ProfileRepository profileRepository;
 
-    public SpotifyOauthResource(SpotifyConnectionService spotifyConnectionService, SpotifyConnectionRepository spotifyConnectionRepository, UserService userService, UserRepository userRepository, ProfileRepository profileRepository) {
+    public SpotifyOauthResource(
+        SpotifyConnectionService spotifyConnectionService,
+        SpotifyConnectionRepository spotifyConnectionRepository,
+        UserService userService,
+        UserRepository userRepository,
+        ProfileRepository profileRepository
+    ) {
         this.spotifyConnectionService = spotifyConnectionService;
         this.userService = userService;
         this.userRepository = userRepository;
@@ -92,6 +98,7 @@ public class SpotifyOauthResource {
         // Store result
         SpotifyConnectionDTO conn = this.spotifyConnectionService.update(accessToken.asSpotifyConnectionDTO(userProfile.uri));
         Optional<User> u = userService.getUserWithAuthorities();
+        System.out.println("CONN DTO: " + conn);
         if (u.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
@@ -99,7 +106,7 @@ public class SpotifyOauthResource {
         prof.setSpotifyURI(conn.getSpotifyURI());
         prof.setSpotifyConnection(new SpotifyConnection().spotifyURI(conn.getSpotifyURI()));
         profileRepository.save(prof);
-        
+
         StoreResultResponse resp = new StoreResultResponse();
         resp.displayName = userProfile.displayName;
         return new ResponseEntity<>(resp, HttpStatus.OK);
