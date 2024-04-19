@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {ApplicationConfigService} from "../core/config/application-config.service";
-import {ReviewService} from "../entities/review/service/review.service";
-import {IReview} from "../entities/review/review.model";
-import {IProfile} from "../entities/profile/profile.model";
-import {IFolder} from "../entities/folder/folder.model";
+import { HttpClient } from '@angular/common/http';
+import { ApplicationConfigService } from '../core/config/application-config.service';
+import { ReviewService } from '../entities/review/service/review.service';
+import { IReview } from '../entities/review/review.model';
+import { IProfile } from '../entities/profile/profile.model';
+import { IFolder } from '../entities/folder/folder.model';
 
 interface SpotifySearchResult {
   tracks: TrackBox | null;
@@ -59,11 +59,15 @@ const getLargestAlbumImage = (album: SpotifyAlbum): SpotifyImage | null => {
     return album.images[maxIdx];
   }
   return null;
-}
+};
 
 const joinArtists = (artists: SpotifyArtist[]): string => {
-  return artists.map((v) => {return v.name}).join(", ");
-}
+  return artists
+    .map(v => {
+      return v.name;
+    })
+    .join(', ');
+};
 
 interface SpotifyImage {
   height: number;
@@ -75,15 +79,15 @@ const debounce = (callback: Function, ms: number = 500) => {
   let timer = 0;
   return function (this: any, ...args: any[]) {
     clearTimeout(timer);
-    timer = setTimeout(() => callback.apply(this, args), ms)
-  }
-}
+    timer = setTimeout(() => callback.apply(this, args), ms);
+  };
+};
 
 enum TabState {
-  Track = "track",
-  Album = "album",
-  User = "user",
-  Folder = "folder",
+  Track = 'track',
+  Album = 'album',
+  User = 'user',
+  Folder = 'folder',
 }
 
 @Component({
@@ -92,28 +96,24 @@ enum TabState {
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-
-  constructor(
-    private http: HttpClient,
-    private appConfig: ApplicationConfigService,
-  ) {}
+  constructor(private http: HttpClient, private appConfig: ApplicationConfigService) {}
 
   protected loading: boolean = false;
   protected currentTab: TabState = TabState.Track;
 
   protected spotifySearchResults: SpotifySearchResult | null = null;
 
-  protected searchQuery: string = "";
+  protected searchQuery: string = '';
 
   ngOnInit(): void {}
 
   protected searchImpl = debounce(() => {
-    if (this.searchQuery == "") {
+    if (this.searchQuery == '') {
       this.spotifySearchResults = null;
       return;
     }
 
-    this.loading = true
+    this.loading = true;
     this.makeSearchRequest(this.searchQuery, this.currentTab);
   }, 500);
 
@@ -122,23 +122,27 @@ export class SearchComponent implements OnInit {
   }
 
   makeSearchRequest(query: string, type: TabState): void {
-    this.http.get<SpotifySearchResult>(this.appConfig.getEndpointFor("/api/datapipe/search") + "?t=" + type.toString() + "&q=" + encodeURIComponent(query)).subscribe({
-      next: (res) => {
-        this.spotifySearchResults = res;
-      },
-      error: (err) => {
-        alert("Failed to search!\n" + JSON.stringify(err));
-      },
-      complete: () => {
-        this.loading = false;
-      }
-    });
+    this.http
+      .get<SpotifySearchResult>(
+        this.appConfig.getEndpointFor('/api/datapipe/search') + '?t=' + type.toString() + '&q=' + encodeURIComponent(query)
+      )
+      .subscribe({
+        next: res => {
+          this.spotifySearchResults = res;
+        },
+        error: err => {
+          alert('Failed to search!\n' + JSON.stringify(err));
+        },
+        complete: () => {
+          this.loading = false;
+        },
+      });
   }
 
   selectTab(ts: TabState) {
     this.currentTab = ts;
 
-    if (this.searchQuery != "") {
+    if (this.searchQuery != '') {
       this.spotifySearchResults = null;
       this.loading = true;
       this.makeSearchRequest(this.searchQuery, ts);

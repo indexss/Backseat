@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchResponse {
+
     @JsonProperty("tracks")
     public TrackBox tracks;
 
@@ -13,12 +14,14 @@ public class SearchResponse {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class TrackBox {
+
         @JsonProperty("items")
         public TrackResponse[] items;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class AlbumBox {
+
         @JsonProperty("items")
         public AlbumResponse[] items;
     }

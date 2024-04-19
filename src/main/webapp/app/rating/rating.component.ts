@@ -135,6 +135,7 @@ export class RatingComponent implements OnInit {
               username: reviewDTO[i].profile.username,
               userProfileImage: reviewDTO[i].profile.profilePhoto,
               // userProfileImage: './../../content/images/common_avatar.png',
+              userId: reviewDTO[i].profile.id,
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
               rating: reviewDTO[i].rating,
@@ -201,6 +202,7 @@ export class RatingComponent implements OnInit {
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
               rating: reviewDTO[i].rating,
+              userId: reviewDTO[i].profile.id,
             };
             console.log('Album reqeust print review info:');
             console.log(data.data.review);
@@ -221,6 +223,7 @@ export class RatingComponent implements OnInit {
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.albumReviewList.push(review);
             }
@@ -340,6 +343,7 @@ export class RatingComponent implements OnInit {
                         reviewContent: reviewDTO[i].content,
                         reviewDate: reviewDTO[i].date,
                         rating: reviewDTO[i].rating,
+                        userId: reviewDTO[i].profile.id,
                       };
                       this.reviewList.push(review);
                     }
@@ -384,6 +388,7 @@ export class RatingComponent implements OnInit {
                           reviewContent: reviewDTO[i].content,
                           reviewDate: reviewDTO[i].date,
                           rating: reviewDTO[i].rating,
+                          userId: reviewDTO[i].profile.id,
                         };
                         this.albumReviewList.push(review);
                       }
@@ -428,6 +433,7 @@ export class RatingComponent implements OnInit {
                             reviewContent: reviewDTO[i].content,
                             reviewDate: reviewDTO[i].date,
                             rating: reviewDTO[i].rating,
+                            userId: reviewDTO[i].profile.id,
                           };
                           this.reviewList.push(review);
                         }
@@ -520,6 +526,7 @@ export class RatingComponent implements OnInit {
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.albumReviewList.push(review);
             }
@@ -546,6 +553,7 @@ export class RatingComponent implements OnInit {
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.reviewList.push(review);
             }
@@ -575,11 +583,12 @@ export class RatingComponent implements OnInit {
                   reviewTrackName: reviewDTO[i].album.name,
                   userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                   username: reviewDTO[i].profile.username,
-                  // userProfileImage: reviewDTO[i].profile.profileImage,
-                  userProfileImage: './../../content/images/common_avatar.png',
+                  userProfileImage: reviewDTO[i].profile.profilePhoto,
+                  // userProfileImage: './../../content/images/common_avatar.png',
                   reviewContent: reviewDTO[i].content,
                   reviewDate: reviewDTO[i].date,
                   rating: reviewDTO[i].rating,
+                  userId: reviewDTO[i].profile.id,
                 };
                 this.albumReviewList.push(review);
               }
@@ -619,11 +628,12 @@ export class RatingComponent implements OnInit {
                     reviewTrackName: reviewDTO[i].track.name,
                     userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                     username: reviewDTO[i].profile.username,
-                    // userProfileImage: reviewDTO[i].profile.profileImage,
-                    userProfileImage: './../../content/images/common_avatar.png',
+                    userProfileImage: reviewDTO[i].profile.profilePhoto,
+                    // userProfileImage: './../../content/images/common_avatar.png',
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
+                    userId: reviewDTO[i].profile.id,
                   };
                   this.reviewList.push(review);
                 }
@@ -645,11 +655,12 @@ export class RatingComponent implements OnInit {
                     reviewTrackName: data.data.review.trackName,
                     userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                     username: reviewDTO[i].profile.username,
-                    // userProfileImage: reviewDTO[i].profile.profileImage,
-                    userProfileImage: './../../content/images/common_avatar.png',
+                    userProfileImage: reviewDTO[i].profile.profilePhoto,
+                    // userProfileImage: './../../content/images/common_avatar.png',
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
+                    userId: reviewDTO[i].profile.id,
                   };
                   this.reviewList.push(review);
                 }

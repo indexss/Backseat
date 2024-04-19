@@ -56,7 +56,12 @@ public class ReviewResource {
     private final TrackRepository trackRepository;
     private final ArtistRepository artistRepository;
 
-    public ReviewResource(ReviewService reviewService, ReviewRepository reviewRepository, TrackRepository trackRepository, ArtistRepository artistRepository) {
+    public ReviewResource(
+        ReviewService reviewService,
+        ReviewRepository reviewRepository,
+        TrackRepository trackRepository,
+        ArtistRepository artistRepository
+    ) {
         this.reviewService = reviewService;
         this.reviewRepository = reviewRepository;
         this.trackRepository = trackRepository;
@@ -168,6 +173,7 @@ public class ReviewResource {
     }
 
     public static class ExtendedReview {
+
         public Review review;
         public List<String> artists;
     }
@@ -178,7 +184,7 @@ public class ReviewResource {
         List<Review> page = reviewRepository.findAll();
         List<ExtendedReview> res = new ArrayList<>();
 
-        for (Review r: page) {
+        for (Review r : page) {
             if (id.equals(r.getProfile().getId())) {
                 ExtendedReview er = new ExtendedReview();
                 er.review = r;

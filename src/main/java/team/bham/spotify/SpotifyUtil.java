@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class SpotifyUtil {
+
     protected static String createUrlEncodedString(HashMap<String, String> params) {
         return params
             .keySet()

@@ -33,9 +33,6 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
     //get albumName
     private AlbumRepository albumRepository;
 
-    //    @Resource
-    //    //get artistName
-    //    private ArtistRepository artistRepository;
     @Resource
     //    //get reviewList
     private ReviewRepository reviewRepository;
@@ -55,8 +52,6 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
             reviewTrackDTO.setTrackName(track.getName());
             reviewTrackDTO.setReleaseDate(track.getReleaseDate());
             reviewTrackDTO.setDescription("");
-            //        Optional<Album> optionalAlbum = albumRepository.findById(track.getAlbum().getId());
-            //        reviewTrackDTO.setAlbumName(optionalAlbum.get().getName());
             reviewTrackDTO.setAlbumName(track.getAlbum().getName());
             reviewTrackDTO.setImgURL(track.getAlbum().getImageURL());
             reviewTrackDTO.setAlbumURI(track.getAlbum().getSpotifyURI());
@@ -77,10 +72,6 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
                 }
             }
             reviewTrackDTO.setArtistName(artistNameBuilder.toString());
-            //        reviewTrackDTO.setArtistName(track.getArtists().toString());
-            //        reviewTrackDTO.setReviewList(track.getReviews());
-            System.out.println("SpotifyID");
-            System.out.println(trackSpotifyId);
             Set<Review> reviewList = reviewRepository.findByTrackSpotifyURI(trackSpotifyId);
             System.out.println(artistNameBuilder.toString());
             System.out.println(artists);
@@ -110,7 +101,6 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
         Profile profile = optionalProfile.get();
         newReview.setProfile(profile);
 
-        //        System.out.println("888888888888: " + trackId);
         Optional<Track> optionalTrack = trackRepository.findBySpotifyURI(trackId);
         Track track = optionalTrack.get();
         newReview.setTrack(track);
@@ -131,7 +121,6 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
 
     @Override
     public void deleteReview(String trackId, String username) {
-        //        System.out.println("888888888888: " + trackId);
         Optional<Profile> optionalProfile = profileRepository.findByUserLogin(username);
         Profile profile = optionalProfile.get();
 

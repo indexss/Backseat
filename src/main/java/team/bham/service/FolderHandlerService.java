@@ -9,7 +9,7 @@ public interface FolderHandlerService {
 
     public void deleteFolder(Long folderId);
 
-    public void deleteFolderEntry(String spotifyURI, Long folderId);
+    public void deleteFolderEntry(String spotifyURI, Long folderId, String userId);
 
     public List<FetchFolderDTO> fetchFolder(String userId);
 

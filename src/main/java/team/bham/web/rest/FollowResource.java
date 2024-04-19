@@ -55,7 +55,14 @@ public class FollowResource {
     private final SpotifyConnectionService spotConnServ;
     private final ProfileRepository profileRepository;
 
-    public FollowResource(FollowService followService, FollowRepository followRepository, UserService userService, ApplicationProperties appProps, SpotifyConnectionService spotConnServ, ProfileRepository profileRepository) {
+    public FollowResource(
+        FollowService followService,
+        FollowRepository followRepository,
+        UserService userService,
+        ApplicationProperties appProps,
+        SpotifyConnectionService spotConnServ,
+        ProfileRepository profileRepository
+    ) {
         this.followService = followService;
         this.followRepository = followRepository;
         this.userService = userService;
@@ -166,7 +173,7 @@ public class FollowResource {
     }
 
     private Optional<FollowDTO> findFollowBetweenLogins(String source, String target) {
-        for (FollowDTO f: followService.findAll()) {
+        for (FollowDTO f : followService.findAll()) {
             if (f.getSourceUserID().equals(source) && f.getTargetUserID().equals(target)) {
                 return Optional.of(f);
             }
@@ -257,6 +264,7 @@ public class FollowResource {
     }
 
     protected class MyFollowsResp {
+
         public String target;
         public String photoURL;
 
@@ -269,9 +277,8 @@ public class FollowResource {
     @GetMapping("/follows/byLogin/{login}")
     public List<MyFollowsResp> getMyFollows(@PathVariable String login) throws SpotifyException, IOException, InterruptedException {
         ArrayList<MyFollowsResp> follows = new ArrayList<>();
-        for (FollowDTO f: followService.findAll()) {
+        for (FollowDTO f : followService.findAll()) {
             if (f.getSourceUserID().equals(login)) {
-
                 Optional<Profile> profOpt = profileRepository.findByUserLogin(f.getTargetUserID());
                 if (profOpt.isEmpty()) {
                     continue;
@@ -282,11 +289,9 @@ public class FollowResource {
 
                 if (!"undefined".equals(prof.getSpotifyURI())) {
                     UserProfileResponse up = new SpotifyAPI(
-                        new SpotifyCredential(
-                            this.appProps,
-                            this.spotConnServ,
-                            SpotifyCredential.SYSTEM
-                        )).getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
+                        new SpotifyCredential(this.appProps, this.spotConnServ, SpotifyCredential.SYSTEM)
+                    )
+                        .getUser(SpotifyUtil.getIdFromUri(prof.getSpotifyURI()));
 
                     ImageResponse largestImage = up.getLargestImage();
                     if (largestImage != null) {

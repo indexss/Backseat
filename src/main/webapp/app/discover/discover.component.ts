@@ -1,7 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import dayjs from 'dayjs/esm';
 import { DeviceService } from 'app/mobile/device.service';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from '../core/config/application-config.service';
+import { getRecentlyListenedService } from './getRecentlyListenedService';
+import { getRatingService } from './getRatingService.service';
+import { testService } from './test.service';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { ITrack } from '../entities/track/track.model';
+import { TrackService } from '../entities/track/service/track.service';
+import { IArtist } from '../entities/artist/artist.model';
+import { IAlbum } from '../entities/album/album.model';
+import { IProfile } from '../entities/profile/profile.model';
+import { ReviewService } from '../entities/review/service/review.service';
+import { IReview } from '../entities/review/review.model';
+import { min } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface Record {
   id: number;
@@ -19,9 +34,99 @@ interface Folder {
   folderId: number;
   folderName: string;
   username: string;
-  image: string;
+  image?: string | null;
 }
 
+interface Rating {
+  rating: number;
+}
+
+interface test {
+  test: string;
+}
+
+interface FullTrackResponse {
+  track: {
+    uri: string;
+    name: string;
+    id: string;
+    durationMilliseconds: number;
+    rating: number;
+
+    album: {
+      album_type: string;
+      id: string;
+      name: string;
+      uri: string;
+      images: {
+        url: string;
+        height: number;
+        width: number;
+      }[];
+    };
+
+    artists: {
+      uri: string;
+      name: string;
+      id: string;
+    }[];
+  };
+}
+
+interface RecentTrackResponse {
+  track: {
+    uri: string;
+    name: string;
+    id: string;
+    durationMilliseconds: number;
+
+    album: {
+      album_type: string;
+      id: string;
+      name: string;
+      uri: string;
+      images: {
+        url: string;
+        height: number;
+        width: number;
+      }[];
+    };
+
+    artists: {
+      uri: string;
+      name: string;
+      id: string;
+    }[];
+  };
+}
+interface RecentListenedTrackResponse {
+  items: {
+    track: {
+      uri: string;
+      name: string;
+      id: string;
+      durationMilliseconds: number;
+
+      album: {
+        album_type: string;
+        id: string;
+        name: string;
+        uri: string;
+        images: {
+          url: string;
+          height: number;
+          width: number;
+        }[];
+      };
+
+      artists: {
+        uri: string;
+        name: string;
+        id: string;
+      }[];
+    };
+  }[];
+}
 @Component({
   selector: 'jhi-discover',
   templateUrl: './discover.component.html',
@@ -34,8 +139,21 @@ export class DiscoverComponent implements OnInit {
   trackName: string = '';
   folderList: Folder[] = [];
   isMobile: boolean = false;
-
-  constructor(private deviceService: DeviceService, private http: HttpClient, private appConfig: ApplicationConfigService) {}
+  Track: RecentTrackResponse[] = [];
+  Test: String[] = [];
+  isSidebarOpen: boolean = false;
+  rating: number[] = [];
+  TrackandReview: FullTrackResponse[] = [];
+  constructor(
+    private deviceService: DeviceService,
+    private http: HttpClient,
+    private appConfig: ApplicationConfigService,
+    private recentlyListenedTracksService: getRecentlyListenedService,
+    private testing: testService,
+    private getRatingService: getRatingService,
+    private trackService: TrackService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     if (this.deviceService.isMobile()) {
@@ -62,5 +180,33 @@ export class DiscoverComponent implements OnInit {
         alert(JSON.stringify(err));
       },
     });
+    this.recentlyListenedTracksService.getTrack().subscribe({
+      next: (data: RecentListenedTrackResponse) => {
+        console.log('Response:', data);
+        this.Track = data.items;
+      },
+      error: error => {
+        console.error('Error:', error);
+      },
+      complete: () => {
+        console.log('Request completed');
+      },
+    });
+    this.recentlyListenedTracksService.getTrackRating().subscribe({
+      next: (data: number[]) => {
+        console.log('Response:', data);
+        this.rating = data;
+      },
+      error: error => {
+        console.error('Error:', error);
+      },
+      complete: () => {
+        console.log('Request completed');
+      },
+    });
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
 }

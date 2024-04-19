@@ -2,12 +2,11 @@ package team.bham.spotify.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.HashSet;
+import java.util.Set;
 import team.bham.domain.Track;
 import team.bham.service.dto.ArtistDTO;
 import team.bham.service.dto.TrackDTO;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrackResponse {
@@ -38,7 +37,7 @@ public class TrackResponse {
         tdto.setRating(0d);
 
         Set<ArtistDTO> artists = new HashSet<>();
-        for (ArtistResponse a: this.artists) {
+        for (ArtistResponse a : this.artists) {
             artists.add(a.asDTO());
         }
         tdto.setArtists(artists);

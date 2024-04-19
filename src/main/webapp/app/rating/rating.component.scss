@@ -51,7 +51,6 @@ body {
   vertical-align: top;
   margin-left: 20px;
   padding-bottom: 5px;
-  // font-weight: bold;
   font-size: 1.3em;
 }
 
@@ -59,28 +58,24 @@ body {
   vertical-align: top;
   margin-left: 20px;
   padding-bottom: 5px;
-  // font-weight: bold;
   font-size: 1.2em;
 }
 
 .album {
   vertical-align: top;
   margin-left: 9px;
-  // font-weight: bold;
   font-size: 1.2em;
 }
 
 .album-t {
   vertical-align: top;
   margin-left: 20px;
-  // font-weight: bold;
   font-size: 2em;
 }
 
 .description {
   vertical-align: top;
   margin-left: 20px;
-  // font-weight: bold;
   font-size: 1.2em;
 }
 
@@ -155,7 +150,6 @@ body {
     }
   }
 
-  // Responsive adjustments
   @media (max-width: 768px) {
     .track-table {
       th,
@@ -203,17 +197,8 @@ ngb-rating {
 }
 
 .no-underline {
-  // text-decoration: none;
   font-size: 1em;
   vertical-align: middle;
-}
-
-.ViewAlbumToggler {
-  font-size: 18px;
-  color: darkgreen;
-  display: inline-block;
-  margin-left: 8px;
-  padding-bottom: 10px;
 }
 
 .form-check-label {
@@ -232,4 +217,16 @@ ngb-rating {
 .redirectButton {
   width: 170px;
   height: 35px;
+}
+
+.align-items-start {
+  align-items: flex-start; /* Ensures vertical alignment at the top */
+}
+
+.ms-2 {
+  margin-left: 0.5rem; /* Adds a small space between the two buttons */
+}
+
+.wtl {
+  margin-left: 0.5rem;
 }
