@@ -34,7 +34,7 @@ body {
   transition: transform 0.3s ease;
   position: fixed;
   right: 0;
-  top: 4.5rem; 
+  top: 4.5rem;
   transform: translateX(100%); =
   padding-right: 40px;
 
@@ -58,7 +58,7 @@ body {
   top: 0;
   right:0; // Adjust this value to position the button outside of the sidebar
   padding: 10px;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 button {
@@ -147,7 +147,7 @@ button {
 h1,
 h2 {
   color: rgb(68, 120, 72);
-  font-size: 2.5em;
+  font-size: 4vw; //2.5em //makes header size responsive to different screen sizes
   font-weight: 700;
 }
 .container-fluid {
@@ -155,31 +155,32 @@ h2 {
   transition: margin-left 0.3s ease;
   width: 75%;
   &.shifted {
-    margin-left: 250px;
+    margin-left: 0.5vmin; //originally 250px
   }
 }
+
 .recently-reviewed {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  padding: 10px;
+  padding: 2vmin; //originally 10px
   padding-right: 0;
   position: relative;
 
   .record-card {
-    flex: 0 0 auto;
-    margin-right: 5px;
+    flex: auto;
+    margin-right: 0.5vmin; //5px
   }
 }
 
 .record-card {
   display: grid;
   text-align: left;
-  gap: 15px;
+  gap: 2vmin; //15px
   //width: 400px;
   //height: 300px;
-  padding: 20px;
-  font-size: 30px;
+  padding: 1vmin; //20px
+  font-size: 5vmin; //30px
   overflow-wrap: break-word;
 }
 
@@ -189,26 +190,33 @@ h2 {
 }
 
 .rating {
-  grid-column: 4 / span 2;
+  grid-column: 4;
   grid-row: 1;
   color: seagreen;
 }
 
-.artist {
-  grid-column: 4 / span 2;
-  grid-row: 2;
+.recordName {
+  grid-column: 4;
+  grid-row: 2 / span 2;
   color: seagreen;
 }
 
-.recordName {
-  grid-column: 4 / span 2;
-  grid-row: 3 / span 2;
+.album {
+  grid-column: 4;
+  grid-row: 2 / span 2;
   color: seagreen;
+  font-size: 5vmin;
+}
+
+.artist {
+  grid-column: 4;
+  grid-row: 4;
+  color: mediumseagreen;
 }
 
 .recently-reviewed {
-  height: 350px;
-  margin-bottom: 40px;
+  height: 45vmin; //350px
+  margin-bottom: 40px; //40px
   width: 100%;
   -webkit-overflow-scrolling: touch;
 }
@@ -222,27 +230,29 @@ h2 {
 }
 
 .display-folders {
+  flex: auto;
   display: grid;
   -webkit-align-items: center;
   //flex-wrap: nowrap;
   grid-template-columns: repeat(3, 4fr);
   grid-auto-rows: auto;
-  grid-gap: 1.5rem;
+  grid-gap: 1vmin;
   overflow-x: auto;
-  padding: 10px;
+  padding: 2vmin;
   padding-right: 0;
   position: relative;
+  margin-bottom: 40px;
 
   .folder-card {
-    flex: 0 0 auto;
-    margin-right: 5px;
+    flex: auto;
+    margin-right: 0.5vmin;
     display: grid;
-    grid-template-columns: 300px;
-    grid-template-rows: 300px 25px 25px;
+    grid-template-columns: 45vmin;
+    grid-template-rows: 45vmin 2vmin 1vmin;
     text-align: center;
     border-radius: 4px;
-    gap: 5px;
-    padding: 10px;
+    gap: 0.2vmin;
+    padding: 1vmin;
     padding-right: 0;
     overflow-wrap: break-word;
   }
@@ -256,27 +266,17 @@ h2 {
 .folderName {
   grid-column: 1 / 3;
   grid-row: 2;
-  font-size: 25px;
+  font-size: 4vmin;
   color: seagreen;
 }
 
 .creatorName {
   grid-column: 1 / 3;
   grid-row: 3;
-  font-size: 20px;
-  color: darkseagreen;
+  font-size: 3.5vmin;
+  color: mediumseagreen;
 }
-
-.mobile-h1 {
-  font-size: 1.2em;
+.rounded {
+  width: 36vmin;
+  height: 36vmin;
 }
-
-//use if can't collapse sidebar TODO
-/*.display-folders::-webkit-scrollbar {
-  background-color: darkseagreen;
-}
-
-.display-folders::-webkit-scrollbar-thumb {
-  background-color: seagreen;
-}
-*/
