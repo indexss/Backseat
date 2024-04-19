@@ -202,7 +202,7 @@ jhipster:
   #  security:
   #    content-security-policy: "default-src 'self'; frame-src 'self' data: https://i.scdn.co https://canvas.bham.ac.uk; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com data:"
   security:
-    content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://i.scdn.co https://canvas.bham.ac.uk https://inst-fs-dub-prod.inscloudgate.net; font-src 'self' https://fonts.gstatic.com data:"
+    content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://avatars.platform.tdpain.net https://i.scdn.co https://canvas.bham.ac.uk https://inst-fs-dub-prod.inscloudgate.net; font-src 'self' https://fonts.gstatic.com data:"
 #    content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://i.scdn.co https://canvas.bham.ac.uk; font-src 'self' https://fonts.gstatic.com data:"
 #security:
 #  content-security-policy: "default-src 'self'; img-src 'self' data: https://i.scdn.co; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"

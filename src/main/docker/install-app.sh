@@ -5,7 +5,7 @@ set -x
 set -e
 
 echo "the app deployment script has started"
-
+docker image prune -f
 echo "the app deployment script is taking down the previous version of the app - if running"
 docker compose -f ~/team-project/app.yml down || true
 

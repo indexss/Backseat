@@ -27,6 +27,7 @@ Navbar
 
 .navbar-version {
   font-size: 0.65em;
+  height: 3.5rem;
   color: $navbar-dark-color;
 }
 
@@ -34,8 +35,8 @@ Navbar
   height: 1.75em;
   width: 1.75em;
 }
-
 .navbar {
+  z-index: 10000;
   padding: 0.2rem 1rem;
   // background-color: #ff0101;
   .dropdown-item.active,

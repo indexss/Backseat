@@ -16,8 +16,7 @@ import team.bham.spotify.responses.AuthenticationErrorResponse;
 
 public class SpotifyOauth {
 
-    public static final String SCOPES =
-        "user-read-recently-played playlist-modify-private playlist-read-private playlist-read-collaborative playlist-modify-public";
+    public static final String SCOPES = "user-read-recently-played playlist-modify-private playlist-read-private";
 
     private final ApplicationProperties appProps;
 
@@ -38,7 +37,24 @@ public class SpotifyOauth {
     }
 
     private static String generateInboundOauthUrl(HttpServletRequest request) {
-        return request.getProtocol().split("/")[0].toLowerCase() + "://" + request.getHeader(HttpHeaders.HOST) + "/oauth/inbound";
+        String host = request.getHeader("X-Forwarded-Host");
+        if (host == null || host.isEmpty()) {
+            host = request.getHeader(HttpHeaders.HOST);
+        } else {
+            // Since we're behind two layers of reverse proxying, X-Forwarded-Host looks like this:
+            //
+            //     X-Forwarded-Host: dev.backseatmusic.xyz, team31.dev.bham.team:443
+            //
+            // Since the first item in that is the main part that we need, we just split by `, ` and take that.
+            host = host.split(", ")[0];
+        }
+
+        String proto = request.getHeader("X-Forwarded-Proto");
+        if (proto == null || proto.isEmpty()) {
+            proto = request.getProtocol().split("/")[0].toLowerCase();
+        }
+
+        return proto + "://" + host + "/oauth/inbound";
     }
 
     public String generateOauthRedirectUrl(String state, HttpServletRequest request) {

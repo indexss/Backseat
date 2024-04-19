@@ -218,3 +218,15 @@ ngb-rating {
   width: 170px;
   height: 35px;
 }
+
+.align-items-start {
+  align-items: flex-start; /* Ensures vertical alignment at the top */
+}
+
+.ms-2 {
+  margin-left: 0.5rem; /* Adds a small space between the two buttons */
+}
+
+.wtl {
+  margin-left: 0.5rem;
+}

@@ -62,6 +62,17 @@ public class SpotifyAPI {
         return SpotifyUtil.unmarshalJson(resp.body(), UserProfileResponse.class);
     }
 
+    public RecentListenedTrackResponse getRecentTracks() throws IOException, SpotifyException, InterruptedException {
+        HttpResponse<String> resp = doHttpRequest(getAuthenticatedRequestBuilder().uri(formUri("/me/player/recently-played")).build());
+
+        if (resp.statusCode() != 200) {
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
+            throw res.toException();
+        }
+
+        return SpotifyUtil.unmarshalJson(resp.body(), RecentListenedTrackResponse.class);
+    }
+
     public TrackResponse getTrack(String id) throws IOException, SpotifyException, InterruptedException {
         return getTrack(id, null);
     }
