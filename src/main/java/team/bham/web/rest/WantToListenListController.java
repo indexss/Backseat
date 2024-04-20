@@ -51,17 +51,18 @@ public class WantToListenListController {
         SpotifyAPI api = new SpotifyAPI(new SpotifyCredential(appProps, spotifyConnService, profile.getSpotifyURI()));
         try {
             List<WantToListenListItem> itemList = wantListService.fetchUserWantToListenList(userName);
+            if (itemList == null || itemList.isEmpty()) {
+                resp = new ResponseUtils().put("emptyList", 1);
+                return resp;
+            }
             String playListId = api.createPlaylist().id;
             System.out.println("*************************PlayList ID: " + playListId);
-
             api.addWantToListenEntriesToPlaylist(itemList, playListId);
-
             resp = new ResponseUtils().put("playlistId", playListId);
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
         }
-
         return resp;
     }
 }

@@ -19,19 +19,19 @@
       *ngFor="let item of itemList"
     >
       <td class="col-1 text-center center-both">
-        {{ item.id }}
+        {{ item.idToDisplay }}
       </td>
       <td class="col-4">
         <div class="row align-items-center">
           <img
-            [src]="item.imgURL"
+            [src]="item.coverImgUrl"
             style="width: 90px; margin: 2px; border-radius: 10%"
             class="col-3 img-normal img-zoom me-3"
-            alt="Album Cover"
+            [alt]="['Cover art for ', item.itemName, ' by ', item.artists]"
           />
           <div class="col-9 align-items-center">
             <a class="h5">{{ item.itemName }}</a>
-            {{ item.artistName }}
+            <div class="h6">{{ item.artists }}</div>
           </div>
         </div>
       </td>

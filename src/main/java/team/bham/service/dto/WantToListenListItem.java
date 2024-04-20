@@ -5,6 +5,7 @@ import org.springframework.data.repository.query.Param;
 public class WantToListenListItem {
 
     private Long id;
+    private Long idToDisplay;
     private String userId;
     private String itemName;
     private String itemUri;
@@ -26,6 +27,10 @@ public class WantToListenListItem {
         this.userId = userId;
         this.itemUri = itemUri;
         this.addTime = addTime;
+    }
+
+    public void setIdToDisplay(Long id) {
+        this.idToDisplay = id;
     }
 
     public void setRating(double rating) {
@@ -54,6 +59,10 @@ public class WantToListenListItem {
 
     public void setAlbumName(@Param("Album name **IF APPLY**") String albumName) {
         this.albumName = albumName;
+    }
+
+    public Long getIdToDisplay() {
+        return idToDisplay;
     }
 
     public Long getId() {
@@ -98,32 +107,5 @@ public class WantToListenListItem {
 
     public String getAlbumName() {
         return albumName;
-    }
-}
-
-class artist {
-
-    private String name;
-    private String spotifyUri;
-
-    public artist(String name, String spotifyUri) {
-        this.name = name;
-        this.spotifyUri = spotifyUri;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSpotifyUri() {
-        return spotifyUri;
-    }
-
-    public void setSpotifyUri(String spotifyUri) {
-        this.spotifyUri = spotifyUri;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
