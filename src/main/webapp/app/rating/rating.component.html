@@ -48,10 +48,10 @@
   </div>
   <br />
 
-  <ngb-alert [dismissible]="true" *ngIf="showAddWantListen" (close)="this.showAlert = false">
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListenSuccess" (close)="this.showAlert = false">
     <strong>Add to Want-to-listen-list successfully!</strong>
   </ngb-alert>
-  <ngb-alert [dismissible]="true" *ngIf="!showAddWantListen" (close)="this.showAlert = false">
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListenFail" (close)="this.showAlert = false">
     <strong>You already added this item in you List!</strong>
   </ngb-alert>
 
@@ -177,9 +177,13 @@
   </div>
   <br />
 
-  <ngb-alert [dismissible]="true" *ngIf="showAddWantListen" (close)="this.showAlert = false">
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListenSuccess" (close)="this.showAlert = false">
     <strong>Add to Want-to-listen-list successfully!</strong>
   </ngb-alert>
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListenFail" (close)="this.showAlert = false">
+    <strong>You already added this item in you List!</strong>
+  </ngb-alert>
+
   <ngb-alert [dismissible]="false" *ngIf="showAlert">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>

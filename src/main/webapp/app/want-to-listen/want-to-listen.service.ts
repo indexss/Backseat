@@ -4,7 +4,7 @@ import dayjs from 'dayjs/esm';
 import { Observable } from 'rxjs';
 import { Dayjs } from 'dayjs';
 import { AccountService } from '../core/auth/account.service';
-import { ItemList } from './item-list.interface';
+import { listEntry } from './list-entry.interface';
 
 interface listItem {
   spotifyURI: string;
@@ -16,23 +16,11 @@ interface listItem {
   providedIn: 'root',
 })
 export class WantToListenService {
-  public userList: ItemList[] | undefined;
+  public userList: listEntry[] = [];
 
   constructor(protected http: HttpClient, private accService: AccountService) {}
 
-  addNewItem(itemURI: string, userID: string): Observable<any> | null {
-    this.getUserEntries(userID).subscribe(data => {
-      this.userList = data.data.entryList;
-    });
-    // @ts-ignore
-    for (let i = 0; i < userList.length; i++) {
-      // userList is undefined TODO
-      // @ts-ignore
-      if (itemURI == userList[i].itemURI) {
-        return null;
-      }
-    }
-
+  addNewItem(itemURI: string, userID: string): Observable<any> {
     const body: listItem = {
       spotifyURI: itemURI,
       userID: userID,
