@@ -21,6 +21,15 @@ h2 {
   color: rgb(68, 120, 72);
 }
 
+.pagination {
+  --bs-pagination-disabled-bg: rgb(68, 120, 72);
+}
+
+.page-link.active,
+.active > .page-link {
+  background-color: rgb(44, 81, 29);
+}
+
 a:hover {
   /* make sure browsers use the pointer cursor for anchors, even with no href */
   cursor: pointer;
@@ -226,7 +235,7 @@ a {
 }
 
 a:hover {
-  color: #4a4a4a;
+  color: #4a4a4a !important;
 }
 
 .userurl {

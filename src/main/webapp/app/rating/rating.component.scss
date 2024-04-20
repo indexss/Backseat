@@ -3,6 +3,10 @@ $custom-green: rgb(68, 120, 72);
   color: $custom-green;
 }
 
+.playbtn {
+  border-radius: 20%;
+}
+
 body {
   background-color: var(--background-color);
   color: var(--text-color);
@@ -229,4 +233,20 @@ ngb-rating {
 
 .wtl {
   margin-left: 0.5rem;
+}
+
+.track-container {
+  display: flex;
+  align-items: center;
+}
+.title {
+  margin-right: 10px;
+}
+
+.play-button {
+  padding: 2px;
+  border: 0;
+  background-color: white;
+  display: flex;
+  align-items: center;
 }
