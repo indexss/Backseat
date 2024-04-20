@@ -14,8 +14,8 @@
       class=""
       [attr.data-id]="item.id"
       (click)="expand()"
-      (mouseover)="item.isFocus = setFocusOn()"
-      (mouseleave)="item.isFocus = setFocusOff()"
+      (mouseover)="item.isFocus = true"
+      (mouseleave)="item.isFocus = false"
       *ngFor="let item of itemList"
     >
       <td class="col-1 text-center center-both">
