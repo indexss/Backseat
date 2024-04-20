@@ -1,4 +1,5 @@
 <div class="container">
+  <h2><span class="big-l">F</span>OLDERS</h2>
   <!--  <table class="table table-bordered table-hover mt-5">-->
   <!--    <thead class="thead-dark">-->
   <!--      <tr>-->
@@ -34,15 +35,15 @@
   <!--    </tbody>-->
   <!--  </table>-->
 
-  <button (click)="openModal(addFolderContent)" class="btn btn-success" type="button">+</button>
+  <button (click)="openModal(addFolderContent)" class="btn btn-primary" type="button">+ Create New Folder</button>
 
   <table class="table table-bordered table-hover mt-5">
     <thead class="thead-dark">
       <tr>
-        <th scope="col" class="text-center" style="color: green">#</th>
-        <th scope="col" class="text-center" style="color: green">FolderName</th>
-        <th scope="col" class="text-center" style="color: green">Edit</th>
-        <th scope="col" class="text-center" style="color: green">Delete</th>
+        <th scope="col" class="text-center" style="color: rgb(68, 120, 72)">#</th>
+        <th scope="col" class="text-center" style="color: rgb(68, 120, 72)">Folder Name</th>
+        <th scope="col" class="text-center" style="color: rgb(68, 120, 72)">Edit</th>
+        <th scope="col" class="text-center" style="color: rgb(68, 120, 72)">Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -62,7 +63,7 @@
         </td>
 
         <td class="text-center align-middle">
-          <button class="btn btn-gray-edit" (click)="editFolder(folder.folderId)">
+          <button class="btn btn-primary" (click)="editFolder(folder.folderId)">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
               <path
                 d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"
@@ -110,9 +111,10 @@
 <ng-template #addFolderContent let-modal>
   <div class="modal-header">
     <h4 class="modal-title">Enter the name of your folder</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+    <!-- <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()">
       <span aria-hidden="true">&times;</span>
-    </button>
+    </button> -->
+    <button class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body">
     <div class="form-group">

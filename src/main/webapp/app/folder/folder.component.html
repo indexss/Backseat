@@ -47,24 +47,13 @@
           <strong style="color: #666666">{{ entryInfoList[i].artist }}</strong>
         </td>
         <td class="text-center align-middle">
-          <a [href]="getSpotifyURL(folderEntry.spotifyURI)" target="_blank" class="btn btn-green">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
-              <path
-                d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"
-              />
-            </svg>
+          <a [href]="getSpotifyURL(folderEntry.spotifyURI)" target="_blank">
+            <fa-icon [icon]="faPlayCircle" style="font-size: 2.5em; color: #447848; background-color: #ffffff00 !important"></fa-icon>
           </a>
         </td>
-        <td class="text-center align-middle">
-          <button class="btn btn-gray" (click)="deleteFolderEntry(folderEntry.spotifyURI)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-              <path
-                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"
-              />
-              <path
-                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"
-              />
-            </svg>
+        <td class="text-center align-middle btndelete">
+          <button class="btn" (click)="deleteFolderEntry(folderEntry.spotifyURI)" style="border: none">
+            <fa-icon [icon]="faTrash" style="font-size: 2em; margin: 0; padding: 0; color: #a70000; border: none"></fa-icon>
           </button>
         </td>
       </tr>

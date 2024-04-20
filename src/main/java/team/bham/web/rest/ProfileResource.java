@@ -226,6 +226,7 @@ public class ProfileResource {
         }
 
         HttpHeaders headers = new HttpHeaders();
+
         headers.add("Location", profilePhotoURL);
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }

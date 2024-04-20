@@ -9,7 +9,7 @@ import { ProfileService } from 'app/layouts/profiles/profile.service';
 import { EntityNavbarItems } from 'app/entities/entity-navbar-items';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCompass } from '@fortawesome/free-solid-svg-icons';
-import { faPhotoFilm, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPhotoFilm, faSquareXmark, faFolder, faFolderBlank } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'jhi-navbar',
@@ -18,6 +18,7 @@ import { faPhotoFilm, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 })
 export class NavbarComponent implements OnInit {
   faCompass = faCompass;
+  faFolder = faFolder;
   inProduction?: boolean;
   isNavbarCollapsed = true;
   openAPIEnabled?: boolean;

@@ -131,12 +131,6 @@ export class ProfileComponent implements OnInit {
           },
         });
 
-        this.http.get<AbbreviatedFollow[]>(this.applicationConfigService.getEndpointFor('/api/follows/byLogin/' + this.login)).subscribe({
-          next: v => {
-            this.friends = v;
-          },
-        });
-
         this.http.get<ModFolder[]>(this.applicationConfigService.getEndpointFor('/api/folders/byProfile/' + this.login)).subscribe({
           next: res => {
             console.debug('Folders', res);
@@ -171,8 +165,6 @@ export class ProfileComponent implements OnInit {
                         });
                         return v;
                       });
-
-                    console.debug(new Date(this.reviews[0].review.date));
                   },
                   error: err => {
                     alert('Failed to get reviews\n' + JSON.stringify(err));

@@ -98,6 +98,7 @@ public class SpotifyOauthResource {
         // Store result
         SpotifyConnectionDTO conn = this.spotifyConnectionService.update(accessToken.asSpotifyConnectionDTO(userProfile.uri));
         Optional<User> u = userService.getUserWithAuthorities();
+        System.out.println("CONN DTO: " + conn);
         if (u.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }

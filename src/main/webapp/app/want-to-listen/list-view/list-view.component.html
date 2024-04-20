@@ -16,33 +16,33 @@
       (click)="expand()"
       (mouseover)="item.isFocus = setFocusOn()"
       (mouseleave)="item.isFocus = setFocusOff()"
-      *ngFor="let item of testList"
+      *ngFor="let item of itemList"
     >
-      <td class="col-1 text-center">
-        <h4>{{ item.id }}</h4>
+      <td class="col-1 text-center center-both row-id">
+        {{ item.id }}
       </td>
       <td class="col-4">
-        <div class="row">
+        <div class="row align-items-center">
           <img
             [src]="item.imgURL"
             style="width: 90px; margin: 2px; border-radius: 10%"
             class="col-3 img-normal img-zoom me-3"
             alt="Album Cover"
           />
-          <div class="col-9">
-            <a class="h4">{{ item.itemName }}</a>
-            <h5>{{ item.artistName }}</h5>
+          <div class="col-9 align-items-center">
+            <a class="h5">{{ item.itemName }}</a>
+            {{ item.artistName }}
           </div>
         </div>
       </td>
-      <td class="col-3 text-center">
-        <h5>{{ item.albumName }}</h5>
+      <td class="col-3 text-center align-middle row-album">
+        {{ item.albumName }}
       </td>
-      <td class="col-1 text-center">
-        <h5>{{ item.rating | number: '1.0-2' }}</h5>
+      <td class="col-1 text-center align-middle row-rating">
+        {{ item.rating | number: '1.0-2' }}
       </td>
-      <td class="col-1 text-center">
-        <h5>{{ item.reviewsCount | number: '':'en' }}</h5>
+      <td class="col-1 text-center align-middle row-reviews">
+        {{ item.reviewsCount | number: '':'en' }}
       </td>
       <td class="col-1 text-center">
         <button class="col-auto btn" style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: rgba(0, 0, 0, 0)">

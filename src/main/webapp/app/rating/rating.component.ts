@@ -16,6 +16,8 @@ import { ApplicationConfigService } from '../core/config/application-config.serv
 import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { WantToListenService } from '../want-to-listen/want-to-listen.service';
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { listEntry } from '../want-to-listen/list-entry.interface';
 interface Folder {
   id: number;
   folderId: number;
@@ -30,6 +32,8 @@ interface Folder {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RatingComponent implements OnInit {
+  faPlayCircle = faPlayCircle;
+  spotifyTrackLink!: string;
   trackName!: string;
   albumName!: string;
   albumNames!: string[];
@@ -65,7 +69,8 @@ export class RatingComponent implements OnInit {
   spotifyURI!: string;
   modalRef!: NgbModalRef;
   folderList: Folder[] = [];
-  showAddWantListen: boolean = false;
+  showAddWantListenSuccess: boolean = false;
+  showAddWantListenFail: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -92,6 +97,10 @@ export class RatingComponent implements OnInit {
     //The rating page get only the spotify::track or spotify::album ,here fetch review depending on which url it is
     this.route.params.subscribe(params => {
       this.id = params['id'];
+      console.log('--------------------');
+      console.log(this.id);
+      console.log('--------------------');
+      this.spotifyTrackLink = 'https://open.spotify.com/track/' + this.id.split(':')[2];
       this.checkTrackOrAlbum(this.id);
       if (this.isTrack) {
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
@@ -133,12 +142,17 @@ export class RatingComponent implements OnInit {
               reviewTrackName: data.data.review.trackName,
               userSporifyURI: reviewDTO[i].profile.userSporifyURI,
               username: reviewDTO[i].profile.username,
-              userProfileImage: reviewDTO[i].profile.profilePhoto,
+              // userProfileImage: reviewDTO[i].profile.profilePhoto,
+              userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
               // userProfileImage: './../../content/images/common_avatar.png',
+              userId: reviewDTO[i].profile.id,
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
               rating: reviewDTO[i].rating,
             };
+            console.log('----------------------');
+            console.log(review);
+            console.log('----------------------');
             this.reviewList.push(review);
           }
           this.reviewList = this.reviewList.reverse();
@@ -196,11 +210,13 @@ export class RatingComponent implements OnInit {
               reviewTrackName: reviewDTO[i].track.name,
               userSporifyURI: reviewDTO[i].profile.userSporifyURI,
               username: reviewDTO[i].profile.username,
-              userProfileImage: reviewDTO[i].profile.profilePhoto,
+              // userProfileImage: reviewDTO[i].profile.profilePhoto,
+              userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
               // userProfileImage: './../../content/images/common_avatar.png',
               reviewContent: reviewDTO[i].content,
               reviewDate: reviewDTO[i].date,
               rating: reviewDTO[i].rating,
+              userId: reviewDTO[i].profile.id,
             };
             console.log('Album reqeust print review info:');
             console.log(data.data.review);
@@ -216,11 +232,13 @@ export class RatingComponent implements OnInit {
                 reviewTrackName: reviewDTO[i].album.name,
                 userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                 username: reviewDTO[i].profile.username,
-                userProfileImage: reviewDTO[i].profile.profilePhoto,
+                // userProfileImage: reviewDTO[i].profile.profilePhoto,
+                userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
                 // userProfileImage: './../../content/images/common_avatar.png',
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.albumReviewList.push(review);
             }
@@ -251,9 +269,28 @@ export class RatingComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.fetchAcc.fetchAcc().subscribe(data => {
-          this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName);
+          // `fetchAcc` service is total unnecessary, `account.login` is the current user's username
+          // get user's entries and check if it is duplicate
+          this.wantToListenService.getUserEntries(account.login).subscribe(res => {
+            //check duplicate entry
+            for (let i = 0; i < res.data.entryList.length; i++) {
+              if (this.id == res.data.entryList[i].itemUri) {
+                // if userList contains this item's URI, show `Fail alert message`
+                this.showAddWantListenFail = true;
+                this.showAddWantListenSuccess = false;
+                break;
+              }
+            }
+            if (!this.showAddWantListenFail) {
+              // if no same entry, then add new
+              this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName).subscribe(res => {
+                // show success message, set `Fail` to false
+                this.showAddWantListenSuccess = true;
+                this.showAddWantListenFail = false;
+              });
+            }
+          });
         });
-        this.showAddWantListen = true;
       } else {
         this.router.navigate(['/login']);
       }
@@ -333,11 +370,13 @@ export class RatingComponent implements OnInit {
                         reviewTrackName: data.data.review.trackName,
                         userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                         username: reviewDTO[i].profile.username,
-                        userProfileImage: reviewDTO[i].profile.profilePhoto,
+                        // userProfileImage: reviewDTO[i].profile.profilePhoto,
+                        userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
                         // userProfileImage: './../../content/images/common_avatar.png',
                         reviewContent: reviewDTO[i].content,
                         reviewDate: reviewDTO[i].date,
                         rating: reviewDTO[i].rating,
+                        userId: reviewDTO[i].profile.id,
                       };
                       this.reviewList.push(review);
                     }
@@ -377,11 +416,13 @@ export class RatingComponent implements OnInit {
                           reviewTrackName: reviewDTO[i].album.name,
                           userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                           username: reviewDTO[i].profile.username,
-                          userProfileImage: reviewDTO[i].profile.profilePhoto,
+                          // userProfileImage: reviewDTO[i].profile.profilePhoto,
+                          userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
                           // userProfileImage: './../../content/images/common_avatar.png',
                           reviewContent: reviewDTO[i].content,
                           reviewDate: reviewDTO[i].date,
                           rating: reviewDTO[i].rating,
+                          userId: reviewDTO[i].profile.id,
                         };
                         this.albumReviewList.push(review);
                       }
@@ -421,11 +462,13 @@ export class RatingComponent implements OnInit {
                             reviewTrackName: reviewDTO[i].track.name,
                             userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                             username: reviewDTO[i].profile.username,
-                            userProfileImage: reviewDTO[i].profile.profilePhoto,
+                            // userProfileImage: reviewDTO[i].profile.profilePhoto,
+                            userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
                             // userProfileImage: './../../content/images/common_avatar.png',
                             reviewContent: reviewDTO[i].content,
                             reviewDate: reviewDTO[i].date,
                             rating: reviewDTO[i].rating,
+                            userId: reviewDTO[i].profile.id,
                           };
                           this.reviewList.push(review);
                         }
@@ -513,11 +556,13 @@ export class RatingComponent implements OnInit {
                 reviewTrackName: reviewDTO[i].album.name,
                 userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                 username: reviewDTO[i].profile.username,
-                userProfileImage: reviewDTO[i].profile.profilePhoto,
+                // userProfileImage: reviewDTO[i].profile.profilePhoto,
+                userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
                 // userProfileImage: './../../content/images/common_avatar.png',
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.albumReviewList.push(review);
             }
@@ -539,11 +584,13 @@ export class RatingComponent implements OnInit {
                 reviewTrackName: reviewDTO[i].track.name,
                 userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                 username: reviewDTO[i].profile.username,
-                userProfileImage: reviewDTO[i].profile.profilePhoto,
+                // userProfileImage: reviewDTO[i].profile.profilePhoto,
+                userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
                 // userProfileImage: './../../content/images/common_avatar.png',
                 reviewContent: reviewDTO[i].content,
                 reviewDate: reviewDTO[i].date,
                 rating: reviewDTO[i].rating,
+                userId: reviewDTO[i].profile.id,
               };
               this.reviewList.push(review);
             }
@@ -573,11 +620,13 @@ export class RatingComponent implements OnInit {
                   reviewTrackName: reviewDTO[i].album.name,
                   userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                   username: reviewDTO[i].profile.username,
-                  // userProfileImage: reviewDTO[i].profile.profileImage,
-                  userProfileImage: './../../content/images/common_avatar.png',
+                  // userProfileImage: reviewDTO[i].profile.profilePhoto,
+                  userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
+                  // userProfileImage: './../../content/images/common_avatar.png',
                   reviewContent: reviewDTO[i].content,
                   reviewDate: reviewDTO[i].date,
                   rating: reviewDTO[i].rating,
+                  userId: reviewDTO[i].profile.id,
                 };
                 this.albumReviewList.push(review);
               }
@@ -617,11 +666,13 @@ export class RatingComponent implements OnInit {
                     reviewTrackName: reviewDTO[i].track.name,
                     userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                     username: reviewDTO[i].profile.username,
-                    // userProfileImage: reviewDTO[i].profile.profileImage,
-                    userProfileImage: './../../content/images/common_avatar.png',
+                    // userProfileImage: reviewDTO[i].profile.profilePhoto,
+                    userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
+                    // userProfileImage: './../../content/images/common_avatar.png',
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
+                    userId: reviewDTO[i].profile.id,
                   };
                   this.reviewList.push(review);
                 }
@@ -643,11 +694,13 @@ export class RatingComponent implements OnInit {
                     reviewTrackName: data.data.review.trackName,
                     userSporifyURI: reviewDTO[i].profile.userSporifyURI,
                     username: reviewDTO[i].profile.username,
-                    // userProfileImage: reviewDTO[i].profile.profileImage,
-                    userProfileImage: './../../content/images/common_avatar.png',
+                    // userProfileImage: reviewDTO[i].profile.profilePhoto,
+                    userProfileImage: '/api/profiles/byLogin/' + reviewDTO[i].profile.username + '/profilePhoto',
+                    // userProfileImage: './../../content/images/common_avatar.png',
                     reviewContent: reviewDTO[i].content,
                     reviewDate: reviewDTO[i].date,
                     rating: reviewDTO[i].rating,
+                    userId: reviewDTO[i].profile.id,
                   };
                   this.reviewList.push(review);
                 }

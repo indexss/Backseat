@@ -3,42 +3,47 @@
 <div *ngIf="isTrack" class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
-      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      <a [href]="spotifyTrackLink">
+        <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      </a>
 
       <div>
-        <span class="title d-block">Track:&nbsp;&nbsp;{{ trackName }}</span>
+        <div class="track-container d-flex align-items-center">
+          <span class="title">Track:&nbsp;&nbsp;{{ trackName }}</span>
+          <a
+            [href]="spotifyTrackLink"
+            class="btn play-button"
+            style="background-color: #ffffff00 !important; padding-top: 2px; padding-bottom: 2px; border: 0; background-color: white"
+          >
+            <fa-icon [icon]="faPlayCircle" style="font-size: 2.5em; color: #447848; background-color: #ffffff00 !important"></fa-icon>
+          </a>
+        </div>
+
         <span class="album d-block"
           ><a class="btn btn-link no-underline albumurl" (click)="redirectToAlbum(albumURI)">Album: {{ albumName }}</a></span
         >
         <!--        <a class=" no-underline" (click)="redirectToAlbum(albumURIforTrack)">{{ albumName }}</a>-->
-
         <span class="artist d-block">Artist: {{ artistName }}</span>
         <span class="rdate d-block">Release Date: {{ releaseDate }}</span>
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
         <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
-        <!-- <br /> -->
-        <!--          <span class="description d-block">Description:{{ description }}</span>-->
-
-        <!-- <button class="btn btn-primary redirectButton wtl" (click)="addToWantToListen()">Want to listen</button> -->
-        <!-- <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button> -->
-        <div class="d-flex align-items-start">
-          <button class="btn btn-primary redirectButton wtl" (click)="addToWantToListen()">Want to listen</button>
-          <br />
-          <button class="btn btn-primary redirectButton ms-2" (click)="openModal(id, content)">Add to Folder</button>
+        <br />
+        <div class="d-flex flex-column">
+          <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
+          <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
         </div>
       </div>
-
-      <!-- <div class="d-flex flex-column align-items-end"> -->
-      <!-- <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want to listen</button> -->
-      <!-- <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button> -->
-      <!-- </div> -->
     </div>
   </div>
   <br />
 
-  <ngb-alert [dismissible]="true" *ngIf="showAddWantListen" (close)="this.showAlert = false">
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListenSuccess" (close)="this.showAlert = false">
     <strong>Add to Want-to-listen-list successfully!</strong>
   </ngb-alert>
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListenFail" (close)="this.showAlert = false">
+    <strong>You already added this item in you List!</strong>
+  </ngb-alert>
+
   <ngb-alert [dismissible]="true" *ngIf="showAlert" (close)="this.showAlert = false">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>
@@ -59,7 +64,6 @@
         </span>
       </div>
     </form>
-    <!-- Warning message for track selection -->
     <form>
       <div class="form-group">
         <label class="YourComment">Your Comment</label>
@@ -76,21 +80,21 @@
   <br />
 
   <div class="row">
-    <!-- <h2>Reviews</h2> -->
     <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
       <!-- <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a> -->
       <h3 class="mb-1">All Ratings and Reviews</h3>
       <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
         <div class="media">
           <div class="column-4">
-            <a routerLink="/profile/{{ review.username }}" class="mb-4">
+            <a href="#" class="mb-4">
               <img
                 alt="Generic placeholder image"
-                src="/api/profiles/byLogin/{{ review.username }}/profilePhoto"
+                [src]="review.userProfileImage"
+                (click)="redirectToProfile(review.userId)"
                 class="mr-3 rounded-pill img-fluid"
               />
             </a>
-            <a class="p-4 userurl" routerLink="/profile/{{ review.username }}">{{ review.username }}</a>
+            <a class="p-4 userurl" (click)="redirectToProfile(review.userId)">{{ review.username }}</a>
             <p class="rating-spans">
               <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
             </p>
@@ -108,9 +112,7 @@
               <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
             </div>
           </div>
-          <button *ngIf="review.username === userName" class="btn-danger btn-sm deleteButton" (click)="deleteReview(id)">
-            Delete Review
-          </button>
+          <button *ngIf="review.username === userName" class="btn btn-danger btn-sm" (click)="deleteReview(id)">Delete Review</button>
         </div>
         <hr />
       </div>
@@ -126,6 +128,23 @@
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
       <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      <!--      <div class="d-flex justify-content-between w-100">-->
+      <!--        <div>-->
+      <!--          &lt;!&ndash;        <span class="title d-block">{{ trackName }}</span>&ndash;&gt;-->
+      <!--          <span class="album-t d-block">Album: {{ albumName }}</span>-->
+      <!--          <span class="artist d-block">Artist Name: {{ artistName }}</span>-->
+      <!--          <span class="rdate d-block">Release Date: {{ releaseDate }}</span>-->
+      <!--          <span class="rdate d-block">Total Tracks: {{ totalTracks }}</span>-->
+      <!--          &lt;!&ndash; <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> &ndash;&gt;-->
+      <!--          <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>-->
+      <!--          <br />-->
+      <!--          &lt;!&ndash;          <span class="description d-block">Description: {{ description }}</span>&ndash;&gt;-->
+      <!--        </div>-->
+
+      <!--        <div class="d-flex flex-column align-items-end">-->
+      <!--          <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>-->
+      <!--          <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>-->
+      <!--        </div>-->
       <div>
         <!--        <span class="title d-block">{{ trackName }}</span>-->
         <span class="album-t d-block">Album: {{ albumName }}</span>
@@ -134,17 +153,29 @@
         <span class="rdate d-block">Total Tracks: {{ totalTracks }}</span>
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
         <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
+
+        <!--        //  Add To Folder and Want to Listen Please look at here-->
+        <!--        //  Add To Folder and Want to Listen Please look at here-->
+        <!--        //  Add To Folder and Want to Listen Please look at here-->
+        <div class="d-flex flex-column align-items-start">
+          <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
+          <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
+        </div>
       </div>
     </div>
   </div>
   <br />
 
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListenSuccess" (close)="this.showAlert = false">
+    <strong>Add to Want-to-listen-list successfully!</strong>
+  </ngb-alert>
+  <ngb-alert [dismissible]="true" *ngIf="showAddWantListenFail" (close)="this.showAlert = false">
+    <strong>You already added this item in you List!</strong>
+  </ngb-alert>
+
   <ngb-alert [dismissible]="false" *ngIf="showAlert">
     <strong>Warning!</strong> Rating could not be 0, and comments cannot be empty.
   </ngb-alert>
-  <!-- <ngb-alert [dismissible]="false" *ngIf="showAlert">
-	<strong>Warning!</strong> Comments cannot be empty!
-  </ngb-alert> -->
   <div class="row">
     <table class="track-table table">
       <thead>
@@ -165,6 +196,15 @@
           <td>{{ track.artistName }}</td>
           <td>{{ track.releaseDate }}</td>
           <td>{{ track.rating | number: '1.2-2' }}</td>
+          <td style="text-align: center; vertical-align: middle">
+            <a [href]="getSpotifyLink(id)" target="_blank" class="btn btn-primary playbtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
+                <path
+                  d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"
+                />
+              </svg>
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -175,8 +215,6 @@
       <h5 class="mb-4"><Strong>Leave a Review </Strong></h5>
       <div class="form-check form-switch">
         <input class="form-check-input" style="display: none" type="checkbox" id="aaa" [(ngModel)]="showAlbumReviews" />
-
-        <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
         <label class="btn btn-primary" (click)="toggleReviews()" for="aaa">
           {{ showAlbumReviews ? 'Click to Review Track' : 'Click to Review Album' }}
         </label>
@@ -224,15 +262,12 @@
 
   <!--  Leave a review for album-->
   <div class="row leaveReview" *ngIf="showAlbumReviews">
-    <!--    <div class="bg-dark-green rounded shadow-sm p-4 mb-5 rating-review-select-page ">-->
     <div class="rounded shadow-sm rating-review-select-page">
       <h5 class="mb-4"><Strong>Leave a Review For the Album </Strong></h5>
 
       <div class="form-check form-switch">
-        <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
         <input class="form-check-input" style="display: none" type="checkbox" id="checkAlbumOrTrack" [(ngModel)]="showAlbumReviews" />
 
-        <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
         <label class="btn btn-primary" (click)="toggleReviews()" for="checkAlbumOrTrack">
           {{ showAlbumReviews ? 'Click to Review Track' : 'Click to Review Album' }}
         </label>
@@ -266,13 +301,12 @@
   </div>
 
   <br />
-  <!--View track reviews!!-->
+
+  <!--View track reviews on clicking "view track review button"-->
   <div *ngIf="!showAlbumReviews">
     <div class="form-check form-switch">
-      <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
       <input class="form-check-input" style="display: none" type="checkbox" id="ccc" [(ngModel)]="showAlbumReviews" />
 
-      <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
       <label class="btn btn-primary" (click)="toggleReviews()" for="ccc">
         {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
       </label>
@@ -283,14 +317,15 @@
         <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">
           <div class="media">
             <div class="column-4">
-              <a routerLink="/profile/{{ review.username }}" class="mb-4">
+              <a href="#" class="mb-4">
                 <img
                   alt="Generic placeholder image"
-                  src="/api/profiles/byLogin/{{ review.username }}/profilePhoto"
+                  (click)="redirectToProfile(review.userId)"
+                  [src]="review.userProfileImage"
                   class="mr-3 rounded-pill img-fluid"
                 />
               </a>
-              <a class="userurl p-4" routerLink="/profile/{{ review.username }}">{{ review.username }}</a>
+              <a class="userurl p-4" (click)="redirectToProfile(review.userId)">{{ review.username }}</a>
               <p class="rating-spans">
                 <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
               </p>
@@ -306,7 +341,7 @@
             </div>
             <button
               *ngIf="review.username === userName"
-              class="btn-danger btn-sm deleteButton"
+              class="btn btn-danger btn-sm deleteButton"
               (click)="deleteReview(findSpotifyURIByTrackName(review.reviewTrackName))"
             >
               Delete Review
@@ -327,29 +362,27 @@
   <!--View album reviews!!-->
   <div *ngIf="showAlbumReviews">
     <div class="form-check form-switch">
-      <!-- The checkbox remains in the template for data binding but is not interacted with directly -->
       <input class="form-check-input" style="display: none" type="checkbox" id="abc" [(ngModel)]="showAlbumReviews" />
 
-      <!-- Use the label as a button, handling clicks to toggle the showAlbumReviews state -->
       <label class="btn btn-primary" (click)="toggleReviews()" for="abc">
         {{ showAlbumReviews ? 'Find Track Reviews' : 'Find Album Reviews' }}
       </label>
     </div>
     <div class="row">
-      <!-- <h2>Reviews</h2> -->
       <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
         <h4 class="mb-1">Album Ratings and Reviews</h4>
         <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">
           <div class="media">
             <div class="column-4">
-              <a routerLink="/profile/{{ review.username }}" class="mb-4">
+              <a href="#" class="mb-4">
                 <img
                   alt="Generic placeholder image"
-                  src="/api/profiles/byLogin/{{ review.username }}/profilePhoto"
+                  [src]="review.userProfileImage"
+                  (click)="redirectToProfile(review.userId)"
                   class="mr-3 rounded-pill img-fluid"
                 />
               </a>
-              <a class="userurl p-4" routerLink="/profile/{{ review.username }}">{{ review.username }}</a>
+              <a class="userurl p-4" (click)="redirectToProfile(review.userId)">{{ review.username }}</a>
               <p class="rating-spans">
                 <ngb-rating [rate]="review.rating" [max]="5" [readonly]="true"></ngb-rating>
               </p>
@@ -363,7 +396,7 @@
                 <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
               </div>
             </div>
-            <button *ngIf="review.username === userName" class="btn-danger btn-sm deleteButton" (click)="deleteReview(id)">
+            <button *ngIf="review.username === userName" class="btn btn-danger btn-sm deleteButton" (click)="deleteReview(id)">
               Delete Review
             </button>
           </div>

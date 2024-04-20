@@ -28,7 +28,7 @@ public class SpotifyAPI {
 
     protected static HttpResponse<String> doHttpRequest(HttpRequest req) throws IOException, InterruptedException {
         HttpResponse<String> resp = SpotifyAPI.newHttpClient().send(req, HttpResponse.BodyHandlers.ofString());
-        //System.err.printf("REQ %s (%d)\n", resp.uri(), resp.statusCode());
+        System.err.printf("REQ %s (%d)\n", resp.uri(), resp.statusCode());
         return resp;
     }
 

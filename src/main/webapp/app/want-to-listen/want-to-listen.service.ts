@@ -4,6 +4,7 @@ import dayjs from 'dayjs/esm';
 import { Observable } from 'rxjs';
 import { Dayjs } from 'dayjs';
 import { AccountService } from '../core/auth/account.service';
+import { listEntry } from './list-entry.interface';
 
 interface listItem {
   spotifyURI: string;
@@ -15,6 +16,8 @@ interface listItem {
   providedIn: 'root',
 })
 export class WantToListenService {
+  public userList: listEntry[] = [];
+
   constructor(protected http: HttpClient, private accService: AccountService) {}
 
   addNewItem(itemURI: string, userID: string): Observable<any> {
@@ -28,6 +31,9 @@ export class WantToListenService {
   }
 
   getAllEntries(): Observable<any> {
+    console.log('---------------------------');
+    console.log(this.http.get('api/want-to-listen-list/all'));
+    console.log('---------------------------');
     return this.http.get('api/want-to-listen-list/all');
   }
 

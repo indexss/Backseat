@@ -16,6 +16,8 @@ interface TrackLeaderboardQueryParams {
 @Injectable({
   providedIn: 'root',
 })
+
+//make requst to backend api to fetch the data with filter query.
 export class FetchTrackLeaderboardService {
   constructor(private http: HttpClient) {}
   getTrackLeaderboard(params: TrackLeaderboardQueryParams): Observable<any> {

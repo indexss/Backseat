@@ -6,4 +6,5 @@ export interface Review {
   reviewDate: string;
   rating: number;
   reviewTrackName: string;
+  userId: number;
 }
