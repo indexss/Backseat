@@ -3,7 +3,9 @@
 <div *ngIf="isTrack" class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
-      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      <a [href]="spotifyTrackLink">
+        <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      </a>
 
       <div>
         <div class="track-container d-flex align-items-center">
