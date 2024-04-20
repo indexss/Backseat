@@ -163,7 +163,7 @@ public class SpotifyAPI {
         HttpResponse<String> resp = doHttpRequest(builder.build());
 
         if (resp.statusCode() != 201) {
-            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class); // TODO: 403 ERROR
+            APIErrorResponse res = SpotifyUtil.unmarshalJson(resp.body(), APIErrorResponse.class);
             throw res.toException();
         }
 

@@ -25,8 +25,14 @@ export class WantToListenComponent implements OnInit {
       if (account) {
         this.service.createList(account.login).subscribe(res => {
           const playListId = res.data.playlistId;
-          console.log(playListId);
-          window.open('https://open.spotify.com/playlist/' + playListId);
+          if (res.data.emptyList) {
+            alert('Your want-to-listen list is empty!');
+          } else if (playListId) {
+            console.log(playListId);
+            window.open('https://open.spotify.com/playlist/' + playListId);
+          } else {
+            alert('Unknown Error');
+          }
         });
       } else {
         console.log('No login');
