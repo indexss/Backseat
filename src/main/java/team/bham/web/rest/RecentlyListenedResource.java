@@ -69,9 +69,6 @@ public class RecentlyListenedResource {
     @GetMapping("/rating")
     public Double[] getTrackRating() throws IOException, InterruptedException, SpotifyException {
         try {
-            //GetRatingDTO recentDTO = getRatingService.GetTrackRating("spotify:track:5wjmqUGN7vrAqFqDWrywlZ");
-            //List<GetRatingDTO> listOfRecentDTO = gethelp();
-            //return listofRecentDTO.get(1);
             RecentListenedTrackResponse test = getTrack();
             Double ratings[] = new Double[20];
             GetRatingDTO recentDTO = new GetRatingDTO();
@@ -90,12 +87,5 @@ public class RecentlyListenedResource {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
-        //ok so getTrack2() actuallly works and can send a rating of midnight memories to the front
-        //now not sure if theres errors because the songs are not reviewed
-        //or if there is a type issue
-        //could actually be that I've made too much happen in the method again
-        //maybe not that but I'm tired so sleepy times
-        //think about making different methods and making it simple
-        //and don't forget how it all works lmao
     }
 }
