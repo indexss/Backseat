@@ -4,6 +4,7 @@
       <span class="logo-img"></span>
       <span class="navbar-title" style="color: white">Backseat</span>
       <span class="navbar-version"></span>
+      <span class="label">Backseat</span>
     </a>
     <a
       class="navbar-toggler d-lg-none"
@@ -27,6 +28,7 @@
               <fa-icon [icon]="['fas', 'compass']" style="color: white; font-size: 1.5em"></fa-icon>
               <span class="text" style="color: white">Discover</span>
             </div>
+            <span class="label">Discover</span>
             <!-- </span> -->
           </a>
         </li>
@@ -38,6 +40,7 @@
               <fa-icon [icon]="['fas', 'list-ol']" style="color: white; font-size: 1.5em"></fa-icon>
               <span class="text" style="color: white">Leaderboard</span>
             </div>
+            <span class="label">Leaderboard</span>
           </a>
         </li>
 
@@ -48,6 +51,7 @@
               <fa-icon [icon]="['fas', 'search']" style="color: white; font-size: 1.5em"></fa-icon>
               <span class="text" style="color: white">Search</span>
             </div>
+            <span class="label">Search</span>
           </a>
         </li>
       </ul>
@@ -150,6 +154,8 @@
               <fa-icon icon="user"></fa-icon>
               <span>Account</span>
             </span>
+            <span class="label">Account</span>
+
             <span *ngIf="account?.imageUrl">
               <img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
             </span>
