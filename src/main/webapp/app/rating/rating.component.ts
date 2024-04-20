@@ -691,7 +691,7 @@ export class RatingComponent implements OnInit {
               }
               this.changeDetectorRef.detectChanges();
             });
-          }, 100);
+          }, 300);
           this.changeDetectorRef.detectChanges();
         } else {
           if (this.id.includes('album')) {
@@ -736,7 +736,7 @@ export class RatingComponent implements OnInit {
                 this.reviewList = this.reviewList.sort((a, b) => new Date(b.reviewDate).getTime() - new Date(a.reviewDate).getTime());
                 this.changeDetectorRef.detectChanges();
               });
-            }, 100);
+            }, 300);
             this.changeDetectorRef.detectChanges();
           } else {
             this.changeDetectorRef.detectChanges();
@@ -764,7 +764,7 @@ export class RatingComponent implements OnInit {
                 this.reviewList = this.reviewList.reverse();
                 this.changeDetectorRef.detectChanges();
               });
-            }, 100);
+            }, 300);
             this.changeDetectorRef.detectChanges();
           }
         }
