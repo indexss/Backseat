@@ -39,6 +39,7 @@ interface Folder {
   styleUrls: ['./leaderboard.component.scss'],
 })
 export class LeaderboardComponent implements OnInit {
+  //pagination
   page: number = 0;
   pageSize: number = 30;
   isLoading = false;
@@ -65,6 +66,7 @@ export class LeaderboardComponent implements OnInit {
     this.page = 0;
     // this.isCollapsed = true;
     this.recordList = [];
+    //time out, in case the interet thrashing
     setTimeout(() => {
       // console.log('22222222222222222222222');
       this.continueLoading();
@@ -83,6 +85,7 @@ export class LeaderboardComponent implements OnInit {
     textInput: '',
   };
 
+  //global dark mode flag
   darkMode = false;
 
   toggleDarkMode() {
@@ -106,6 +109,7 @@ export class LeaderboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //mobile check
     if (this.deviceService.isMobile()) {
       this.ismobile = true;
     } else {
@@ -162,6 +166,7 @@ export class LeaderboardComponent implements OnInit {
     });
   }
 
+  // Infinite scrolling continue loading left code
   continueLoading() {
     this.isLoading = true;
     // console.log('You are at the bottom123!');
@@ -201,11 +206,13 @@ export class LeaderboardComponent implements OnInit {
     window.location.reload();
   }
 
+  //listen the window position so that load left data.
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
     const pos = window.scrollY + window.innerHeight;
     const max = document.documentElement.scrollHeight;
 
+    //max/10*7 leave some time to load the data
     if (pos >= (max / 10) * 7) {
       if (this.recordList.length < this.pageSize) {
         this.hasMore = false;
