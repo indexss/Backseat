@@ -51,6 +51,7 @@ public class WantToListenListController {
         try {
             List<WantToListenListItem> itemList = wantListService.fetchUserWantToListenList(userID);
             resp = new ResponseUtils().put("entryList", itemList);
+            System.out.println("**********************ItemList: " + itemList);
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());

@@ -144,7 +144,7 @@
             href="javascript:void(0);"
             id="account-menu"
             data-cy="accountMenu"
-            style="color: white"
+            style="color: white; text-align: center"
           >
             <span *ngIf="!account?.imageUrl">
               <fa-icon icon="user"></fa-icon>
@@ -171,8 +171,8 @@
 
             <li *ngSwitchCase="true">
               <a class="dropdown-item" routerLink="/addToFolder" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
-                <fa-icon icon="list" [fixedWidth]="true"></fa-icon>
-                <span>Folders</span>
+                <fa-icon [icon]="faFolder" [fixedWidth]="true"></fa-icon>
+                <span>My Folders</span>
               </a>
             </li>
 
