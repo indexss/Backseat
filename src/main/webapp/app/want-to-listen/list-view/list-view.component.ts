@@ -33,7 +33,6 @@ export class ListViewComponent implements OnInit {
         // check if user has logged in, if yes, then get
         this.service.getUserEntries(acc.login).subscribe(res => {
           this.itemList = res.data.entryList;
-          console.log(res.data.entryList);
         });
       } else {
         console.log('No login');

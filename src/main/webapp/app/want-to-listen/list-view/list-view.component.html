@@ -30,7 +30,7 @@
             [alt]="['Cover art for ', item.itemName, ' by ', item.artists]"
           />
           <div class="col-9 align-items-center">
-            <a class="h5">{{ item.itemName }}</a>
+            <a [routerLink]="['/rating/', item.itemUri]" class="h5">{{ item.itemName }}</a>
             <div class="h6">{{ item.artists }}</div>
           </div>
         </div>
