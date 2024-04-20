@@ -4,14 +4,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.config.GroovyMarkupConfigurerBeanDefinitionParser;
 import team.bham.config.ApplicationProperties;
+import team.bham.domain.Profile;
+import team.bham.repository.ProfileRepository;
 import team.bham.service.GetRatingService;
 import team.bham.service.SpotifyConnectionService;
 import team.bham.service.dto.GetRatingDTO;
@@ -35,31 +41,29 @@ public class RecentlyListenedResource {
     }
 
     @Resource
+    private ProfileRepository profileRepository;
+
+    @Resource
     private GetRatingService getRatingService;
 
     @GetMapping("/recent")
     public RecentListenedTrackResponse getTrack() throws IOException, InterruptedException, SpotifyException {
-        SpotifyAPI client = new SpotifyAPI(new SpotifyCredential(appProps, spotifyConnectionService, "spotify:user:josiemp169"));
-        //TrackResponse resp[] = { client.getTrack("7FAFkQQZFeNwOFzTrSDFIh"), client.getTrack("1PJu7IPmGJZx5fAQeL4trB") };
-        RecentListenedTrackResponse resp = client.getRecentTracks();
-        return resp;
-    }
-
-    public RecentListenedTrackResponse getTrack2() throws IOException, InterruptedException, SpotifyException {
-        SpotifyAPI client = new SpotifyAPI(new SpotifyCredential(appProps, spotifyConnectionService, "spotify:user:josiemp169"));
-        //TrackResponse resp[] = { client.getTrack("7FAFkQQZFeNwOFzTrSDFIh"), client.getTrack("1PJu7IPmGJZx5fAQeL4trB") };
-        RecentListenedTrackResponse resp = client.getRecentTracks();
-        return resp;
-    }
-
-    public List<GetRatingDTO> gethelp() throws IOException, InterruptedException, SpotifyException {
-        RecentListenedTrackResponse test = getTrack2();
-        List<GetRatingDTO> listofRecentDTO = new ArrayList(20);
-        for (int i = 0; i < 20; i++) {
-            listofRecentDTO.add(getRatingService.GetTrackRating(test.items[i].track.uri));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userId = userDetails.getUsername();
+        } else if (authentication != null && authentication.getPrincipal() instanceof String) {
+            userId = (String) authentication.getPrincipal();
         }
-        //log.debug("################################################", resp.items[0].track.uri);
-        return listofRecentDTO;
+        Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userId);
+        Profile profile = optionalProfile.get();
+        String username = profile.getSpotifyURI();
+        log.debug(username);
+        SpotifyAPI client = new SpotifyAPI(new SpotifyCredential(appProps, spotifyConnectionService, username));
+
+        RecentListenedTrackResponse resp = client.getRecentTracks();
+        return resp;
     }
 
     @GetMapping("/rating")
@@ -68,7 +72,7 @@ public class RecentlyListenedResource {
             //GetRatingDTO recentDTO = getRatingService.GetTrackRating("spotify:track:5wjmqUGN7vrAqFqDWrywlZ");
             //List<GetRatingDTO> listOfRecentDTO = gethelp();
             //return listofRecentDTO.get(1);
-            RecentListenedTrackResponse test = getTrack2();
+            RecentListenedTrackResponse test = getTrack();
             Double ratings[] = new Double[20];
             GetRatingDTO recentDTO = new GetRatingDTO();
             for (int i = 0; i < 20; i++) {
