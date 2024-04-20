@@ -71,6 +71,14 @@ export class FolderComponent implements OnInit {
     return spotifyURL;
   }
 
+  isAlbum(spotifyURI: string): boolean {
+    if (spotifyURI.startsWith('spotify:track:')) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   deleteFolderEntry(spotifyURI: string) {
     this.accountService.identity().subscribe(account => {
       if (account) {
