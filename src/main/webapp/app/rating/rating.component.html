@@ -6,7 +6,17 @@
       <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
 
       <div>
-        <span class="title d-block">Track:&nbsp;&nbsp;{{ trackName }}</span>
+        <div class="track-container d-flex align-items-center">
+          <span class="title">Track:&nbsp;&nbsp;{{ trackName }}</span>
+          <a
+            [href]="spotifyTrackLink"
+            class="btn play-button"
+            style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: white"
+          >
+            <fa-icon [icon]="faPlayCircle" style="font-size: 2.5em; color: #447848"></fa-icon>
+          </a>
+        </div>
+
         <span class="album d-block"
           ><a class="btn btn-link no-underline albumurl" (click)="redirectToAlbum(albumURI)">Album: {{ albumName }}</a></span
         >
@@ -177,7 +187,7 @@
           <td>{{ track.releaseDate }}</td>
           <td>{{ track.rating | number: '1.2-2' }}</td>
           <td style="text-align: center; vertical-align: middle">
-            <a [href]="getSpotifyLink(id)" target="_blank" class="btn btn-primary">
+            <a [href]="getSpotifyLink(id)" target="_blank" class="btn btn-primary playbtn">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
                 <path
                   d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"

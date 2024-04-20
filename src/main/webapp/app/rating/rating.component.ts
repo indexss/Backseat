@@ -16,6 +16,7 @@ import { ApplicationConfigService } from '../core/config/application-config.serv
 import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { WantToListenService } from '../want-to-listen/want-to-listen.service';
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 interface Folder {
   id: number;
   folderId: number;
@@ -30,6 +31,8 @@ interface Folder {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RatingComponent implements OnInit {
+  faPlayCircle = faPlayCircle;
+  spotifyTrackLink!: string;
   trackName!: string;
   albumName!: string;
   albumNames!: string[];
@@ -92,6 +95,10 @@ export class RatingComponent implements OnInit {
     //The rating page get only the spotify::track or spotify::album ,here fetch review depending on which url it is
     this.route.params.subscribe(params => {
       this.id = params['id'];
+      console.log('--------------------');
+      console.log(this.id);
+      console.log('--------------------');
+      this.spotifyTrackLink = 'https://open.spotify.com/track/' + this.id.split(':')[2];
       this.checkTrackOrAlbum(this.id);
       if (this.isTrack) {
         this.fetchReviewInfoService.getReviewInfo(this.id).subscribe(data => {
