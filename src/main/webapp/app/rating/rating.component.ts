@@ -17,6 +17,7 @@ import { AddToFolderService } from '../add-to-folder/add-to-folder.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { WantToListenService } from '../want-to-listen/want-to-listen.service';
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { listEntry } from '../want-to-listen/list-entry.interface';
 interface Folder {
   id: number;
   folderId: number;
@@ -68,7 +69,8 @@ export class RatingComponent implements OnInit {
   spotifyURI!: string;
   modalRef!: NgbModalRef;
   folderList: Folder[] = [];
-  showAddWantListen: boolean = false;
+  showAddWantListenSuccess: boolean = false;
+  showAddWantListenFail: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -261,9 +263,28 @@ export class RatingComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.fetchAcc.fetchAcc().subscribe(data => {
-          this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName).subscribe();
+          // `fetchAcc` service is total unnecessary, `account.login` is the current user's username
+          // get user's entries and check if it is duplicate
+          this.wantToListenService.getUserEntries(account.login).subscribe(res => {
+            //check duplicate entry
+            for (let i = 0; i < res.data.entryList.length; i++) {
+              if (this.id == res.data.entryList[i].itemUri) {
+                // if userList contains this item's URI, show `Fail alert message`
+                this.showAddWantListenFail = true;
+                this.showAddWantListenSuccess = false;
+                break;
+              }
+            }
+            if (!this.showAddWantListenFail) {
+              // if no same entry, then add new
+              this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName).subscribe(res => {
+                // show success message, set `Fail` to false
+                this.showAddWantListenSuccess = true;
+                this.showAddWantListenFail = false;
+              });
+            }
+          });
         });
-        this.showAddWantListen = true;
       } else {
         this.router.navigate(['/login']);
       }
