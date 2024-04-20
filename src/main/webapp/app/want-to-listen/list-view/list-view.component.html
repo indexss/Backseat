@@ -44,13 +44,16 @@
       <td class="col-1 text-center align-middle row-reviews">
         {{ item.reviewsCount | number: '':'en' }}
       </td>
-      <td class="col-1 text-center">
-        <button class="col-auto btn" style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: rgba(0, 0, 0, 0)">
+      <td class="col-1 text-center align-middle row-reviews">
+        <button
+          class="col-auto btn align-middle row-reviews"
+          style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: rgba(0, 0, 0, 0)"
+        >
           <fa-icon
             [icon]="faTrash"
             *ngIf="item.isFocus"
             (click)="deleteItem(item.id)"
-            style="font-size: 2em; margin: 0; padding: 0; color: #447848"
+            style="font-size: 1.5em; margin: 0; padding: 0; color: #9d0606"
           ></fa-icon>
         </button>
       </td>
