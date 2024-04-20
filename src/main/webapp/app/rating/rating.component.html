@@ -29,7 +29,7 @@
         <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
         <br />
         <div class="d-flex flex-column">
-          <button class="btn btn-primary mb-2 redirectButton button1" (click)="addToWantToListen()">Want-to-listen</button>
+          <button class="btn btn-primary mb-2 redirectButton button1" (click)="addToWantToListen()">Want to listen</button>
           <button class="btn btn-primary redirectButton button2" (click)="openModal(id, content)">Add to Folder</button>
         </div>
       </div>
@@ -157,8 +157,9 @@
         <!--        //  Add To Folder and Want to Listen Please look at here-->
         <!--        //  Add To Folder and Want to Listen Please look at here-->
         <!--        //  Add To Folder and Want to Listen Please look at here-->
+        <br />
         <div class="d-flex flex-column align-items-start">
-          <button class="btn btn-primary mb-2 redirectButton button1" (click)="addToWantToListen()">Want-to-listen</button>
+          <button class="btn btn-primary mb-2 redirectButton button1" (click)="addToWantToListen()">Want to listen</button>
           <button class="btn btn-primary redirectButton button2" (click)="openModal(id, content)">Add to Folder</button>
         </div>
       </div>
@@ -197,12 +198,8 @@
           <td>{{ track.releaseDate }}</td>
           <td>{{ track.rating | number: '1.2-2' }}</td>
           <td style="text-align: center; vertical-align: middle">
-            <a [href]="getSpotifyLink(id)" target="_blank" class="btn btn-primary playbtn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
-                <path
-                  d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"
-                />
-              </svg>
+            <a [href]="getSpotifyLink(id)" target="_blank" class="playbutton">
+              <fa-icon [icon]="faPlayCircle" style="font-size: 2em; color: #447848; background-color: #ffffff00 !important"></fa-icon>
             </a>
           </td>
         </tr>

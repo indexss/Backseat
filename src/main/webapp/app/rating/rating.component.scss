@@ -4,7 +4,16 @@ $custom-green: rgb(68, 120, 72);
 }
 
 .playbtn {
-  border-radius: 20%;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: $custom-green;
+  border: none;
+}
+
+.playbutton {
+  width: 30px;
+  height: 30px;
 }
 
 body {
