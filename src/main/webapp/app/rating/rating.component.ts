@@ -32,38 +32,52 @@ interface Folder {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RatingComponent implements OnInit {
+  //imported icon
   faPlayCircle = faPlayCircle;
   spotifyTrackLink!: string;
+  // fetch review var for assigning value from backend
   trackName!: string;
   albumName!: string;
-  albumNames!: string[];
   artistName!: string;
   releaseDate!: string;
   description!: string;
   avgRating!: number;
   reviewList: Review[] = [];
+  // account service for both add to folder and delete comment
   account!: Account;
+  // track/album image url
   imgURL!: string;
+  //show comment alert
   showAlert: boolean = false;
+  //store user comment and check if user comment is null
   comment!: string;
+  //change rating
   rating = 0;
+  //initialize spotify:uri; this could be either album URI or track URI
   id!: any;
+  //check if it is track or  album
   isTrack?: boolean;
-  showCommentAlert: boolean = false;
   totalTracks!: number;
-  allReviewList: Review[] = [];
+  //fetching additional information for albums from backend
+  //each album contain reviewlist for each of track in it
   trackList: Track[] = [];
   avgRatingList: number[] = [];
+  //selected track in album form
   selectedSpotifyURI!: string;
   selectedTrack!: any;
+  //prompt user at least choose one track to comment in album
   showAlertTrack: boolean = false;
   albumURI!: string;
+  //"click to review album" or "click to review track" prompt boolean check
   showAlbumReviews: boolean = true;
   showAlertReview: boolean = false;
+  // local cover for testing
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
+  //pagination items
   currentPage: number = 1;
   reviewsPerPage: number = 5;
   userName!: string;
+  // album review list for reordering
   albumReviewList: Review[] = [];
   //folder part
   spotifyURI!: string;
@@ -254,7 +268,7 @@ export class RatingComponent implements OnInit {
   // From  Willis Shi
   openModal(spotifyURI: string, content: TemplateRef<any>): void;
   openModal(content: TemplateRef<any>): void;
-
+  // there are two types of showing model; either it has spotify folder uri or not
   openModal(arg1: any, arg2?: any): void {
     if (typeof arg1 === 'string') {
       this.spotifyURI = arg1;
@@ -265,6 +279,8 @@ export class RatingComponent implements OnInit {
     }
   }
 
+  //works from Hào Li to check if the album/track already exist in Want-to-listen list
+  //Show relevant prompt message in html
   addToWantToListen(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
@@ -282,9 +298,11 @@ export class RatingComponent implements OnInit {
                   this.showAddWantListenFail = true;
                   this.showAddWantListenSuccess = false;
                   console.log('Fail: ' + this.showAddWantListenFail);
+                  this.changeDetectorRef.detectChanges();
                   break;
                 }
               }
+              this.changeDetectorRef.detectChanges();
             }
 
             if (!this.showAddWantListenFail) {
@@ -293,8 +311,10 @@ export class RatingComponent implements OnInit {
                 // show success message, set `Fail` to false
                 this.showAddWantListenSuccess = true;
                 this.showAddWantListenFail = false;
+                this.changeDetectorRef.detectChanges();
                 console.log('Success: ' + this.showAddWantListenSuccess);
               });
+              this.changeDetectorRef.detectChanges();
             }
           });
         });
@@ -304,6 +324,7 @@ export class RatingComponent implements OnInit {
     });
   }
 
+  // add to relevant folder
   addToFolder(folderId: number) {
     console.log(`Adding trackURI: ${this.spotifyURI} to folderId: ${folderId}`);
     this.accountService.identity().subscribe(account => {
@@ -314,6 +335,7 @@ export class RatingComponent implements OnInit {
     this.modalRef.close();
   }
 
+  //get spotifyLink method for adding items into folder
   getSpotifyLink(spotifyURI: string): string {
     let spotifyLink: string = '';
     if (spotifyURI.startsWith('spotify:track:')) {
@@ -334,12 +356,19 @@ export class RatingComponent implements OnInit {
     return selectedTrack ? selectedTrack.trackName : 'Track not found';
   }
 
+  //submit review logic
+  //only login user can submit review so check account first
+  //then check if the comment is valid
+  //then check if it is a review on track page or on album page
+  //if it is on album page : check if it is a review for track or review
+  //fetch data reused every time to ensure data is updated after changes
   submitReview(): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
         this.fetchAcc.fetchAcc().subscribe(data => {
           this.userName = data.data.Acc.accountName;
           this.showAlertReview = false;
+          //review valid?
           if (
             this.rating === 0 ||
             this.comment === undefined ||
@@ -397,6 +426,7 @@ export class RatingComponent implements OnInit {
             else {
               this.showAlert = false;
               //did not select track for Album
+              //if following review whole album and show album comments logic
               if (this.showAlbumReviews) {
                 for (let i: number = 0; i < this.albumReviewList.length; i++) {
                   if (this.userName === this.albumReviewList[i].username) {
@@ -438,7 +468,9 @@ export class RatingComponent implements OnInit {
                     });
                   }, 300);
                 }
-              } else {
+              }
+              //In album page: and review on a selected track in that album
+              else {
                 if (!this.selectedSpotifyURI) {
                   this.showAlertTrack = true;
                 } else {
@@ -489,12 +521,15 @@ export class RatingComponent implements OnInit {
             }
           }
         });
-      } else {
+      }
+      //not log in: navigate to login page
+      else {
         this.router.navigate(['/login']);
       }
     });
   }
 
+  //clicking on "clear button"
   clearContent(): void {
     this.comment = '';
     this.rating = 0;
@@ -509,6 +544,7 @@ export class RatingComponent implements OnInit {
     }
   }
 
+  //redirect logic for redirect ing between album and track
   redirectToAlbum(spotifyURI: string): void {
     this.isTrack = false;
 
@@ -525,6 +561,7 @@ export class RatingComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
+  //resetData for data unchangeable bugs
   resetData(): void {
     this.trackName = '';
     this.albumName = '';
@@ -539,6 +576,9 @@ export class RatingComponent implements OnInit {
     this.trackList = [];
   }
 
+  //"click to review album" "click to review track"
+  //"view album review" "view track review" buttons logic
+  //
   toggleReviews() {
     this.accountService.identity().subscribe(account => {
       if (account) {
@@ -611,6 +651,15 @@ export class RatingComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
+  //delete review needs to first check if it is log in
+  //if not log in actually nothing happens
+  //if logged in: check the whole review list with the current log in user name
+  //delete relevant review through review id
+  //then fetch review service update changes
+  //still it works in three logic:
+  //1.In album page delete album review
+  //2.In album page delete track review
+  //3.In track page delete track review
   deleteReview(reviewId: string): void {
     this.accountService.identity().subscribe(account => {
       if (account) {
@@ -640,6 +689,7 @@ export class RatingComponent implements OnInit {
               if (this.albumReviewList) {
                 this.albumReviewList = this.albumReviewList.reverse();
               }
+              this.changeDetectorRef.detectChanges();
             });
           }, 100);
           this.changeDetectorRef.detectChanges();
@@ -724,6 +774,7 @@ export class RatingComponent implements OnInit {
     });
   }
 
+  //pagination function:  5 reviews per page
   get paginatedReviews(): Review[] {
     const startIndex = (this.currentPage - 1) * this.reviewsPerPage;
     const endIndex = startIndex + this.reviewsPerPage;
@@ -750,6 +801,8 @@ export class RatingComponent implements OnInit {
     this.currentPage = pageNo;
   }
 
+  //redirect to profile function for profile image and user name in review showing
+  // in html.
   redirectToProfile(profileId: number): void {
     this.router.navigate(['/profile', profileId]);
   }
@@ -758,6 +811,6 @@ export class RatingComponent implements OnInit {
     const track = this.trackList.find(t => t.trackName === trackName);
     return track ? track.spotifyURI : '';
   }
-
+  //math
   protected readonly Math = Math;
 }

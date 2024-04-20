@@ -42,10 +42,13 @@ public class ReviewController {
     public ResponseUtils fetchReviews(String id) {
         ResponseUtils resp = null;
         try {
+            //Track page: fetch track info and review list by reviewTrackDto
             if (id.startsWith("spotify:track:")) {
                 ReviewTrackDTO reviewTrackDTO = reviewTrackSevice.fetchReviewAndTrackInfo(id);
                 resp = new ResponseUtils().put("review", reviewTrackDTO);
-            } else {
+            }
+            //album page: fetch album info and review list by reviewAlbumDTO
+            else {
                 ReviewAlbumDTO reviewAlbumDTO = reviewAlbumService.fetchReviewAndAlbumInfo(id);
                 resp = new ResponseUtils().put("review", reviewAlbumDTO);
             }
@@ -53,15 +56,6 @@ public class ReviewController {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
         }
-        //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //        String userId = null;
-        //        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-        //            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        //            userId = userDetails.getUsername();
-        //        } else if (authentication != null && authentication.getPrincipal() instanceof String) {
-        //            userId = (String) authentication.getPrincipal();
-        //        }
-        //        System.out.println("%%%%%%%%%%%988888888 UserId is:" + userId);
         return resp;
     }
 
@@ -78,6 +72,8 @@ public class ReviewController {
         return resp;
     }
 
+    //fetch acc service: only JWT authenticated user is allowed to use this service
+    //it will return profile name
     @GetMapping("/acc")
     public ResponseUtils fetchAcc() {
         ResponseUtils resp = null;
@@ -98,6 +94,9 @@ public class ReviewController {
         return resp;
     }
 
+    // add review service for both album and track
+    // only authenticated user can add review
+    // then differentiate by whether url contain track or album
     @PostMapping("/addreview")
     public ResponseUtils addReview(@RequestBody AddReviewDTO addReviewDTO) {
         ResponseUtils resp = null;
@@ -111,11 +110,6 @@ public class ReviewController {
         } else if (authentication != null && authentication.getPrincipal() instanceof String) {
             userId = (String) authentication.getPrincipal();
         }
-        //        System.out.println("7777777777: " + addReviewDTO.getId());
-        //        System.out.println("7777777777: " + addReviewDTO.getContent());
-        //        System.out.println("7777777777: " + addReviewDTO.getRating());
-
-        //        System.out.println("888888888888888888888888: " + userId);
         try {
             if (spotifyURI.startsWith("spotify:track:")) {
                 System.out.println(userId);
@@ -132,6 +126,9 @@ public class ReviewController {
         return resp;
     }
 
+    //check user authentication
+    //delete by spotifyURI
+    //return renewed review list and track/album info
     @PostMapping("/deleteReview")
     public ResponseUtils deleteReview(@RequestBody AddReviewDTO addReviewDTO) {
         ResponseUtils resp = null;
@@ -145,9 +142,6 @@ public class ReviewController {
         } else if (authentication != null && authentication.getPrincipal() instanceof String) {
             userId = (String) authentication.getPrincipal();
         }
-        System.out.println("77777777777777777777777777777: " + addReviewDTO.getId());
-        System.out.println("77777777777777777777777777777: " + addReviewDTO.getId());
-        System.out.println("77777777777777777777777777777: " + addReviewDTO.getId());
 
         //        System.out.println("888888888888888888888888: " + userId);
         try {
@@ -166,6 +160,7 @@ public class ReviewController {
         return resp;
     }
 
+    //check exist service
     @GetMapping("/check")
     public ResponseUtils checkExist(String id) {
         ResponseUtils resp = null;

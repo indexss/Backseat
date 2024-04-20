@@ -43,14 +43,17 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
     @Resource
     private ProfileRepository profileRepository;
 
+    //reviewAlbumDTO is the direct object get transmitted in the service
     @Override
     public ReviewAlbumDTO fetchAlbumReviewAndAlbumInfo(String albumSpotifyId) {
         ReviewAlbumDTO reviewAlbumDTO = new ReviewAlbumDTO();
         Optional<Album> optionalAlbum = albumRepository.findById(albumSpotifyId);
 
         try {
+            //fetch album from album repo
             Album album = optionalAlbum.get();
             List<Track> optionalTrackList = trackRepository.findByAlbum(albumSpotifyId);
+            //set value for reviewAlbumDTO
             reviewAlbumDTO.setAlbumName(album.getName());
             reviewAlbumDTO.setReleaseDate(album.getReleaseDate());
             reviewAlbumDTO.setDescription("");
@@ -96,21 +99,24 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
     public ReviewAlbumDTO fetchReviewAndAlbumInfo(String albumSpotifyId) {
         ReviewAlbumDTO reviewAlbumDTO = new ReviewAlbumDTO();
         Optional<Album> optionalAlbum = albumRepository.findById(albumSpotifyId);
-
+        //similar logic as above
         try {
             Album album = optionalAlbum.get();
             List<Track> optionalTrackList = trackRepository.findByAlbum(albumSpotifyId);
             reviewAlbumDTO.setAlbumName(album.getName());
             reviewAlbumDTO.setReleaseDate(album.getReleaseDate());
             reviewAlbumDTO.setDescription("");
+            //set review list for album dto
             Set<Review> reviewSet = new HashSet<>();
             reviewAlbumDTO.setReviewList(reviewSet);
+            //set track names in review
             Set<Track> trackSet = new HashSet<>();
             reviewAlbumDTO.setTrack(trackSet);
             trackSet.addAll(optionalTrackList);
             reviewAlbumDTO.pushTrackList(trackSet);
             reviewAlbumDTO.setImgURL(album.getImageURL());
             reviewAlbumDTO.setTotalTracks(album.getTotalTracks());
+            // concatenate artist name
             StringBuilder artistNameBuilder = new StringBuilder();
             Set<Artist> artists = album.getArtists();
             List<Artist> artistList = new ArrayList<>(artists);
@@ -125,6 +131,7 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             reviewAlbumDTO.setArtistName(artistNameBuilder.toString());
 
             Set<Track> trackList = reviewAlbumDTO.getTracks();
+            //test load tracks successful?
             System.out.println(trackList + "==============================");
             ArrayList<Track> tracks = new ArrayList<>(trackList);
             for (int j = 0; j < reviewAlbumDTO.getTracks().size(); j++) {
@@ -155,11 +162,11 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
         Optional<Profile> optionalProfile = profileRepository.findByUserLogin(username);
         Profile profile = optionalProfile.get();
         newReview.setProfile(profile);
-
+        //var album for set new review
         Optional<Album> optionalAlbum = albumRepository.findById(albumId);
         Album album = optionalAlbum.get();
         newReview.setAlbum(album);
-
+        //var album__ for fetch changed review list from album repository
         Optional<Album> album_ = albumRepository.findById(albumId);
         Album album__ = album_.get();
         reviewRepository.save(newReview);
@@ -187,7 +194,9 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
         Set<Review> reviews = reviewRepository.findByAlbum(album);
 
         Iterator<Review> iterator = reviews.iterator();
-
+        //cannot directly delete from set
+        //use iterator and remove from iterator
+        //then change iterator into reviewlist and save
         while (iterator.hasNext()) {
             Review review = iterator.next();
             if (review.getProfile().equals(profile)) {
@@ -204,6 +213,7 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
             }
             System.out.println(albumId);
             List<Review> reviewList = new ArrayList<>(reviews);
+            //reset average rating
             double sum = 0;
             double avgRating = 0;
             for (int i = 0; i < reviewList.size(); i++) {
