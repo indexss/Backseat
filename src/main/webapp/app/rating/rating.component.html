@@ -3,7 +3,9 @@
 <div *ngIf="isTrack" class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
-      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      <a [href]="spotifyTrackLink">
+        <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      </a>
 
       <div>
         <div class="track-container d-flex align-items-center">
@@ -11,9 +13,9 @@
           <a
             [href]="spotifyTrackLink"
             class="btn play-button"
-            style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: white"
+            style="background-color: #ffffff00 !important; padding-top: 2px; padding-bottom: 2px; border: 0; background-color: white"
           >
-            <fa-icon [icon]="faPlayCircle" style="font-size: 2.5em; color: #447848"></fa-icon>
+            <fa-icon [icon]="faPlayCircle" style="font-size: 2.5em; color: #447848; background-color: #ffffff00 !important"></fa-icon>
           </a>
         </div>
 

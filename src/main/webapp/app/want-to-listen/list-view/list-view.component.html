@@ -18,7 +18,7 @@
       (mouseleave)="item.isFocus = false"
       *ngFor="let item of itemList"
     >
-      <td class="col-1 text-center center-both">
+      <td class="col-1 text-center center-both row-id">
         {{ item.idToDisplay }}
       </td>
       <td class="col-4">
@@ -35,13 +35,13 @@
           </div>
         </div>
       </td>
-      <td class="col-3 text-center align-middle">
+      <td class="col-3 text-center align-middle row-album">
         {{ item.albumName }}
       </td>
-      <td class="col-1 text-center align-middle">
+      <td class="col-1 text-center align-middle row-rating">
         {{ item.rating | number: '1.0-2' }}
       </td>
-      <td class="col-1 text-center align-middle">
+      <td class="col-1 text-center align-middle row-reviews">
         {{ item.reviewsCount | number: '':'en' }}
       </td>
       <td class="col-1 text-center">

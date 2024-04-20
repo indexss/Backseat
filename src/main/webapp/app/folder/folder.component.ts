@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FolderService } from './folder.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../core/auth/account.service';
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface EntryInfo {
   entryName: string;
@@ -20,6 +22,8 @@ interface FolderEntry {
   styleUrls: ['./folder.component.scss'],
 })
 export class FolderComponent implements OnInit {
+  faTrash = faTrash;
+  faPlayCircle = faPlayCircle;
   page = 1;
   pageSize = 10;
   imageURL!: string;
