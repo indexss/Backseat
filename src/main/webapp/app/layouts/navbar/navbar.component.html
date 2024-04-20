@@ -170,6 +170,13 @@
             </li>
 
             <li *ngSwitchCase="true">
+              <a class="dropdown-item" routerLink="/addToFolder" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
+                <fa-icon [icon]="faFolder" [fixedWidth]="true"></fa-icon>
+                <span>My Folders</span>
+              </a>
+            </li>
+
+            <li *ngSwitchCase="true">
               <a
                 class="dropdown-item"
                 routerLink="account/settings"

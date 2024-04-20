@@ -31,6 +31,9 @@ export class WantToListenService {
   }
 
   getAllEntries(): Observable<any> {
+    console.log('---------------------------');
+    console.log(this.http.get('api/want-to-listen-list/all'));
+    console.log('---------------------------');
     return this.http.get('api/want-to-listen-list/all');
   }
 

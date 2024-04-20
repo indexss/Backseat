@@ -16,34 +16,11 @@
         <!-- <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> -->
         <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>
         <br />
+        <div class="d-flex flex-column">
+          <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
+          <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
+        </div>
       </div>
-
-      <!--      //  Add To Folder and Want to Listen Please look at here-->
-      <div class="d-flex flex-column align-items-end">
-        <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want-to-listen</button>
-        <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button>
-        <!--=======-->
-        <!--        <span class="artist d-block">Artist: {{ artistName }}</span>-->
-        <!--        <span class="rdate d-block">Release Date: {{ releaseDate }}</span>-->
-        <!--        &lt;!&ndash; <ngb-rating class="avgrating" [max]="5" [readonly]="true" [rate]="3.5"></ngb-rating> &ndash;&gt;-->
-        <!--        <span class="avgrating d-block">average rating: {{ avgRating | number: '1.2-2' }}</span>-->
-        <!--        &lt;!&ndash; <br /> &ndash;&gt;-->
-        <!--        &lt;!&ndash;          <span class="description d-block">Description:{{ description }}</span>&ndash;&gt;-->
-
-        <!--        &lt;!&ndash; <button class="btn btn-primary redirectButton wtl" (click)="addToWantToListen()">Want to listen</button> &ndash;&gt;-->
-        <!--        &lt;!&ndash; <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button> &ndash;&gt;-->
-        <!--        <div class="d-flex align-items-start">-->
-        <!--          <button class="btn btn-primary redirectButton wtl" (click)="addToWantToListen()">Want to listen</button>-->
-        <!--          <br />-->
-        <!--          <button class="btn btn-primary redirectButton ms-2" (click)="openModal(id, content)">Add to Folder</button>-->
-        <!--        </div>-->
-        <!--&gt;>>>>>> a6851697a2e24f0b3832d60816d86486b2f4f6cd-->
-      </div>
-
-      <!-- <div class="d-flex flex-column align-items-end"> -->
-      <!-- <button class="btn btn-primary mb-2 redirectButton" (click)="addToWantToListen()">Want to listen</button> -->
-      <!-- <button class="btn btn-primary redirectButton" (click)="openModal(id, content)">Add to Folder</button> -->
-      <!-- </div> -->
     </div>
   </div>
   <br />
