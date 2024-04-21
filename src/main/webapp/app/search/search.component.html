@@ -30,7 +30,7 @@
         <div class="pt-2" *ngIf="idx != 0"></div>
         <a routerLink="/rating/{{ res.uri }}">
           <div class="d-flex gap-3 align-items-center">
-            <img style="max-width: 100px" src="{{ getLargestAlbumImage(res.album)?.url }}" alt="" />
+            <img style="max-width: 100px" src="{{ getLargestAlbumImage(res.album)?.url }}" alt="Album art for {{ res.name }}" />
             <div>
               <div class="fs-4">{{ res.name }}</div>
               <div class="fs-6">{{ joinArtists(res.artists) }}</div>
@@ -45,7 +45,7 @@
         <div class="pt-2" *ngIf="idx != 0"></div>
         <a routerLink="/rating/{{ res.uri }}">
           <div class="d-flex gap-3 align-items-center">
-            <img style="max-width: 100px" src="{{ getLargestAlbumImage(res)?.url }}" alt="" />
+            <img style="max-width: 100px" src="{{ getLargestAlbumImage(res)?.url }}" alt="Album art for {{ res.name }}" />
             <div>
               <div class="fs-4">{{ res.name }}</div>
               <div class="fs-6">{{ joinArtists(res.artists) }}</div>
@@ -60,8 +60,11 @@
         <div class="pt-2" *ngIf="idx != 0"></div>
         <a routerLink="/profile/{{ res.username }}">
           <div class="d-flex gap-3 align-items-center">
-            <!-- TODO(txp271): profile photos -->
-            <img style="max-width: 100px" src="https://avatars.platform.tdpain.net/{{ res.username }}" alt="" />
+            <img
+              style="max-width: 100px"
+              src="https://avatars.platform.tdpain.net/{{ res.username }}"
+              alt="{{ res.username }}'s profile photo"
+            />
             <div>
               <div class="fs-4">{{ res.username }}</div>
             </div>
@@ -75,7 +78,12 @@
         <div class="pt-2" *ngIf="idx != 0"></div>
         <a routerLink="/folderPage/{{ res.id }}">
           <div class="d-flex gap-3 align-items-center">
-            <img *ngIf="res.image != null" style="max-width: 100px" src="data:{{ res.imageContentType }};base64,{{ res.image }}" alt="" />
+            <img
+              *ngIf="res.image != null"
+              style="max-width: 100px"
+              src="data:{{ res.imageContentType }};base64,{{ res.image }}"
+              alt="Cover image for the folder called {{ res.name }}"
+            />
             <img
               *ngIf="res.image == null"
               style="max-width: 100px"

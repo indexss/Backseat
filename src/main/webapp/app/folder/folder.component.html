@@ -37,6 +37,7 @@
             <div class="flex-grow-1">
               <a [routerLink]="['/rating', folderEntry.spotifyURI]" class="text-left d-block">
                 <strong>{{ entryInfoList[i].entryName }}</strong>
+                <strong *ngIf="isAlbum(folderEntry.spotifyURI)"> (Album)</strong>
                 <div *ngIf="folderEntry.hovered">Entry Date: {{ folderEntry.addTime | slice: 0:10 }}</div>
               </a>
             </div>
