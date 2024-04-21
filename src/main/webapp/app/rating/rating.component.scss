@@ -4,7 +4,20 @@ $custom-green: rgb(68, 120, 72);
 }
 
 .playbtn {
-  border-radius: 20%;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: $custom-green;
+  border: none;
+}
+
+.playbutton {
+  width: 30px;
+  height: 30px;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
 }
 
 body {
@@ -224,11 +237,11 @@ ngb-rating {
 }
 
 .align-items-start {
-  align-items: flex-start; /* Ensures vertical alignment at the top */
+  align-items: flex-start;
 }
 
 .ms-2 {
-  margin-left: 0.5rem; /* Adds a small space between the two buttons */
+  margin-left: 0.5rem;
 }
 
 .wtl {
@@ -249,4 +262,9 @@ ngb-rating {
   background-color: white;
   display: flex;
   align-items: center;
+}
+
+.button1,
+.button2 {
+  margin-left: 20px;
 }

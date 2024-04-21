@@ -1,15 +1,14 @@
 package team.bham.web.rest;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import team.bham.config.ApplicationProperties;
 import team.bham.domain.Profile;
-import team.bham.domain.WantToListenListEntry;
 import team.bham.repository.ProfileRepository;
-import team.bham.repository.WantToListenListEntryRepository;
 import team.bham.service.SpotifyConnectionService;
-import team.bham.service.WantToListenListEntryService;
 import team.bham.service.WantToListenListService;
 import team.bham.service.dto.WantToListenListItem;
 import team.bham.spotify.SpotifyAPI;
@@ -32,19 +31,6 @@ public class WantToListenListController {
     @Resource
     private ProfileRepository profileRepo;
 
-    @GetMapping("/all")
-    public ResponseUtils fetchAllListEntries() {
-        ResponseUtils resp;
-        try {
-            List<WantToListenListEntry> entryList = wantListService.fetchAllWantToListenList();
-            resp = new ResponseUtils().put("all entries", entryList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
-        }
-        return resp;
-    }
-
     @GetMapping("/user")
     public ResponseUtils fetchEntriesByUser(@RequestParam String userID) {
         ResponseUtils resp;
@@ -65,20 +51,35 @@ public class WantToListenListController {
         Profile profile = profileRepo.findByUserLogin(userName).get();
         System.out.println("********************************profile: " + profile);
         SpotifyAPI api = new SpotifyAPI(new SpotifyCredential(appProps, spotifyConnService, profile.getSpotifyURI()));
-        //TODO: new function in class `SpotifyAPI` need to be created: CreateUserPlaylist(void) and AddNewTrack(List<WantToListenListItem>, "playListID")
         try {
             List<WantToListenListItem> itemList = wantListService.fetchUserWantToListenList(userName);
+            if (itemList == null || itemList.isEmpty()) {
+                resp = new ResponseUtils().put("emptyList", 1);
+                return resp;
+            }
             String playListId = api.createPlaylist().id;
             System.out.println("*************************PlayList ID: " + playListId);
 
-            api.addWantToListenEntriesToPlaylist(itemList, playListId);
+            List<WantToListenListItem> rmitems = new ArrayList<>();
+            for (WantToListenListItem item : itemList) {
+                if (item.getItemUri().contains(":album:")) {
+                    rmitems.add(item);
+                }
+            }
+            List<WantToListenListItem> replacedItems = new ArrayList<>();
+            for (WantToListenListItem item : rmitems) {
+                replacedItems.addAll(wantListService.fetchTracksWithAlbumUri(item.getItemUri()));
+            }
 
+            itemList.removeAll(rmitems);
+            itemList.addAll(replacedItems);
+
+            api.addWantToListenEntriesToPlaylist(itemList, playListId);
             resp = new ResponseUtils().put("playlistId", playListId);
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
         }
-
         return resp;
     }
 }

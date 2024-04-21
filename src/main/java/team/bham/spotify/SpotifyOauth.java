@@ -49,12 +49,7 @@ public class SpotifyOauth {
             host = host.split(", ")[0];
         }
 
-        String proto = request.getHeader("X-Forwarded-Proto");
-        if (proto == null || proto.isEmpty()) {
-            proto = request.getProtocol().split("/")[0].toLowerCase();
-        }
-
-        return proto + "://" + host + "/oauth/inbound";
+        return "https://" + host + "/oauth/inbound";
     }
 
     public String generateOauthRedirectUrl(String state, HttpServletRequest request) {

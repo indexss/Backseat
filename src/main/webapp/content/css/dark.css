@@ -22,6 +22,7 @@ ul.dropdown-menu.show {
 
 * {
   color: #e0e0e0;
+  /* text-shadow: 0.5px 0px 1px rgb(176, 176, 176); */
 }
 
 .row-id,
@@ -94,11 +95,6 @@ a:hover {
   color: rgb(68, 120, 72) !important;
 }
 
-.form-check-input {
-  background-color: #2c2c2c;
-  border-color: #6c757d;
-}
-
 .row-id {
   color: #e0e0e0;
 }
@@ -162,4 +158,17 @@ h3 {
 
 .tracksalbum {
   background-color: #434343 !important;
+}
+
+/* .shadowcheck{
+  background-color:  #fff !important;
+  color: #434343;
+}
+
+.shadowSwitch {
+  color: #fff !important;
+} */
+
+.shadowSwitch {
+  color: rgb(224, 224, 224) !important;
 }
