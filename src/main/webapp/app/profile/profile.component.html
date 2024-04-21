@@ -4,12 +4,11 @@
     <div>
       <h1 style="font-size: 3em;">{{ profile?.username }}</h1>
 
-      <!-- We'll pretend this isn't here for the time being -->
-      <!--      <div class="d-flex gap-5 fw-bold">-->
-      <!--        <span>40 reviews</span>-->
-      <!--        <span>68 lists</span>-->
-      <!--        <span>13 friends</span>-->
-      <!--      </div>-->
+      <div class="d-flex gap-5 fw-bold">
+        <span>{{ this.reviews.length }} reviews</span>
+        <span>{{ this.folders.length }} lists</span>
+        <span>{{ this.friends.length }} friends</span>
+      </div>
 
       <p>Joined {{ getCreationDate() }}</p>
 
