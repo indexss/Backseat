@@ -48,19 +48,25 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
         while (x < rrByTrackName.size() && x < 60) {
             for (int j = 0; j < min(rrByTrackName.size(), 60); j++) {
                 if (rrByTrackName.get(j).getTrack() != null) {
-                    String rrName = rrByTrackName.get(j).getTrack().getName();
-                    Track trackName = trackRepository.fetchTrackbyRecentReview(rrName);
-                    if (!tracks.contains(trackName)) {
+                    String rrID = rrByTrackName.get(j).getTrack().getSpotifyURI();
+                    //String rrName = rrByTrackName.get(j).getTrack().getName();
+                    Track trackName = trackRepository.fetchTrackbyRecentReview(rrID);
+                    /*if (!tracks.contains(trackName)) {
                         tracks.add(trackName);
                         both.add("Track");
-                    }
+                    }*/
+                    tracks.add(trackName);
+                    both.add("Track");
                 } else {
-                    String rrAlbumName = rrByTrackName.get(j).getAlbum().getName();
-                    Album albumName = albumRepository.fetchAlbumbyRecentReview(rrAlbumName);
-                    if (!albums.contains(albumName)) {
+                    //String rrAlbumName = rrByTrackName.get(j).getAlbum().getName();
+                    String rrAlbumID = rrByTrackName.get(j).getAlbum().getSpotifyURI();
+                    Album albumName = albumRepository.fetchAlbumbyRecentReview(rrAlbumID);
+                    /*if (!albums.contains(albumName)) {
                         albums.add(albumName);
                         both.add("Album");
-                    }
+                    }*/
+                    albums.add(albumName);
+                    both.add("Album");
                 }
                 //System.out.println("tracks: " + tracks);
                 x += 1;
