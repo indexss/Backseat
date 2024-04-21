@@ -4,6 +4,11 @@
 @import '~bootstrap/scss/variables';
 @import url('https://fonts.googleapis.com/css?family=Anta&display=swap');
 
+.nav-pills .nav-link.active:hover,
+.btn.btn-primary:hover {
+  color: white !important;
+}
+
 /* ==============================================================
 Bootstrap tweaks
 ===============================================================*/
