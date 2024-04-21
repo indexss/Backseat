@@ -6,7 +6,7 @@
 
       <div class="d-flex gap-5 fw-bold">
         <span>{{ this.reviews.length }} reviews</span>
-        <span>{{ this.folders.length }} lists</span>
+        <span>{{ this.folders.length }} folders</span>
         <span>{{ this.friends.length }} friends</span>
       </div>
 
@@ -60,11 +60,11 @@
 
     <div class="col">
       <div class="d-flex justify-content-center gap-2 pb-4">
-        <h2 class="fs-4">Lists</h2>
+        <h2 class="fs-4">Folders</h2>
         <a [routerLink]="['/addToFolder']" *ngIf="isSelf"><h2 class="fs-4">+</h2></a>
       </div>
 
-      <div id="lists">
+      <div id="folders">
         <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length == 0">No folders! ☹️</div>
 
         <div *ngFor="let folder of folders; let i = index">
@@ -79,7 +79,7 @@
       </div>
 
       <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length != 0 && isSelf">
-        <a routerLink="/addToFolder">Manage your lists</a>
+        <a routerLink="/addToFolder">Manage your folders</a>
       </div>
     </div>
 
