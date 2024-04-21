@@ -83,13 +83,16 @@ public class ReviewController {
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             userId = userDetails.getUsername();
+            System.out.println("userId" + userId);
         } else if (authentication != null && authentication.getPrincipal() instanceof String) {
             userId = (String) authentication.getPrincipal();
         }
 
         Optional<Profile> optionalProfile = profileRepository.findByUserLogin(userId);
         Profile profile = optionalProfile.get();
+        System.out.println("account name" + profile.getUsername());
         accDTO.setAccountName(profile.getUsername());
+        accDTO.setSpotifyName(userId);
         resp = new ResponseUtils().put("Acc", accDTO);
         return resp;
     }

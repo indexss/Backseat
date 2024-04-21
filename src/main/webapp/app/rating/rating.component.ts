@@ -83,7 +83,9 @@ export class RatingComponent implements OnInit {
   spotifyURI!: string;
   modalRef!: NgbModalRef;
   folderList: Folder[] = [];
+  //Check if add want to listen list successful?
   showAddWantListenSuccess: boolean = false;
+  //Check if add again into want to listen list?
   showAddWantListenFail: boolean = false;
 
   constructor(
@@ -287,8 +289,9 @@ export class RatingComponent implements OnInit {
         this.fetchAcc.fetchAcc().subscribe(data => {
           // `fetchAcc` service is total unnecessary, `account.login` is the current user's username
           // get user's entries and check if it is duplicate
-          this.wantToListenService.getUserEntries(account.login).subscribe(res => {
+          this.wantToListenService.getUserEntries(data.data.Acc.spotifyName).subscribe(res => {
             //check duplicate entry
+            console.log('account name', data.data.Acc);
             console.log('check before adding');
             console.log(res);
             if (res.data.entryList != null) {
@@ -307,7 +310,8 @@ export class RatingComponent implements OnInit {
 
             if (!this.showAddWantListenFail) {
               // if no same entry, then add new
-              this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName).subscribe(res => {
+              this.wantToListenService.addNewItem(this.id, data.data.Acc.spotifyName).subscribe(res => {
+                console.log('account name', data.data.Acc);
                 // show success message, set `Fail` to false
                 this.showAddWantListenSuccess = true;
                 this.showAddWantListenFail = false;
