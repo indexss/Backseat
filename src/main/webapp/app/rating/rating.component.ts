@@ -273,20 +273,27 @@ export class RatingComponent implements OnInit {
           // get user's entries and check if it is duplicate
           this.wantToListenService.getUserEntries(account.login).subscribe(res => {
             //check duplicate entry
-            for (let i = 0; i < res.data.entryList.length; i++) {
-              if (this.id == res.data.entryList[i].itemUri) {
-                // if userList contains this item's URI, show `Fail alert message`
-                this.showAddWantListenFail = true;
-                this.showAddWantListenSuccess = false;
-                break;
+            console.log('check before adding');
+            console.log(res);
+            if (res.data.entryList != null) {
+              for (let i = 0; i < res.data.entryList.length; i++) {
+                if (this.id == res.data.entryList[i].itemUri) {
+                  // if userList contains this item's URI, show `Fail alert message`
+                  this.showAddWantListenFail = true;
+                  this.showAddWantListenSuccess = false;
+                  console.log('Fail: ' + this.showAddWantListenFail);
+                  break;
+                }
               }
             }
+
             if (!this.showAddWantListenFail) {
               // if no same entry, then add new
               this.wantToListenService.addNewItem(this.id, data.data.Acc.accountName).subscribe(res => {
                 // show success message, set `Fail` to false
                 this.showAddWantListenSuccess = true;
                 this.showAddWantListenFail = false;
+                console.log('Success: ' + this.showAddWantListenSuccess);
               });
             }
           });

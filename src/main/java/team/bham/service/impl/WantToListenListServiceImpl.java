@@ -10,10 +10,7 @@ import team.bham.domain.Album;
 import team.bham.domain.Artist;
 import team.bham.domain.Track;
 import team.bham.domain.WantToListenListEntry;
-import team.bham.repository.AlbumRepository;
-import team.bham.repository.ArtistRepository;
-import team.bham.repository.TrackRepository;
-import team.bham.repository.WantToListenListEntryRepository;
+import team.bham.repository.*;
 import team.bham.service.WantToListenListService;
 import team.bham.service.dto.WantToListenListItem;
 
@@ -31,7 +28,7 @@ public class WantToListenListServiceImpl implements WantToListenListService {
     private AlbumRepository albumRepository;
 
     @Resource
-    private ArtistRepository artistRepository;
+    private ReviewRepository reviewRepository;
 
     @Override
     public List<WantToListenListEntry> fetchAllWantToListenList() {
@@ -67,12 +64,14 @@ public class WantToListenListServiceImpl implements WantToListenListService {
                 }
                 Track newTrack = res.get();
                 //fill infos
+                newItem.setIdToDisplay((long) itemList.size() + 1);
                 newItem.setItemName(newTrack.getName());
                 newItem.setAlbumName(newTrack.getAlbum().getName());
                 newItem.setArtists(ArtistSetToString(newTrack.getAlbum().getArtists()));
                 newItem.setRating(newTrack.getRating());
-                newItem.setReviewsCount(newTrack.getReviews().size());
+                newItem.setReviewsCount(reviewRepository.findByTrackSpotifyURI(itemURI).size());
                 newItem.setReleaseDate(newTrack.getReleaseDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                newItem.setCoverImgUrl(newTrack.getAlbum().getImageURL());
             } else if (itemURI.contains(":album:")) {
                 //searching album in repository
                 Optional<Album> res = albumRepository.findById(itemURI);
@@ -80,13 +79,14 @@ public class WantToListenListServiceImpl implements WantToListenListService {
                     continue;
                 }
                 Album newAlbum = res.get();
-
                 //fill infos
+                newItem.setIdToDisplay((long) itemList.size() + 1);
                 newItem.setItemName(newAlbum.getName());
                 newItem.setArtists(ArtistSetToString(newAlbum.getArtists()));
                 newItem.setRating(newAlbum.getRating());
-                newItem.setReviewsCount(newAlbum.getReviews().size());
+                newItem.setReviewsCount(reviewRepository.findByAlbumSpotifyURI(itemURI).size());
                 newItem.setReleaseDate(newAlbum.getReleaseDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                newItem.setCoverImgUrl(newAlbum.getImageURL());
             } else { // Unexpected case, passing out Unexpected cases only for testing, TODO: Change after "user's want-to-listen list" testing
                 System.out.println("*************Unexpected spotifyURI: " + itemURI);
             }
