@@ -159,6 +159,7 @@ export class DiscoverComponent implements OnInit {
     } else {
       this.isMobile = false;
     }
+    console.log(this.isMobile);
 
     this.http.get<Record[]>(this.appConfig.getEndpointFor('/api/discover/track')).subscribe({
       next: vowel => {

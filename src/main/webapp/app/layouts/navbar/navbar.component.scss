@@ -12,26 +12,6 @@ a.dropdown-item:hover {
   color: white !important;
 }
 
-.nav-link {
-  position: relative;
-}
-
-.label {
-  position: absolute;
-  top: 0;
-  left: calc(100% + 10px);
-  display: none;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  z-index: 10000;
-}
-
-.nav-item:hover .label {
-  display: block;
-}
-
 .icon-text-wrapper {
   display: flex;
   flex-direction: column;
