@@ -24,6 +24,7 @@ import team.bham.repository.UserRepository;
 import team.bham.service.SpotifyConnectionService;
 import team.bham.service.UserService;
 import team.bham.service.dto.SpotifyConnectionDTO;
+import team.bham.service.mapper.SpotifyConnectionMapper;
 import team.bham.spotify.SpotifyAPI;
 import team.bham.spotify.SpotifyException;
 import team.bham.spotify.SpotifyOauth;
@@ -45,19 +46,22 @@ public class SpotifyOauthResource {
     private UserService userService;
     private UserRepository userRepository;
     private ProfileRepository profileRepository;
+    private SpotifyConnectionMapper spotifyConnectionMapper;
 
     public SpotifyOauthResource(
         SpotifyConnectionService spotifyConnectionService,
         SpotifyConnectionRepository spotifyConnectionRepository,
         UserService userService,
         UserRepository userRepository,
-        ProfileRepository profileRepository
+        ProfileRepository profileRepository,
+        SpotifyConnectionMapper spotifyConnectionMapper
     ) {
         this.spotifyConnectionService = spotifyConnectionService;
         this.userService = userService;
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
         this.spotifyConnectionRepository = spotifyConnectionRepository;
+        this.spotifyConnectionMapper = spotifyConnectionMapper;
     }
 
     @GetMapping("/get-url")
@@ -98,13 +102,12 @@ public class SpotifyOauthResource {
         // Store result
         SpotifyConnectionDTO conn = this.spotifyConnectionService.update(accessToken.asSpotifyConnectionDTO(userProfile.uri));
         Optional<User> u = userService.getUserWithAuthorities();
-        System.out.println("CONN DTO: " + conn);
         if (u.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
         Profile prof = profileRepository.findByUserLogin(u.get().getLogin()).get();
         prof.setSpotifyURI(conn.getSpotifyURI());
-        prof.setSpotifyConnection(new SpotifyConnection().spotifyURI(conn.getSpotifyURI()));
+        prof.setSpotifyConnection(this.spotifyConnectionMapper.toEntity(conn));
         profileRepository.save(prof);
 
         StoreResultResponse resp = new StoreResultResponse();

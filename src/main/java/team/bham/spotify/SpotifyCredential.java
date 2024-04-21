@@ -90,6 +90,11 @@ public class SpotifyCredential implements AccessTokenProvider {
             newDto = SpotifyUtil.unmarshalJson(resp.body(), AccessTokenResponse.class).asSpotifyConnectionDTO(this.uri);
         }
 
+        if (newDto.getRefreshToken() == null) {
+            // If Spotify doesn't give us a new refresh token, keep using the old one
+            newDto.setRefreshToken(connDto.getRefreshToken());
+        }
+
         spotifyConnectionService.update(newDto);
         this.connDto = newDto;
     }
