@@ -49,7 +49,12 @@ public class SpotifyOauth {
             host = host.split(", ")[0];
         }
 
-        return "https://" + host + "/oauth/inbound";
+        String proto = "https";
+        if (host.contains("127.0.0.1") || host.contains("localhost")) {
+            proto = "http";
+        }
+
+        return proto + "://" + host + "/oauth/inbound";
     }
 
     public String generateOauthRedirectUrl(String state, HttpServletRequest request) {
