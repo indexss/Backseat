@@ -1,5 +1,6 @@
 package team.bham.service.impl;
 
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.annotation.Resource;
@@ -104,5 +105,15 @@ public class WantToListenListServiceImpl implements WantToListenListService {
             artistName = artistName.concat(", ").concat(iterator.next().getName());
         }
         return artistName;
+    }
+
+    public List<WantToListenListItem> fetchTracksWithAlbumUri(String albumUri) {
+        List<Track> tracks = trackRepository.findByAlbum(albumUri);
+        List<WantToListenListItem> albumTrack = new ArrayList<>();
+        for (Track track : tracks) {
+            WantToListenListItem newItem = new WantToListenListItem(0L, "", track.getSpotifyURI(), "");
+            albumTrack.add(newItem);
+        }
+        return albumTrack;
     }
 }

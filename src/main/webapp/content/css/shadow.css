@@ -1,0 +1,8 @@
+@import url('https://rsms.me/inter/inter.css');
+
+* {
+  /* text-shadow: rgb(66, 66, 66) 2px 0 3px; */
+  /* text-shadow: 0.5px 0px 2px rgb(122, 122, 122); */
+  font-weight: bold !important;
+  font-family: Inter, sans-serif !important;
+}

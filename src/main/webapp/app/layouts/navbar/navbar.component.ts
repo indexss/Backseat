@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
   account: Account | null = null;
   entitiesNavbarItems: any[] = [];
   isDarkModeEnabled = false;
+  isShadowEnabled = false;
 
   constructor(
     private loginService: LoginService,
@@ -81,6 +82,32 @@ export class NavbarComponent implements OnInit {
         cssLink.id = linkId;
         cssLink.rel = 'stylesheet';
         cssLink.href = 'content/css/dark.css'; // Use the compiled CSS path
+        head.appendChild(cssLink);
+      }
+    } else {
+      if (existingLink) {
+        existingLink.parentNode?.removeChild(existingLink);
+      }
+    }
+
+    // Re-trigger layout to force style re-calculation
+    void body.offsetWidth;
+  }
+
+  toggleShadow(): void {
+    this.isShadowEnabled = !this.isShadowEnabled;
+    // console.log (this.isShadowEnabled);
+    const body = document.body;
+    const head = document.getElementsByTagName('head')[0];
+    const linkId = 'shadow-style';
+    const existingLink = document.getElementById(linkId) as HTMLLinkElement | null;
+
+    if (this.isShadowEnabled) {
+      if (!existingLink) {
+        const cssLink = document.createElement('link');
+        cssLink.id = linkId;
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'content/css/shadow.css'; // Use the compiled CSS path
         head.appendChild(cssLink);
       }
     } else {

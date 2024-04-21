@@ -8,4 +8,6 @@ public interface WantToListenListService {
     List<WantToListenListEntry> fetchAllWantToListenList();
 
     List<WantToListenListItem> fetchUserWantToListenList(String userID);
+
+    List<WantToListenListItem> fetchTracksWithAlbumUri(String albumUri);
 }
