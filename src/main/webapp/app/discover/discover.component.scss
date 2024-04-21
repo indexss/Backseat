@@ -170,7 +170,7 @@ h2 {
   //width: 400px;
   //height: 300px;
   padding: 1vmin; //20px
-  font-size: min(3rem, 5vmin); //5vmin; //30px
+  font-size: min(3rem, 4vmin, 7vmin); //5vmin; //30px
   overflow-wrap: break-word;
 }
 
@@ -187,20 +187,20 @@ h2 {
 
 .recordName {
   grid-column: 4;
-  grid-row: 2 / span 2;
+  grid-row: 2;
   color: seagreen;
 }
 
 .album {
   grid-column: 4;
-  grid-row: 2 / span 2;
+  grid-row: 2;
   color: seagreen;
-  font-size: min(3rem, 5vmin);
+  font-size: min(3rem, 4vmin, 7vmin);
 }
 
 .artist {
   grid-column: 4;
-  grid-row: 4;
+  grid-row: 3;
   color: mediumseagreen;
 }
 
