@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from '../core/config/application-config.service';
 import { getRecentlyListenedService } from './getRecentlyListenedService';
 import { getRatingService } from './getRatingService.service';
-import { testService } from './test.service';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { ITrack } from '../entities/track/track.model';
@@ -149,7 +148,6 @@ export class DiscoverComponent implements OnInit {
     private http: HttpClient,
     private appConfig: ApplicationConfigService,
     private recentlyListenedTracksService: getRecentlyListenedService,
-    private testing: testService,
     private getRatingService: getRatingService,
     private trackService: TrackService,
     private router: Router
@@ -161,6 +159,7 @@ export class DiscoverComponent implements OnInit {
     } else {
       this.isMobile = false;
     }
+    console.log(this.isMobile);
 
     this.http.get<Record[]>(this.appConfig.getEndpointFor('/api/discover/track')).subscribe({
       next: vowel => {

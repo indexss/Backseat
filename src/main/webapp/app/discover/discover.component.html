@@ -67,8 +67,11 @@
     </div>
   </div>
 
+  <!--
   <div class="sidebar" style="width: 25%; right: 0; overflow-y: auto">
-    <div class="Info">Info Goes here</div>
+    <div class="Info">
+      <span class="logo-img"></span>
+    </div>
     <div class="startShowing">
       <div class="head1">Recently Listened</div>
       <div *ngIf="Track.length > 0">
@@ -78,39 +81,178 @@
               <img [src]="nums.track.album.images[0].url" style="width: 100px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
             </a>
             <div class="flex-grow-1">
-              <a [routerLink]="['/rating', nums.track.uri]" class="text-decoration-none text-left d-block">{{ nums.track.name }}</a>
+              <a [routerLink]="['/rating', nums.track.uri]" class="text-decoration-none text-left d-block" style="color: white">{{
+                nums.track.name
+              }}</a>
               <div class="text-muted">{{ nums.track.artists[0].name }}</div>
               <div *ngIf="rating[i] == 0.0">
                 <div class="text-muted">Leave a Review....</div>
               </div>
               <div *ngIf="rating[i] == 1.0">
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
               </div>
               <div *ngIf="rating[i] == 2.0">
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
               </div>
               <div *ngIf="rating[i] == 3.0">
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
               </div>
               <div *ngIf="rating[i] == 4.0">
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
               </div>
               <div *ngIf="rating[i] == 5.0">
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
-                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
               </div>
-              <!--<td class="text-center align-middle row-rating">{{ track.rating | number: '1.0-2' }}</td>-->
             </div>
           </div>
+        </div>
+      </div>
+      <div *ngIf="Track.length == 0">
+        <div class="head2 text-muted">Log in to see your Recently Listened songs</div>
+      </div>
+    </div>
+  </div>
+--></div>
+<div class="box" style="right: 0; overflow-y: auto">
+  <div *ngIf="isMobile == true">
+    <div *ngIf="isSidebarOpen == true">
+      <div class="button-wrapper" style="width: 230px; height: 50px">
+        <button (click)="toggleSidebar()" style="visibility: visible">Minimize Sidebar</button>
+      </div>
+    </div>
+    <div *ngIf="isSidebarOpen == false">
+      <div class="button-wrapper" style="width: 230px; height: 50px">
+        <button (click)="toggleSidebar()" style="visibility: visible">Recently Listened</button>
+      </div>
+    </div>
+
+    <div class="sidebar" style="width: 25%" [class.open]="isSidebarOpen">
+      <div class="Info">
+        <span class="logo-img"></span>
+      </div>
+      <div class="startShowing">
+        <div class="head1">Recently Listened</div>
+        <div *ngIf="Track.length > 0">
+          <div *ngFor="let nums of Track; let i = index">
+            <div class="songs d-flex align-items-center" margin="1.5em">
+              <a [routerLink]="['/rating', nums.track.uri]">
+                <img [src]="nums.track.album.images[0].url" style="width: 100px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
+              </a>
+              <div class="flex-grow-1">
+                <a [routerLink]="['/rating', nums.track.uri]" class="text-decoration-none text-left d-block" style="color: white">{{
+                  nums.track.name
+                }}</a>
+                <div class="text-muted">{{ nums.track.artists[0].name }}</div>
+                <div *ngIf="rating[i] == 0.0">
+                  <div class="text-muted">Leave a Review....</div>
+                </div>
+                <div *ngIf="rating[i] == 1.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+                <div *ngIf="rating[i] == 2.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+                <div *ngIf="rating[i] == 3.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+                <div *ngIf="rating[i] == 4.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+                <div *ngIf="rating[i] == 5.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="Track.length == 0">
+          <div class="head2 text-muted">Log in to see your Recently Listened songs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isMobile == false">
+    <div *ngIf="isSidebarOpen == true">
+      <div class="button-wrapper" style="width: 120x; height: 30px; font-size: 10px">
+        <button (click)="toggleSidebar()" style="visibility: visible">Minimize Sidebar</button>
+      </div>
+    </div>
+    <div *ngIf="isSidebarOpen == false">
+      <div class="button-wrapper" style="width: 120x; height: 30px; font-size: 10px">
+        <button (click)="toggleSidebar()" style="visibility: visible">Recently Listened</button>
+      </div>
+    </div>
+    <div class="sidebar" style="width: 100%" [class.open]="isSidebarOpen">
+      <div class="Info">
+        <span class="logo-img"></span>
+      </div>
+      <div class="startShowing">
+        <div class="head1">Recently Listened</div>
+        <div *ngIf="Track.length > 0">
+          <div *ngFor="let nums of Track; let i = index">
+            <div class="songs d-flex align-items-center" margin="1.5em">
+              <a [routerLink]="['/rating', nums.track.uri]">
+                <img [src]="nums.track.album.images[0].url" style="width: 100px; margin: 2px; border-radius: 7%" class="me-3" alt="" />
+              </a>
+              <div class="flex-grow-1">
+                <a [routerLink]="['/rating', nums.track.uri]" class="text-decoration-none text-left d-block" style="color: white">{{
+                  nums.track.name
+                }}</a>
+                <div class="text-muted">{{ nums.track.artists[0].name }}</div>
+                <div *ngIf="rating[i] == 0.0">
+                  <div class="text-muted">Leave a Review....</div>
+                </div>
+                <div *ngIf="rating[i] == 1.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+                <div *ngIf="rating[i] == 2.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+                <div *ngIf="rating[i] == 3.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+                <div *ngIf="rating[i] == 4.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+                <div *ngIf="rating[i] == 5.0">
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                  <fa-icon [icon]="['fas', 'star']" style="font-size: 1.5em; color: white"></fa-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="Track.length == 0">
+          <div class="head2 text-muted">Log in to see your Recently Listened songs</div>
         </div>
       </div>
     </div>
