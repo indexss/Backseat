@@ -1,15 +1,14 @@
 <div class="container">
-  <div class="d-flex flex-column gap-3 justify-content-center flex-md-row gap-md-5 justify-content-md-start">
+  <div class="d-flex flex-column gap-3 align-items-md-center flex-md-row gap-md-5 justify-content-md-start">
     <img width="250px" height="250px" src="{{ profilePhotoURL }}" alt="{{ profile?.username }}'s profile photo" />
     <div>
-      <h1>{{ profile?.username }}</h1>
+      <h1 style="font-size: 3em">{{ profile?.username }}</h1>
 
-      <!-- We'll pretend this isn't here for the time being -->
-      <!--      <div class="d-flex gap-5 fw-bold">-->
-      <!--        <span>40 reviews</span>-->
-      <!--        <span>68 lists</span>-->
-      <!--        <span>13 friends</span>-->
-      <!--      </div>-->
+      <div class="d-flex gap-5 fw-bold">
+        <span>{{ this.reviews.length }} review<span *ngIf="this.reviews.length != 1">s</span></span>
+        <span>{{ this.folders.length }} folder<span *ngIf="this.folders.length != 1">s</span></span>
+        <span>{{ this.friends.length }} friend<span *ngIf="this.friends.length != 1">s</span></span>
+      </div>
 
       <p>Joined {{ getCreationDate() }}</p>
 
@@ -34,7 +33,7 @@
 
   <div class="pt-5"></div>
 
-  <div class="row flex-column-m align-items-stretch border-sep">
+  <div class="row flex-md-row flex-column align-items-stretch border-sep">
     <div class="col">
       <div class="d-flex justify-content-center pb-4"><h2 class="fs-4">Recent reviews</h2></div>
 
@@ -61,11 +60,11 @@
 
     <div class="col">
       <div class="d-flex justify-content-center gap-2 pb-4">
-        <h2 class="fs-4">Lists</h2>
+        <h2 class="fs-4">Folders</h2>
         <a [routerLink]="['/addToFolder']" *ngIf="isSelf"><h2 class="fs-4">+</h2></a>
       </div>
 
-      <div id="lists">
+      <div id="folders">
         <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length == 0">No folders! ☹️</div>
 
         <div *ngFor="let folder of folders; let i = index">
@@ -80,7 +79,7 @@
       </div>
 
       <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length != 0 && isSelf">
-        <a routerLink="/addToFolder">Manage your lists</a>
+        <a routerLink="/addToFolder">Manage your folders</a>
       </div>
     </div>
 
