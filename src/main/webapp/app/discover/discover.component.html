@@ -1,6 +1,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Anta&display=swap" rel="stylesheet" />
 <div class="container-fluid">
-  <h1 style="font-size: 3em;">RECENTLY REVIEWED</h1>
+  <h2 style="font-size: min(2em, 6vw)">RECENTLY REVIEWED</h2>
   <div class="recently-reviewed">
     <div class="record-card" *ngFor="let record of recordList; let i = index">
       <div class="image">
@@ -13,7 +13,7 @@
       </div>
       <div class="rating text-wrap">
         <p>
-          <fa-icon [icon]="['fas', 'star']" style="font-size: 3vmin"></fa-icon>
+          <fa-icon [icon]="['fas', 'star']" style="font-size: min(3rem, 5vmin)"></fa-icon>
           {{ record.rating }}
         </p>
       </div>
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <h1 style="font-size: 3em;">EXPLORE FOLDERS</h1>
+  <h2 style="font-size: min(2em, 6vw)">EXPLORE FOLDERS</h2>
   <div class="display-folders">
     <div class="folder-card" *ngFor="let folder of folderList; let i = index">
       <div class="coverImg">
