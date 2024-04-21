@@ -49,9 +49,9 @@ public class SpotifyOauth {
             host = host.split(", ")[0];
         }
 
-        String proto = request.getHeader("X-Forwarded-Proto");
-        if (proto == null || proto.isEmpty()) {
-            proto = request.getProtocol().split("/")[0].toLowerCase();
+        String proto = "https";
+        if (host.contains("127.0.0.1") || host.contains("localhost")) {
+            proto = "http";
         }
 
         return proto + "://" + host + "/oauth/inbound";
