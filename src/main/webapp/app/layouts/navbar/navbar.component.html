@@ -214,8 +214,8 @@
             </li>
 
             <li class="nav-item">
-              <a class="dropdown-item">
-                <input class="form-check-input shadowcheck" type="checkbox" id="shadowSwitch" (change)="toggleShadow()" />
+              <a class="dropdown-item" (click)="triggerCheckbox(shadowSwitch)">
+                <input class="form-check-input shadowcheck" type="checkbox" id="shadowSwitch" #shadowSwitch (change)="toggleShadow()" />
                 <label class="form-check-label shadowSwitch" for="shadowSwitch" style="color: rgb(126, 138, 139)">Bolder</label>
               </a>
             </li>

@@ -94,6 +94,10 @@ export class NavbarComponent implements OnInit {
     void body.offsetWidth;
   }
 
+  triggerCheckbox(checkbox: HTMLInputElement): void {
+    checkbox.click();
+  }
+
   toggleShadow(): void {
     this.isShadowEnabled = !this.isShadowEnabled;
     // console.log (this.isShadowEnabled);
