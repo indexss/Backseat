@@ -101,6 +101,16 @@ public class SecurityConfiguration {
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
             .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+
+            // forbbid unautorized edit
+            .antMatchers("/track").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/album").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/folder").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/review").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/want-to-listen-list-entry").hasAuthority(AuthoritiesConstants.ADMIN)
+            
+            // end
+
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/health/**").permitAll()
