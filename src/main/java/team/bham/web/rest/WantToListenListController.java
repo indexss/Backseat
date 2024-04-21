@@ -1,5 +1,7 @@
 package team.bham.web.rest;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +59,21 @@ public class WantToListenListController {
             }
             String playListId = api.createPlaylist().id;
             System.out.println("*************************PlayList ID: " + playListId);
+
+            List<WantToListenListItem> rmitems = new ArrayList<>();
+            for (WantToListenListItem item : itemList) {
+                if (item.getItemUri().contains(":album:")) {
+                    rmitems.add(item);
+                }
+            }
+            List<WantToListenListItem> replacedItems = new ArrayList<>();
+            for (WantToListenListItem item : rmitems) {
+                replacedItems.addAll(wantListService.fetchTracksWithAlbumUri(item.getItemUri()));
+            }
+
+            itemList.removeAll(rmitems);
+            itemList.addAll(replacedItems);
+
             api.addWantToListenEntriesToPlaylist(itemList, playListId);
             resp = new ResponseUtils().put("playlistId", playListId);
         } catch (Exception e) {
