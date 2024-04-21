@@ -5,9 +5,9 @@
       <h1 style="font-size: 3em;">{{ profile?.username }}</h1>
 
       <div class="d-flex gap-5 fw-bold">
-        <span>{{ this.reviews.length }} reviews</span>
-        <span>{{ this.folders.length }} folders</span>
-        <span>{{ this.friends.length }} friends</span>
+        <span>{{ this.reviews.length }} review<span *ngIf="this.reviews.length != 1">s</span></span>
+        <span>{{ this.folders.length }} folder<span *ngIf="this.folders.length != 1">s</span></span>
+        <span>{{ this.friends.length }} friend<span *ngIf="this.friends.length != 1">s</span></span>
       </div>
 
       <p>Joined {{ getCreationDate() }}</p>
