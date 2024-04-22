@@ -314,7 +314,7 @@
             <div class="column-4">
               <a href="#" class="mb-4">
                 <img
-                  alt="Generic placeholder image"
+                  alt="avatar of user {{ review.username }}"
                   (click)="redirectToProfile(review.userId)"
                   [src]="review.userProfileImage"
                   class="mr-3 rounded-pill img-fluid"
@@ -371,7 +371,7 @@
             <div class="column-4">
               <a href="#" class="mb-4">
                 <img
-                  alt="Generic placeholder image"
+                  alt="avatar of user {{ review.username }}"
                   [src]="review.userProfileImage"
                   (click)="redirectToProfile(review.userId)"
                   class="mr-3 rounded-pill img-fluid"
@@ -429,7 +429,7 @@
     <ul class="list-group">
       <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.folderId)">
         <div class="d-flex align-items-center">
-          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" />
+          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" alt="Folder pic of {{ folder.folderName }}" />
           <span style="color: dimgrey; font-size: 20px">{{ folder.folderName }}</span>
         </div>
       </li>
