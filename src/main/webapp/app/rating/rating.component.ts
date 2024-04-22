@@ -41,7 +41,8 @@ export class RatingComponent implements OnInit {
   artistName!: string;
   releaseDate!: string;
   description!: string;
-  avgRating!: number;
+  // avgRating!: number;
+  avgRating = 0;
   reviewList: Review[] = [];
   // account service for both add to folder and delete comment
   account!: Account;
@@ -75,7 +76,7 @@ export class RatingComponent implements OnInit {
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
   //pagination items
   currentPage: number = 1;
-  reviewsPerPage: number = 5;
+  reviewsPerPage: number = 40;
   userName!: string;
   // album review list for reordering
   albumReviewList: Review[] = [];
