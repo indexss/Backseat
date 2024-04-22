@@ -32,7 +32,6 @@ import { FormsModule } from '@angular/forms';
 import { RatingNotFoundComponent } from './rating/rating-not-found/rating-not-found.component';
 import { FolderComponent } from './folder/folder.component';
 import { AddToFolderComponent } from './add-to-folder/add-to-folder.component';
-import { LeaderboardFolderComponent } from './leaderboard-folder/leaderboard-folder.component';
 import { WantToListenComponent } from './want-to-listen/want-to-listen.component';
 import { ListViewComponent } from './want-to-listen/list-view/list-view.component';
 
@@ -69,7 +68,6 @@ import { ListViewComponent } from './want-to-listen/list-view/list-view.componen
     RatingNotFoundComponent,
     FolderComponent,
     AddToFolderComponent,
-    LeaderboardFolderComponent,
     WantToListenComponent,
     ListViewComponent,
   ],
