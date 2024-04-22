@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
       <a [href]="spotifyTrackLink">
-        <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+        <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Album Cover art of {{ trackName }} by {{ artistName }}" />
       </a>
 
       <div>
@@ -86,7 +86,7 @@
           <div class="column-4">
             <a href="#" class="mb-4">
               <img
-                alt="Generic placeholder image"
+                alt="avatar of user {{ review.username }}"
                 [src]="review.userProfileImage"
                 (click)="redirectToProfile(review.userId)"
                 class="mr-3 rounded-pill img-fluid"
@@ -125,7 +125,7 @@
 <div *ngIf="!isTrack" class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
-      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover art of {{ albumName }} by {{ artistName }}" />
       <!--      <div class="d-flex justify-content-between w-100">-->
       <!--        <div>-->
       <!--          &lt;!&ndash;        <span class="title d-block">{{ trackName }}</span>&ndash;&gt;-->
@@ -189,7 +189,7 @@
       <tbody>
         <tr *ngFor="let track of trackList">
           <td class="album-cover-cell">
-            <img [src]="imgURL" alt="Album Cover" />
+            <img [src]="imgURL" alt="Album Cover of {{ track.trackName }} by {{ track.artistName }}" />
             <a class="btn btn-link no-underline trackurlinrating" (click)="redirectToTrack(track.spotifyURI)">{{ track.trackName }}</a>
           </td>
           <td>{{ track.artistName }}</td>

@@ -110,6 +110,10 @@ export class RatingComponent implements OnInit {
       this.folderList = data.data.folder;
     });
 
+    this.fetchReviewInfoService.getUserId().subscribe(data => {
+      this.userName = data.data.username;
+    });
+
     //The rating page get only the spotify::track or spotify::album ,here fetch review depending on which url it is
     this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -776,6 +780,7 @@ export class RatingComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+    location.reload();
   }
 
   //pagination function:  5 reviews per page

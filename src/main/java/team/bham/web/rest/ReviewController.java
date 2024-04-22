@@ -187,4 +187,18 @@ public class ReviewController {
         }
         return resp;
     }
+
+    @GetMapping("/account")
+    public ResponseUtils getUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            userId = userDetails.getUsername();
+        } else if (authentication != null && authentication.getPrincipal() instanceof String) {
+            userId = (String) authentication.getPrincipal();
+        }
+        System.out.println("userId" + userId);
+        return new ResponseUtils().put("username", userId);
+    }
 }
