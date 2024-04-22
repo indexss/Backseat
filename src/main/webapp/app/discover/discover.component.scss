@@ -153,7 +153,7 @@ h2 {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  padding: 2vmin; //originally 10px
+  padding: 1vmin; //originally 10px
   padding-right: 0;
   position: relative;
 
@@ -166,7 +166,7 @@ h2 {
 .record-card {
   display: grid;
   text-align: left;
-  gap: 2vmin; //15px
+  gap: 1vmin; //15px
   //width: 400px;
   //height: 300px;
   padding: 1vmin; //20px
@@ -189,7 +189,9 @@ h2 {
   grid-column: 4;
   grid-row: 2;
   color: seagreen;
-  overflow-y: hidden;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .album {
@@ -197,14 +199,18 @@ h2 {
   grid-row: 2;
   color: seagreen;
   font-size: min(3rem, 4vmin, 7vmin);
-  overflow-y: hidden;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .artist {
   grid-column: 4;
   grid-row: 3;
   color: mediumseagreen;
-  overflow-y: hidden;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .recently-reviewed {
