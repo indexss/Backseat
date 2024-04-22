@@ -189,6 +189,7 @@ h2 {
   grid-column: 4;
   grid-row: 2;
   color: seagreen;
+  overflow-y: hidden;
 }
 
 .album {
@@ -196,12 +197,14 @@ h2 {
   grid-row: 2;
   color: seagreen;
   font-size: min(3rem, 4vmin, 7vmin);
+  overflow-y: hidden;
 }
 
 .artist {
   grid-column: 4;
   grid-row: 3;
   color: mediumseagreen;
+  overflow-y: hidden;
 }
 
 .recently-reviewed {
