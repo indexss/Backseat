@@ -1,4 +1,4 @@
-@keyframes lds-pacman-1 {
+/*@keyframes lds-pacman-1 {
   0% {
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
@@ -149,4 +149,34 @@
 .app-loading .lds-pacman > div:nth-child(1) div:nth-child(3) {
   -webkit-animation-delay: 0s;
   animation-delay: 0s;
+}*/
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  display: inline-grid;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.loader:before,
+.loader:after {
+  content: '';
+  height: 27px;
+  aspect-ratio: 5;
+  --c: #507653 90deg, #0000 0;
+  background: conic-gradient(from 135deg at top, var(--c)), conic-gradient(from -45deg at bottom, var(--c)) 12.5% 100%;
+  background-size: 20% 50%;
+  background-repeat: repeat-x;
+  clip-path: inset(0 50%);
+  animation: l20 1s infinite steps(5) alternate;
+}
+.loader:after {
+  animation-delay: -1s;
+}
+@keyframes l20 {
+  90%,
+  to {
+    clip-path: inset(0);
+  }
 }
