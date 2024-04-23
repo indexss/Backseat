@@ -151,6 +151,12 @@ public class ReviewTrackServiceImpl implements ReviewTrackSevice {
                 sum += reviewList.get(i).getRating();
             }
             avgRating = sum / reviewList.size();
+            //            System.out.println("00000000000000000000000");
+            //            System.out.println(avgRating);
+            //            System.out.println("00000000000000000000000");
+            if (Double.isNaN(avgRating)) {
+                avgRating = 0;
+            }
             track.setRating(avgRating);
             trackRepository.save(track);
         }

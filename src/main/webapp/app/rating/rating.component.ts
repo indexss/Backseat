@@ -156,7 +156,9 @@ export class RatingComponent implements OnInit {
           this.avgRating = data.data.review.avgRating;
           this.imgURL = data.data.review.imgURL;
           this.albumURI = data.data.review.albumURI;
-          // console.log(this.avgRating);
+          console.log('0000000000000');
+          console.log(this.avgRating);
+          console.log('0000000000000');
           const reviewDTO = data.data.review.reviewList;
           for (let i = 0; i < reviewDTO?.length; i++) {
             const review: Review = {

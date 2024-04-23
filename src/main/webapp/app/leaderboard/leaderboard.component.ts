@@ -70,7 +70,7 @@ export class LeaderboardComponent implements OnInit {
     setTimeout(() => {
       // console.log('22222222222222222222222');
       this.continueLoading();
-    }, 300);
+    }, 100);
   }
 
   isAlbum = false;
@@ -162,7 +162,7 @@ export class LeaderboardComponent implements OnInit {
     records.forEach((item, index) => {
       setTimeout(() => {
         this.recordList.push({ ...item, newItem: true });
-      }, index * 100);
+      }, index * 60);
     });
   }
 

@@ -220,6 +220,9 @@ public class ReviewAlbumServiceImpl implements ReviewAlbumService {
                 sum += reviewList.get(i).getRating();
             }
             avgRating = sum / reviewList.size();
+            if (Double.isNaN(avgRating)) {
+                avgRating = 0;
+            }
             album.setRating(avgRating);
             albumRepository.save(album);
         }
