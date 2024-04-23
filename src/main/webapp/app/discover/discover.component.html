@@ -19,7 +19,9 @@
       </div>
       <div *ngIf="record.trackName != null" class="recordName text-wrap">
         <p>
-          <b>Track &#x2022; {{ record.trackName }}</b>
+          <strong
+            ><b>Track &#x2022; {{ record.trackName }}</b></strong
+          >
         </p>
       </div>
       <div *ngIf="record.trackName == null" class="album text-wrap">
@@ -146,12 +148,12 @@
   </div>
   <div *ngIf="isMobile == false">
     <div *ngIf="isSidebarOpen == true">
-      <div class="button-wrapper" style="width: 120x; height: 30px; font-size: 10px">
+      <div class="button-wrapper" style="width: 120px; height: 30px; font-size: 10px">
         <button aria-label="Minimize Sidebar" (click)="toggleSidebar()" style="visibility: visible">Minimize Sidebar</button>
       </div>
     </div>
     <div *ngIf="isSidebarOpen == false">
-      <div class="button-wrapper" style="width: 120x; height: 30px; font-size: 10px">
+      <div class="button-wrapper" style="width: 120px; height: 30px; font-size: 10px">
         <button aria-label="Open Recently Listened Sidebar" (click)="toggleSidebar()" style="visibility: visible">Recently Listened</button>
       </div>
     </div>

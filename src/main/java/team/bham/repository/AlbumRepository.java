@@ -31,7 +31,7 @@ public interface AlbumRepository extends AlbumRepositoryWithBagRelationships, Jp
         return this.fetchBagRelationships(this.findAll(pageable));
     }
 
-    @Query("SELECT a FROM Album a WHERE a.name = :name")
+    @Query("SELECT a FROM Album a WHERE a.spotifyURI = :name")
     Album fetchAlbumbyRecentReview(@Param("name") String name);
 
     @Query(

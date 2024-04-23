@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
       <a aria-label="Link to spotify track" [href]="spotifyTrackLink">
-        <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+        <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Album Cover art of {{ trackName }} by {{ artistName }}" />
       </a>
 
       <div>
@@ -91,7 +91,7 @@
           <div class="column-4">
             <a aria-label="Redirect to Profile" href="#" class="mb-4">
               <img
-                alt="Generic placeholder image"
+                alt="avatar of user {{ review.username }}"
                 [src]="review.userProfileImage"
                 (click)="redirectToProfile(review.userId)"
                 class="mr-3 rounded-pill img-fluid"
@@ -132,7 +132,7 @@
 <div *ngIf="!isTrack" class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
-      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
+      <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover art of {{ albumName }} by {{ artistName }}" />
       <!--      <div class="d-flex justify-content-between w-100">-->
       <!--        <div>-->
       <!--          &lt;!&ndash;        <span class="title d-block">{{ trackName }}</span>&ndash;&gt;-->
@@ -200,7 +200,7 @@
       <tbody>
         <tr *ngFor="let track of trackList">
           <td class="album-cover-cell">
-            <img [src]="imgURL" alt="Album Cover" />
+            <img [src]="imgURL" alt="Album Cover of {{ track.trackName }} by {{ track.artistName }}" />
             <a class="btn btn-link no-underline trackurlinrating" (click)="redirectToTrack(track.spotifyURI)">{{ track.trackName }}</a>
           </td>
           <td>{{ track.artistName }}</td>
@@ -325,7 +325,7 @@
             <div class="column-4">
               <a aria-label="Redirect to profile" href="#" class="mb-4">
                 <img
-                  alt="Generic placeholder image"
+                  alt="avatar of user {{ review.username }}"
                   (click)="redirectToProfile(review.userId)"
                   [src]="review.userProfileImage"
                   class="mr-3 rounded-pill img-fluid"
@@ -383,7 +383,7 @@
             <div class="column-4">
               <a aria-label="Redirect to profile" href="#" class="mb-4">
                 <img
-                  alt="Generic placeholder image"
+                  alt="avatar of user {{ review.username }}"
                   [src]="review.userProfileImage"
                   (click)="redirectToProfile(review.userId)"
                   class="mr-3 rounded-pill img-fluid"
@@ -446,7 +446,7 @@
     <ul class="list-group">
       <li *ngFor="let folder of folderList" class="list-group-item" (click)="addToFolder(folder.folderId)">
         <div class="d-flex align-items-center">
-          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" />
+          <img [src]="folder.imageURL" class="me-3" style="width: 50px; height: 50px" alt="Folder pic of {{ folder.folderName }}" />
           <span style="color: dimgrey; font-size: 20px">{{ folder.folderName }}</span>
         </div>
       </li>

@@ -41,7 +41,8 @@ export class RatingComponent implements OnInit {
   artistName!: string;
   releaseDate!: string;
   description!: string;
-  avgRating!: number;
+  // avgRating!: number;
+  avgRating = 0;
   reviewList: Review[] = [];
   // account service for both add to folder and delete comment
   account!: Account;
@@ -75,7 +76,7 @@ export class RatingComponent implements OnInit {
   coverSrc = 'https://i.scdn.co/image/ab67616d00001e0206be5d37ce9e28b0e23ee383';
   //pagination items
   currentPage: number = 1;
-  reviewsPerPage: number = 5;
+  reviewsPerPage: number = 40;
   userName!: string;
   // album review list for reordering
   albumReviewList: Review[] = [];
@@ -108,6 +109,10 @@ export class RatingComponent implements OnInit {
   ngOnInit(): void {
     this.addToFolderService.getUserFolder().subscribe(data => {
       this.folderList = data.data.folder;
+    });
+
+    this.fetchReviewInfoService.getUserId().subscribe(data => {
+      this.userName = data.data.username;
     });
 
     //The rating page get only the spotify::track or spotify::album ,here fetch review depending on which url it is
@@ -151,7 +156,9 @@ export class RatingComponent implements OnInit {
           this.avgRating = data.data.review.avgRating;
           this.imgURL = data.data.review.imgURL;
           this.albumURI = data.data.review.albumURI;
-          // console.log(this.avgRating);
+          console.log('0000000000000');
+          console.log(this.avgRating);
+          console.log('0000000000000');
           const reviewDTO = data.data.review.reviewList;
           for (let i = 0; i < reviewDTO?.length; i++) {
             const review: Review = {
@@ -776,6 +783,7 @@ export class RatingComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+    location.reload();
   }
 
   //pagination function:  5 reviews per page

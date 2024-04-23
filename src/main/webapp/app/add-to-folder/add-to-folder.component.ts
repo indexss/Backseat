@@ -4,7 +4,6 @@ import { AddToFolderService } from './add-to-folder.service';
 import { AccountService } from '../core/auth/account.service';
 import { Account } from '../core/auth/account.model';
 import { Router } from '@angular/router';
-import { LeaderboardFolderService } from '../leaderboard-folder/leaderboard-folder.service';
 
 interface Record {
   id: number;
@@ -36,9 +35,9 @@ export class AddToFolderComponent implements OnInit {
   modalRef!: NgbModalRef;
   folderName!: string;
   account!: Account;
-  showAlert: boolean = false;
+  showAlertShort: boolean = false;
+  showAlertLong: boolean = false;
   constructor(
-    private leaderboardFolderService: LeaderboardFolderService,
     private modalService: NgbModal,
     private addToFolderService: AddToFolderService,
     private accountService: AccountService,
@@ -47,10 +46,6 @@ export class AddToFolderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.leaderboardFolderService.getTrackLeaderboard().subscribe(data => {
-      this.recordList = data.data.leaderboard;
-    });
-
     this.addToFolderService.getUserFolder().subscribe(data => {
       this.folderList = data.data.folder;
     });
@@ -82,10 +77,13 @@ export class AddToFolderComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         if (!this.folderName || this.folderName.trim().length === 0) {
-          this.showAlert = true;
+          this.showAlertShort = true;
+          return;
+        } else if (this.folderName.trim().length > 18) {
+          this.showAlertLong = true;
           return;
         } else {
-          this.showAlert = false;
+          this.showAlertShort = false;
           this.addToFolderService.addFolder(this.folderName).subscribe(data => {});
           this.modalService.dismissAll();
           this.folderName = '';

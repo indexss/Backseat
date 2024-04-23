@@ -15,4 +15,8 @@ export class FetchReviewInfoService {
   getAlbumReviewInfo(id: number): Observable<any> {
     return this.http.get(`api/rating/albumReivews?id=${id}`);
   }
+
+  getUserId(): Observable<any> {
+    return this.http.get('api/rating/account');
+  }
 }

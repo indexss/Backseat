@@ -48,15 +48,15 @@ public class RecentlyReviewedServiceImpl implements RecentlyReviewedService {
         while (x < rrByTrackName.size() && x < 60) {
             for (int j = 0; j < min(rrByTrackName.size(), 60); j++) {
                 if (rrByTrackName.get(j).getTrack() != null) {
-                    String rrName = rrByTrackName.get(j).getTrack().getName();
-                    Track trackName = trackRepository.fetchTrackbyRecentReview(rrName);
+                    String rrID = rrByTrackName.get(j).getTrack().getSpotifyURI();
+                    Track trackName = trackRepository.fetchTrackbyRecentReview(rrID);
                     if (!tracks.contains(trackName)) {
                         tracks.add(trackName);
                         both.add("Track");
                     }
                 } else {
-                    String rrAlbumName = rrByTrackName.get(j).getAlbum().getName();
-                    Album albumName = albumRepository.fetchAlbumbyRecentReview(rrAlbumName);
+                    String rrAlbumID = rrByTrackName.get(j).getAlbum().getSpotifyURI();
+                    Album albumName = albumRepository.fetchAlbumbyRecentReview(rrAlbumID);
                     if (!albums.contains(albumName)) {
                         albums.add(albumName);
                         both.add("Album");

@@ -32,7 +32,12 @@
         <td>
           <div class="d-flex align-items-center">
             <a [routerLink]="['/rating', folderEntry.spotifyURI]">
-              <img [src]="entryInfoList[i].imageURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3" />
+              <img
+                [src]="entryInfoList[i].imageURL"
+                style="width: 90px; margin: 2px; border-radius: 7%"
+                class="me-3"
+                alt="Cover art of {{ entryInfoList[i].entryName }} by {{ entryInfoList[i].artist }}"
+              />
             </a>
             <div class="flex-grow-1">
               <a [routerLink]="['/rating', folderEntry.spotifyURI]" class="text-left d-block">
