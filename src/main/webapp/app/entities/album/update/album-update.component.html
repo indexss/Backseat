@@ -61,7 +61,7 @@
               #releaseDateDp="ngbDatepicker"
               formControlName="releaseDate"
             />
-            <button type="button" class="btn btn-secondary" (click)="releaseDateDp.toggle()">
+            <button aria-label="Button to change release date" type="button" class="btn btn-secondary" (click)="releaseDateDp.toggle()">
               <fa-icon icon="calendar-alt"></fa-icon>
             </button>
           </div>
@@ -141,11 +141,19 @@
       </div>
 
       <div>
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+        <button
+          aria-label="Cancel"
+          type="button"
+          id="cancel-save"
+          data-cy="entityCreateCancelButton"
+          class="btn btn-secondary"
+          (click)="previousState()"
+        >
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
         <button
+          aria-label="Save"
           type="submit"
           id="save-entity"
           data-cy="entityCreateSaveButton"

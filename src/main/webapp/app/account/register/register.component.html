@@ -145,7 +145,15 @@
               </div>
             </div>
 
-            <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary" data-cy="submit">Register</button>
+            <button
+              aria-label="Button to register new account"
+              type="submit"
+              [disabled]="registerForm.invalid"
+              class="btn btn-primary"
+              data-cy="submit"
+            >
+              Register
+            </button>
           </form>
         </div>
       </div>

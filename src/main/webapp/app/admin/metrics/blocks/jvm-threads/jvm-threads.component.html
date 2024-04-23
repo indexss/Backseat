@@ -50,6 +50,12 @@
 
 <div>Total: {{ threadStats.threadDumpAll }}</div>
 
-<button class="hand btn btn-primary btn-sm" (click)="open()" data-toggle="modal" data-target="#threadDump">
+<button
+  aria-label="Button to expand Threads"
+  class="hand btn btn-primary btn-sm"
+  (click)="open()"
+  data-toggle="modal"
+  data-target="#threadDump"
+>
   <span>Expand</span>
 </button>

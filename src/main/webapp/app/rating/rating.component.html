@@ -1,7 +1,7 @@
 <div *ngIf="isTrack" class="container">
   <div class="row">
     <div class="col-12 col-md d-flex align-items-start">
-      <a [href]="spotifyTrackLink">
+      <a aria-label="Link to spotify track" [href]="spotifyTrackLink">
         <img class="cover img-thumbnail me-3" [src]="imgURL" alt="Cover" />
       </a>
 
@@ -9,6 +9,7 @@
         <div class="track-container d-flex align-items-center">
           <span class="title">Track:&nbsp;&nbsp;{{ trackName }}</span>
           <a
+            aria-label="Link to spotify track"
             [href]="spotifyTrackLink"
             class="btn play-button"
             style="background-color: #ffffff00 !important; padding-top: 2px; padding-bottom: 2px; border: 0; background-color: white"
@@ -27,8 +28,12 @@
         <span class="avgrating d-block">Average Rating: {{ avgRating | number: '1.2-2' }}</span>
         <br />
         <div class="d-flex flex-column">
-          <button class="btn btn-primary mb-2 redirectButton button1" (click)="addToWantToListen()">Want to listen</button>
-          <button class="btn btn-primary redirectButton button2" (click)="openModal(id, content)">Add to Folder</button>
+          <button aria-label="Want to listen" class="btn btn-primary mb-2 redirectButton button1" (click)="addToWantToListen()">
+            Want to listen
+          </button>
+          <button aria-label="Add to folder" class="btn btn-primary redirectButton button2" (click)="openModal(id, content)">
+            Add to Folder
+          </button>
         </div>
       </div>
     </div>
@@ -69,8 +74,8 @@
       </div>
       <br />
       <div class="form-group text-end">
-        <button (click)="submitReview()" class="btn btn-primary" type="button">Submit</button>
-        <button (click)="clearContent()" class="btn btn-primary" type="button">Clear</button>
+        <button aria-label="Submit" (click)="submitReview()" class="btn btn-primary" type="button">Submit</button>
+        <button aria-label="Clear" (click)="clearContent()" class="btn btn-primary" type="button">Clear</button>
       </div>
     </form>
   </div>
@@ -84,7 +89,7 @@
       <div *ngFor="let review of reviewList" class="reviews-members pt-4 pb-4">
         <div class="media">
           <div class="column-4">
-            <a href="#" class="mb-4">
+            <a aria-label="Redirect to Profile" href="#" class="mb-4">
               <img
                 alt="Generic placeholder image"
                 [src]="review.userProfileImage"
@@ -110,7 +115,9 @@
               <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
             </div>
           </div>
-          <button *ngIf="review.username === userName" class="btn btn-danger btn-sm" (click)="deleteReview(id)">Delete Review</button>
+          <button aria-label="Delete review" *ngIf="review.username === userName" class="btn btn-danger btn-sm" (click)="deleteReview(id)">
+            Delete Review
+          </button>
         </div>
         <hr />
       </div>
@@ -157,8 +164,12 @@
         <!--        //  Add To Folder and Want to Listen Please look at here-->
         <br />
         <div class="d-flex flex-column align-items-start">
-          <button class="btn btn-primary mb-2 redirectButton button1" (click)="addToWantToListen()">Want to listen</button>
-          <button class="btn btn-primary redirectButton button2" (click)="openModal(id, content)">Add to Folder</button>
+          <button aria-label="Want to listen" class="btn btn-primary mb-2 redirectButton button1" (click)="addToWantToListen()">
+            Want to listen
+          </button>
+          <button aria-label="Add to folder" class="btn btn-primary redirectButton button2" (click)="openModal(id, content)">
+            Add to Folder
+          </button>
         </div>
       </div>
     </div>
@@ -196,7 +207,7 @@
           <td>{{ track.releaseDate }}</td>
           <td>{{ track.rating | number: '1.2-2' }}</td>
           <td style="text-align: center; vertical-align: middle">
-            <a [href]="getSpotifyLink(id)" target="_blank" class="playbutton">
+            <a aria-label="Get Spotify Link" [href]="getSpotifyLink(id)" target="_blank" class="playbutton">
               <fa-icon [icon]="faPlayCircle" style="font-size: 2em; color: #447848; background-color: #ffffff00 !important"></fa-icon>
             </a>
           </td>
@@ -248,8 +259,8 @@
         </div>
         <br />
         <div class="form-group text-end">
-          <button (click)="submitReview()" class="btn btn-primary" type="button">Submit</button>
-          <button (click)="clearContent()" class="btn btn-primary" type="button">Clear</button>
+          <button aria-label="Submit" (click)="submitReview()" class="btn btn-primary" type="button">Submit</button>
+          <button aria-label="Clear" (click)="clearContent()" class="btn btn-primary" type="button">Clear</button>
         </div>
       </form>
     </div>
@@ -288,8 +299,8 @@
         </div>
         <br />
         <div class="form-group text-end">
-          <button (click)="submitReview()" class="btn btn-primary" type="button">Submit</button>
-          <button (click)="clearContent()" class="btn btn-primary" type="button">Clear</button>
+          <button aria-label="Submit" (click)="submitReview()" class="btn btn-primary" type="button">Submit</button>
+          <button aria-label="Clear" (click)="clearContent()" class="btn btn-primary" type="button">Clear</button>
         </div>
       </form>
     </div>
@@ -312,7 +323,7 @@
         <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">
           <div class="media">
             <div class="column-4">
-              <a href="#" class="mb-4">
+              <a aria-label="Redirect to profile" href="#" class="mb-4">
                 <img
                   alt="Generic placeholder image"
                   (click)="redirectToProfile(review.userId)"
@@ -335,6 +346,7 @@
               </div>
             </div>
             <button
+              aria-label="Delete Review"
               *ngIf="review.username === userName"
               class="btn btn-danger btn-sm deleteButton"
               (click)="deleteReview(findSpotifyURIByTrackName(review.reviewTrackName))"
@@ -369,7 +381,7 @@
         <div *ngFor="let review of paginatedReviews" class="reviews-members pt-4 pb-4">
           <div class="media">
             <div class="column-4">
-              <a href="#" class="mb-4">
+              <a aria-label="Redirect to profile" href="#" class="mb-4">
                 <img
                   alt="Generic placeholder image"
                   [src]="review.userProfileImage"
@@ -391,7 +403,12 @@
                 <p class="text-end fst-italic">{{ review.reviewDate | date: 'dd/MM/yyyy, h:mm a' }}</p>
               </div>
             </div>
-            <button *ngIf="review.username === userName" class="btn btn-danger btn-sm deleteButton" (click)="deleteReview(id)">
+            <button
+              aria-label="Delete Review"
+              *ngIf="review.username === userName"
+              class="btn btn-danger btn-sm deleteButton"
+              (click)="deleteReview(id)"
+            >
               Delete Review
             </button>
           </div>
@@ -414,7 +431,7 @@
     <h4 class="modal-title">
       Add to Your Folder
       <span style="margin-left: 10px"></span>
-      <button class="btn btn-secondary btn-sm" [routerLink]="['/addToFolder']" (click)="modal.dismiss()">
+      <button aria-label="Add to folder" class="btn btn-secondary btn-sm" [routerLink]="['/addToFolder']" (click)="modal.dismiss()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
           <path
             d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z"

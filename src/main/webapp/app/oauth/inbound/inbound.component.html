@@ -7,7 +7,9 @@
   <ng-container *ngSwitchCase="pageState_ready">
     <div class="alert alert-success">
       <strong>Successfully connected to Spotify</strong> - hi {{ displayName }}!<br />
-      <p>If you're not redirected shortly, <a [routerLink]="nextURL">click here</a>.</p>
+      <p>
+        If you're not redirected shortly, <a aria-label="Button to redirect to the discover page" [routerLink]="nextURL">click here</a>.
+      </p>
     </div>
   </ng-container>
   <ng-container *ngSwitchDefault>Working...</ng-container>

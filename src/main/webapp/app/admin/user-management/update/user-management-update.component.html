@@ -88,11 +88,11 @@
           <option *ngFor="let authority of authorities" [value]="authority">{{ authority }}</option>
         </select>
       </div>
-      <button type="button" class="btn btn-secondary" (click)="previousState()">
+      <button aria-label="Cancel" type="button" class="btn btn-secondary" (click)="previousState()">
         <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
       </button>
 
-      <button type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+      <button aria-label="Save" type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
         <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
       </button>
     </form>

@@ -3,12 +3,13 @@
     <span>Albums</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+      <button aria-label="Button to refresh list" class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh list</span>
       </button>
 
       <button
+        aria-label="Button to create a new album"
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-album"
@@ -84,6 +85,7 @@
           <td class="text-end">
             <div class="btn-group">
               <button
+                aria-label="Button view an album"
                 type="submit"
                 [routerLink]="['/album', album.spotifyURI, 'view']"
                 class="btn btn-info btn-sm"
@@ -94,6 +96,7 @@
               </button>
 
               <button
+                aria-label="Button to Edit Album"
                 type="submit"
                 [routerLink]="['/album', album.spotifyURI, 'edit']"
                 class="btn btn-primary btn-sm"
@@ -103,7 +106,13 @@
                 <span class="d-none d-md-inline">Edit</span>
               </button>
 
-              <button type="submit" (click)="delete(album)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                aria-label="Button to delete album"
+                type="submit"
+                (click)="delete(album)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Delete</span>
               </button>

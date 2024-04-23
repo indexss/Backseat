@@ -31,6 +31,7 @@
             <div *ngIf="editForm.get('image')!.value" class="form-text text-danger clearfix">
               <span class="pull-start">{{ editForm.get('imageContentType')!.value }}, {{ byteSize(editForm.get('image')!.value!) }}</span>
               <button
+                aria-label="Clear input image"
                 type="button"
                 (click)="clearInputImage('image', 'imageContentType', 'file_image')"
                 class="btn btn-secondary btn-xs pull-end"
@@ -67,11 +68,19 @@
       </div>
 
       <div>
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+        <button
+          aria-label="Cancel"
+          type="button"
+          id="cancel-save"
+          data-cy="entityCreateCancelButton"
+          class="btn btn-secondary"
+          (click)="previousState()"
+        >
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 
         <button
+          aria-label="Save"
           type="submit"
           id="save-entity"
           data-cy="entityCreateSaveButton"

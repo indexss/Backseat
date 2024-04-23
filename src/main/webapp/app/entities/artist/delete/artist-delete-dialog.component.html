@@ -2,7 +2,7 @@
   <div class="modal-header">
     <h4 class="modal-title" data-cy="artistDeleteDialogHeading">Confirm delete operation</h4>
 
-    <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
+    <button aria-label="Cancel" type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
   </div>
 
   <div class="modal-body">
@@ -11,11 +11,11 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+    <button aria-label="Cancel" type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
       <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
     </button>
 
-    <button id="jhi-confirm-delete-artist" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
+    <button aria-label="Delete" id="jhi-confirm-delete-artist" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
       <fa-icon icon="times"></fa-icon>&nbsp;<span>Delete</span>
     </button>
   </div>

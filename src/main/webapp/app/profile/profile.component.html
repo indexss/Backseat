@@ -26,8 +26,22 @@
         <span class="ps-2 fs-6 me-auto">{{ profile?.username }} on Spotify</span>
       </a>
 
-      <button *ngIf="isAuthed && !isSelf && !isFollowing" (click)="toggleFollowing()" class="btn btn-primary">Add friend</button>
-      <button *ngIf="isAuthed && !isSelf && isFollowing" (click)="toggleFollowing()" class="btn btn-danger">Remove friend</button>
+      <button
+        aria-label="Button to add friend"
+        *ngIf="isAuthed && !isSelf && !isFollowing"
+        (click)="toggleFollowing()"
+        class="btn btn-primary"
+      >
+        Add friend
+      </button>
+      <button
+        aria-label="Button to remove friend"
+        *ngIf="isAuthed && !isSelf && isFollowing"
+        (click)="toggleFollowing()"
+        class="btn btn-danger"
+      >
+        Remove friend
+      </button>
     </div>
   </div>
 
@@ -45,11 +59,11 @@
             <div>
               <span *ngFor="let x of [].constructor(r.review.rating)">★</span
               ><span *ngFor="let x of [].constructor(5 - r.review.rating)">☆</span> {{ r.review.date }}<br />
-              <a *ngIf="r.review.track != null" routerLink="/rating/{{ r.review.track.spotifyURI }}"
+              <a aria-label="Link to record review page" *ngIf="r.review.track != null" routerLink="/rating/{{ r.review.track.spotifyURI }}"
                 ><i>{{ r.review.track.name }} by {{ r.artists.join(', ') }}</i></a
               >
             </div>
-            <a *ngIf="r.review.album != null" routerLink="/rating/{{ r.review.album.spotifyURI }}"
+            <a aria-label="Link to record review page" *ngIf="r.review.album != null" routerLink="/rating/{{ r.review.album.spotifyURI }}"
               ><i>{{ r.review.album.name }} by {{ r.artists.join(', ') }}</i></a
             >
           </div>
@@ -68,7 +82,7 @@
 
         <div *ngFor="let folder of folders; let i = index">
           <hr class="separator" *ngIf="i != 0" />
-          <a routerLink="/folderPage/{{ folder.folderId }}">
+          <a aria-label="Link to folder" routerLink="/folderPage/{{ folder.folderId }}">
             <div class="d-flex gap-3 align-items-center">
               <img style="max-width: 100px" src="{{ folder.imageURL }}" alt="Cover image of a folder called {{ folder.folderName }}" />
               <div class="fs-5">{{ folder.folderName }}</div>
@@ -78,7 +92,7 @@
       </div>
 
       <div class="d-flex gap-3 justify-content-center" *ngIf="folders.length != 0 && isSelf">
-        <a routerLink="/addToFolder">Manage your folders</a>
+        <a aria-label="Manahe your folders" routerLink="/addToFolder">Manage your folders</a>
       </div>
     </div>
 

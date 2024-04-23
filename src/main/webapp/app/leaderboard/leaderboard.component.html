@@ -178,7 +178,7 @@
         <th scope="row" class="text-center align-middle row-id allrow">{{ record.id }}</th>
         <td>
           <div class="d-flex align-items-center">
-            <a [routerLink]="['/rating', record.trackURI]">
+            <a aria-label="Link to record review page" [routerLink]="['/rating', record.trackURI]">
               <img
                 [src]="record.imgURL"
                 style="width: 90px; margin: 2px; border-radius: 7%"
@@ -187,7 +187,7 @@
               />
             </a>
             <div class="flex-grow-1">
-              <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
+              <a aria-label="Link to record review page" [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
                 <strong>{{ record.trackName }}</strong>
                 <p>{{ record.artist }}</p>
               </a>
@@ -213,7 +213,7 @@
 
   <div class="text-primary justify-content-center">
     <span>No more data!</span><span> Can't find the song you want?</span
-    ><span><a class="add" routerLink="/search"> Add from spotify!</a></span>
+    ><span><a aria-label="Link to add song from spotify" class="add" routerLink="/search"> Add from spotify!</a></span>
   </div>
 </div>
 
@@ -222,7 +222,12 @@
     <h4 class="modal-title">
       Add to Your Folder
       <span style="margin-left: 10px"></span>
-      <button class="btn btn-secondary btn-sm" [routerLink]="['/addToFolder']" (click)="modal.dismiss()">
+      <button
+        aria-label="Button to add a song to a folder"
+        class="btn btn-secondary btn-sm"
+        [routerLink]="['/addToFolder']"
+        (click)="modal.dismiss()"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
           <path
             d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z"

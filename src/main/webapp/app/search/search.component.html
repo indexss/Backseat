@@ -28,7 +28,7 @@
     <div *ngIf="spotifySearchResults.tracks != null">
       <div *ngFor="let res of spotifySearchResults.tracks.items; let idx = index">
         <div class="pt-2" *ngIf="idx != 0"></div>
-        <a routerLink="/rating/{{ res.uri }}">
+        <a aria-label="Link to rating page" routerLink="/rating/{{ res.uri }}">
           <div class="d-flex gap-3 align-items-center">
             <img style="max-width: 100px" src="{{ getLargestAlbumImage(res.album)?.url }}" alt="Album art for {{ res.name }}" />
             <div>
@@ -43,7 +43,7 @@
     <div *ngIf="spotifySearchResults.albums != null">
       <div *ngFor="let res of spotifySearchResults.albums.items; let idx = index">
         <div class="pt-2" *ngIf="idx != 0"></div>
-        <a routerLink="/rating/{{ res.uri }}">
+        <a aria-label="Link to rating page" routerLink="/rating/{{ res.uri }}">
           <div class="d-flex gap-3 align-items-center">
             <img style="max-width: 100px" src="{{ getLargestAlbumImage(res)?.url }}" alt="Album art for {{ res.name }}" />
             <div>
@@ -58,7 +58,7 @@
     <div *ngIf="spotifySearchResults.users != null">
       <div *ngFor="let res of spotifySearchResults.users; let idx = index">
         <div class="pt-2" *ngIf="idx != 0"></div>
-        <a routerLink="/profile/{{ res.username }}">
+        <a aria-label="Link to profile" routerLink="/profile/{{ res.username }}">
           <div class="d-flex gap-3 align-items-center">
             <img
               style="max-width: 100px"
@@ -76,7 +76,7 @@
     <div *ngIf="spotifySearchResults.folders != null">
       <div *ngFor="let res of spotifySearchResults.folders; let idx = index">
         <div class="pt-2" *ngIf="idx != 0"></div>
-        <a routerLink="/folderPage/{{ res.id }}">
+        <a aria-label="Link to folder" routerLink="/folderPage/{{ res.id }}">
           <div class="d-flex gap-3 align-items-center">
             <img
               *ngIf="res.image != null"

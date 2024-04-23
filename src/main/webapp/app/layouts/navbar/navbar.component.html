@@ -1,6 +1,6 @@
 <nav data-cy="navbar" class="custom-navbar-bg navbar navbar-light navbar-expand-md bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand logo d-inline-flex align-items-center" routerLink="/" (click)="collapseNavbar()">
+    <a aria-label="Collapse Nav bar" class="navbar-brand logo d-inline-flex align-items-center" routerLink="/" (click)="collapseNavbar()">
       <span class="logo-img"></span>
       <span class="navbar-title" style="color: white">Backseat</span>
       <span class="navbar-version"></span>
@@ -20,7 +20,7 @@
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="account !== null">
       <ul class="navbar-nav me-auto">
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/discover" (click)="collapseNavbar()">
+          <a aria-label="Discover" class="nav-link" routerLink="/discover" (click)="collapseNavbar()">
             <!-- <span> -->
             <div class="icon-text-wrapper">
               <!-- <fa-icon icon="compass"></fa-icon> -->
@@ -32,7 +32,7 @@
         </li>
 
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/leaderboard" (click)="collapseNavbar()">
+          <a aria-label="Leaderboard" class="nav-link" routerLink="/leaderboard" (click)="collapseNavbar()">
             <div class="icon-text-wrapper">
               <!-- <fa-icon icon="list-ol"></fa-icon> -->
               <fa-icon [icon]="['fas', 'list-ol']" style="color: white; font-size: 1.5em"></fa-icon>
@@ -42,7 +42,7 @@
         </li>
 
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-          <a class="nav-link" routerLink="/search" (click)="collapseNavbar()">
+          <a aria-label="Search" class="nav-link" routerLink="/search" (click)="collapseNavbar()">
             <div class="icon-text-wrapper">
               <!-- <fa-icon icon="search"></fa-icon> -->
               <fa-icon [icon]="['fas', 'search']" style="color: white; font-size: 1.5em"></fa-icon>
@@ -157,21 +157,42 @@
           </a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
             <li *ngSwitchCase="true">
-              <a class="dropdown-item" routerLink="profile" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
+              <a
+                aria-label="My Profile"
+                class="dropdown-item"
+                routerLink="profile"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="settings"
+              >
                 <fa-icon icon="user" [fixedWidth]="true"></fa-icon>
                 <span>My Profile</span>
               </a>
             </li>
 
             <li *ngSwitchCase="true">
-              <a class="dropdown-item" routerLink="/want-to-listen" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
+              <a
+                aria-label="Want to listen list"
+                class="dropdown-item"
+                routerLink="/want-to-listen"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="settings"
+              >
                 <fa-icon icon="list" [fixedWidth]="true"></fa-icon>
                 <span>Want-to-listen List</span>
               </a>
             </li>
 
             <li *ngSwitchCase="true">
-              <a class="dropdown-item" routerLink="/addToFolder" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
+              <a
+                aria-label="My Folders"
+                class="dropdown-item"
+                routerLink="/addToFolder"
+                routerLinkActive="active"
+                (click)="collapseNavbar()"
+                data-cy="settings"
+              >
                 <fa-icon [icon]="faFolder" [fixedWidth]="true"></fa-icon>
                 <span>My Folders</span>
               </a>
@@ -179,6 +200,7 @@
 
             <li *ngSwitchCase="true">
               <a
+                aria-label="Settings"
                 class="dropdown-item"
                 routerLink="account/settings"
                 routerLinkActive="active"
@@ -191,6 +213,7 @@
             </li>
             <li *ngSwitchCase="true">
               <a
+                aria-label="Password"
                 class="dropdown-item"
                 routerLink="account/password"
                 routerLinkActive="active"
@@ -223,6 +246,7 @@
 
             <li *ngSwitchCase="false">
               <a
+                aria-label="Register"
                 class="dropdown-item"
                 routerLink="account/register"
                 routerLinkActive="active"

@@ -3,11 +3,11 @@
     <span id="user-management-page-heading" data-cy="userManagementPageHeading">Users</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
+      <button aria-label="Button to Refresh List" class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refresh list</span>
       </button>
-      <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
+      <button aria-label="Button to create a new user" class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
         <fa-icon icon="plus"></fa-icon> <span>Create a new user</span>
       </button>
     </div>
@@ -40,8 +40,16 @@
           <td>{{ user.login }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <button class="btn btn-danger btn-sm" (click)="setActive(user, true)" *ngIf="!user.activated">Deactivated</button>
             <button
+              aria-label="Button to deactivate user"
+              class="btn btn-danger btn-sm"
+              (click)="setActive(user, true)"
+              *ngIf="!user.activated"
+            >
+              Deactivated
+            </button>
+            <button
+              aria-label="Button to activate user"
               class="btn btn-success btn-sm"
               (click)="setActive(user, false)"
               *ngIf="user.activated"
@@ -60,17 +68,24 @@
           <td>{{ user.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</td>
           <td class="text-end">
             <div class="btn-group">
-              <button type="submit" [routerLink]="['./', user.login, 'view']" class="btn btn-info btn-sm">
+              <button aria-label="Button to view users" type="submit" [routerLink]="['./', user.login, 'view']" class="btn btn-info btn-sm">
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">View</span>
               </button>
 
-              <button type="submit" [routerLink]="['./', user.login, 'edit']" queryParamsHandling="merge" class="btn btn-primary btn-sm">
+              <button
+                aria-label="Button to edit users"
+                type="submit"
+                [routerLink]="['./', user.login, 'edit']"
+                queryParamsHandling="merge"
+                class="btn btn-primary btn-sm"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Edit</span>
               </button>
 
               <button
+                aria-label="Button to Delete a user"
                 type="button"
                 (click)="deleteUser(user)"
                 class="btn btn-danger btn-sm"

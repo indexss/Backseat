@@ -28,12 +28,12 @@
         <th scope="row" class="text-center align-middle">{{ record.id }}</th>
         <td>
           <div class="d-flex align-items-center">
-            <a [routerLink]="['/rating', record.trackURI]"
+            <a aria-label="Link to record review page" [routerLink]="['/rating', record.trackURI]"
               ><img [src]="record.imgURL" style="width: 90px; margin: 2px; border-radius: 7%" class="me-3"
             /></a>
             <div class="flex-grow-1">
               <!-- Use flex-grow-1 to ensure the div takes up the available space -->
-              <a [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
+              <a aria-label="Link to record review page" [routerLink]="['/rating', record.trackURI]" class="text-left d-block">
                 <!-- Use text-left to align the text to the left -->
                 <strong>{{ record.trackName }}</strong>
                 <p>{{ record.artist }}</p>

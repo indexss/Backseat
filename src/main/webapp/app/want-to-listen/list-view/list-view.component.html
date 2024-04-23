@@ -30,7 +30,7 @@
             [alt]="['Cover art for ', item.itemName, ' by ', item.artists]"
           />
           <div class="col-9 align-items-center">
-            <a [routerLink]="['/rating/', item.itemUri]" class="h5">{{ item.itemName }}</a>
+            <a aria-label="Link to review page" [routerLink]="['/rating/', item.itemUri]" class="h5">{{ item.itemName }}</a>
             <div class="h6">{{ item.artists }}</div>
           </div>
         </div>
@@ -46,6 +46,7 @@
       </td>
       <td class="col-1 text-center align-middle row-reviews">
         <button
+          aria-label="Delete List Item"
           class="col-auto btn align-middle row-reviews"
           style="padding-top: 2px; padding-bottom: 2px; border: 0; background-color: rgba(0, 0, 0, 0)"
         >
