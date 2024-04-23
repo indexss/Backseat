@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import team.bham.service.FolderHandlerService;
 import team.bham.service.dto.*;
 import team.bham.utils.ResponseUtils;
+import team.bham.web.rest.errors.BadRequestAlertException;
 
 @RestController
 @RequestMapping("/api/folder")
@@ -19,6 +20,10 @@ public class FolderController {
 
     @PostMapping("/addfolder")
     public ResponseUtils generateData(@RequestBody AddFolderDTO addFolderDTO) {
+        if (addFolderDTO.getFolderName().length() > 18) {
+            throw new BadRequestAlertException("Folder name too long! Maximum 18 characters", "folder", "nametoolong");
+        }
+
         ResponseUtils resp = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = null;

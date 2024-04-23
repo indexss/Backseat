@@ -35,7 +35,8 @@ export class AddToFolderComponent implements OnInit {
   modalRef!: NgbModalRef;
   folderName!: string;
   account!: Account;
-  showAlert: boolean = false;
+  showAlertShort: boolean = false;
+  showAlertLong: boolean = false;
   constructor(
     private modalService: NgbModal,
     private addToFolderService: AddToFolderService,
@@ -76,10 +77,13 @@ export class AddToFolderComponent implements OnInit {
     this.accountService.identity().subscribe(account => {
       if (account) {
         if (!this.folderName || this.folderName.trim().length === 0) {
-          this.showAlert = true;
+          this.showAlertShort = true;
+          return;
+        } else if (this.folderName.trim().length > 18) {
+          this.showAlertLong = true;
           return;
         } else {
-          this.showAlert = false;
+          this.showAlertShort = false;
           this.addToFolderService.addFolder(this.folderName).subscribe(data => {});
           this.modalService.dismissAll();
           this.folderName = '';

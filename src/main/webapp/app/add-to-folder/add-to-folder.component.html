@@ -62,8 +62,11 @@
     <div class="form-group">
       <input class="form-control" [(ngModel)]="folderName" name="folderName" placeholder="Folder Name (Max 18 characters)" />
     </div>
-    <ngb-alert [dismissible]="false" *ngIf="showAlert" class="alert alert-danger">
+    <ngb-alert [dismissible]="false" *ngIf="showAlertShort" class="alert alert-danger">
       <strong>Warning!</strong> The input can not be empty!
+    </ngb-alert>
+    <ngb-alert [dismissible]="false" *ngIf="showAlertLong" class="alert alert-danger">
+      <strong>Warning!</strong> The input can not be longer than 18 characters!
     </ngb-alert>
   </div>
   <div class="modal-footer">

@@ -60,6 +60,11 @@ public class FolderResource {
         if (folderDTO.getId() != null) {
             throw new BadRequestAlertException("A new folder cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        if (folderDTO.getName().length() > 18) {
+            throw new BadRequestAlertException("Folder name too long! Maximum 18 characters", ENTITY_NAME, "nametoolong");
+        }
+
         FolderDTO result = folderService.save(folderDTO);
         return ResponseEntity
             .created(new URI("/api/folders/" + result.getId()))
@@ -92,6 +97,10 @@ public class FolderResource {
 
         if (!folderRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        if (folderDTO.getName().length() > 18) {
+            throw new BadRequestAlertException("Folder name too long! Maximum 18 characters", ENTITY_NAME, "nametoolong");
         }
 
         FolderDTO result = folderService.update(folderDTO);
@@ -127,6 +136,10 @@ public class FolderResource {
 
         if (!folderRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        if (folderDTO.getName().length() > 18) {
+            throw new BadRequestAlertException("Folder name too long! Maximum 18 characters", ENTITY_NAME, "nametoolong");
         }
 
         Optional<FolderDTO> result = folderService.partialUpdate(folderDTO);
