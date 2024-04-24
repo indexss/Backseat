@@ -19,46 +19,45 @@ import team.bham.utils.ResponseUtils;
 @RestController
 @RequestMapping("/api")
 public class GenerateDataController {
-
-    @Resource
-    private GenerateTestDataService generateTestDataService;
-
-    @GetMapping("/generate")
-    public ResponseUtils generateData() {
-        ResponseUtils resp = null;
-        try {
-            generateTestDataService.generateTestDate();
-            resp = new ResponseUtils();
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
-        }
-        return resp;
-    }
-
-    @GetMapping("/generatemusic")
-    public ResponseUtils generateMusic() {
-        ResponseUtils resp = null;
-        try {
-            generateTestDataService.generateMusic();
-            resp = new ResponseUtils();
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
-        }
-        return resp;
-    }
-
-    @GetMapping("generate-listen-entry")
-    public ResponseUtils generateListenEntry() {
-        ResponseUtils resp = null;
-        try {
-            generateTestDataService.generateTestWantToListenEntry();
-            resp = new ResponseUtils();
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
-        }
-        return resp;
-    }
+    //    @Resource
+    //    private GenerateTestDataService generateTestDataService;
+    //
+    //    @GetMapping("/generate")
+    //    public ResponseUtils generateData() {
+    //        ResponseUtils resp = null;
+    //        try {
+    //            generateTestDataService.generateTestDate();
+    //            resp = new ResponseUtils();
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+    //        }
+    //        return resp;
+    //    }
+    //
+    //    @GetMapping("/generatemusic")
+    //    public ResponseUtils generateMusic() {
+    //        ResponseUtils resp = null;
+    //        try {
+    //            generateTestDataService.generateMusic();
+    //            resp = new ResponseUtils();
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+    //        }
+    //        return resp;
+    //    }
+    //
+    //    @GetMapping("generate-listen-entry")
+    //    public ResponseUtils generateListenEntry() {
+    //        ResponseUtils resp = null;
+    //        try {
+    //            generateTestDataService.generateTestWantToListenEntry();
+    //            resp = new ResponseUtils();
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+    //        }
+    //        return resp;
+    //    }
 }
