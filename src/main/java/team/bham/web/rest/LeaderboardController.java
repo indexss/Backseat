@@ -63,7 +63,7 @@ public class LeaderboardController {
     public ResponseUtils fetchLeaderboardWithFilter(
         @RequestParam(name = "category", defaultValue = "track") String category,
         @RequestParam(name = "key", defaultValue = "rating") String key,
-        @RequestParam(name = "startTime", defaultValue = "2000-01-01") LocalDate startTime,
+        @RequestParam(name = "startTime", defaultValue = "1800-01-01") LocalDate startTime,
         @RequestParam(name = "endTime", defaultValue = "2033-01-01") LocalDate endTime,
         @RequestParam(name = "order", defaultValue = "desc") String order,
         @RequestParam(name = "search", defaultValue = "") String text,
