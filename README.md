@@ -1,37 +1,35 @@
-# teamproject
+<img src="/src/main/webapp/content/favicon/android-chrome-192x192.png" width=100 align=center>
 
-This application was generated using JHipster 7.9.4, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.9.4](https://www.jhipster.tech/documentation-archive/v7.9.4).
+# Backseat
 
-## This repository belongs to team 31
+![](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white) ![](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white) ![](https://img.shields.io/badge/Spotify-1ED760?&style=for-the-badge&logo=spotify&logoColor=white) ![](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white) ![](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white) ![](https://img.shields.io/badge/GitLab-330F63?style=for-the-badge&logo=gitlab&logoColor=white) ![](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white) ![](https://img.shields.io/badge/Goodreads-372213?style=for-the-badge&logo=goodreads&logoColor=white)
+
+Backseat is a novel application designed to facilitate music sharing and discovery between users. It provides a small but useful set of features that are directly integrated with Spotify, allowing for seamless access to information and reviews about almost any piece of music.
+
+> This application template was generated using JHipster 7.9.4, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v7.9.4](https://www.jhipster.tech/documentation-archive/v7.9.4).
+
+## This repository belongs to UoB CS team 31
 
 - Abigail Pain (txp271@student.bham.ac.uk)
 - Hao Li (hxl106@student.bham.ac.uk)
-- Linli Shi (lxs432@student.bham.ac.uk)
-- Yunfan Song (yxs152@student.bham.ac.uk)
+- Linli Shi (Larry) (lxs432@student.bham.ac.uk)
+- Yunfan Song (Finn) (yxs152@student.bham.ac.uk)
 - Ella Gardner (exg046@student.bham.ac.uk)
-- Xuanwei Shi (xxs282@student.bham.ac.uk)
+- Xuanwei Shi (Willis) (xxs282@student.bham.ac.uk)
 - Joe Penny (jxp293@student.bham.ac.uk)
 
-## changes for Teamproject
+## Changes for teamproject
 
 Modified by Madasar Shah for Team Project
 
 - `.yo-rc.json` contains the setting used to generate this app (see below)
-
 - `pom.xml` line 87 changed to `<jib-maven-plugin.architecture>arm64</jib-maven-plugin.architecture>` this depends on the arch you will deploy the docker image to n.b. use `amd64` for Intel or AMD virtual machines
-
 - `src/main/webapp/app/layouts/footer/footer.component.html` modified to add the text `You are accessing an experimental web application developed by participants of the Team Project 2024 module.`
-
 - `.gitlab-ci.yml` generated using command `% jhipster ci-cd` , generate GitLab CI, and use docker to build.
-
 - `.gitlab-ci.yml` modified to remove unused test sections, `maven-package` section edited to fix bug with arm version of docker image used to build as chromium was missing :/
-
 - `.gitlab-ci.yml` added `publish-docker:` stage using internal git.cs.bham.ac.uk docker image registry
-
 - `src/main/docker/` updated `app.yml`, added `Caddyfile` `caddy.yml` for web serving, added `prd.yml` for production deployment+database, added `install-app.sh` and `install-docker.sh` for app deployment over ssh
-
 - `.gitlab-ci.yml` added `deploy-dev:` to deploy app to cloud virtual machine using CI variables `$USER`@`IP` and `$RSA` set in the repo `Setting -> CI/CD -> variables` n.b. for non university VMs this requires DNS entries pointing to `$IP` for e.g. `dev.${CI_PROJECT_NAME}.bham.team` to work
-
 - `.gitlab-ci.yml` added `deploy-prod:` to deploy production app to cloud virtual machine n.b. for non university VMs this requires DNS entries pointing to `$IP` e.g. `{CI_PROJECT_NAME}.bham.team` to work
 
 ### Install development environment
@@ -84,7 +82,6 @@ In the project root, JHipster generates configuration files for tools like git, 
 - `.yo-resolve` (optional) - Yeoman conflict resolver
   Allows to use a specific action when conflicts are found skipping prompts for files that matches a pattern. Each line should match `[pattern] [action]` with pattern been a [Minimatch](https://github.com/isaacs/minimatch#minimatch) pattern and action been one of skip (default if ommited) or force. Lines starting with `#` are considered comments and are ignored.
 - `.jhipster/*.json` - JHipster entity configuration files
-
 - `npmw` - wrapper to use locally installed npm.
   JHipster installs Node and npm locally using the build tool by default. This wrapper makes sure npm is installed locally and uses it avoiding some differences different versions can cause. By using `./npmw` instead of the traditional `npm` you can configure a Node-less environment to develop or test your application.
 - `/src/main/docker` - Docker configurations for the application and services that the application depends on
@@ -93,7 +90,7 @@ In the project root, JHipster generates configuration files for tools like git, 
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
-1. [Node.js][]: We use Node to run a development web server and build the project.
+1. [Node.js][node.js]: We use Node to run a development web server and build the project.
    Depending on your system, you can install Node either from source or as a pre-packaged bundle.
 
 After installing Node, you should be able to run the following command to install development tools.
@@ -103,7 +100,7 @@ You will only need to run this command when dependencies change in [package.json
 npm install
 ```
 
-We use npm scripts and [Angular CLI][] with [Webpack][] as our build system.
+We use npm scripts and [Angular CLI][angular cli] with [Webpack][webpack] as our build system.
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
@@ -131,19 +128,19 @@ ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
 
 ### Managing dependencies
 
-For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
+For example, to add [Leaflet][leaflet] library as a runtime dependency of your application, you would run following command:
 
 ```
 npm install --save --save-exact leaflet
 ```
 
-To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
+To benefit from TypeScript type definitions from [DefinitelyTyped][definitelytyped] repository in development, you would run following command:
 
 ```
 npm install --save-dev --save-exact @types/leaflet
 ```
 
-Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
+Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][webpack] knows about them:
 Edit [src/main/webapp/app/app.module.ts](src/main/webapp/app/app.module.ts) file:
 
 ```
@@ -158,11 +155,11 @@ Edit [src/main/webapp/content/scss/vendor.scss](src/main/webapp/content/scss/ven
 
 Note: There are still a few other things remaining to do for Leaflet that we won't detail here.
 
-For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
+For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][using jhipster in development].
 
 ### Using Angular CLI
 
-You can also use [Angular CLI][] to generate some custom client code.
+You can also use [Angular CLI][angular cli] to generate some custom client code.
 
 For example, the following command:
 
@@ -205,7 +202,7 @@ java -jar target/*.jar
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
-Refer to [Using JHipster in production][] for more details.
+Refer to [Using JHipster in production][using jhipster in production] for more details.
 
 ### Packaging as war
 
@@ -225,13 +222,13 @@ To launch your application's tests, run:
 
 ### Client tests
 
-Unit tests are run by [Jest][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
+Unit tests are run by [Jest][jest]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
 
 ```
 npm test
 ```
 
-For more information, refer to the [Running tests page][].
+For more information, refer to the [Running tests page][running tests page].
 
 ### Code quality
 
@@ -257,7 +254,7 @@ If you need to re-run the Sonar phase, please be sure to specify at least the `i
 ./mvnw initialize sonar:sonar
 ```
 
-For more information, refer to the [Code quality page][].
+For more information, refer to the [Code quality page][code quality page].
 
 ## Using Docker to simplify development (optional)
 
@@ -296,11 +293,11 @@ docker-compose -f src/main/docker/app.yml up -d
 
 When running Docker Desktop on MacOS Big Sur or later, consider enabling experimental `Use the new Virtualization framework` for better processing performance ([disk access performance is worse](https://github.com/docker/roadmap/issues/7)).
 
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
+For more information refer to [Using Docker and Docker-Compose][using docker and docker-compose], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
 
 ## Continuous Integration (optional)
 
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][setting up continuous integration] page for more information.
 
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
 [jhipster 7.9.4 archive]: https://www.jhipster.tech/documentation-archive/v7.9.4
